@@ -6,7 +6,7 @@ interface ITitleProps {
 	children?: React.ReactNode
 }
 
-export const Title = (props: ITitleProps): JSX.Element => {
+export const Title = (props: ITitleProps): JSX.Element | null => {
 	if (!props.children) {
 		return null
 	}
