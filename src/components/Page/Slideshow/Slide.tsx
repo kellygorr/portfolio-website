@@ -41,8 +41,8 @@ export const Slide: React.FC<IPageProps> = (props: IPageProps) => {
 					? isScrolling
 						? 'transparent'
 						: neutralBorder
-						? NeutralColors.gray11
-						: AccentColors.red
+							? NeutralColors.gray11
+							: AccentColors.red
 					: 'transparent',
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}
