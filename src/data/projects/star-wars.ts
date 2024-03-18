@@ -6,10 +6,10 @@ const thumbnail2 = 'starwars-kotaku.jpg'
 
 const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/starWars.mp4'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/star-wars/starwars1.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/star-wars/starwars2.png'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/star-wars/starwars3.png'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/star-wars/starwars5.png'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars1.png'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars2.png'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars3.png'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars5.png'
 
 export const starWars: IProject = {
 	details: {

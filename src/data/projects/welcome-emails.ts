@@ -2,9 +2,9 @@ import { IProject, ToolType, SkillType, SectionName, HighlightName } from '../IP
 
 const thumbnail = 'email.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/welcome-emails/email1.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/welcome-emails/email2.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/welcome-emails/email3.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'welcome-emails/email1.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'welcome-emails/email2.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'welcome-emails/email3.jpg'
 
 export const welcomeEmails: IProject = {
 	details: {

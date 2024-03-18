@@ -3,8 +3,8 @@ import { IProject, FileType, TagType, ToolType, SectionName, HighlightName, Skil
 const thumbnail = 'malaria.jpg'
 const thumbnail2 = 'malaria-pdf.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/malaria-infographic/large4a.jpg'
-const pdf = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/malaria-infographic/research_based_design.pdf'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'malaria-infographic/large4a.jpg'
+const pdf = import.meta.env.VITE_IMAGE_URL_SRC + 'malaria-infographic/research_based_design.pdf'
 
 export const malariaInfographic: IProject = {
 	details: {

@@ -2,13 +2,13 @@ import { IProject, FileType, ToolType, SectionName, HighlightName, SkillType } f
 
 const thumbnail = 'supersized.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/large22e.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/large22a.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/large22b.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/large22c.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/large22d.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22e.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22a.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22b.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22c.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22d.jpg'
 
-const pdf = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/supersized-user-testing/kelly_gorr_user_testing_plan.pdf'
+const pdf = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/kelly_gorr_user_testing_plan.pdf'
 
 export const supersizedUserTesting: IProject = {
 	details: {

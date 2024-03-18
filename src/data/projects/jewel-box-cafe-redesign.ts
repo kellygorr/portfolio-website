@@ -2,7 +2,7 @@ import { IProject, FileType, TagType, SkillType, ToolType, SectionName, Highligh
 
 const thumbnail = 'jewelbox.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/jewel-box-cafe-redesign/large5.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'jewel-box-cafe-redesign/large5.jpg'
 
 export const jewelBoxCafe: IProject = {
 	details: {

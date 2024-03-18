@@ -2,12 +2,12 @@ import { IProject, TagType, SkillType, HighlightName, SectionName } from '../IPr
 
 const thumbnail = 'calc.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc1.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc2.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc3.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc4.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc5.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/calculator-tool/itemcalc7.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc1.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc2.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc3.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc4.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc5.jpg'
+const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc7.jpg'
 
 export const calculatorTool: IProject = {
 	details: {

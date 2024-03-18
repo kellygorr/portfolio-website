@@ -5,11 +5,11 @@ const thumbnail2 = 'outlook-calendar-verge.jpg'
 const thumbnail3 = 'outlook-calendar-ms.jpg'
 const thumbnail4 = 'outlook-calendar-ms-tech.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/owa-calendar/calendar5.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/owa-calendar/calendar3.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/owa-calendar/calendar1.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/owa-calendar/calendar2.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/owa-calendar/calendar4.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar5.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar3.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar1.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar2.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar4.jpg'
 
 export const owaCalendar: IProject = {
 	details: {

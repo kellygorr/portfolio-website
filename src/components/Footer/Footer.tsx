@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { IHighlight, ILink } from '../../data/IProject'
 
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
-import { NeutralColors } from '../../styles/theme'
 import { Sidebar } from '../shared'
 import { SettingsButton } from './SettingsButton'
 
@@ -41,7 +40,7 @@ export const Footer = (props: IFooterProps): JSX.Element => (
 		<Sidebar
 			isOpen={false}
 			isSmallScreen={props.isSmallScreen}
-			setIsOpen={null}
+			setIsOpen={() => {}}
 			onClick={props.toggleDarkMode}
 			ariaLabel={props.isDarkMode ? 'Set light mode' : 'Set dark mode'}
 		>

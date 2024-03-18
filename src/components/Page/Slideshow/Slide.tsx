@@ -9,18 +9,19 @@ interface IPageProps {
 	isActive: boolean
 	isScrolling: boolean
 	neutralBorder?: boolean
-	defaultWidth: number
+	defaultwidth: number
 	data: ISlide
 	setIsScrolling: (isScrolling: boolean) => void
 	slideshowRef: React.RefObject<HTMLDivElement>
 }
 
-export const Slide: React.FC<IPageProps> = (props: IPageProps) => {
-	const { data, isActive, isScrolling, setIsScrolling, slideshowRef, index, neutralBorder, defaultWidth } = props
+export const Slide = (props: IPageProps): JSX.Element => {
+	const ref = React.useRef<HTMLDivElement>(null)
+	const { data, isActive, isScrolling, setIsScrolling, slideshowRef, index, neutralBorder, defaultwidth } = props
 	React.useEffect(() => window.scrollTo(0, 0), [])
-
 	return (
 		<Container
+			ref={ref}
 			onClick={() => {
 				if (!isActive && slideshowRef && slideshowRef.current && setIsScrolling) {
 					setIsScrolling(true)
@@ -46,13 +47,14 @@ export const Slide: React.FC<IPageProps> = (props: IPageProps) => {
 					: 'transparent',
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}
+			$defaultwidth={defaultwidth}
 		>
 			{data.file && data.file.type === FileType.Video ? (
-				<video controls poster={data.img} style={{ maxWidth: data.width ? data.width + 'px' : defaultWidth + 'px' }}>
+				<video controls poster={data.img}>
 					<source src={data.file.source} type="video/mp4" />
 				</video>
 			) : (
-				<img src={data.img} alt={data.img} style={{ maxWidth: data.width ? data.width + 'px' : defaultWidth + 'px' }} />
+				<img src={data.img} alt={data.img} />
 			)}
 		</Container>
 	)
@@ -61,6 +63,7 @@ export const Slide: React.FC<IPageProps> = (props: IPageProps) => {
 interface IStyle {
 	isActive?: boolean
 	isScrolling?: boolean
+	$defaultwidth?: number
 }
 
 const Container = styled.div<IStyle>`
@@ -68,7 +71,6 @@ const Container = styled.div<IStyle>`
 	justify-content: center;
 	align-items: center;
 	margin: 0 5px;
-	/* width: 75%; */
 	height: 100%;
 
 	background-color: ${({ theme }) => theme.neutral};
@@ -83,10 +85,17 @@ const Container = styled.div<IStyle>`
 	img,
 	video {
 		max-height: 60vh;
-		width: 100vw;
+		max-width: 75vw;
 	}
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (max-width: ${SMALL_SCREEN}px) {
 		border: 3px solid;
+	}
+	@media (max-width: ${({ $defaultwidth }) => $defaultwidth}px) {
+		border: 3px solid;
+		img,
+		video {
+			max-width: 100vw;
+		}
 	}
 `

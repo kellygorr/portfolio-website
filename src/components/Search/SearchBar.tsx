@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { Sanitize, Sidebar } from '../shared'
 
 interface ISearchProps {
-	query: string
+	query: string | null
 	setQuery: (query: string | null) => void
 	isSearching: boolean
 	isSmallScreen: boolean
@@ -40,8 +40,8 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	const [triggerContent, setTriggerContent] = React.useState('closed')
 
 	React.useEffect(() => {
-		if (props.isSearching) {
-			ref.current.value = props.query
+		if (props.isSearching && ref.current) {
+			// ref.current?.value = props.query
 			ref.current.focus()
 		} else {
 			setTriggerContent('closed')
@@ -90,7 +90,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 						ref={ref}
 						onKeyDown={handleKeyDown}
 						aria-label={'Search field'}
-						defaultValue={props.query}
+						defaultValue={props.query || undefined}
 					/>
 				)}
 			</Sidebar>

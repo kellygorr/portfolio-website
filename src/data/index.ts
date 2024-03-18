@@ -17,11 +17,11 @@ import { kMonogram } from './projects/k-monogram'
 import { supersizedUserTesting } from './projects/supersized-user-testing'
 import { jewelBoxCafe } from './projects/jewel-box-cafe-redesign'
 import { owaCalendar } from './projects/owa-calendar'
-import { focusOrderer } from './projects/figma-focus-order'
-import { crimeSpot } from './projects/crime-spot'
+import { focusOrder } from './projects/figma-focus-order'
+// import { crimeSpot } from './projects/crime-spot'
 
 export const allProjects: IProject[] = [
-	focusOrderer,
+	focusOrder,
 	owaCalendar,
 	theWitcher3,
 	xboxBillboards,
@@ -34,7 +34,7 @@ export const allProjects: IProject[] = [
 	previewAppLinkGenerator,
 	tenGreatTeas,
 	earthquakeMap,
-	crimeSpot,
+	// crimeSpot,
 	malariaInfographic,
 	welcomeEmails,
 	kMonogram,

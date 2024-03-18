@@ -3,13 +3,13 @@ import { TagType } from '../IProject'
 
 const thumbnail = 'billboards.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/billboard3.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/billboard1.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/billboard2.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/ffSweepstakes.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/X1-COMP-Billboard-GoldGameE3Promo-ES-MX-v2.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/X1-FUT-Anniversary-billboard-MX-v2-COMP.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboards/billboard5.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard3.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard1.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard2.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/ffSweepstakes.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/X1-COMP-Billboard-GoldGameE3Promo-ES-MX-v2.jpg'
+const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/X1-FUT-Anniversary-billboard-MX-v2-COMP.jpg'
+const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard5.jpg'
 
 const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/iggyazalea.mp4'
 

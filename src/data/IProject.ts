@@ -143,6 +143,7 @@ export interface IFile {
 export interface IThumbnail {
 	header: string
 	thumbnail: string | null
+	neutralBorder?: boolean
 	file?: IFile
 	tags?: (TagType | string)[]
 	highlights?: IHighlight[]

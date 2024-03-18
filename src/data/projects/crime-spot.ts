@@ -3,11 +3,11 @@ import { IProject, FileType, TagType, ToolType, SectionName, HighlightName, Skil
 const thumbnail = 'crime-spot.jpg'
 const thumbnail2 = 'crime-spot-pdf.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/crime-spot/crimespot_1.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/crime-spot/crimespot_2.png'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/crime-spot/crimespot_3.png'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_1.png'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_2.png'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_3.png'
 
-const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/crime-spot/kelly_gorr_web_integration.pdf'
+const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/kelly_gorr_web_integration.pdf'
 export const crimeSpot: IProject = {
 	details: {
 		header: 'Crime Spot',
