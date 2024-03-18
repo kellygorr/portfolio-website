@@ -4,21 +4,21 @@ const thumbnail = 'focus-orderer.jpg'
 const thumbnail2 = 'focus-orderer-twitter.jpg'
 const thumbnail3 = 'focus-orderer-instagram.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/1.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/3.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/4.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/video1thumb2.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/video2thumb2.jpg'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/v2/v2-1.jpg'
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/v2/v2-2.jpg'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/v2/v2-3.jpg'
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/v2/v2-4.jpg'
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/v2/v2-video.mp4'
-const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/focus-orderer/sizedvid2.mp4'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/1.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/3.jpg'
+const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/4.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/video1thumb2.jpg'
+const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/video2thumb2.jpg'
+const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-1.jpg'
+const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-2.jpg'
+const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-3.jpg'
+const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-4.jpg'
+const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-video.mp4'
+const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/sizedvid2.mp4'
 
-export const focusOrderer: IProject = {
+export const focusOrder: IProject = {
 	details: {
-		header: 'Figma Focus Orderer',
+		header: 'Figma Focus Order',
 		thumbnail: thumbnail,
 		tags: [TagType.Microsoft, TagType.Tooling],
 	},
@@ -81,7 +81,7 @@ export const focusOrderer: IProject = {
 		},
 		{
 			header: SectionName.Accessibility,
-			body: `Microsoft's Focus Orderer is a plugin for Figma that allows designers to build accessibility into their designs.  It is publicly available to the figma community.`,
+			body: `Microsoft's Focus Order is a plugin for Figma that allows designers to build accessibility into their designs.  It is publicly available to the figma community.`,
 		},
 		{
 			header: SectionName.Role,
@@ -91,7 +91,7 @@ export const focusOrderer: IProject = {
 					tags: [SkillType.TypeScript, SkillType.React, SkillType.HTML, SkillType.CSS, SkillType.UIUX],
 				},
 			],
-			body: `My team and I partnered with the a11y team to redesign the Focus Orderer plugin and expand its capabilities.  I rebuilt the plugin in React and added new features including: 
+			body: `My team and I partnered with the a11y team to redesign the Focus Order plugin and expand its capabilities.  I rebuilt the plugin in React and added new features including: 
 			1) Edit screen to add roles, properties, and comments on each annotation 2) First Run Experience tutorial for new plugin users 3) Auto load user annotations when plugin launches 4) A readout of the annotation details so users can see them without having to download the plugin`,
 		},
 		{

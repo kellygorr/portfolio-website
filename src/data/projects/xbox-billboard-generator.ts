@@ -2,11 +2,11 @@ import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IPr
 
 const thumbnail = 'billboard-generator.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboard-generator/billGen0.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboard-generator/billGen2.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboard-generator/billGen3.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboard-generator/billGen4.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/xbox-billboard-generator/billGen5.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboard-generator/billGen0.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboard-generator/billGen2.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboard-generator/billGen3.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboard-generator/billGen4.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboard-generator/billGen5.jpg'
 
 export const xboxBillboardGenerator: IProject = {
 	details: {

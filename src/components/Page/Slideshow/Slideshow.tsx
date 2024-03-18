@@ -6,7 +6,7 @@ import { Slide } from './Slide'
 interface IPageProps {
 	data: ISlide[]
 	neutralBorder?: boolean
-	defaultWidth: number
+	defaultwidth: number
 	slideshowRef: React.RefObject<HTMLDivElement>
 }
 
@@ -46,9 +46,9 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 						isActive={index === active && props.data.length > 1}
 						isScrolling={isScrolling}
 						neutralBorder={props.neutralBorder}
-						defaultWidth={props.defaultWidth}
+						defaultwidth={props.defaultwidth}
 						data={slide}
-						setIsScrolling={props.data.length > 1 && setIsScrolling}
+						setIsScrolling={setIsScrolling}
 						slideshowRef={slideshowRef}
 					/>
 				))}

@@ -31,7 +31,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 		<Container ref={ref} style={{ ...thumbnailStyle, ...style }} aria-hidden={!data.thumbnail}>
 			<LinkStyle onClick={props.thumbnailClick} style={{ flex: !data.thumbnail ? 1 : 'inherit' }}>
 				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!data.thumbnail ? -1 : undefined}>
-					<ImageWrapper>
+					<ImageWrapper $neutralBorder={Boolean(data.neutralBorder)}>
 						{inView && data.thumbnail ? (
 							<Image
 								srcSet={`
@@ -45,7 +45,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 							<Blank />
 						)}
 					</ImageWrapper>
-					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }}>
+					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }} className="gradient-text">
 						<span>{props.showFull && 'Project:'}</span>
 						{data.header}
 					</Header>
@@ -69,6 +69,10 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 	)
 }
 
+interface IStyle {
+	$neutralBorder: boolean
+}
+
 const Container = styled.li`
 	display: flex;
 	flex-direction: column;
@@ -76,7 +80,7 @@ const Container = styled.li`
 	line-height: 1.5rem;
 `
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<IStyle>`
 	display: flex;
 	flex: 1;
 	align-items: center;
@@ -86,6 +90,7 @@ const ImageWrapper = styled.div`
 	overflow: hidden;
 	background-color: ${({ theme }) => theme.thumbnail};
 	border: 3px solid transparent;
+	border-color: ${({ $neutralBorder, theme }) => ($neutralBorder ? theme.thumbnail : 'transparent')};
 	background-clip: padding-box; // this should eliminate the need to have a border color (instead of transparent), but it is not hiding the background completely
 	transition: border-color 100ms ease-in;
 `
@@ -105,7 +110,6 @@ const Image = styled.img`
 
 const Header = styled.h4`
 	font-family: 'Museo_Slab_500_2';
-	transition: color 100ms ease-in;
 
 	span {
 		padding-right: 5px;

@@ -3,8 +3,8 @@ import { IProject, FileType, TagType, SkillType, ToolType, SectionName, Highligh
 const thumbnail = 'earthquake.jpg'
 const thumbnail2 = 'earthquake-pdf.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/earthquake-map/large17.jpg'
-const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/earthquake-map/Kelly_Gorr_Code_Sample.pdf'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'earthquake-map/large17.jpg'
+const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'earthquake-map/Kelly_Gorr_Code_Sample.pdf'
 export const earthquakeMap: IProject = {
 	details: {
 		header: 'Earthquake Map',

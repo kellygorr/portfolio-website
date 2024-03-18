@@ -22,7 +22,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 			<Slideshow
 				data={(props.data as ISlideshow).slides}
 				neutralBorder={(props.data as ISlideshow).neutralBorder}
-				defaultWidth={(props.data as ISlideshow).width}
+				defaultwidth={(props.data as ISlideshow).width}
 				slideshowRef={createRef<HTMLDivElement>()}
 			/>
 		)}
@@ -30,7 +30,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 		{props.type === SectionType.Attachments && (
 			<Gallery>
 				{(props.data as IThumbnail[]).map((data, index) => (
-					<Thumbnail key={index} data={data} setQuery={props.setQuery} />
+					<Thumbnail key={index} data={{ ...data, neutralBorder: true }} setQuery={props.setQuery} />
 				))}
 			</Gallery>
 		)}
@@ -45,7 +45,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				return (
 					<Highlight key={index}>
 						<HighlightHeader>{data.header}</HighlightHeader>
-						{type && <Section type={type as SectionType} data={data[type]} setQuery={props.setQuery} />}
+						{type && <Section type={type as SectionType} data={(data as any)[type]} setQuery={props.setQuery} />}
 					</Highlight>
 				)
 			})}

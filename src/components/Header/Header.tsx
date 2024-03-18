@@ -12,7 +12,7 @@ export const Header = (props: IHeaderProps): JSX.Element => {
 	return (
 		<Container>
 			<Logo>
-				<StyledLink to="/" onClick={handleClick}>
+				<StyledLink to="/" onClick={handleClick} className="gradient-text">
 					Kelly Gorr
 				</StyledLink>
 			</Logo>

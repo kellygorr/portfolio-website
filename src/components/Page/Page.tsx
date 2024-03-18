@@ -1,11 +1,12 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { ISection, SectionType } from '../../data/IProject'
+import { IProject, ISection, SectionType } from '../../data/IProject'
 import { MEDIUM_SMALL_SCREEN, SIDE_GAP } from '../../styles/GlobalStyles'
 import { Section } from './Section'
+import { Navigate, useParams } from 'react-router-dom'
+import { GetPageName, SanitizePath } from '../shared'
 interface IPageProps {
-	header: string
-	content: ISection[]
+	projects: IProject[]
 	setQuery: (query: string) => void
 }
 
@@ -19,23 +20,36 @@ const slideshowStyle = {
 	paddingBottom: `1.5rem`,
 }
 
-export const Page: React.FC<IPageProps> = (props: IPageProps) => (
-	<Container>
-		{props.content.map((data: ISection, index) => {
-			const items = Object.entries(data) as ISection[]
-			const type = items[0][0]
-			return (
-				<SectionPadding key={index} style={type !== SectionType.Slideshow ? sectionStyle : slideshowStyle}>
-					<SectionWidth style={{ maxWidth: type !== SectionType.Slideshow ? MAX_WIDTH : '' }}>
-						{items.map((item, index) => {
-							return <Section key={index} type={item[0]} data={item[1]} setQuery={props.setQuery} />
-						})}
-					</SectionWidth>
-				</SectionPadding>
-			)
-		})}
-	</Container>
-)
+export const Page: React.FC<IPageProps> = (props: IPageProps) => {
+	const { title } = useParams()
+	const projectName = title && SanitizePath(title)
+	const project = props.projects.find((project) => projectName === GetPageName(project.details.header))
+
+	if (!project?.content) {
+		return <Navigate to="/" />
+	}
+
+	const content: ISection[] = project.content
+
+	return (
+		<Container>
+			{(content || []).map((data: ISection, index) => {
+				const items: [string, ISection][] = Object.entries(data)
+				const type = items[0][0]
+				return (
+					<SectionPadding key={index} style={type !== SectionType.Slideshow ? sectionStyle : slideshowStyle}>
+						<SectionWidth style={{ maxWidth: type !== SectionType.Slideshow ? MAX_WIDTH : '' }}>
+							{items.map((item, index) => {
+								console.log('item[0] as SectionType', item[0] as SectionType)
+								return <Section key={index} type={item[0] as SectionType} data={item[1] as any} setQuery={props.setQuery} />
+							})}
+						</SectionWidth>
+					</SectionPadding>
+				)
+			})}
+		</Container>
+	)
+}
 
 const Container = styled.div`
 	display: flex;

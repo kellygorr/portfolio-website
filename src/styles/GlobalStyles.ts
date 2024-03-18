@@ -86,4 +86,21 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 	hr {
 		border: none;
 	}
+
+	// .gradient-text {
+	// 	background: linear-gradient(to right, ${({ theme }) => theme.accent},#fe9b00);
+	// 	background-size: 200% 200%;
+	// 	background-clip: text;
+
+
+	// 	color:rgba(0,0,0,1);
+	// 	transition: color .2s ease-in-out;
+	// }
+	// .gradient-text:hover{
+	// 	color:rgba(0,0,0,0);
+	// }
+	
+
+	
+
 `

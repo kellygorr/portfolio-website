@@ -2,7 +2,7 @@ import { HighlightName, IProject, SectionName, SkillType, ToolType } from '../IP
 
 const thumbnail = 'monogram.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/k-monogram/large6.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'k-monogram/large6.jpg'
 
 export const kMonogram: IProject = {
 	details: {

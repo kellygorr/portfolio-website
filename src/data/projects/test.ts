@@ -1,12 +1,12 @@
 import { IProject } from '../IProject'
 const thumbnail = 'test.jpg'
 
-// const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/1.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/2.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/3.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/4.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/5.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/6.jpg'
+// const img1 = import.meta.env.VITE_IMAGE_URL_SRC + '1.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + '2.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + '3.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + '4.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + '5.jpg'
+const img6 = import.meta.env.VITE_IMAGE_URL_SRC + '6.jpg'
 
 export const test: IProject = {
 	details: {

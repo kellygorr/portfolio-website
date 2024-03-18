@@ -2,11 +2,11 @@ import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IPr
 
 const thumbnail = 'link-generator.jpg'
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/preview-app-link-generator/previewApp1.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/preview-app-link-generator/previewApp4.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/preview-app-link-generator/previewApp6.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/preview-app-link-generator/previewApp3.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/images/preview-app-link-generator/previewApp2.jpg'
+const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'preview-app-link-generator/previewApp1.jpg'
+const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'preview-app-link-generator/previewApp4.jpg'
+const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'preview-app-link-generator/previewApp6.jpg'
+const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'preview-app-link-generator/previewApp3.jpg'
+const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'preview-app-link-generator/previewApp2.jpg'
 
 export const previewAppLinkGenerator: IProject = {
 	details: {
