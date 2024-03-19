@@ -13,8 +13,11 @@ export const NeutralColors = {
 
 export const AccentColors = {
 	red: '#eb2f1b',
-	darkPink: '#d41138',
+	darkPink: '#cb006e',
 	darkOrange: '#ff9d00',
+	midPurple: '#6d52f4',
+	darkPurple: '#2a1177',
+	white: '#ffffff',
 }
 
 export interface Theme {
@@ -46,7 +49,7 @@ export const themeLight: Theme = {
 	footerBackground: NeutralColors.gray95,
 	footerBackgroundSecondary: NeutralColors.white15,
 	gradient1: AccentColors.darkPink,
-	gradient2: AccentColors.darkOrange,
+	gradient2: AccentColors.darkPurple,
 }
 
 export const themeDark: Theme = {
@@ -62,5 +65,5 @@ export const themeDark: Theme = {
 	footerBackground: NeutralColors.gray95,
 	footerBackgroundSecondary: NeutralColors.white15,
 	gradient1: AccentColors.darkPink,
-	gradient2: AccentColors.darkOrange,
+	gradient2: AccentColors.darkPurple,
 }

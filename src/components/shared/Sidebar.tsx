@@ -73,8 +73,4 @@ const AnimateSidebar = styled(motion.button)`
 		color: ${({ theme }) => theme.sidebarText};
 	}
 	transition: border-radius 200ms ease-out;
-
-	&:focus {
-		outline: 2px solid ${({ theme }) => theme.accent};
-	}
 `

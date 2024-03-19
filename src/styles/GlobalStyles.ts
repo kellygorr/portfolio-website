@@ -1,6 +1,6 @@
 import { createGlobalStyle, keyframes } from 'styled-components'
 import './fonts.css'
-import { Theme } from './theme'
+import { AccentColors, Theme } from './theme'
 
 export const GRID_WIDTH = 350
 export const GRID_GAP = 20
@@ -53,12 +53,31 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 
 	*:focus {
 		outline: 0;
-		border-color: ${({ theme }) => theme.accent};
+
+		&:after {
+			content: '';
+			position: absolute;
+			top: -2px;
+			left: -3px;
+			right: -3px;
+			bottom: -2px;
+			border-radius: inherit;
+			box-shadow: 0 0 0 2px ${AccentColors.white}, 0 0 0 5px ${AccentColors.darkPink};
+
+		}
 
 		&:not(:focus-visible) {
 			outline: 0 !important;
 			border-color: transparent !important;
+
+			&:after {
+
+				box-shadow: none !important;
+			}
+
 		}
+
+	
 	}
 
 	button {
