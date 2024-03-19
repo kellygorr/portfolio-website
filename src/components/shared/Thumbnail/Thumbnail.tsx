@@ -33,19 +33,22 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!data.thumbnail ? -1 : undefined}>
 					<ImageWrapper $neutralBorder={Boolean(data.neutralBorder)}>
 						{inView && data.thumbnail ? (
-							<Image
-								srcSet={`
+							<>
+								<BackgroundCard />
+								<Image
+									srcSet={`
 						${import.meta.env.VITE_THUMBNAIL_SRC_1x}${data.thumbnail} 1x,
 						${import.meta.env.VITE_THUMBNAIL_SRC_15x}${data.thumbnail} 1.5x,
 						${import.meta.env.VITE_THUMBNAIL_SRC_2x}${data.thumbnail} 2x,
 					`}
-								src={import.meta.env.VITE_THUMBNAIL_SRC_1x + data.thumbnail}
-							/>
+									src={import.meta.env.VITE_THUMBNAIL_SRC_1x + data.thumbnail}
+								/>
+							</>
 						) : (
 							<Blank />
 						)}
 					</ImageWrapper>
-					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }} className="gradient-text">
+					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }} className="gradient-text-simple">
 						<span>{props.showFull && 'Project:'}</span>
 						{data.header}
 					</Header>
@@ -87,12 +90,32 @@ const ImageWrapper = styled.div<IStyle>`
 	justify-content: center;
 	width: 100%;
 	margin-bottom: 5px;
-	overflow: hidden;
-	background-color: ${({ theme }) => theme.thumbnail};
+
 	border: 3px solid transparent;
-	border-color: ${({ $neutralBorder, theme }) => ($neutralBorder ? theme.thumbnail : 'transparent')};
-	background-clip: padding-box; // this should eliminate the need to have a border color (instead of transparent), but it is not hiding the background completely
-	transition: border-color 100ms ease-in;
+
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		margin: -3px;
+		border-radius: inherit;
+		background-image: linear-gradient(
+			to right,
+			${({ theme }) => theme.gradient1} 15%,
+			${({ theme }) => theme.gradient2} 30%,
+			${({ theme }) => theme.gradient1} 50%,
+			${({ theme }) => theme.gradient2} 60%,
+			${({ theme }) => theme.background} 75%
+		);
+		background-size: 400% 100%;
+		background-position: right center;
+
+		transition: background 400ms ease-in;
+	}
 `
 const Image = styled.img`
 	height: 200px;
@@ -102,6 +125,7 @@ const Image = styled.img`
 	animation-fill-mode: forwards;
 	width: 100%;
 	object-fit: cover;
+	border: 2px solid ${({ theme }) => theme.background};
 
 	@media (min-width: ${SMALL_SCREEN}px) {
 		height: 100%;
@@ -127,10 +151,25 @@ const LinkStyle = styled.div`
 		&:focus {
 			text-decoration: none;
 			${ImageWrapper} {
-				border-color: ${({ theme }) => theme.accent};
+				&:before {
+					background-position: left center;
+					transition: background 600ms ease-in;
+				}
 			}
 			${Header} {
-				color: ${({ theme }) => theme.accent};
+				background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1} 60%, ${({ theme }) => theme.gradient2});
+				background-position: 300% auto;
+				-webkit-text-fill-color: transparent;
+				-webkit-background-clip: text;
+			}
+		}
+
+		&:focus {
+			${ImageWrapper} {
+				&:before {
+					background-position: left center;
+					transition: background 0ms ease-in;
+				}
 			}
 		}
 	}
@@ -145,4 +184,23 @@ const Details = styled.div`
 const Blank = styled.div`
 	width: 600px;
 	height: 200px;
+`
+/* The thumbnail color has opacity, so we need a card under it to stop hover color from showing behind it 
+(when images are still loading) */
+const BackgroundCard = styled.div`
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: ${({ theme }) => theme.background};
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border-radius: inherit;
+		background-color: ${({ theme }) => theme.thumbnail};
+	}
 `
