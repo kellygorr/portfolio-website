@@ -87,10 +87,6 @@ const Container = styled.footer`
 		background-size: 14px 14px;
 		transition: background 0.5s ease-in;
 	}
-
-	*:focus a:after {
-		border-color: ${({ theme }) => theme.footerText};
-	}
 `
 
 const List = styled.ul`
@@ -124,8 +120,7 @@ const StyledLink = styled.a`
 		border-left: 2px solid transparent;
 	}
 
-	&:hover,
-	&:focus {
+	&:hover {
 		text-decoration: none;
 
 		&:before {

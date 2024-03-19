@@ -48,8 +48,12 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 							<Blank />
 						)}
 					</ImageWrapper>
-					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }} className="gradient-text-simple">
-						<span>{props.showFull && 'Project:'}</span>
+					<Header style={{ textAlign: props.showFull ? 'start' : 'center' }}>
+						{props.showFull && (
+							<>
+								Project: <span style={{ paddingRight: '2px' }} />
+							</>
+						)}
 						{data.header}
 					</Header>
 				</LinkWrapper>
@@ -134,10 +138,6 @@ const Image = styled.img`
 
 const Header = styled.h4`
 	font-family: 'Museo_Slab_500_2';
-
-	span {
-		padding-right: 5px;
-	}
 `
 
 const LinkStyle = styled.div`
@@ -147,8 +147,7 @@ const LinkStyle = styled.div`
 		flex-direction: column;
 		height: 100%;
 
-		&:hover,
-		&:focus {
+		&:hover {
 			text-decoration: none;
 			${ImageWrapper} {
 				&:before {
@@ -157,19 +156,10 @@ const LinkStyle = styled.div`
 				}
 			}
 			${Header} {
-				background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1} 60%, ${({ theme }) => theme.gradient2});
+				background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1} 30%, ${({ theme }) => theme.gradient2});
 				background-position: 300% auto;
 				-webkit-text-fill-color: transparent;
 				-webkit-background-clip: text;
-			}
-		}
-
-		&:focus {
-			${ImageWrapper} {
-				&:before {
-					background-position: left center;
-					transition: background 0ms ease-in;
-				}
 			}
 		}
 	}
@@ -184,6 +174,7 @@ const Details = styled.div`
 const Blank = styled.div`
 	width: 600px;
 	height: 200px;
+	background-color: ${({ theme }) => theme.thumbnail};
 `
 /* The thumbnail color has opacity, so we need a card under it to stop hover color from showing behind it 
 (when images are still loading) */

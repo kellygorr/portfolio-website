@@ -27,10 +27,6 @@ const Container = styled.div`
 	align-items: center;
 	height: 100%;
 	padding-top: 50px;
-
-	*:focus {
-		border-color: ${({ theme }) => theme.accent};
-	}
 `
 
 const Logo = styled.h1`
@@ -39,7 +35,9 @@ const Logo = styled.h1`
 const StyledLink = styled(Link)`
 	font-family: 'montserrat';
 	border: 3px solid transparent;
-	transition: color 1s ease-in;
+	transition:
+		color 1s ease-in,
+		background-position 500ms ease-in-out;
 
 	&:hover {
 		color: ${({ theme }) => theme.accent};
@@ -70,4 +68,6 @@ const StyledLink = styled(Link)`
 			color 1s ease-in;
 	}
 `
-const H2 = styled.h2``
+const H2 = styled.h2`
+	font-size: 1.25rem;
+`
