@@ -1,23 +1,24 @@
 import * as React from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { allProjects } from './data'
-import { BOTTOM_GAP, GlobalStyles, LARGE_SCREEN, SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from './styles/GlobalStyles'
+import { BOTTOM_GAP, GlobalStyles, LARGE_SCREEN, MIN_WIDTH, SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from './styles/GlobalStyles'
 import { Header as HeaderContent } from './components/Header'
 import { Footer } from './components/Footer'
 import { Home } from './components/Home'
 import { Page } from './components/Page'
 import { SearchBar, SearchResults } from './components/Search'
 import { themeLight, themeDark } from './styles/theme'
-import { GetPageName, useDarkMode, SanitizePath } from './components/shared'
+import { useDarkMode } from './components/shared'
 import { AnimatePresence, motion } from 'framer-motion'
 import { IProject } from './data/IProject'
 import { useMediaQuery } from './components/shared/hooks/useMediaQuery'
-import { configureProjects } from './components/shared/configureProjects'
 
-const projects: IProject[] = configureProjects(allProjects)
+interface Props {
+	projects: IProject[]
+}
 
-const App = (): JSX.Element => {
+const App = ({ projects }: Props): JSX.Element => {
 	const location = useLocation()
 	const searchQuery = new URLSearchParams(location.search).get('q')
 	const [isDarkMode, toggleDarkMode] = useDarkMode()
@@ -125,7 +126,7 @@ const AppContainer = styled.div`
 	flex-direction: column;
 	min-height: 100vh;
 	width: 100%;
-	min-width: 300px;
+	min-width: ${MIN_WIDTH}px;
 	background: ${({ theme }) => theme.background};
 
 	transition: background 0.5s ease-in;

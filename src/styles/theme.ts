@@ -5,6 +5,7 @@ export const NeutralColors = {
 	gray81: 'rgba(0,0,0,0.81)',
 	gray11: 'rgba(0,0,0,0.11)',
 	warmNeutral: '#f9f9f6',
+	warmNeutralDark: '#292826',
 	neutral40: 'rgb(127,127,127, 0.40)',
 	neutral10: 'rgb(127,127,127, 0.10)',
 	white15: 'rgba(255,255,255,0.15)',
@@ -14,7 +15,11 @@ export const NeutralColors = {
 export const AccentColors = {
 	red: '#eb2f1b',
 	darkPink: '#cb006e',
+	lightPink: '#FF8FCD',
 	darkOrange: '#ff9d00',
+	lightOrange: '#FFA238',
+	lightPurple: '#BCAAF3',
+	lighterPurple: '#DFE4FB',
 	midPurple: '#6d52f4',
 	darkPurple: '#2a1177',
 	white: '#ffffff',
@@ -37,7 +42,7 @@ export interface Theme {
 }
 
 export const themeLight: Theme = {
-	accent: AccentColors.red,
+	accent: NeutralColors.black,
 	neutral: NeutralColors.gray11,
 	text: NeutralColors.gray81,
 	textNegative: NeutralColors.white,
@@ -53,17 +58,17 @@ export const themeLight: Theme = {
 }
 
 export const themeDark: Theme = {
-	accent: AccentColors.red,
+	accent: NeutralColors.white,
 	neutral: NeutralColors.gray11,
 	text: NeutralColors.white,
 	textNegative: NeutralColors.gray81,
-	background: NeutralColors.gray85,
+	background: NeutralColors.warmNeutralDark,
 	thumbnail: NeutralColors.neutral10,
 	sidebarText: NeutralColors.gray85,
 	sidebarBackground: NeutralColors.white,
 	footerText: NeutralColors.white,
 	footerBackground: NeutralColors.gray95,
 	footerBackgroundSecondary: NeutralColors.white15,
-	gradient1: AccentColors.darkPink,
-	gradient2: AccentColors.darkPurple,
+	gradient1: AccentColors.lightPink,
+	gradient2: AccentColors.lightOrange,
 }

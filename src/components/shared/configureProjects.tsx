@@ -5,7 +5,7 @@ export const configureProjects = (projects: IProject[]): IProject[] => {
 		const highlights: IHighlight[] = []
 
 		// Add title to beginning of content
-		if (!project.content[0].header) {
+		if (project.content && !project.content[0].header) {
 			project.content.unshift({ title: project.details.header })
 		}
 
@@ -21,13 +21,17 @@ export const configureProjects = (projects: IProject[]): IProject[] => {
 		if (highlights) {
 			// Combine duplicate keys and remove duplicate values
 			const result: IHighlight[] = Object.values(
-				highlights.reduce((c, { header, tags }, index, array) => {
+				highlights.reduce((c: { [key: string]: IHighlight }, { header, tags }, index, array) => {
 					// Check for duplicate keys
 					c[header] = c[header] || { header, tags }
 
 					// Check for duplicate values on the last item only
 					if (array.length - 1 === index) {
-						c[header].tags = removeDuplicateValues(c[header].tags.concat(Array.isArray(tags) ? tags : [tags]))
+						c[header].tags = removeDuplicateValues(
+							(c[header].tags as string[]).concat(
+								Array.isArray(tags) ? tags.filter((tag): tag is string => tag !== undefined) : []
+							) ?? []
+						)
 					}
 
 					return c

@@ -104,17 +104,10 @@ const ImageWrapper = styled.div<IStyle>`
 		right: 0;
 		bottom: 0;
 		left: 0;
-		z-index: -1;
+
 		margin: -3px;
 		border-radius: inherit;
-		background-image: linear-gradient(
-			to right,
-			${({ theme }) => theme.gradient1} 15%,
-			${({ theme }) => theme.gradient2} 30%,
-			${({ theme }) => theme.gradient1} 50%,
-			${({ theme }) => theme.gradient2} 60%,
-			${({ theme }) => theme.background} 75%
-		);
+		background-image: linear-gradient(to right, ${({ theme }) => theme.accent} 60%, ${({ theme }) => theme.background} 75%);
 		background-size: 400% 100%;
 		background-position: right center;
 
@@ -156,10 +149,7 @@ const LinkStyle = styled.div`
 				}
 			}
 			${Header} {
-				background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1} 30%, ${({ theme }) => theme.gradient2});
-				background-position: 300% auto;
-				-webkit-text-fill-color: transparent;
-				-webkit-background-clip: text;
+				color: ${({ theme }) => theme.accent};
 			}
 		}
 	}
