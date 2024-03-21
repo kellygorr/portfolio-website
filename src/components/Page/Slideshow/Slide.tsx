@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
-import { SMALL_SCREEN } from '../../../styles/GlobalStyles'
+import { MIN_WIDTH, SMALL_SCREEN } from '../../../styles/GlobalStyles'
 import { AccentColors, NeutralColors } from '../../../styles/theme'
 
 interface IPageProps {
@@ -84,6 +84,7 @@ const Container = styled.div<IStyle>`
 
 	img,
 	video {
+		min-width: ${MIN_WIDTH}px;
 		max-height: 60vh;
 		max-width: 75vw;
 	}

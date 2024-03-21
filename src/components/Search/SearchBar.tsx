@@ -93,6 +93,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 						defaultValue={props.query || undefined}
 					/>
 				)}
+				{triggerContent !== 'closed' && <SearchButton>X</SearchButton>}
 			</Sidebar>
 			{props.isSearching && !props.isSmallScreen && (
 				<AnimateIdeas variants={ideas} animate={triggerContent}>
@@ -142,7 +143,6 @@ const Input = styled.input`
 	background-color: transparent;
 	border: 0;
 	text-align: center;
-	padding-right: 40px;
 `
 
 const AnimateIdeas = styled(motion.div)`

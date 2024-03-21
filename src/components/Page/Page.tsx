@@ -30,17 +30,17 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 	}
 
 	const content: ISection[] = project.content
-
+	console.log('PAGE content', content)
 	return (
 		<Container>
 			{(content || []).map((data: ISection, index) => {
 				const items: [string, ISection][] = Object.entries(data)
 				const type = items[0][0]
+
 				return (
 					<SectionPadding key={index} style={type !== SectionType.Slideshow ? sectionStyle : slideshowStyle}>
 						<SectionWidth style={{ maxWidth: type !== SectionType.Slideshow ? MAX_WIDTH : '' }}>
 							{items.map((item, index) => {
-								console.log('item[0] as SectionType', item[0] as SectionType)
 								return <Section key={index} type={item[0] as SectionType} data={item[1] as any} setQuery={props.setQuery} />
 							})}
 						</SectionWidth>

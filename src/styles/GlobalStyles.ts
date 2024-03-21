@@ -13,6 +13,7 @@ export const LARGE_SCREEN = 1366
 export const MEDIUM_SCREEN = 1024
 export const MEDIUM_SMALL_SCREEN = 768
 export const SMALL_SCREEN = 640
+export const MIN_WIDTH = 300
 
 /**For non-home screen thumbnails */
 export const THUMBNAIL_SINGLE_COLUMN = 779

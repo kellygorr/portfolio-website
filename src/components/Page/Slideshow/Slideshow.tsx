@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
+import { MIN_WIDTH } from '../../../styles/GlobalStyles'
 
 interface IPageProps {
 	data: ISlide[]
@@ -81,6 +82,7 @@ const Slides = styled.div`
 	display: flex;
 	align-items: center;
 	width: 100vw;
+	min-width: ${MIN_WIDTH}px;
 
 	/* Hide scrollbars  */
 	overflow: -moz-scrollbars-none;
