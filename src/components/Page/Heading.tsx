@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { MEDIUM_SMALL_SCREEN } from '../../styles/GlobalStyles'
 interface IPageProps {

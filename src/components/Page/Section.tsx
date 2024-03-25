@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { createRef } from 'react'
 import { ISlideshow, SectionType, IHighlight, IThumbnail, TagType, SkillType, ToolType } from '../../data/IProject'
@@ -56,7 +55,7 @@ const Gallery = styled.div`
 	display: grid;
 	grid-template-columns: 100%;
 	justify-content: center;
-	grid-gap: 10px;
+	grid-gap: 15px;
 	@media (min-width: 500px) {
 		grid-template-columns: repeat(auto-fit, minmax(auto, 400px));
 	}

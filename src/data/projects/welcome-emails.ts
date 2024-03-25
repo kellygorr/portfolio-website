@@ -15,7 +15,7 @@ export const welcomeEmails: IProject = {
 		{
 			slideshow: {
 				width: 738,
-				neutralBorder: true,
+
 				slides: [
 					{
 						img: img1,

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import styled from 'styled-components'
 import { SearchIcon } from '../../assets/svg/SearchIcon'
@@ -35,11 +35,11 @@ const idea = {
 const ideasList = [SkillType.React, TagType.Tooling, SkillType.Design]
 
 export const SearchBar = (props: ISearchProps): JSX.Element => {
-	const ref = React.useRef<HTMLInputElement>(null)
+	const ref = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
-	const [triggerContent, setTriggerContent] = React.useState('closed')
+	const [triggerContent, setTriggerContent] = useState('closed')
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (props.isSearching && ref.current) {
 			// ref.current?.value = props.query
 			ref.current.focus()
@@ -72,7 +72,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	}
 
 	return (
-		<Container>
+		<Container isOpen={props.isSearching}>
 			<Sidebar
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
@@ -81,9 +81,10 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				onAnimationComplete={(x) => setTriggerContent(x)}
 				ariaLabel={props.isSearching ? 'Close search' : 'Open search'}
 			>
-				<SearchButton>
+				<SearchButton style={{ marginRight: !(props.isSearching || props.isSmallScreen) ? '40px' : 0 }}>
 					<SearchIcon />
 				</SearchButton>
+
 				{props.isSearching && (
 					<Input
 						onClick={(e) => e.stopPropagation()}
@@ -93,7 +94,8 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 						defaultValue={props.query || undefined}
 					/>
 				)}
-				{triggerContent !== 'closed' && <SearchButton>X</SearchButton>}
+
+				{props.isSearching && <SearchButton>X</SearchButton>}
 			</Sidebar>
 			{props.isSearching && !props.isSmallScreen && (
 				<AnimateIdeas variants={ideas} animate={triggerContent}>
@@ -108,7 +110,11 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	)
 }
 
-const Container = styled.div`
+interface IStyle {
+	isOpen: boolean
+}
+
+const Container = styled.div<IStyle>`
 	position: absolute;
 	top: 135px;
 	display: flex;
@@ -118,6 +124,21 @@ const Container = styled.div`
 
 	> div > button {
 		background-color: ${({ theme }) => theme.sidebarBackground};
+
+		background-image: linear-gradient(
+			to right,
+			${({ theme }) => theme.gradient1} 5%,
+			${({ theme }) => theme.gradient2} 30%,
+			${({ theme }) => theme.sidebarBackground} 75%
+		);
+		background-position: right center;
+		background-size: 400% 100%;
+
+		&:hover {
+			background-position: ${({ isOpen }) => (isOpen ? 'right center' : 'left center')};
+
+			transition: background-position 500ms ease-in-out;
+		}
 	}
 `
 

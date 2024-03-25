@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { allProjects } from './data'
@@ -22,19 +22,19 @@ const App = ({ projects }: Props): JSX.Element => {
 	const location = useLocation()
 	const searchQuery = new URLSearchParams(location.search).get('q')
 	const [isDarkMode, toggleDarkMode] = useDarkMode()
-	const [isSearching, setIsSearching] = React.useState(false)
+	const [isSearching, setIsSearching] = useState(false)
 	// Let's not use a search page.  Google is indexing search pages, and this is not a place I want people to land for the first time
-	const [query, setQuery] = React.useState(searchQuery)
+	const [query, setQuery] = useState(searchQuery)
 
 	const isSmallScreen = useMediaQuery(`(max-width: ${SMALL_SCREEN}px)`)
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (query) {
 			setIsSearching(true)
 		}
 	}, [query])
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setQuery(searchQuery)
 	}, [searchQuery])
 

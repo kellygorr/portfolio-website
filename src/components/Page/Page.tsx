@@ -1,4 +1,3 @@
-import * as React from 'react'
 import styled from 'styled-components'
 import { IProject, ISection, SectionType } from '../../data/IProject'
 import { MEDIUM_SMALL_SCREEN, SIDE_GAP } from '../../styles/GlobalStyles'
