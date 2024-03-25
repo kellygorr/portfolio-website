@@ -13,11 +13,14 @@ export const useRowHook = (projectLength: number): [React.MutableRefObject<HTMLU
 				const width = ref?.current?.clientWidth
 				// In order to calculate the correct amount of cells, the padding/margin must be apart of the cell
 				const childWidth = ref?.current?.children[0]?.clientWidth
-				// This gets messy when we switch from auto-fit (floor) to 2 columns (round)
-				const rowLength = width > MEDIUM_SCREEN ? Math.floor(width / childWidth) : Math.round(width / childWidth)
-				setRowLength(rowLength)
-				const overflow = projectLength % rowLength
-				setOverflowAmount(overflow ? rowLength - (projectLength % rowLength) : overflow)
+
+				if (width && childWidth) {
+					// This gets messy when we switch from auto-fit (floor) to 2 columns (round)
+					const rowLength = width > MEDIUM_SCREEN ? Math.floor(width / childWidth) : Math.round(width / childWidth)
+					setRowLength(rowLength)
+					const overflow = projectLength % rowLength
+					setOverflowAmount(overflow ? rowLength - (projectLength % rowLength) : overflow)
+				}
 			}
 		}
 
@@ -30,5 +33,5 @@ export const useRowHook = (projectLength: number): [React.MutableRefObject<HTMLU
 		}
 	}, [projectLength])
 
-	return [ref, rowLength, overflowAmount]
+	return [ref as any, rowLength, overflowAmount]
 }

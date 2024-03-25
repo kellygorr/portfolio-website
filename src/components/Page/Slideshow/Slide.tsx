@@ -1,8 +1,8 @@
 import { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
-import { MIN_WIDTH, SMALL_SCREEN } from '../../../styles/GlobalStyles'
-import { AccentColors, NeutralColors } from '../../../styles/theme'
+import { MIN_WIDTH } from '../../../styles/GlobalStyles'
+import { NeutralColors } from '../../../styles/theme'
 
 interface IPageProps {
 	index: number
