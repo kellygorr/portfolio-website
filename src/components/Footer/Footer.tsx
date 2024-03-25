@@ -24,8 +24,8 @@ const list: IHighlight[] = [
 	{
 		header: 'About the website',
 		link: {
-			title: 'github.com/kellygorr/portfolio-website-react',
-			link: 'https://github.com/kellygorr/portfolio-website-react',
+			title: 'github.com/kellygorr/portfolio-website',
+			link: 'https://github.com/kellygorr/portfolio-website',
 		},
 	},
 ]
