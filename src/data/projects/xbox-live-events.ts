@@ -48,6 +48,7 @@ export const xboxLiveEvents: IProject = {
 	content: [
 		{
 			slideshow: {
+				neutralBorder: true,
 				width: 1920,
 				slides: [
 					{

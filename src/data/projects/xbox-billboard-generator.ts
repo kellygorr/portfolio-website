@@ -18,7 +18,7 @@ export const xboxBillboardGenerator: IProject = {
 		{
 			slideshow: {
 				width: 1000,
-				neutralBorder: true,
+
 				slides: [
 					{
 						img: img1,

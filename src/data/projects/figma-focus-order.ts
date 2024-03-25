@@ -25,7 +25,6 @@ export const focusOrder: IProject = {
 	content: [
 		{
 			slideshow: {
-				neutralBorder: true,
 				width: 1735,
 				slides: [
 					{

@@ -7,6 +7,6 @@ export const SanitizePath = (text: string): string => {
 }
 
 export const GetPageName = (text: string): string => {
-	const path = text.replaceAll(' ', '-')
+	const path = text.replace(/ /g, '-')
 	return Sanitize(path)
 }

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
@@ -16,10 +16,10 @@ let ScrollTimer: number
 
 export const Slideshow = (props: IPageProps): JSX.Element => {
 	slideshowRef = props.slideshowRef
-	const [active, setActive] = React.useState(0)
-	const [isScrolling, setIsScrolling] = React.useState(false)
+	const [active, setActive] = useState(0)
+	const [isScrolling, setIsScrolling] = useState(false)
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isScrolling) {
 			findActiveSlide(setActive)
 		}

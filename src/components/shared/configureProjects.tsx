@@ -5,7 +5,7 @@ export const configureProjects = (projects: IProject[]): IProject[] => {
 		const highlights: IHighlight[] = []
 
 		// Add title to beginning of content
-		if (project.content && !project.content[0].header) {
+		if (project.content && !project.content[0].title) {
 			project.content.unshift({ title: project.details.header })
 		}
 

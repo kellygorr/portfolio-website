@@ -16,7 +16,7 @@ export const tenGreatTeas: IProject = {
 		{
 			slideshow: {
 				width: 1250,
-				neutralBorder: true,
+
 				slides: [
 					{
 						img: img1,

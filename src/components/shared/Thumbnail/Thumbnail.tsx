@@ -77,7 +77,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 }
 
 interface IStyle {
-	$neutralBorder: boolean
+	$neutralBorder: boolean // Currently not used, but could be used to set a neutral border color
 }
 
 const Container = styled.li`
@@ -94,8 +94,6 @@ const ImageWrapper = styled.div<IStyle>`
 	justify-content: center;
 	width: 100%;
 	margin-bottom: 5px;
-
-	border: 3px solid transparent;
 
 	&:before {
 		content: '';

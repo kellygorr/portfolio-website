@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { IProject } from '../../data/IProject'
 import { GRID_GAP, LARGE_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
@@ -12,7 +12,7 @@ interface IHomeProps {
 }
 
 export const Home = (props: IHomeProps): JSX.Element => {
-	const [blankThumbnails, setBlankThumbnails] = React.useState<IProject[]>([])
+	const [blankThumbnails, setBlankThumbnails] = useState<IProject[]>([])
 
 	const [ref, rowLength, overflowAmount] = useRowHook(props.projects.length)
 
@@ -20,7 +20,7 @@ export const Home = (props: IHomeProps): JSX.Element => {
 		Generate array of blank thumbnails.  
 		Don't generate a new array every time, only add onto it if we need more blank thumbnails 
 	*/
-	React.useEffect(() => {
+	useEffect(() => {
 		if (overflowAmount > blankThumbnails.length) {
 			// Amount of blankThumbnails needed to equal the overflowAmount
 			const diff = overflowAmount - blankThumbnails.length
@@ -81,7 +81,7 @@ const Gallery = styled.ul`
 	display: grid;
 	grid-template-columns: 100%;
 	justify-content: center;
-	grid-gap: 10px;
+	grid-gap: 15px;
 	/* DO NOT ADD PADDING OR MARGIN or GAP, THIS WILL MESS UP THE CALC.  Padding must be added to thumbnail */
 
 	@media (min-width: ${SMALL_SCREEN}px) {

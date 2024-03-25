@@ -52,6 +52,7 @@ const Container = styled.div`
 	width: 55px;
 	min-width: 55px;
 	padding-left: 15px;
+	margin-right: 40px;
 `
 const AnimateCog = styled(motion.div)`
 	width: 30px;

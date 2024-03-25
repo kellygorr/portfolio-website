@@ -4,6 +4,7 @@ import { IHighlight, ILink } from '../../data/IProject'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Sidebar } from '../shared'
 import { SettingsButton } from './SettingsButton'
+import { AccentColors } from '../../styles/theme'
 
 const list: IHighlight[] = [
 	{
@@ -35,29 +36,31 @@ interface IFooterProps {
 	isSmallScreen: boolean
 }
 
-export const Footer = (props: IFooterProps): JSX.Element => (
-	<Container>
-		<Sidebar
-			isOpen={false}
-			isSmallScreen={props.isSmallScreen}
-			setIsOpen={() => {}}
-			onClick={props.toggleDarkMode}
-			ariaLabel={props.isDarkMode ? 'Set light mode' : 'Set dark mode'}
-		>
-			<SettingsButton isDarkMode={props.isDarkMode} />
-		</Sidebar>
-		<List>
-			{list.map((item: IHighlight) => (
-				<ListItem key={item.header}>
-					<StyledLink href={(item.link as ILink).link} rel="noopener noreferrer" target="_blank">
-						<Header>{item.header}</Header>
-						<URL>{(item.link as ILink).title}</URL>
-					</StyledLink>
-				</ListItem>
-			))}
-		</List>
-	</Container>
-)
+export const Footer = ({ isDarkMode, isSmallScreen, toggleDarkMode }: IFooterProps): JSX.Element => {
+	return (
+		<Container>
+			<Sidebar
+				isOpen={false}
+				isSmallScreen={isSmallScreen}
+				setIsOpen={() => {}}
+				onClick={toggleDarkMode}
+				ariaLabel={isDarkMode ? 'Set light mode' : 'Set dark mode'}
+			>
+				<SettingsButton isDarkMode={isDarkMode} />
+			</Sidebar>
+			<List>
+				{list.map((item: IHighlight) => (
+					<ListItem key={item.header}>
+						<StyledLink href={(item.link as ILink).link} rel="noopener noreferrer" target="_blank">
+							<Header>{item.header}</Header>
+							<URL>{(item.link as ILink).title}</URL>
+						</StyledLink>
+					</ListItem>
+				))}
+			</List>
+		</Container>
+	)
+}
 
 const Container = styled.footer`
 	width: 100%;
@@ -71,6 +74,21 @@ const Container = styled.footer`
 
 	> div > button {
 		background-color: ${({ theme }) => theme.footerBackgroundSecondary};
+
+		background-image: linear-gradient(
+			to right,
+			${AccentColors.darkPink} 5%,
+			${AccentColors.darkPurple} 30%,
+			${({ theme }) => theme.footerBackgroundSecondary} 75%
+		);
+		background-position: right center;
+		background-size: 400% 100%;
+
+		&:hover {
+			background-position: left center;
+
+			transition: background-position 500ms ease-in-out;
+		}
 	}
 
 	/* Spikey border  */

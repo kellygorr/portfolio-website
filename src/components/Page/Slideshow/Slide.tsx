@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
 import { MIN_WIDTH, SMALL_SCREEN } from '../../../styles/GlobalStyles'
@@ -16,9 +16,9 @@ interface IPageProps {
 }
 
 export const Slide = (props: IPageProps): JSX.Element => {
-	const ref = React.useRef<HTMLDivElement>(null)
+	const ref = useRef<HTMLDivElement>(null)
 	const { data, isActive, isScrolling, setIsScrolling, slideshowRef, index, neutralBorder, defaultwidth } = props
-	React.useEffect(() => window.scrollTo(0, 0), [])
+	useEffect(() => window.scrollTo(0, 0), [])
 	return (
 		<Container
 			ref={ref}
@@ -38,13 +38,7 @@ export const Slide = (props: IPageProps): JSX.Element => {
 			}}
 			style={{
 				cursor: isActive || !setIsScrolling ? 'default' : 'pointer',
-				borderColor: isActive
-					? isScrolling
-						? 'transparent'
-						: neutralBorder
-							? NeutralColors.gray11
-							: AccentColors.red
-					: 'transparent',
+				borderColor: isActive ? (isScrolling ? 'transparent' : neutralBorder ? NeutralColors.gray11 : '') : 'transparent',
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}
 			$defaultwidth={defaultwidth}
@@ -66,6 +60,8 @@ interface IStyle {
 	$defaultwidth?: number
 }
 
+const BorderSize = 3
+
 const Container = styled.div<IStyle>`
 	display: flex;
 	justify-content: center;
@@ -73,27 +69,33 @@ const Container = styled.div<IStyle>`
 	margin: 0 5px;
 	height: 100%;
 
-	background-color: ${({ theme }) => theme.neutral};
-	border: 0;
+	border-color: ${({ theme }) => theme.accent};
 	background-clip: padding-box;
 
 	/* snap align center  */
 	scroll-snap-align: center;
 
-	transition: border-color linear;
+	&:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		margin: ${BorderSize}px;
+		background-color: ${({ theme }) => theme.neutral};
+	}
 
 	img,
 	video {
+		border: ${BorderSize}px solid transparent;
+		border-color: inherit;
 		min-width: ${MIN_WIDTH}px;
 		max-height: 60vh;
 		max-width: 75vw;
 	}
 
-	@media (max-width: ${SMALL_SCREEN}px) {
-		border: 3px solid;
-	}
 	@media (max-width: ${({ $defaultwidth }) => $defaultwidth}px) {
-		border: 3px solid;
 		img,
 		video {
 			max-width: 100vw;

@@ -1,6 +1,6 @@
+import { useState, useEffect, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
 
-import * as React from 'react'
 interface IUseShowAssetProps {
 	asset: string
 }
@@ -8,7 +8,7 @@ export const useShowAsset = (props: IUseShowAssetProps): [(node?: Element) => vo
 	const { asset } = props
 	//Preload asset
 	const isMounted = useIsMounted() //Prevent memory leaks.  Cleanup with useEffect
-	const [isLoaded, setIsLoaded] = React.useState(null)
+	const [isLoaded, setIsLoaded] = useState<boolean | null>(null)
 
 	const [ref, inView] = useInView({
 		/* Optional options */
@@ -16,7 +16,7 @@ export const useShowAsset = (props: IUseShowAssetProps): [(node?: Element) => vo
 		triggerOnce: true,
 	})
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!asset || asset.includes('.mp4')) {
 			setIsLoaded(true)
 		} else if (inView) {
@@ -30,13 +30,13 @@ export const useShowAsset = (props: IUseShowAssetProps): [(node?: Element) => vo
 		}
 	}, [asset, inView, isMounted])
 
-	return [ref, isLoaded]
+	return [ref, isLoaded as boolean] // Fix: Update the type of isLoaded to boolean
 }
 
 const useIsMounted = () => {
-	const isMounted = React.useRef(true)
+	const isMounted = useRef(true)
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			isMounted.current = false
 		}

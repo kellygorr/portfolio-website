@@ -20,7 +20,6 @@ export const owaCalendar: IProject = {
 	content: [
 		{
 			slideshow: {
-				neutralBorder: true,
 				width: 1735,
 				slides: [
 					{
