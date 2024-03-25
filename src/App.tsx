@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
-import { allProjects } from './data'
 import { BOTTOM_GAP, GlobalStyles, LARGE_SCREEN, MIN_WIDTH, SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from './styles/GlobalStyles'
 import { Header as HeaderContent } from './components/Header'
 import { Footer } from './components/Footer'
