@@ -24,4 +24,6 @@ dist-ssr
 *.sw?
 
 # Assets
-src/assets/*
+src/assets/images/*
+src/assets/thumbnails/*
+src/assets/videos/*
