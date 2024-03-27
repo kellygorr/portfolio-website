@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Assets
+# Assets (svgs and fonts ok)
 src/assets/images/*
 src/assets/thumbnails/*
 src/assets/videos/*
