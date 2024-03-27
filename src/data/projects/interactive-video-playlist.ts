@@ -1,31 +1,38 @@
 import { IProject, FileType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
-const thumbnail = 'summer.jpg'
+
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/summer.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/summer.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/summer.jpg', import.meta.url).href
 
 // const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/summerME.mp4'
-const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/slipknotXboxI.mp4'
+const video2 = new URL('../../assets/videos/slipknotXboxI.mp4', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer5.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer8.png'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer1.png'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer6.png'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer3.png'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer4.png'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer7.png'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer14.png'
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer11.png'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer15.png'
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/summer12.png'
+const img1 = new URL('../../assets/images/interactive-video-playlist/summer5.png', import.meta.url).href
+const img2 = new URL('../../assets/images/interactive-video-playlist/summer8.png', import.meta.url).href
+const img3 = new URL('../../assets/images/interactive-video-playlist/summer1.png', import.meta.url).href
+const img4 = new URL('../../assets/images/interactive-video-playlist/summer6.png', import.meta.url).href
+const img5 = new URL('../../assets/images/interactive-video-playlist/summer3.png', import.meta.url).href
+const img6 = new URL('../../assets/images/interactive-video-playlist/summer4.png', import.meta.url).href
+const img7 = new URL('../../assets/images/interactive-video-playlist/summer7.png', import.meta.url).href
+const img8 = new URL('../../assets/images/interactive-video-playlist/summer14.png', import.meta.url).href
+const img9 = new URL('../../assets/images/interactive-video-playlist/summer11.png', import.meta.url).href
+const img10 = new URL('../../assets/images/interactive-video-playlist/summer15.png', import.meta.url).href
+const img11 = new URL('../../assets/images/interactive-video-playlist/summer12.png', import.meta.url).href
 
-const img12 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/itv6.jpg'
-const img13 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/itv3.jpg'
-const img14 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/itv4.jpg'
-const img15 = import.meta.env.VITE_IMAGE_URL_SRC + 'interactive-video-playlist/itv5.jpg'
+const img12 = new URL('../../assets/images/interactive-video-playlist/itv6.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/interactive-video-playlist/itv3.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/interactive-video-playlist/itv4.jpg', import.meta.url).href
+const img15 = new URL('../../assets/images/interactive-video-playlist/itv5.jpg', import.meta.url).href
 
 export const interactiveVideoPlaylist: IProject = {
 	details: {
 		header: 'Interactive Video Playlist',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox, TagType.Template, TagType.Quiz, TagType.Poll],
 	},
 	content: [

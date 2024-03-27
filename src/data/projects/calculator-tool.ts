@@ -1,18 +1,24 @@
 import { IProject, TagType, SkillType, HighlightName, SectionName } from '../IProject'
 
-const thumbnail = 'calc.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/calc.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/calc.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/calc.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc1.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc2.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc3.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc4.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc5.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'calculator-tool/itemcalc7.jpg'
+const img1 = new URL('../../assets/images/calculator-tool/itemcalc1.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/calculator-tool/itemcalc2.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/calculator-tool/itemcalc3.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/calculator-tool/itemcalc4.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/calculator-tool/itemcalc5.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/calculator-tool/itemcalc7.jpg', import.meta.url).href
 
 export const calculatorTool: IProject = {
 	details: {
 		header: 'Calculator Tool',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Tooling, TagType.Website],
 	},
 	content: [

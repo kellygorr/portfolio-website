@@ -1,17 +1,27 @@
 import { IProject, FileType, TagType, ToolType, SectionName, HighlightName, SkillType } from '../IProject'
 
-const thumbnail = 'crime-spot.jpg'
-const thumbnail2 = 'crime-spot-pdf.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/crime-spot.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/crime-spot.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/crime-spot.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_1.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_2.png'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/crimespot_3.png'
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/crime-spot.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/crime-spot.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/crime-spot.jpg', import.meta.url).href
 
-const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'crime-spot/kelly_gorr_web_integration.pdf'
+const img1 = new URL('../../assets/images/crime-spot/crimespot_1.png', import.meta.url).href
+const img2 = new URL('../../assets/images/crime-spot/crimespot_2.png', import.meta.url).href
+const img3 = new URL('../../assets/images/crime-spot/crimespot_3.png', import.meta.url).href
+
+const pdf1 = new URL('../../assets/images/crime-spot/kelly_gorr_web_integration.pdf', import.meta.url).href
+
 export const crimeSpot: IProject = {
 	details: {
 		header: 'Crime Spot',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Website, TagType.Mobile],
 	},
 	content: [
@@ -56,7 +66,11 @@ export const crimeSpot: IProject = {
 			attachments: [
 				{
 					header: 'Web/Mobile Integration PDF',
-					thumbnail: thumbnail2,
+					thumbnail: {
+						x1: thumbnail2x1,
+						x15: thumbnail2x15,
+						x2: thumbnail2x2,
+					},
 					file: {
 						type: FileType.Pdf,
 						source: pdf1,
