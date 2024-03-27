@@ -1,13 +1,19 @@
 import { IProject, FileType, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
 
-const thumbnail = 'jewelbox.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/jewelbox.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/jewelbox.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/jewelbox.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'jewel-box-cafe-redesign/large5.jpg'
+const img1 = new URL('../../assets/images/jewel-box-cafe-redesign/large5.jpg', import.meta.url).href
 
 export const jewelBoxCafe: IProject = {
 	details: {
 		header: 'Jewel Box Cafe Re-Imagine',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Website],
 	},
 	content: [

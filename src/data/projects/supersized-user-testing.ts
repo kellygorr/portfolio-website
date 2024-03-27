@@ -1,19 +1,25 @@
 import { IProject, FileType, ToolType, SectionName, HighlightName, SkillType } from '../IProject'
 
-const thumbnail = 'supersized.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/supersized.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/supersized.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/supersized.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22e.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22a.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22b.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22c.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/large22d.jpg'
+const img1 = new URL('../../assets/images/supersized-user-testing/large22e.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/supersized-user-testing/large22a.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/supersized-user-testing/large22b.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/supersized-user-testing/large22c.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/supersized-user-testing/large22d.jpg', import.meta.url).href
 
-const pdf = import.meta.env.VITE_IMAGE_URL_SRC + 'supersized-user-testing/kelly_gorr_user_testing_plan.pdf'
+const pdf = new URL('../../assets/images/supersized-user-testing/kelly_gorr_user_testing_plan.pdf', import.meta.url).href
 
 export const supersizedUserTesting: IProject = {
 	details: {
 		header: 'Supersized User Testing',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 	},
 	content: [
 		{
@@ -62,7 +68,11 @@ export const supersizedUserTesting: IProject = {
 			attachments: [
 				{
 					header: 'Testing PDF',
-					thumbnail: thumbnail,
+					thumbnail: {
+						x1: thumbnailx1,
+						x15: thumbnailx15,
+						x2: thumbnailx2,
+					},
 					file: {
 						type: FileType.Pdf,
 						source: pdf,

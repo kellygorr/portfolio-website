@@ -1,14 +1,24 @@
 import { IProject, FileType, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
 
-const thumbnail = 'earthquake.jpg'
-const thumbnail2 = 'earthquake-pdf.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/earthquake.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/earthquake.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/earthquake.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'earthquake-map/large17.jpg'
-const pdf1 = import.meta.env.VITE_IMAGE_URL_SRC + 'earthquake-map/Kelly_Gorr_Code_Sample.pdf'
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/earthquake-pdf.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/earthquake-pdf.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/earthquake-pdf.jpg', import.meta.url).href
+
+const img1 = new URL('../../assets/images/earthquake-map/large17.jpg', import.meta.url).href
+const pdf1 = new URL('../../assets/images/earthquake-map/Kelly_Gorr_Code_Sample.pdf', import.meta.url).href
+
 export const earthquakeMap: IProject = {
 	details: {
 		header: 'Earthquake Map',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Website],
 	},
 	content: [
@@ -58,7 +68,11 @@ export const earthquakeMap: IProject = {
 			attachments: [
 				{
 					header: 'Code Sample PDF',
-					thumbnail: thumbnail2,
+					thumbnail: {
+						x1: thumbnail2x1,
+						x15: thumbnail2x15,
+						x2: thumbnail2x2,
+					},
 					file: {
 						type: FileType.Pdf,
 						source: pdf1,

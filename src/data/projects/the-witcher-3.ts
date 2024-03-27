@@ -1,29 +1,35 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnail = 'witcher3.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/witcher3.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/witcher3.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/witcher3.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher2.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher3.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher5.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher6.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher7.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher9.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher10.jpg'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher11.jpg'
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher12.jpg'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witchera.jpg'
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher13.jpg'
-const img12 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher14.jpg'
-const img13 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher8.jpg'
-const img14 = import.meta.env.VITE_IMAGE_URL_SRC + 'the-witcher-3/witcher1.jpg'
+const img1 = new URL('../../assets/images/the-witcher-3/witcher2.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/the-witcher-3/witcher3.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/the-witcher-3/witcher5.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/the-witcher-3/witcher6.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/the-witcher-3/witcher7.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/the-witcher-3/witcher9.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/the-witcher-3/witcher10.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/the-witcher-3/witcher11.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/the-witcher-3/witcher12.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/the-witcher-3/witchera.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/the-witcher-3/witcher13.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/the-witcher-3/witcher14.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/the-witcher-3/witcher8.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/the-witcher-3/witcher1.jpg', import.meta.url).href
 
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/witcherPollOpt.mp4'
+const video1 = new URL('../../assets/videos/witcherPollOpt.mp4', import.meta.url).href
 
 export const theWitcher3: IProject = {
 	details: {
 		header: 'The Witcher 3 Xbox Launch',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox, TagType.Poll, TagType.Quiz],
 	},
 	content: [

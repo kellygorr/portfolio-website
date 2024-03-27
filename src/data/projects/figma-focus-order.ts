@@ -1,25 +1,38 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
 
-const thumbnail = 'focus-orderer.jpg'
-const thumbnail2 = 'focus-orderer-twitter.jpg'
-const thumbnail3 = 'focus-orderer-instagram.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/focus-order.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/focus-order.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/focus-order.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/1.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/3.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/4.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/video1thumb2.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/video2thumb2.jpg'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-1.jpg'
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-2.jpg'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-3.jpg'
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-4.jpg'
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/v2/v2-video.mp4'
-const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'focus-orderer/sizedvid2.mp4'
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/focus-order-twitter.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/focus-order-twitter.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/focus-order-twitter.jpg', import.meta.url).href
+
+const thumbnail3x1 = new URL('../../assets/thumbnails/x1/focus-order-instagram.jpg', import.meta.url).href
+const thumbnail3x15 = new URL('../../assets/thumbnails/x15/focus-order-instagram.jpg', import.meta.url).href
+const thumbnail3x2 = new URL('../../assets/thumbnails/x2/focus-order-instagram.jpg', import.meta.url).href
+
+const img1 = new URL('../../assets/images/focus-order/1.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/focus-order/3.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/focus-order/4.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/focus-order/video1thumb2.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/focus-order/video2thumb2.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/focus-order/v2/v2-1.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/focus-order/v2/v2-2.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/focus-order/v2/v2-3.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/focus-order/v2/v2-4.jpg', import.meta.url).href
+
+const video1 = new URL('../../assets/videos/focus-order/v2/v2-video.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/focus-order/sizedvid2.mp4', import.meta.url).href
 
 export const focusOrder: IProject = {
 	details: {
 		header: 'Figma Focus Order',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Microsoft, TagType.Tooling],
 	},
 	content: [
@@ -76,7 +89,7 @@ export const focusOrder: IProject = {
 		},
 		{
 			header: SectionName.URL,
-			body: '<a href="https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-Orderer">https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-Orderer</a>',
+			body: '<a href="https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-order">https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-order</a>',
 		},
 		{
 			header: SectionName.Accessibility,
@@ -131,7 +144,11 @@ export const focusOrder: IProject = {
 			attachments: [
 				{
 					header: `Microsoft Design Twitter`,
-					thumbnail: thumbnail2,
+					thumbnail: {
+						x1: thumbnail2x1,
+						x15: thumbnail2x15,
+						x2: thumbnail2x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://twitter.com/MicrosoftDesign/status/1304072149334925314',
@@ -139,7 +156,11 @@ export const focusOrder: IProject = {
 				},
 				{
 					header: `microsoft.design Instagram`,
-					thumbnail: thumbnail3,
+					thumbnail: {
+						x1: thumbnail3x1,
+						x15: thumbnail3x15,
+						x2: thumbnail3x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://www.instagram.com/p/CE9dP0ml_Ib/',

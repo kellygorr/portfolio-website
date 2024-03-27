@@ -142,7 +142,11 @@ export interface IFile {
 
 export interface IThumbnail {
 	header: string
-	thumbnail: string | null
+	thumbnail: {
+		x1: string | null
+		x15: string | null
+		x2: string | null
+	}
 	neutralBorder?: boolean
 	file?: IFile
 	tags?: (TagType | string)[]
