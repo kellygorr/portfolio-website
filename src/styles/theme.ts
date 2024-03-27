@@ -4,7 +4,7 @@ export const NeutralColors = {
 	gray85: 'rgba(0,0,0,0.85)',
 	gray81: 'rgba(0,0,0,0.81)',
 	gray11: 'rgba(0,0,0,0.11)',
-	warmNeutral: '#f9f9f6',
+	warmNeutral: '#eeedeb',
 	warmNeutralDark: '#292826',
 	neutral40: 'rgb(127,127,127, 0.40)',
 	neutral10: 'rgb(127,127,127, 0.10)',
