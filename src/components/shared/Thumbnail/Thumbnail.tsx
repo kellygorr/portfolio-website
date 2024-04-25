@@ -37,11 +37,11 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 								<BackgroundCard />
 								<Image
 									srcSet={`
-						${import.meta.env.VITE_THUMBNAIL_SRC_1x}${data.thumbnail} 1x,
-						${import.meta.env.VITE_THUMBNAIL_SRC_15x}${data.thumbnail} 1.5x,
-						${import.meta.env.VITE_THUMBNAIL_SRC_2x}${data.thumbnail} 2x,
+						${data.thumbnail.x1} 1x,
+						${data.thumbnail.x15} 1.5x,
+						${data.thumbnail.x2} 2x,
 					`}
-									src={import.meta.env.VITE_THUMBNAIL_SRC_1x + data.thumbnail}
+									src={data.thumbnail.x1 as string}
 								/>
 							</>
 						) : (

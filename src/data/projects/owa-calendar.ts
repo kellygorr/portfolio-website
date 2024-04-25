@@ -1,20 +1,35 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
 
-const thumbnail = 'outlook-calendar.jpg'
-const thumbnail2 = 'outlook-calendar-verge.jpg'
-const thumbnail3 = 'outlook-calendar-ms.jpg'
-const thumbnail4 = 'outlook-calendar-ms-tech.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/outlook-calendar.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/outlook-calendar.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/outlook-calendar.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar5.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar3.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar1.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar2.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'owa-calendar/calendar4.jpg'
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-verge.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-verge.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-verge.jpg', import.meta.url).href
+
+const thumbnail3x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-ms.jpg', import.meta.url).href
+const thumbnail3x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-ms.jpg', import.meta.url).href
+const thumbnail3x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-ms.jpg', import.meta.url).href
+
+const thumbnail4x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-ms-tech.jpg', import.meta.url).href
+const thumbnail4x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-ms-tech.jpg', import.meta.url).href
+const thumbnail4x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-ms-tech.jpg', import.meta.url).href
+
+const img1 = new URL('../../assets/images/owa-calendar/calendar5.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/owa-calendar/calendar3.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/owa-calendar/calendar1.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/owa-calendar/calendar2.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/owa-calendar/calendar4.jpg', import.meta.url).href
 
 export const owaCalendar: IProject = {
 	details: {
 		header: 'Outlook Calendar',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Microsoft, TagType.Web],
 	},
 	content: [
@@ -114,7 +129,11 @@ export const owaCalendar: IProject = {
 			attachments: [
 				{
 					header: 'The Verge',
-					thumbnail: thumbnail2,
+					thumbnail: {
+						x1: thumbnail2x1,
+						x15: thumbnail2x15,
+						x2: thumbnail2x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://www.theverge.com/2018/3/14/17121032/microsoft-outlook-web-redesign-features',
@@ -122,7 +141,11 @@ export const owaCalendar: IProject = {
 				},
 				{
 					header: 'Microsoft',
-					thumbnail: thumbnail3,
+					thumbnail: {
+						x1: thumbnail3x1,
+						x15: thumbnail3x15,
+						x2: thumbnail3x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://www.microsoft.com/en-us/microsoft-365/blog/2018/03/14/new-mail-calendar-and-people-experiences-coming-to-outlook-com/',
@@ -130,7 +153,11 @@ export const owaCalendar: IProject = {
 				},
 				{
 					header: 'Microsoft',
-					thumbnail: thumbnail4,
+					thumbnail: {
+						x1: thumbnail4x1,
+						x15: thumbnail4x15,
+						x2: thumbnail4x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://techcommunity.microsoft.com/t5/outlook-blog/faster-with-a-modern-design-and-new-features-the-new-outlook-on/ba-p/735222',

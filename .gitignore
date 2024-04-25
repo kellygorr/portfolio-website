@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Assets (svgs and fonts ok)
+src/assets/images/*
+src/assets/thumbnails/*
+src/assets/videos/*

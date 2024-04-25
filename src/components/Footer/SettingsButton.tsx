@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import { motion } from 'framer-motion'
-
-import CogIcon from '../../assets/svg/cog.svg'
-import CogFilledIcon from '../../assets/svg/cog-filled.svg'
+import { CogFilledIcon } from '../../assets/svg/CogFilledIcon'
+import { CogIcon } from '../../assets/svg/CogIcon'
 
 interface ISettingsButtonProps {
 	isDarkMode: boolean
@@ -28,7 +27,7 @@ export const SettingsButton = (props: ISettingsButtonProps) => {
 				transition={{ duration: 1 }}
 				style={{ scale: 0.7, top: '1px' }}
 			>
-				<img src={CogIcon} />
+				<CogIcon />
 			</AnimateCog>
 
 			<AnimateCog
@@ -36,9 +35,9 @@ export const SettingsButton = (props: ISettingsButtonProps) => {
 				initial={false}
 				animate={props.isDarkMode ? 'darkMode' : 'lightMode'}
 				transition={{ duration: 1 }}
-				style={{ scale: 0.35, left: '-14px', top: '4px' }}
+				style={{ scale: 0.35, left: '-15px', top: '4px' }}
 			>
-				<img src={CogFilledIcon} />
+				<CogFilledIcon />
 			</AnimateCog>
 		</Container>
 	)

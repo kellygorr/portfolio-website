@@ -1,50 +1,48 @@
 import { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
-import { MIN_WIDTH } from '../../../styles/GlobalStyles'
 import { NeutralColors } from '../../../styles/theme'
 
 interface IPageProps {
-	index: number
 	isActive: boolean
 	isScrolling: boolean
 	neutralBorder?: boolean
 	defaultwidth: number
 	data: ISlide
-	setIsScrolling: (isScrolling: boolean) => void
-	slideshowRef: React.RefObject<HTMLDivElement>
 }
 
 export const Slide = (props: IPageProps): JSX.Element => {
 	const ref = useRef<HTMLDivElement>(null)
-	const { data, isActive, isScrolling, setIsScrolling, slideshowRef, index, neutralBorder, defaultwidth } = props
+	const { data, isActive, isScrolling, neutralBorder, defaultwidth } = props
 	useEffect(() => window.scrollTo(0, 0), [])
+
+	const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (!isActive) {
+			e.stopPropagation()
+			e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+		}
+	}
+
 	return (
 		<Container
 			ref={ref}
-			onClick={() => {
-				if (!isActive && slideshowRef && slideshowRef.current && setIsScrolling) {
-					setIsScrolling(true)
-
-					const nextScroll = slideshowRef.current.clientWidth * 0.75 * index
-					const currentScroll = slideshowRef.current.scrollLeft
-
-					slideshowRef.current.scrollBy({
-						top: 0,
-						left: nextScroll - currentScroll,
-						behavior: 'smooth',
-					})
-				}
-			}}
 			style={{
-				cursor: isActive || !setIsScrolling ? 'default' : 'pointer',
+				cursor: isActive ? 'default' : 'pointer',
 				borderColor: isActive ? (isScrolling ? 'transparent' : neutralBorder ? NeutralColors.gray11 : '') : 'transparent',
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}
 			$defaultwidth={defaultwidth}
+			onClick={handleSlideClick}
 		>
 			{data.file && data.file.type === FileType.Video ? (
-				<video controls poster={data.img}>
+				<video
+					controls
+					poster={data.img}
+					onLoadStart={(e) => {
+						/** Set volume to 0.5 */
+						e.currentTarget.volume = 0.5
+					}}
+				>
 					<source src={data.file.source} type="video/mp4" />
 				</video>
 			) : (
@@ -90,7 +88,6 @@ const Container = styled.div<IStyle>`
 	video {
 		border: ${BorderSize}px solid transparent;
 		border-color: inherit;
-		min-width: ${MIN_WIDTH}px;
 		max-height: 60vh;
 		max-width: 75vw;
 	}

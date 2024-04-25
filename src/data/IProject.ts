@@ -17,12 +17,14 @@ export enum SkillType {
 	UIUX = 'UI-UX',
 	Prototyping = 'prototyping',
 	Design = 'design',
+	CMS = 'CMS',
 	Illustration = 'illustration',
 	JQuery = 'jQuery',
 	JavaScript = 'JavaScript',
 	React = 'React',
 	TypeScript = 'TypeScript',
 	AngularJS = 'AngularJS',
+	CICD = 'CI/CD',
 	PHP = 'PHP',
 	MySQL = 'MySQL',
 	Ajax = 'Ajax',
@@ -48,7 +50,7 @@ export const relatedTags: (TagType | SkillType | ToolType)[][] = [
 	[SkillType.JavaScript, SkillType.JQuery, SkillType.Ajax],
 	[TagType.Website, SkillType.HTML, SkillType.CSS],
 	[ToolType.Photoshop, ToolType.Illustrator],
-	[SkillType.PHP, SkillType.MySQL],
+	[SkillType.PHP, SkillType.MySQL, SkillType.CMS],
 	[TagType.Xbox, TagType.Microsoft],
 	[TagType.Xbox, TagType.Kinect],
 	[TagType.Tooling, TagType.Template],
@@ -85,6 +87,7 @@ export enum HighlightName {
 	Assets = 'Assets',
 	Designer = 'Designer(s)',
 	Design_Lead = 'Design Lead',
+	Content_Designer = 'Content Designer(s)',
 	Dates = 'Dates',
 	Engineer = 'Engineer(s)',
 	Featured_On = 'Featured On',
@@ -95,6 +98,7 @@ export enum HighlightName {
 	Platform_Accessories = 'Platform and Accessories',
 	Skills = 'Skills',
 	Tools = 'Tools',
+	URL = 'URL',
 }
 
 export interface IProject {
@@ -142,7 +146,7 @@ export interface IFile {
 
 export interface IThumbnail {
 	header: string
-	thumbnail: string | null
+	thumbnail: { x1: string | null; x15: string | null; x2: string | null } | null
 	neutralBorder?: boolean
 	file?: IFile
 	tags?: (TagType | string)[]

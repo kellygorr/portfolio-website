@@ -11,19 +11,39 @@ interface IPageProps {
 	slideshowRef: React.RefObject<HTMLDivElement>
 }
 
-let slideshowRef: React.RefObject<HTMLDivElement>
 let ScrollTimer: number
 
 export const Slideshow = (props: IPageProps): JSX.Element => {
-	slideshowRef = props.slideshowRef
+	const { slideshowRef } = props
 	const [active, setActive] = useState(0)
 	const [isScrolling, setIsScrolling] = useState(false)
 
 	useEffect(() => {
 		if (!isScrolling) {
-			findActiveSlide(setActive)
+			findActiveSlide(setActive, slideshowRef)
 		}
 	}, [isScrolling])
+
+	const handleSlideShowClick = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (slideshowRef && slideshowRef.current) {
+			const slideWidth = slideshowRef.current.clientWidth
+			const clickPosition = e.clientX - slideshowRef.current.getBoundingClientRect().left
+			let nextIndex = null
+			if (clickPosition < slideWidth * 0.25 && active > 0) {
+				/** Left side click */
+				nextIndex = active - 1
+			} else if (clickPosition > slideWidth * 0.75 && active < props.data.length - 1) {
+				/** Right side click */
+				nextIndex = active + 1
+			}
+
+			if (!(nextIndex === null)) {
+				e.preventDefault()
+				const nextSlide = slideshowRef.current.querySelectorAll('div')[nextIndex]
+				nextSlide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+			}
+		}
+	}
 
 	return (
 		<>
@@ -39,18 +59,16 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 						}, 150)
 					}
 				}}
+				onClick={handleSlideShowClick}
 			>
 				{props.data.map((slide: ISlide, index) => (
 					<Slide
 						key={slide.img}
-						index={index}
 						isActive={index === active && props.data.length > 1}
 						isScrolling={isScrolling}
 						neutralBorder={props.neutralBorder}
 						defaultwidth={props.defaultwidth}
 						data={slide}
-						setIsScrolling={setIsScrolling}
-						slideshowRef={slideshowRef}
 					/>
 				))}
 			</Slides>
@@ -62,7 +80,7 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 	)
 }
 
-const findActiveSlide = (setActive: (index: number) => void): void => {
+const findActiveSlide = (setActive: (index: number) => void, slideshowRef: React.RefObject<HTMLDivElement>): void => {
 	if (slideshowRef && slideshowRef.current) {
 		const slideArray = [].slice.call(slideshowRef.current.querySelectorAll('div'))
 		const activeSlideIndex = slideArray.findIndex((el) => isElementCentered(el))

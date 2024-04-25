@@ -1,22 +1,28 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnail = 'billboards.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/billboards.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/billboards.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/billboards.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard3.jpg'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard1.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard2.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/ffSweepstakes.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/X1-COMP-Billboard-GoldGameE3Promo-ES-MX-v2.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/X1-FUT-Anniversary-billboard-MX-v2-COMP.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-billboards/billboard5.jpg'
+const img1 = new URL('../../assets/images/xbox-billboards/billboard3.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-billboards/billboard1.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-billboards/billboard2.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-billboards/ffSweepstakes.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-billboards/X1-COMP-Billboard-GoldGameE3Promo-ES-MX-v2.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-billboards/X1-FUT-Anniversary-billboard-MX-v2-COMP.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/xbox-billboards/billboard5.jpg', import.meta.url).href
 
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/iggyazalea.mp4'
+const video1 = new URL('../../assets/videos/iggyazalea.mp4', import.meta.url).href
 
 export const xboxBillboards: IProject = {
 	details: {
 		header: 'Xbox Promotional Billboards',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox],
 	},
 	content: [

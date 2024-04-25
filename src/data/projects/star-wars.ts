@@ -1,20 +1,29 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnail = 'starwars.jpg'
-const thumbnail2 = 'starwars-kotaku.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/starwars.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/starwars.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/starwars.jpg', import.meta.url).href
 
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/starWars.mp4'
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/starwars-kotaku.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/starwars-kotaku.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/starwars-kotaku.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars1.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars2.png'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars3.png'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'star-wars/starwars5.png'
+const video1 = new URL('../../assets/videos/starWars.mp4', import.meta.url).href
+
+const img1 = new URL('../../assets/images/star-wars/starwars1.png', import.meta.url).href
+const img2 = new URL('../../assets/images/star-wars/starwars2.png', import.meta.url).href
+const img3 = new URL('../../assets/images/star-wars/starwars3.png', import.meta.url).href
+const img5 = new URL('../../assets/images/star-wars/starwars5.png', import.meta.url).href
 
 export const starWars: IProject = {
 	details: {
 		header: 'Star Wars Xbox Promotion',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox],
 	},
 	content: [
@@ -86,7 +95,11 @@ export const starWars: IProject = {
 			attachments: [
 				{
 					header: 'Kotaku article',
-					thumbnail: thumbnail2,
+					thumbnail: {
+						x1: thumbnail2x1,
+						x15: thumbnail2x15,
+						x2: thumbnail2x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'http://kotaku.com/the-force-awakens-on-game-consoles-1768991827#',
