@@ -1,54 +1,65 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnail = 'xlei.jpg'
-const thumbnail6 = 'xlei-twitter.jpg'
-const thumbnail7 = 'xlei-twitter2.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/xlei.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/xlei.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/xlei.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/xlei1.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/E32.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA1.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA2.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA4.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA9.jpg'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA7.jpg'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA5.jpg'
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA10.jpg'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/TGA11.jpg'
+const thumbnail6x1 = new URL('../../assets/thumbnails/x1/xlei-twitter.jpg', import.meta.url).href
+const thumbnail6x15 = new URL('../../assets/thumbnails/x15/xlei-twitter.jpg', import.meta.url).href
+const thumbnail6x2 = new URL('../../assets/thumbnails/x2/xlei-twitter.jpg', import.meta.url).href
 
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom11.jpg'
-const img12 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom1.jpg'
-const img13 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom5.jpg'
-const img14 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom6.jpg'
-const img15 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom10.jpg'
-const img16 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom12.jpg'
-const img17 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom3.png'
-const img24 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom16.jpg'
-const img25 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/Gamescom17.jpg'
+const thumbnail7x1 = new URL('../../assets/thumbnails/x1/xlei-twitter2.jpg', import.meta.url).href
+const thumbnail7x15 = new URL('../../assets/thumbnails/x15/xlei-twitter2.jpg', import.meta.url).href
+const thumbnail7x2 = new URL('../../assets/thumbnails/x2/xlei-twitter2.jpg', import.meta.url).href
 
-const img18 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/E31.jpg'
-const img19 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/E32.jpg'
+const img1 = new URL('../../assets/images/xbox-live-events/xlei1.png', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-live-events/E32.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-live-events/TGA1.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-live-events/TGA2.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-live-events/TGA4.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-live-events/TGA9.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/xbox-live-events/TGA7.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/xbox-live-events/TGA5.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/xbox-live-events/TGA10.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/xbox-live-events/TGA11.jpg', import.meta.url).href
 
-const img20 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/CODLive4.png'
-const img21 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/CODLive.jpg'
-const img22 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/CODLive2.jpg'
-const img23 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-live-events/CODLive5.png'
+const img11 = new URL('../../assets/images/xbox-live-events/Gamescom11.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/xbox-live-events/Gamescom1.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/xbox-live-events/Gamescom5.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/xbox-live-events/Gamescom6.jpg', import.meta.url).href
+const img15 = new URL('../../assets/images/xbox-live-events/Gamescom10.jpg', import.meta.url).href
+const img16 = new URL('../../assets/images/xbox-live-events/Gamescom12.jpg', import.meta.url).href
+const img17 = new URL('../../assets/images/xbox-live-events/Gamescom3.png', import.meta.url).href
+const img24 = new URL('../../assets/images/xbox-live-events/Gamescom16.jpg', import.meta.url).href
+const img25 = new URL('../../assets/images/xbox-live-events/Gamescom17.jpg', import.meta.url).href
 
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/TGAPromo.mp4'
-const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/TGAscreencapture.mp4'
-const video3 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/GCPromo.mp4'
-const video4 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/GCTombraiderQuiz.mp4'
+const img18 = new URL('../../assets/images/xbox-live-events/E31.jpg', import.meta.url).href
+const img19 = new URL('../../assets/images/xbox-live-events/E32.jpg', import.meta.url).href
+
+const img20 = new URL('../../assets/images/xbox-live-events/CODLive4.png', import.meta.url).href
+const img21 = new URL('../../assets/images/xbox-live-events/CODLive.jpg', import.meta.url).href
+const img22 = new URL('../../assets/images/xbox-live-events/CODLive2.jpg', import.meta.url).href
+const img23 = new URL('../../assets/images/xbox-live-events/CODLive5.png', import.meta.url).href
+
+const video1 = new URL('../../assets/videos/TGAPromo.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/TGAscreencapture.mp4', import.meta.url).href
+const video3 = new URL('../../assets/videos/GCPromo.mp4', import.meta.url).href
+const video4 = new URL('../../assets/videos/GCTombraiderQuiz.mp4', import.meta.url).href
 
 export const xboxLiveEvents: IProject = {
 	details: {
 		header: 'Xbox Live Events',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox, TagType.Quiz, TagType.Poll],
 	},
 	content: [
 		{
 			slideshow: {
-				neutralBorder: true,
 				width: 1920,
 				slides: [
 					{
@@ -197,7 +208,11 @@ export const xboxLiveEvents: IProject = {
 			attachments: [
 				{
 					header: 'Larry Hryb',
-					thumbnail: thumbnail6,
+					thumbnail: {
+						x1: thumbnail6x1,
+						x15: thumbnail6x15,
+						x2: thumbnail6x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://twitter.com/majornelson/status/672128749467340800',
@@ -205,7 +220,11 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: 'Windows Central',
-					thumbnail: thumbnail7,
+					thumbnail: {
+						x1: thumbnail7x1,
+						x15: thumbnail7x15,
+						x2: thumbnail7x2,
+					},
 					file: {
 						type: FileType.Link,
 						source: 'https://twitter.com/windowscentral/status/672123341185024000',

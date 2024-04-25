@@ -1,28 +1,34 @@
 import { IProject, FileType, SkillType, HighlightName, SectionName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnail = 'quizzes.jpg'
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/quizzes.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/quizzes.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/quizzes.jpg', import.meta.url).href
 
-const img1 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz7.png'
-const img2 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz8.jpg'
-const img3 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz4.jpg'
-const img4 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz22.jpg'
-const img5 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz11.jpg'
-const img6 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz14.png'
-const img7 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz13.png'
-const img8 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/quiz9.png'
+const img1 = new URL('../../assets/images/xbox-quizzes/quiz7.png', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-quizzes/quiz8.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-quizzes/quiz4.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-quizzes/quiz22.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-quizzes/quiz11.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-quizzes/quiz14.png', import.meta.url).href
+const img7 = new URL('../../assets/images/xbox-quizzes/quiz13.png', import.meta.url).href
+const img8 = new URL('../../assets/images/xbox-quizzes/quiz9.png', import.meta.url).href
 
-const img9 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/gotquiz4.jpg'
-const img10 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/gotquiz2.jpg'
-const img11 = import.meta.env.VITE_IMAGE_URL_SRC + 'xbox-quizzes/gotquiz3.jpg'
+const img9 = new URL('../../assets/images/xbox-quizzes/gotquiz4.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/xbox-quizzes/gotquiz2.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/xbox-quizzes/gotquiz3.jpg', import.meta.url).href
 
-const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/fifaQuiz.mp4'
-const video2 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/gameofthronesquiz.mp4'
+const video1 = new URL('../../assets/videos/fifaQuiz.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/gameofthronesquiz.mp4', import.meta.url).href
 
 export const xboxQuizzes: IProject = {
 	details: {
 		header: 'Xbox Quizzes',
-		thumbnail: thumbnail,
+		thumbnail: {
+			x1: thumbnailx1,
+			x15: thumbnailx15,
+			x2: thumbnailx2,
+		},
 		tags: [TagType.Xbox, TagType.Template, TagType.Quiz],
 	},
 	content: [

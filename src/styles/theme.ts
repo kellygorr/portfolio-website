@@ -4,7 +4,7 @@ export const NeutralColors = {
 	gray85: 'rgba(0,0,0,0.85)',
 	gray81: 'rgba(0,0,0,0.81)',
 	gray11: 'rgba(0,0,0,0.11)',
-	warmNeutral: '#f9f9f6',
+	warmNeutral: '#fefcfb',
 	warmNeutralDark: '#292826',
 	neutral40: 'rgb(127,127,127, 0.40)',
 	neutral10: 'rgb(127,127,127, 0.10)',
@@ -68,7 +68,7 @@ export const themeDark: Theme = {
 	sidebarBackground: NeutralColors.white,
 	footerText: NeutralColors.white,
 	footerBackground: NeutralColors.gray95,
-	footerBackgroundSecondary: NeutralColors.white15,
+	footerBackgroundSecondary: NeutralColors.white,
 	gradient1: AccentColors.lightPink,
 	gradient2: AccentColors.lightOrange,
 }
