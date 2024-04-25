@@ -26,7 +26,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 		threshold: 0.1,
 		triggerOnce: true,
 	})
-	console.log('data.thumbnail', data.thumbnail)
+
 	return (
 		<Container ref={ref} style={{ ...thumbnailStyle, ...style }} aria-hidden={!data.thumbnail}>
 			<LinkStyle onClick={props.thumbnailClick} style={{ flex: !data.thumbnail ? 1 : 'inherit' }}>
@@ -41,7 +41,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 						${data.thumbnail.x15} 1.5x,
 						${data.thumbnail.x2} 2x,
 					`}
-									src={data.thumbnail.x1}
+									src={data.thumbnail.x1 as string}
 								/>
 							</>
 						) : (

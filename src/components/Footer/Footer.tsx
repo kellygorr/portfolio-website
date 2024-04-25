@@ -4,7 +4,6 @@ import { IHighlight, ILink } from '../../data/IProject'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Sidebar } from '../shared'
 import { SettingsButton } from './SettingsButton'
-import { AccentColors } from '../../styles/theme'
 
 const list: IHighlight[] = [
 	{
@@ -77,8 +76,8 @@ const Container = styled.footer`
 
 		background-image: linear-gradient(
 			to right,
-			${AccentColors.darkPink} 5%,
-			${AccentColors.darkPurple} 30%,
+			${({ theme }) => theme.gradient1} 5%,
+			${({ theme }) => theme.gradient2} 30%,
 			${({ theme }) => theme.footerBackgroundSecondary} 75%
 		);
 		background-position: right center;
