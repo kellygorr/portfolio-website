@@ -116,7 +116,7 @@ export const microsoftDesignWebsite: IProject = {
 				},
 				{
 					header: `Additional Engineering Contributors`,
-					body: 'Zann St Pierre, Will Chaves, Ankit Potdar',
+					body: 'Zann St Pierre, Will Chavez, Ankit Potdar',
 				},
 			],
 		},
