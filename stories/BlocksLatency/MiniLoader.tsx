@@ -6,9 +6,17 @@ export interface MiniLoaderProps {
   size?: number
   /** Duration of one full animation cycle in ms. Default: 5117 */
   duration?: number
+  /** Color shown on the single rolling block — while it's kicking,
+   *  actively rolling, or holding at the far end. Falls back to
+   *  currentColor if omitted. */
+  rollerColor?: string
+  /** Colors for the 3 dropped/picked-up boxes left behind at slots
+   *  [0, 1, 2] as the roller passes through and picks back up on its
+   *  way back. Falls back to currentColor if omitted. */
+  trackColors?: [string, string, string]
 }
 
-export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117 }) => {
+export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors }) => {
   const styles = useMiniLoaderStyles()
   // scale animation (for storybook only).  Remove
   const scale = size / MINI_LOADER_CELL
@@ -25,17 +33,17 @@ export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 51
           transformOrigin: '0 0',
           // duration animation (for storybook only).  Remove
           '--mini-loader-duration': `${duration}ms`,
+          '--roller-color': rollerColor,
+          '--track-color-1': trackColors?.[0],
+          '--track-color-2': trackColors?.[1],
+          '--track-color-3': trackColors?.[2],
         } as React.CSSProperties
       }
     >
-      <div className={styles.block1Kick}>
-        <div className={styles.block1} />
-      </div>
-      <div className={styles.block2} />
-      <div className={styles.block3} />
-      <div className={styles.block4Kick}>
-        <div className={styles.block4} />
-      </div>
+      <div className={styles.dropped0} />
+      <div className={styles.dropped1} />
+      <div className={styles.dropped2} />
+      <div className={styles.block} />
     </div>
     </div>
   )

@@ -1,25 +1,59 @@
 import { makeStyles, motionTokens } from '@fluentui/react-components'
 
 /*
-  Mini Loader — blocks roll into place one at a time, then roll back
+  Mini Loader — one block rolling into place, then rolling back
   https://app.motionspec.io/spec/GhZREM9APcBmyQ7IGVzX
+
+  This is a SINGLE continuously-rolling element (not a handoff between 4
+  separate static elements) — ported directly from the isolated,
+  independently-verified Roll Test story (BlocksLatency/RollTest.*).
+  See that file's comments for the full derivation.
+
+  Timing matches the ORIGINAL 4-element MiniLoader animation's
+  percentages EXACTLY: kick 0-7%, roll1 10-20%, roll2 20-30%, roll3
+  30-40% (rolls are back-to-back, no pause between them — only ONE long
+  hold happens, at the far end), long hold 40-51%, arrival wobble 51-57%,
+  short hold 57-60%, rollback3 60-70%, rollback2 70-80%, rollback1
+  80-90%, hold at start 90-100%.
+
+  Roll geometry verified with exact corner-position math before writing
+  this: a SINGLE fixed pivot/transform-origin CANNOT keep a square glued
+  to the floor line across more than ~1 hop of accumulated rotation (the
+  bounding box provably drifts below the floor line at the 2nd hop).
+  Real rolling requires the pivot's effective anchor to advance to a new
+  contact point each quarter-turn — reproduced here by animating `left`
+  in lockstep with `transform`: `left` steps to a new anchor at each hop
+  boundary, and `transform` resets to the IDENTICAL -GAP/-90deg -> 0/0deg
+  sweep relative to that new anchor every time (forward), or the
+  MIRRORED +GAP/+90deg -> 0/0deg sweep with transformOrigin flipped to
+  'right bottom' (backward). Verified via corner math that every kickoff
+  pose exactly equals the immediately-preceding rest pose's bounding box
+  — zero discontinuity anywhere across the whole cycle. The origin only
+  flips once, during the wobble segment (while the box is at rest,
+  theta=0) — the only visually-safe instant to change pivot corner.
+
+  Every hold uses a DISTINCT epsilon-offset end percentage rather than
+  reusing the exact same number as the following segment's start — two
+  different keyframe declarations sharing one literal percentage caused
+  ambiguous/incorrect interpolation (verified: the browser blended
+  toward the WRONG keyframe during what should have been a static hold).
+  Never repeat a bare percentage across two different rule blocks. Every
+  "visually identical but numerically different" transition (a rest
+  pose immediately followed by the next segment's kickoff pose) uses
+  `steps(1, jump-end)` so it snaps instantly instead of raw-interpolating
+  through a brief, visible blended flash.
 */
 
 const CELL = 80
 const GAP = 25 // space between blocks = translation during roll
 const DURATION = 'var(--mini-loader-duration, 5117ms)'
-const EASE = motionTokens.curveAccelerateMin 
-const block = {
-  position: 'absolute' as const,
-  width: `${CELL}px`,
-  height: `${CELL}px`,
-  backgroundColor: 'currentColor',
-  willChange: 'transform, opacity',
-  animationDuration: DURATION,
-  animationIterationCount: 'infinite',
-  animationTimingFunction: EASE,
-  transformOrigin: 'left bottom',
-}
+const EASE = motionTokens.curveAccelerateMin
+const STEP = 'steps(1, jump-end)'
+
+const ROLLER = 'var(--roller-color, currentColor)'
+const TRACK1 = 'var(--track-color-1, currentColor)'
+const TRACK2 = 'var(--track-color-2, currentColor)'
+const TRACK3 = 'var(--track-color-3, currentColor)'
 
 export const MINI_LOADER_CELL = CELL
 
@@ -30,107 +64,201 @@ export const useMiniLoaderStyles = makeStyles({
     height: `${CELL}px`,
   },
 
-  /* Block 1 wrapper — kick from left bottom */
-  block1Kick: {
-    position: 'absolute' as const,
-    top: '0',
-    left: '0',
-    width: `${CELL}px`,
-    height: `${CELL}px`,
-    willChange: 'transform',
-    transformOrigin: 'left bottom',
-    animationDuration: DURATION,
-    animationIterationCount: 'infinite',
-    animationTimingFunction: 'linear',
-    animationName: {
-      '0%': { transform: 'rotate(0deg)' },
-      '0.88%': { transform: 'rotate(-23.5deg)' },
-      '1.75%': { transform: 'rotate(-30.3deg)' },
-      '2.63%': { transform: 'rotate(-33.2deg)' },
-      '3.5%': { transform: 'rotate(-34deg)' },
-      '4.38%': { transform: 'rotate(-32.7deg)' },
-      '5.25%': { transform: 'rotate(-27.6deg)' },
-      '6.13%': { transform: 'rotate(-14.6deg)' },
-      '7%, 100%': { transform: 'rotate(0deg)' },
-    },
-  },
-
-  /* Block 1 inner — static square, kick handled by wrapper */
-  block1: {
-    position: 'relative' as const,
-    width: `${CELL}px`,
-    height: `${CELL}px`,
-    backgroundColor: 'currentColor',
-  },
-
-  /* Block 2 — rolls in 10–20%, holds, rolls back 80–90% */
-  block2: {
-    ...block,
-    top: '0',
-    left: `${CELL + GAP}px`,
-    animationName: {
-      '0%, 10%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '10.1%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '20%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '80%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '89.9%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '90%, 100%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-    },
-  },
-
-  /* Block 3 — rolls in 20–30%, holds, rolls back 70–80% */
-  block3: {
-    ...block,
-    top: '0',
-    left: `${(CELL + GAP) * 2}px`,
-    animationName: {
-      '0%, 20%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '20.1%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '30%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '70%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '79.9%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '80%, 100%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-    },
-  },
-
-  /* Block 4 wrapper — positioned, handles the kick from right bottom */
-  block4Kick: {
+  /* The single rolling block. Always the roller color — it's the one
+     element that's ever actively moving/kicking. */
+  block: {
     position: 'absolute',
     top: '0',
-    left: `${(CELL + GAP) * 3}px`,
     width: `${CELL}px`,
     height: `${CELL}px`,
-    willChange: 'transform',
-    transformOrigin: 'right bottom',
+    backgroundColor: ROLLER,
+    zIndex: 2,
+    willChange: 'left, transform',
     animationDuration: DURATION,
     animationIterationCount: 'infinite',
-    animationTimingFunction: 'linear',
+    animationTimingFunction: EASE,
     animationName: {
-      '0%, 51%': { transform: 'rotate(0deg)' },
-      '51.75%': { transform: 'rotate(28.3deg)' },
-      '52.5%': { transform: 'rotate(36.5deg)' },
-      '53.25%': { transform: 'rotate(40deg)' },
-      '54%': { transform: 'rotate(41deg)' },
-      '54.75%': { transform: 'rotate(39.4deg)' },
-      '55.5%': { transform: 'rotate(33.3deg)' },
-      '56.25%': { transform: 'rotate(17.6deg)' },
-      '57%, 100%': { transform: 'rotate(0deg)' },
+      // kick: 0% -> 7%
+      '0%': { left: '0', transform: 'translateX(0) rotate(0deg)', transformOrigin: 'left bottom', animationTimingFunction: 'linear' },
+      '0.88%': { left: '0', transform: 'translateX(0) rotate(-23.5deg)', transformOrigin: 'left bottom' },
+      '1.75%': { left: '0', transform: 'translateX(0) rotate(-30.3deg)', transformOrigin: 'left bottom' },
+      '2.63%': { left: '0', transform: 'translateX(0) rotate(-33.2deg)', transformOrigin: 'left bottom' },
+      '3.5%': { left: '0', transform: 'translateX(0) rotate(-34deg)', transformOrigin: 'left bottom' },
+      '4.38%': { left: '0', transform: 'translateX(0) rotate(-32.7deg)', transformOrigin: 'left bottom' },
+      '5.25%': { left: '0', transform: 'translateX(0) rotate(-27.6deg)', transformOrigin: 'left bottom' },
+      '6.13%': { left: '0', transform: 'translateX(0) rotate(-14.6deg)', transformOrigin: 'left bottom' },
+      // hold: 7% -> 9.9% (settle after kick, before first roll)
+      '7%, 9.9%': {
+        left: '0',
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'left bottom',
+        animationTimingFunction: STEP,
+      },
+      // roll1: 10% -> 19.9% (kickoff at 10%, rest at 19.9%)
+      '10%': {
+        left: `${CELL + GAP}px`,
+        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        transformOrigin: 'left bottom',
+        animationTimingFunction: EASE,
+      },
+      '19.9%': {
+        left: `${CELL + GAP}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'left bottom',
+        animationTimingFunction: STEP,
+      },
+      // roll2: 20% -> 29.9% (back-to-back, no hold between rolls)
+      '20%': {
+        left: `${(CELL + GAP) * 2}px`,
+        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        transformOrigin: 'left bottom',
+        animationTimingFunction: EASE,
+      },
+      '29.9%': {
+        left: `${(CELL + GAP) * 2}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'left bottom',
+        animationTimingFunction: STEP,
+      },
+      // roll3: 30% -> 39.9% (back-to-back, no hold between rolls)
+      '30%': {
+        left: `${(CELL + GAP) * 3}px`,
+        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        transformOrigin: 'left bottom',
+        animationTimingFunction: EASE,
+      },
+      // long hold: 40% -> 50.9% (settle before arrival wobble at 51%)
+      '40%, 50.9%': {
+        left: `${(CELL + GAP) * 3}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'left bottom',
+      },
+      // wobble: 51% -> 57% (arrival kick, mirrors initial kick, pivots
+      // on the corner the reverse roll will use next)
+      '51%': {
+        left: `${(CELL + GAP) * 3}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'right bottom',
+        animationTimingFunction: 'linear',
+      },
+      '51.75%': { transform: 'translateX(0) rotate(28.3deg)', transformOrigin: 'right bottom' },
+      '52.5%': { transform: 'translateX(0) rotate(36.5deg)', transformOrigin: 'right bottom' },
+      '53.25%': { transform: 'translateX(0) rotate(40deg)', transformOrigin: 'right bottom' },
+      '54%': { transform: 'translateX(0) rotate(41deg)', transformOrigin: 'right bottom' },
+      '54.75%': { transform: 'translateX(0) rotate(39.4deg)', transformOrigin: 'right bottom' },
+      '55.5%': { transform: 'translateX(0) rotate(33.3deg)', transformOrigin: 'right bottom' },
+      '56.25%': { transform: 'translateX(0) rotate(17.6deg)', transformOrigin: 'right bottom' },
+      // short hold: 57% -> 59.9% (settle after wobble, before rollback starts)
+      '57%, 59.9%': {
+        left: `${(CELL + GAP) * 3}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'right bottom',
+        animationTimingFunction: STEP,
+      },
+      // rollback3: 60% -> 69.9%
+      '60%': {
+        left: `${(CELL + GAP) * 2}px`,
+        transform: `translateX(${GAP}px) rotate(90deg)`,
+        transformOrigin: 'right bottom',
+        animationTimingFunction: EASE,
+      },
+      '69.9%': {
+        left: `${(CELL + GAP) * 2}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'right bottom',
+        animationTimingFunction: STEP,
+      },
+      // rollback2: 70% -> 79.9% (back-to-back)
+      '70%': {
+        left: `${CELL + GAP}px`,
+        transform: `translateX(${GAP}px) rotate(90deg)`,
+        transformOrigin: 'right bottom',
+        animationTimingFunction: EASE,
+      },
+      '79.9%': {
+        left: `${CELL + GAP}px`,
+        transform: 'translateX(0) rotate(0deg)',
+        transformOrigin: 'right bottom',
+        animationTimingFunction: STEP,
+      },
+      // rollback1: 80% -> 90% (back-to-back)
+      '80%': {
+        left: '0',
+        transform: `translateX(${GAP}px) rotate(90deg)`,
+        transformOrigin: 'right bottom',
+        animationTimingFunction: EASE,
+      },
+      // hold at start: 90% -> 100%
+      '90%, 100%': { left: '0', transform: 'translateX(0) rotate(0deg)', transformOrigin: 'right bottom' },
     },
   },
 
-  /* Block 4 inner — rolls in 30–40%, holds, rolls back 60–70% */
-  block4: {
-    ...block,
-    position: 'relative',
+  /* Dropped/picked-up box at slot 0 (the start/kick position) — appears
+     the instant the roller leaves on its first roll (10%, roll1's
+     kickoff — the roller is no longer covering this slot from that
+     point on), disappears the instant the roller returns to rest here
+     at the very end (90%, rollback1's landing). */
+  dropped0: {
+    position: 'absolute',
     top: '0',
     left: '0',
+    width: `${CELL}px`,
+    height: `${CELL}px`,
+    backgroundColor: TRACK1,
+    zIndex: 1,
+    animationDuration: DURATION,
+    animationIterationCount: 'infinite',
+    animationTimingFunction: STEP,
     animationName: {
-      '0%, 30%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '30.1%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '40%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '60%': { opacity: 1, transform: 'translateX(0) rotate(0deg)' },
-      '69.9%': { opacity: 1, transform: `translateX(${-GAP}px) rotate(-90deg)` },
-      '70%, 100%': { opacity: 0, transform: `translateX(${-GAP}px) rotate(-90deg)` },
+      '0%, 9.9%': { opacity: 0 },
+      '10%, 89.9%': { opacity: 1 },
+      '90%, 100%': { opacity: 0 },
+    },
+  },
+
+  /* Dropped/picked-up box at slot 1 — appears the instant the roller
+     reaches its rest position at this slot (19.9%, matching roll1's
+     landing), disappears the instant the roller returns to rest at this
+     same slot on the way back (79.9%, matching rollback2's landing).
+     Always behind the roller (lower z-index) so it never visually
+     overlaps the roller mid-transition. */
+  dropped1: {
+    position: 'absolute',
+    top: '0',
+    left: `${CELL + GAP}px`,
+    width: `${CELL}px`,
+    height: `${CELL}px`,
+    backgroundColor: TRACK2,
+    zIndex: 1,
+    animationDuration: DURATION,
+    animationIterationCount: 'infinite',
+    animationTimingFunction: STEP,
+    animationName: {
+      '0%, 19.8%': { opacity: 0 },
+      '19.9%, 79.8%': { opacity: 1 },
+      '79.9%, 100%': { opacity: 0 },
+    },
+  },
+
+  /* Dropped/picked-up box at slot 2 — same technique: appears when the
+     roller lands at rest here (29.9%, roll2's landing), disappears when
+     the roller returns to rest here on the way back (69.9%, rollback3's
+     landing). */
+  dropped2: {
+    position: 'absolute',
+    top: '0',
+    left: `${(CELL + GAP) * 2}px`,
+    width: `${CELL}px`,
+    height: `${CELL}px`,
+    backgroundColor: TRACK3,
+    zIndex: 1,
+    animationDuration: DURATION,
+    animationIterationCount: 'infinite',
+    animationTimingFunction: STEP,
+    animationName: {
+      '0%, 29.8%': { opacity: 0 },
+      '29.9%, 69.8%': { opacity: 1 },
+      '69.9%, 100%': { opacity: 0 },
     },
   },
 })
