@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import { CogFilledIcon } from '../../assets/svg/CogFilledIcon'
 import { CogIcon } from '../../assets/svg/CogIcon'
 

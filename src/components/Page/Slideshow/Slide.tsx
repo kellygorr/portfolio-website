@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, type JSX } from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
 import { NeutralColors } from '../../../styles/theme'
@@ -14,7 +14,9 @@ interface IPageProps {
 export const Slide = (props: IPageProps): JSX.Element => {
 	const ref = useRef<HTMLDivElement>(null)
 	const { data, isActive, isScrolling, neutralBorder, defaultwidth } = props
-	useEffect(() => window.scrollTo(0, 0), [])
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 
 	const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (!isActive) {

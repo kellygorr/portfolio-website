@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import styled from 'styled-components'
 import { IHighlight, ILink } from '../../data/IProject'
 

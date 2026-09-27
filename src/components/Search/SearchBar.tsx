@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useRef, useState, useEffect, type JSX } from 'react'
+import { motion } from 'motion/react'
 import styled from 'styled-components'
 import { SearchIcon } from '../../assets/svg/SearchIcon'
 import { SkillType, TagType } from '../../data/IProject'
@@ -72,7 +72,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	}
 
 	return (
-		<Container isOpen={props.isSearching}>
+		<Container $isOpen={props.isSearching}>
 			<Sidebar
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
@@ -111,7 +111,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 }
 
 interface IStyle {
-	isOpen: boolean
+	$isOpen: boolean
 }
 
 const Container = styled.div<IStyle>`
@@ -135,7 +135,7 @@ const Container = styled.div<IStyle>`
 		background-size: 400% 100%;
 
 		&:hover {
-			background-position: ${({ isOpen }) => (isOpen ? 'right center' : 'left center')};
+			background-position: ${({ $isOpen }) => ($isOpen ? 'right center' : 'left center')};
 
 			transition: background-position 500ms ease-in-out;
 		}
