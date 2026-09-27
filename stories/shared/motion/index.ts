@@ -1,0 +1,1 @@
+export { DirectionalMotion } from './DirectionalMotion'

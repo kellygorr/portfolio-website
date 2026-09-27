@@ -1,0 +1,228 @@
+/* 
+ * DAB: GPU-Accelerated Gradient Border Animation
+ * 
+ * KEY DIFFERENCE FROM DABNoSVG:
+ * - NoSVG: Animates @property --dab-angle inside conic-gradient() → main thread repaint every frame
+ * - NoSVG2: Static gradient + transform: rotate() on pseudo-elements → GPU compositor thread
+ *
+ * APPROACH:
+ * 1. Gradient angle is FIXED (from 145deg)
+ * 2. Pseudo-elements are oversized (scale 1.5) to avoid corner clipping during rotation
+ * 3. transform: rotate() animates the entire pseudo-element
+ * 4. will-change: transform promotes to compositor layer for true GPU animation
+ * 5. Parent container clips the oversized rotating gradient to the pill shape
+ */
+
+/* Rotation animation using GPU-accelerated transform */
+@keyframes dab-rotate-intro {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1080deg); /* 3 full rotations */
+  }
+}
+
+@keyframes dab-rotate-thinking {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(720deg); /* 2 full rotations per cycle */
+  }
+}
+
+/* GPU-accelerated opacity animations */
+@keyframes dab-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes dab-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes dab-gradient-fade-in {
+  0%,
+  33% {
+    opacity: 0;
+  }
+  66%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+ * BASE STYLES
+ * ============================================ */
+
+.dab-container {
+  position: relative;
+  /* contain: layout style isolates calculations without clipping overflow (shadow) */
+  /* Note: avoid 'content' or 'paint' as they clip the box-shadow */
+  contain: layout style;
+}
+
+.dab-background {
+  position: absolute;
+  inset: 0;
+  box-shadow:
+    0 8px 16px 0 rgba(0, 0, 0, 0.14),
+    0 0 2px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dab-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Border element: clips the oversized rotating gradients to the stroke shape */
+.dab-border {
+  position: absolute;
+  inset: 0;
+  /* Clip to reveal only the border/stroke area */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  /* Hide overflow from oversized rotating pseudo-elements */
+  overflow: hidden;
+}
+
+/* ============================================
+ * PSEUDO-ELEMENT GRADIENT LAYERS
+ * 
+ * KEY: These are oversized (scale 1.5) so rotation doesn't clip corners.
+ * The parent's mask clips them to the final stroke shape.
+ * ============================================ */
+
+.dab-border::before,
+.dab-border::after {
+  content: '';
+  position: absolute;
+  /* Oversized to prevent corner clipping during rotation */
+  /* Using inset with negative values to expand beyond container */
+  inset: -25%;
+  width: 150%;
+  height: 150%;
+  opacity: 0;
+  transform-origin: center center;
+  /* will-change applied only during animation (see intro/thinking modes) */
+}
+
+/* 
+ * Partial gradient layer (base): feathered arc — fades in from transparent,
+ * holds full color, then fades back to transparent at the tail.
+ * STATIC angle - rotation comes from transform, not gradient angle
+ */
+.dab-border::before {
+  background: conic-gradient(
+    from 145deg at 50% 50%,
+    transparent 0deg,
+    transparent 165deg,
+    #0078d4 195deg,
+    #1696ea 208.8deg,
+    #2db4ff 237.6deg,
+    #828aff 266.4deg,
+    #d660ff 298.8deg,
+    #ea84b9 331.2deg,
+    transparent 360deg
+  );
+}
+
+/* 
+ * Full gradient layer (top): all colors visible, with the same feathered
+ * fade applied at the head and tail of the arc.
+ * STATIC angle - rotation comes from transform, not gradient angle
+ */
+.dab-border::after {
+  background: conic-gradient(
+    from 145deg at 50% 50%,
+    transparent 0deg,
+    #fea874 15deg,
+    #ea84b9 28.8deg,
+    #d660ff 61.2deg,
+    #828aff 93.6deg,
+    #2db4ff 122.4deg,
+    #1696ea 151.2deg,
+    #0078d4 180deg,
+    #0078d4 180deg,
+    #1696ea 208.8deg,
+    #2db4ff 237.6deg,
+    #828aff 266.4deg,
+    #d660ff 298.8deg,
+    #ea84b9 331.2deg,
+    transparent 345deg,
+    transparent 360deg
+  );
+}
+
+/* ============================================
+ * INTRO MODE ANIMATIONS
+ * - Partial gradient fades in immediately, rotates, fades out
+ * - Full gradient fades in mid-animation, rotates, fades out
+ * ============================================ */
+
+.dab-border.dab-intro::before,
+.dab-border.dab-intro::after {
+  /* Promote to compositor layer only during animation, frees GPU memory when idle */
+  will-change: transform, opacity;
+}
+
+.dab-border.dab-intro::before {
+  animation:
+    dab-fade-in 300ms ease-out forwards,
+    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards,
+    dab-fade-out 300ms ease-out calc(var(--dab-duration, 3000ms) + 1000ms) forwards;
+}
+
+.dab-border.dab-intro::after {
+  animation:
+    dab-gradient-fade-in var(--dab-duration, 3000ms) linear forwards,
+    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards,
+    dab-fade-out 300ms ease-out calc(var(--dab-duration, 3000ms) + 1000ms) forwards;
+}
+
+/* ============================================
+ * THINKING MODE ANIMATIONS
+ * - Partial gradient fades in, rotates continuously
+ * - Full gradient stays hidden (only partial gradient visible)
+ * ============================================ */
+
+.dab-border.dab-thinking::before {
+  /* Promote to compositor layer only during animation */
+  will-change: transform, opacity;
+  animation:
+    dab-fade-in 300ms ease-out forwards,
+    dab-rotate-thinking var(--dab-duration, 3000ms) linear infinite;
+}
+
+/* ::after stays hidden (opacity: 0 from base) - no animation needed in thinking mode */
+
+/* 
+ * Thinking EXIT: keeps rotating while fading out, so stopping doesn't
+ * look like an abrupt freeze-then-disappear.
+ */
+.dab-border.dab-thinking-exit::before {
+  will-change: transform, opacity;
+  animation:
+    dab-fade-out 300ms ease-out forwards,
+    dab-rotate-thinking var(--dab-duration, 3000ms) linear infinite;
+}
