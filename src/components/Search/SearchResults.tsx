@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import styled from 'styled-components'
 import { IProject, relatedTags, TagType, SkillType } from '../../data/IProject'
 import { SMALL_SCREEN } from '../../styles/GlobalStyles'

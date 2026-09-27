@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type JSX } from 'react'
 import styled from 'styled-components'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
@@ -8,7 +8,7 @@ interface IPageProps {
 	data: ISlide[]
 	neutralBorder?: boolean
 	defaultwidth: number
-	slideshowRef: React.RefObject<HTMLDivElement>
+	slideshowRef: React.RefObject<HTMLDivElement | null>
 }
 
 let ScrollTimer: number
@@ -80,7 +80,7 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 	)
 }
 
-const findActiveSlide = (setActive: (index: number) => void, slideshowRef: React.RefObject<HTMLDivElement>): void => {
+const findActiveSlide = (setActive: (index: number) => void, slideshowRef: React.RefObject<HTMLDivElement | null>): void => {
 	if (slideshowRef && slideshowRef.current) {
 		const slideArray = [].slice.call(slideshowRef.current.querySelectorAll('div'))
 		const activeSlideIndex = slideArray.findIndex((el) => isElementCentered(el))

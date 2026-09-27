@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import styled from 'styled-components'
 import { IThumbnail } from '../../../data/IProject'
 import { AnimateIn, SMALL_SCREEN } from '../../../styles/GlobalStyles'

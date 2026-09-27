@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import type { JSX } from 'react'
+import { motion } from 'motion/react'
 import styled from 'styled-components'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN } from '../../styles/GlobalStyles'
 

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type JSX } from 'react'
 import styled from 'styled-components'
 import { IProject } from '../../data/IProject'
 import { GRID_GAP, LARGE_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'

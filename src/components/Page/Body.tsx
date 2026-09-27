@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import styled from 'styled-components'
 
 export const Body = (props: { data: string }): JSX.Element => {

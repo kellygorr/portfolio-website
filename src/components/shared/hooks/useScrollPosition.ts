@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useViewportScroll } from 'framer-motion'
+import { useScroll } from 'motion/react'
 
 export const useScrollPosition = (): number => {
-	const { scrollY } = useViewportScroll()
+	const { scrollY } = useScroll()
 	const [hookedYPostion, setHookedYPosition] = useState(0)
 	useEffect(() => {
-		// hook into the onChange, store the current value as state.
-		scrollY.onChange((v) => setHookedYPosition(v))
+		// hook into onChange, store the current value as state.
+		const unsubscribe = scrollY.on('change', (v) => setHookedYPosition(v))
+		return unsubscribe
 	}, [scrollY]) //make sure to re-subscriobe when scrollYProgress changes
 
 	return hookedYPostion

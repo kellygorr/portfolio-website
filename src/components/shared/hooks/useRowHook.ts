@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { MEDIUM_SCREEN } from '../../../styles/GlobalStyles'
 
-export const useRowHook = (projectLength: number): [React.MutableRefObject<HTMLUListElement>, number, number] => {
-	const ref = useRef<HTMLUListElement>()
+export const useRowHook = (projectLength: number): [React.RefObject<HTMLUListElement | null>, number, number] => {
+	const ref = useRef<HTMLUListElement>(null)
 	const [rowLength, setRowLength] = useState(0)
 	const [overflowAmount, setOverflowAmount] = useState(0)
 
@@ -33,5 +33,5 @@ export const useRowHook = (projectLength: number): [React.MutableRefObject<HTMLU
 		}
 	}, [projectLength])
 
-	return [ref as any, rowLength, overflowAmount]
+	return [ref, rowLength, overflowAmount]
 }

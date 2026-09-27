@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { SkillType, TagType, ToolType } from '../../../data/IProject'
