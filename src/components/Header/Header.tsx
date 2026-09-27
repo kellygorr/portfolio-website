@@ -71,4 +71,5 @@ const StyledLink = styled(Link)`
 `
 const H2 = styled.h2`
 	font-size: 1.25rem;
+	color: ${({ theme }) => theme.subtitleText};
 `

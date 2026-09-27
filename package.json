@@ -4,12 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -n site,storybook -c blue,magenta \"npm:dev:site\" \"npm:storybook\"",
+    "dev:site": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@fluentui-copilot/react-copilot": "^0.30.5",
+    "@fluentui/react-components": "^9.74.9",
+    "@fluentui/react-icons": "^2.0.343",
+    "@fluentui/react-motion": "^9.16.4",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "motion": "^13.4.0",
@@ -21,16 +28,24 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-mcp": "^10.6.0",
+    "@storybook/react-vite": "^10.6.0",
     "@types/node": "^20.11.24",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^10.0.5",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "eslint-plugin-storybook": "^10.6.0",
     "prettier": "3.2.5",
+    "storybook": "^10.6.0",
     "typescript": "^5.2.2",
     "vite": "^5.1.4"
   }

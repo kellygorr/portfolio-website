@@ -1,0 +1,83 @@
+/*
+ * LinePathMotionOvershoot: snake that travels around a long rectangle
+ * border, starting at the top-right corner and overshooting the origin
+ * to end at the bottom-right corner.
+ *
+ * Same nested half-plane mask architecture as v1, just with a wider
+ * container and a longer angular sweep (450° instead of 360°).
+ */
+
+.lpmo-container {
+  position: relative;
+  overflow: hidden;
+  contain: layout style;
+}
+
+.lpmo-ring {
+  position: absolute;
+  inset: 0;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  overflow: hidden;
+}
+
+/* Oversized so a rotated rectangle still covers the ring even at
+ * extreme angles. 200% of the LONGER dimension is needed in both
+ * directions; we size by the larger axis × 2 in the component. */
+.lpmo-rot-outer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(50% - var(--lpmo-feather-tail, 4px)),
+    #fff calc(50% + var(--lpmo-feather-tail, 4px)),
+    #fff 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(50% - var(--lpmo-feather-tail, 4px)),
+    #fff calc(50% + var(--lpmo-feather-tail, 4px)),
+    #fff 100%
+  );
+}
+
+.lpmo-rot-inner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  /* Head edge is intentionally HARD (no feather) — a soft head
+   * bleeds an antipodal sliver across the ring when the snake
+   * closes. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #fff 0,
+    #fff 50%,
+    transparent 50%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(to right, #fff 0, #fff 50%, transparent 50%, transparent 100%);
+}
+
+.lpmo-fill {
+  position: absolute;
+  inset: 0;
+  background-color: var(--lpmo-color);
+  will-change: opacity;
+}
+
+.lpmo-cap {
+  position: absolute;
+  pointer-events: none;
+}
