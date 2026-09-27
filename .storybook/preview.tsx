@@ -1,6 +1,8 @@
 import type { Preview } from '@storybook/react-vite'
 import { FluentProvider, webLightTheme } from '@fluentui/react-components'
 import React from 'react'
+import { resolveMotionTheme } from '../stories/shared/motionTheme'
+import { darkestColor } from '../src/styles/motionPalettes'
 
 const preview: Preview = {
 	parameters: {
@@ -19,32 +21,44 @@ const preview: Preview = {
 		},
 	},
 	decorators: [
-		(Story, context) => (
-			<FluentProvider theme={webLightTheme} style={{ background: 'transparent' }}>
-				{!context.parameters.hideRecreatedBadge && (
-					<div
-						style={{
-							position: 'fixed',
-							top: 8,
-							left: 8,
-							zIndex: 9999,
-							padding: '4px 10px',
-							borderRadius: 6,
-							background: 'rgba(0, 0, 0, 0.65)',
-							color: '#fff',
-							fontFamily: 'sans-serif',
-							fontSize: 11,
-							fontWeight: 600,
-							letterSpacing: 0.2,
-							pointerEvents: 'none',
-						}}
-					>
-						Motion Interaction — recreated for portfolio
-					</div>
-				)}
-				<Story />
-			</FluentProvider>
-		),
+		(Story, context) => {
+			// Match the badge's background to the current story's own last
+			// (darkest) motion-palette token, if it has a motionTheme arg —
+			// falls back to the original translucent black for stories
+			// with no motion theme selected. Text uses the palette's own
+			// `text` token (white for all 9 palettes today) so it always
+			// reads legibly against that background.
+			const motionTheme = context.args?.motionTheme as string | undefined
+			const palette = motionTheme ? resolveMotionTheme(motionTheme) : undefined
+			const badgeBackground = palette ? darkestColor(palette) : 'rgba(0, 0, 0, 0.65)'
+			const badgeText = palette ? palette.text : '#fff'
+			return (
+				<FluentProvider theme={webLightTheme} style={{ background: 'transparent' }}>
+					{!context.parameters.hideRecreatedBadge && (
+						<div
+							style={{
+								position: 'fixed',
+								top: 8,
+								left: 8,
+								zIndex: 9999,
+								padding: '4px 10px',
+								borderRadius: 6,
+								background: badgeBackground,
+								color: badgeText,
+								fontFamily: 'sans-serif',
+								fontSize: 11,
+								fontWeight: 600,
+								letterSpacing: 0.2,
+								pointerEvents: 'none',
+							}}
+						>
+							Motion Interaction — recreated for portfolio
+						</div>
+					)}
+					<Story />
+				</FluentProvider>
+			)
+		},
 	],
 }
 

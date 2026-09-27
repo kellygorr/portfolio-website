@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Blocks } from './Blocks'
+import { Blocks, type BlocksProps } from './Blocks'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
+
+type BlocksStoryArgs = BlocksProps & { motionTheme: string }
 
 const meta = {
   title: 'Blocks Latency/Blocks',
   component: Blocks,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   tags: ['autodocs'],
   argTypes: {
@@ -18,12 +21,32 @@ const meta = {
       description: 'Duration of one full cycle in ms',
       table: { defaultValue: { summary: '3567' } },
     },
+    motionTheme: motionThemeArgType,
+    colors: { table: { disable: true } },
   },
   args: {
-    size: 4,
+    size: 16,
     duration: 3567,
+    motionTheme: 'Warm Sand',
+  } as BlocksStoryArgs,
+  render: ({ motionTheme, ...args }: BlocksStoryArgs) => {
+    const palette = resolveMotionTheme(motionTheme)
+    return (
+      <div
+        style={{
+          background: palette?.background,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Blocks {...args} colors={palette?.colors} />
+      </div>
+    )
   },
-} satisfies Meta<typeof Blocks>
+} satisfies Meta<BlocksStoryArgs>
 
 export default meta
 type Story = StoryObj<typeof meta>

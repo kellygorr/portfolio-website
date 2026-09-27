@@ -31,9 +31,13 @@ export const Blocks: React.FC<BlocksProps> = ({ size = 4, duration = 3567, color
       >
         <div className={styles.block1} style={colors ? { color: colors[0] } : undefined} />
         <div className={styles.block2} style={colors ? { color: colors[1] } : undefined} />
-        <div className={styles.block3} style={colors ? { color: colors[2] } : undefined} />
-        <div className={styles.block4} style={colors ? { color: colors[3] } : undefined} />
-        <div className={styles.block5} style={colors ? { color: colors[4] } : undefined} />
+        {/* Blocks 3 and 5 use colors[3] and block 4 uses colors[2] — swapped
+            from the palette's own light-to-dark token order so this
+            animation keeps its original color arrangement (block3/block5
+            get the palette's 4th/darker token, block4 gets the 3rd). */}
+        <div className={styles.block3} style={colors ? { color: colors[3] } : undefined} />
+        <div className={styles.block4} style={colors ? { color: colors[2] } : undefined} />
+        <div className={styles.block5} style={colors ? { color: colors[3] } : undefined} />
       </div>
     </div>
   )

@@ -14,9 +14,16 @@ export interface SingleSquareProps {
   delay?: number
   /** Animation duration in ms. Default: 1166 */
   duration?: number
+  /** Optional solid color for the square. Falls back to currentColor if omitted. */
+  color?: string
 }
 
-export const SingleSquare: React.FC<SingleSquareProps> = ({ size = 8, delay = 1000, duration = DURATION_MS }) => {
+export const SingleSquare: React.FC<SingleSquareProps> = ({
+  size = 8,
+  delay = 1000,
+  duration = DURATION_MS,
+  color,
+}) => {
   const styles = useSingleSquareStyles()
   const scale = size / SINGLE_SQUARE_CELL
   const animationName = `singleSquare-${delay}-${duration}`
@@ -26,7 +33,7 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({ size = 8, delay = 10
   return (
     <>
       <style>{keyframesCSS}</style>
-      <div style={{ width: SINGLE_SQUARE_CELL * scale, height: SINGLE_SQUARE_CELL * scale }}>
+      <div style={{ width: SINGLE_SQUARE_CELL * scale, height: SINGLE_SQUARE_CELL * scale, color }}>
         <div
           className={styles.container}
           style={{

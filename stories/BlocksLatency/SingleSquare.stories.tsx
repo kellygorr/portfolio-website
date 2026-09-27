@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { SingleSquare } from './SingleSquare'
+import { SingleSquare, type SingleSquareProps } from './SingleSquare'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
+
+type SingleSquareStoryArgs = SingleSquareProps & { motionTheme: string }
 
 const meta = {
   title: 'Blocks Latency/Single Square',
   component: SingleSquare,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   tags: ['autodocs'],
   argTypes: {
@@ -23,17 +26,35 @@ const meta = {
       description: 'Animation duration in ms',
       table: { defaultValue: { summary: '1166' } },
     },
+    motionTheme: motionThemeArgType,
+    color: { table: { disable: true } },
   },
   args: {
-    size: 8,
+    size: 16,
     delay: 1000,
     duration: 1166,
+    motionTheme: 'Warm Sand',
+  } as SingleSquareStoryArgs,
+  render: ({ motionTheme, ...args }: SingleSquareStoryArgs) => {
+    const palette = resolveMotionTheme(motionTheme)
+    return (
+      <div
+        style={{
+          background: palette?.background,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <SingleSquare {...args} color={palette?.colors[3]} />
+      </div>
+    )
   },
-} satisfies Meta<typeof SingleSquare>
+} satisfies Meta<SingleSquareStoryArgs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  render: (args) => <SingleSquare {...args} />,
-}
+export const Default: Story = {}
