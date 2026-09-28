@@ -21,3 +21,29 @@ export const resolveMotionTheme = (themeName: string | undefined): MotionPalette
 	if (!themeName) return undefined
 	return motionPalettes.find((p) => p.name === themeName)
 }
+
+/** Converts a `#rrggbb` hex color to an `rgba()` string at the given alpha
+ *  (0-1). Reserved for hover/press overlays only — every resting-state
+ *  fill in this codebase uses a solid, undiluted palette token. */
+export const hexToRgba = (hex: string, alpha: number): string => {
+	const clean = hex.replace('#', '')
+	const bigint = parseInt(clean, 16)
+	const r = (bigint >> 16) & 255
+	const g = (bigint >> 8) & 255
+	const b = bigint & 255
+	return `rgba(${r}, ${g}, ${b}, ${alpha})`
+}
+
+/** Lightens a `#rrggbb` hex color by mixing it toward white by `amount`
+ *  (0-1, e.g. 0.5 = 50% lighter). Returns an opaque `#rrggbb` hex string
+ *  — a solid mixed color, not an alpha-blended token. */
+export const lightenHex = (hex: string, amount: number): string => {
+	const clean = hex.replace('#', '')
+	const bigint = parseInt(clean, 16)
+	const r = (bigint >> 16) & 255
+	const g = (bigint >> 8) & 255
+	const b = bigint & 255
+	const mix = (channel: number) => Math.round(channel + (255 - channel) * amount)
+	const toHex = (channel: number) => channel.toString(16).padStart(2, '0')
+	return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`
+}

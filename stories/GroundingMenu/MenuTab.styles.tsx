@@ -1,50 +1,46 @@
-import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
+import { makeStyles, shorthands, motionTokens } from '@fluentui/react-components'
+
+/*
+  Menu Tab — pill-shaped header tab for the Grounding Menu wireframe.
+  Colors are driven entirely by CSS custom properties set on the
+  GroundingMenu root (--gm-*), not Fluent design tokens, so this can be
+  themed by any of the 9 motion palettes.
+*/
 
 export const useMenuTabStyles = makeStyles({
   root: {
     position: 'relative',
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    ...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalM),
-    minHeight: '32px',
+    height: '32px',
+    padding: 0,
     cursor: 'pointer',
-    backgroundColor: 'transparent',
-    ...shorthands.border('1px', 'solid', tokens.colorTransparentStroke),
-    ...shorthands.borderRadius(tokens.borderRadiusCircular),
-    fontSize: tokens.fontSizeBase300,
-    fontWeight: tokens.fontWeightRegular,
-    lineHeight: tokens.lineHeightBase300,
-    color: tokens.colorNeutralForeground2,
-    fontFamily: tokens.fontFamilyBase,
+    backgroundColor: 'var(--gm-tab-bg, #e5e5e5)',
+    border: '2px solid transparent',
+    borderRadius: '9999px',
     outline: 'none',
-    transition: `all ${tokens.durationUltraFast} ${tokens.curveLinear}`,
+    transitionProperty: 'background-color, border-color',
+    transitionDuration: motionTokens.durationUltraFast,
+    transitionTimingFunction: motionTokens.curveLinear,
 
     ':hover': {
-      backgroundColor: tokens.colorNeutralBackground1Hover,
-      ...shorthands.border('1px', 'solid', tokens.colorNeutralStroke1Hover),
-      color: tokens.colorNeutralForeground1,
+      backgroundColor: 'var(--gm-tab-hover-bg, rgba(0, 0, 0, 0.12))',
     },
 
     ':active': {
-      backgroundColor: tokens.colorNeutralBackground1Pressed,
+      backgroundColor: 'var(--gm-tab-hover-bg, rgba(0, 0, 0, 0.18))',
     },
 
     ':focus-visible': {
-      ...shorthands.outline('2px', 'solid', tokens.colorStrokeFocus2),
-      outlineOffset: '-2px',
+      ...shorthands.borderColor('var(--gm-active-bg, #4a4a4a)'),
     },
   },
 
   selected: {
-    color: tokens.colorBrandForeground1,
-    ...shorthands.border('1px', 'solid', tokens.colorBrandStroke1),
-    backgroundColor: tokens.colorBrandBackground2,
+    backgroundColor: 'var(--gm-active-bg, #4a4a4a)',
 
     ':hover': {
-      backgroundColor: tokens.colorBrandBackground2Hover,
-      color: tokens.colorBrandForeground1,
-      ...shorthands.border('1px', 'solid', tokens.colorBrandStroke1),
+      backgroundColor: 'var(--gm-active-bg, #4a4a4a)',
+      opacity: 0.9,
     },
   },
 })

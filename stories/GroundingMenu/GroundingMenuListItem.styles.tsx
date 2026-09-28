@@ -1,70 +1,68 @@
-import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
+import { makeStyles, motionTokens } from '@fluentui/react-components'
+
+/*
+  Grounding Menu List Item — simplified wireframe row: a plain circle
+  placeholder (no per-item icon glyph) plus two rounded rectangle "text"
+  bars sized off the real title/subtitle length. Colors are driven by
+  CSS custom properties set on the GroundingMenu root (--gm-*) so any of
+  the 9 motion palettes can theme it.
+*/
 
 export const useGroundingMenuListItemStyles = makeStyles({
   root: {
     display: 'flex',
     alignItems: 'center',
-    ...shorthands.gap(tokens.spacingHorizontalM),
-    ...shorthands.padding('6px', '8px'),
+    gap: '12px',
+    padding: '8px',
     height: '48px',
     width: '100%',
+    boxSizing: 'border-box',
     cursor: 'pointer',
-    backgroundColor: tokens.colorNeutralBackground1,
-    ...shorthands.borderRadius('12px'),
+    backgroundColor: 'transparent',
+    borderRadius: '12px',
+    transitionProperty: 'background-color',
+    transitionDuration: motionTokens.durationUltraFast,
+    transitionTimingFunction: motionTokens.curveLinear,
 
     ':hover': {
-      backgroundColor: tokens.colorNeutralBackground1Hover,
-      ...shorthands.borderColor(tokens.colorNeutralStroke1Hover),
+      backgroundColor: 'var(--gm-item-hover-bg, rgba(0, 0, 0, 0.05))',
     },
 
     ':active': {
-      backgroundColor: tokens.colorNeutralBackground1Pressed,
+      backgroundColor: 'var(--gm-item-hover-bg, rgba(0, 0, 0, 0.08))',
     },
 
     ':focus-visible': {
-      ...shorthands.outline('2px', 'solid', tokens.colorStrokeFocus2),
+      outline: '2px solid var(--gm-active-bg, #4a4a4a)',
       outlineOffset: '-2px',
     },
   },
 
   icon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     width: '32px',
     height: '32px',
     flexShrink: 0,
-    color: tokens.colorNeutralForeground3,
-    backgroundColor: tokens.colorNeutralBackground5,
-    borderRadius: '100%',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--gm-icon-bg, #e5e5e5)',
   },
 
   content: {
     display: 'flex',
     flexDirection: 'column',
+    gap: '6px',
     flex: 1,
-    minWidth: 0, // Allows text truncation
+    minWidth: 0,
   },
 
-  title: {
-    ...shorthands.margin(0),
-    fontSize: tokens.fontSizeBase300,
-    fontWeight: tokens.fontWeightRegular,
-    lineHeight: tokens.lineHeightBase300,
-    color: tokens.colorNeutralForeground1,
-    ...shorthands.overflow('hidden'),
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+  titleBar: {
+    height: '10px',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--gm-bar-strong, #d0d0d0)',
   },
 
-  subtitle: {
-    ...shorthands.margin(0),
-    fontSize: tokens.fontSizeBase100,
-    fontWeight: tokens.fontWeightRegular,
-    lineHeight: tokens.lineHeightBase100,
-    color: tokens.colorNeutralForeground2,
-    ...shorthands.overflow('hidden'),
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap',
+  subtitleBar: {
+    height: '8px',
+    borderRadius: '9999px',
+    backgroundColor: 'var(--gm-bar-soft, #e5e5e5)',
   },
 })
