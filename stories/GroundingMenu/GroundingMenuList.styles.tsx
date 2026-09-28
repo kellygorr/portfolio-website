@@ -1,4 +1,4 @@
-import { makeStyles, shorthands } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
 
 export const useGroundingMenuListStyles = makeStyles({
   root: {
@@ -6,7 +6,7 @@ export const useGroundingMenuListStyles = makeStyles({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'flex-start',
-    ...shorthands.gap('4px'),
+    gap: '8px',
     alignSelf: 'stretch',
   },
 })

@@ -2,21 +2,16 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { GroundingMenu } from './GroundingMenu'
 import type { GroundingMenuProps } from './GroundingMenu'
 import { GroundingMenuListProps } from './GroundingMenuList'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
 
-import {
-  Document20Regular,
-  Person20Regular,
-  VideoRecording20Regular,
-  Mail20Regular,
-} from '@fluentui/react-icons'
+type GroundingMenuStoryArgs = GroundingMenuProps & { motionTheme: string }
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Copilot/GroundingMenu',
   component: GroundingMenu,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component: `
@@ -24,16 +19,38 @@ const meta = {
 
 **Figma: ** <a href="https://www.figma.com/design/fkZgR5M9vBbW9awDT5mGZ2/Peek-Menu?m=auto&node-id=20548-44865&t=Qw9pmtvTEL8ngq7M-1" target="_blank">View</a>
 
-This component demonstrates the grounding menu interaction pattern with smooth animations and micro-interactions.
+This component demonstrates the grounding menu interaction pattern with smooth animations and micro-interactions, simplified to a themed wireframe.
         `,
       },
     },
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],
-  argTypes: {},
-  args: {},
-} satisfies Meta<typeof GroundingMenu>
+  argTypes: {
+    motionTheme: motionThemeArgType,
+    palette: { table: { disable: true } },
+  },
+  args: {
+    motionTheme: 'Warm Sand',
+  } as GroundingMenuStoryArgs,
+  render: ({ motionTheme, ...args }: GroundingMenuStoryArgs) => {
+    const palette = resolveMotionTheme(motionTheme)
+    return (
+      <div
+        style={{
+          background: palette?.background,
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <GroundingMenu {...args} palette={palette} />
+      </div>
+    )
+  },
+} satisfies Meta<GroundingMenuStoryArgs>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -49,66 +66,60 @@ const sampleMenu: GroundingMenuProps['headerMenu'] = [
 const sampleList1: GroundingMenuListProps = {
   menuTitle: 'All',
   list: [
-    { icon: <Person20Regular />, title: 'Mona Kane', subtitle: 'Mona.Kane@outlook.com' },
+    { title: 'Mona Kane', subtitle: 'Mona.Kane@outlook.com' },
     {
-      icon: <Document20Regular />,
       title: 'Leading the way with Brew Fusion',
       subtitle: 'You opened yesterday',
     },
     {
-      icon: <VideoRecording20Regular />,
       title: 'Stand-up meeting',
       subtitle: 'Occurs every Thu, 2:30 PM - 3:30 PM',
     },
     {
-      icon: <Mail20Regular />,
       title: 'Research Guide',
       subtitle: 'Mona Kane sent 2 hours ago',
     },
     {
-      icon: <VideoRecording20Regular />,
       title: 'Contoso Team Chat',
       subtitle: 'Thu 7/10/2023 2:30 PM- 3:30 PM',
     },
-    { icon: <Document20Regular />, title: 'Document 4', subtitle: 'Subtitle of Document 4' },
-    { icon: <Document20Regular />, title: 'Document 5', subtitle: 'Subtitle of Document 5' },
+    { title: 'Document 4', subtitle: 'Subtitle of Document 4' },
+    { title: 'Document 5', subtitle: 'Subtitle of Document 5' },
   ],
 }
 
 const sampleList2: GroundingMenuListProps = {
   menuTitle: 'Files',
   list: [
-    { icon: <Document20Regular />, title: 'Document 4', subtitle: 'Subtitle of Document 4' },
-    { icon: <Document20Regular />, title: 'Document 5', subtitle: 'Subtitle of Document 5' },
-    { icon: <Document20Regular />, title: 'Document 6', subtitle: 'Subtitle of Document 6' },
+    { title: 'Q3 Budget Review', subtitle: 'Shared with Finance team' },
+    { title: 'Onboarding Guide', subtitle: 'Last edited 3 days ago' },
+    { title: 'Contoso rebrand assets for the new marketing campaign', subtitle: 'You opened this morning' },
   ],
 }
 const sampleList3: GroundingMenuListProps = {
   menuTitle: 'People',
   list: [
-    { icon: <Person20Regular />, title: 'Person 1', subtitle: 'Subtitle of Person 1' },
-    { icon: <Person20Regular />, title: 'Person 2', subtitle: 'Subtitle of Person 2' },
-    { icon: <Person20Regular />, title: 'Person 3', subtitle: 'Subtitle of Person 3' },
-    { icon: <Person20Regular />, title: 'Person 4', subtitle: 'Subtitle of Person 4' },
-    { icon: <Person20Regular />, title: 'Person 5', subtitle: 'Subtitle of Person 5' },
-    { icon: <Person20Regular />, title: 'Person 6', subtitle: 'Subtitle of Person 6' },
-    { icon: <Person20Regular />, title: 'Person 7', subtitle: 'Subtitle of Person 7' },
+    { title: 'Priya Shah', subtitle: 'priya.shah@contoso.com' },
+    { title: 'Alex Nguyen', subtitle: 'Product Manager, Devices' },
+    { title: 'Sam Okafor', subtitle: 'sam.okafor@contoso.com' },
+    { title: 'Jordan Lee', subtitle: 'Engineering Manager, Cloud Infrastructure team' },
+    { title: 'Mona Kane', subtitle: 'mona.kane@outlook.com' },
+    { title: 'Wei Zhang', subtitle: 'Design Lead' },
+    { title: 'Diego Ramirez', subtitle: 'diego.ramirez@contoso.com' },
   ],
 }
 
 const sampleList4: GroundingMenuListProps = {
   menuTitle: 'Meetings',
-  list: [
-    { icon: <VideoRecording20Regular />, title: 'Meeting 1', subtitle: 'Subtitle of Meeting 1' },
-  ],
+  list: [{ title: 'Quarterly planning sync', subtitle: 'Occurs every Mon, 9:00 AM - 10:00 AM' }],
 }
 
 const sampleList5: GroundingMenuListProps = {
   menuTitle: 'Emails',
   list: [
-    { icon: <Mail20Regular />, title: 'Email 1', subtitle: 'Subtitle of Email 1' },
-    { icon: <Mail20Regular />, title: 'Email 2', subtitle: 'Subtitle of Email 2' },
-    { icon: <Mail20Regular />, title: 'Email 3', subtitle: 'Subtitle of Email 3' },
+    { title: 'Your expense report was approved', subtitle: 'Finance Team' },
+    { title: 'Re: Design review notes', subtitle: 'Wei Zhang sent yesterday' },
+    { title: 'Welcome to the team!', subtitle: 'HR sent 2 weeks ago' },
   ],
 }
 
@@ -116,16 +127,16 @@ export const Default: Story = {
   args: {
     headerMenu: sampleMenu,
     list: [sampleList1, sampleList2, sampleList3, sampleList4, sampleList5],
-  },
+  } as Partial<GroundingMenuStoryArgs>,
 }
 export const Header: Story = {
   args: {
     headerMenu: sampleMenu,
-  },
+  } as Partial<GroundingMenuStoryArgs>,
 }
 
 export const List: Story = {
   args: {
     list: [sampleList1],
-  },
+  } as Partial<GroundingMenuStoryArgs>,
 }

@@ -1,25 +1,35 @@
-import { makeStyles, shorthands, tokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
+
+/*
+  Grounding Menu root — cheerful rounded card. Background is the palette's
+  darkest accent token (colors[3], same value as darkestColor(palette))
+  so the whole card is tied to the theme, not a hardcoded white shell with
+  colored accents on top. No outer border — the card reads as one solid
+  themed surface. Drop shadow stays a neutral translucent gray — shadows
+  are inherently translucent, unlike every other color in this component
+  which is a solid, undiluted palette token.
+*/
 
 export const useGroundingMenuStyles = makeStyles({
   root: {
     display: 'flex',
     width: '788px',
     maxWidth: '812px',
-    ...shorthands.padding(0, 0),
     flexDirection: 'column',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    ...shorthands.borderRadius('24px'),
-    backgroundColor: tokens.colorNeutralBackground1,
-    boxShadow: '0 8px 16px 0 rgba(0, 0, 0, 0.14), 0 0 2px 0 rgba(0, 0, 0, 0.12)',
+    borderRadius: '24px',
+    backgroundColor: 'var(--gm-card-bg, #fff)',
+    boxShadow: '0 12px 28px 0 rgba(0, 0, 0, 0.14)',
     overflow: 'hidden',
   },
   listContainer: {
     height: '272px',
     maxHeight: '272px',
     width: '100%',
+    boxSizing: 'border-box',
     overflowY: 'auto',
     overflowX: 'hidden',
-    ...shorthands.padding('8px', '12px', '8px', '12px'),
+    padding: '8px',
   },
 })

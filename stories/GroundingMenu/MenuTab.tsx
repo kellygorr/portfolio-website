@@ -6,6 +6,8 @@ export interface MenuTabProps {
   onClick?: () => void
 }
 
+const TAB_WIDTH = 56
+
 export const MenuTab = ({ title, selected = false, onClick }: MenuTabProps) => {
   const styles = useMenuTabStyles()
 
@@ -14,12 +16,12 @@ export const MenuTab = ({ title, selected = false, onClick }: MenuTabProps) => {
   return (
     <button
       className={className}
+      style={{ width: TAB_WIDTH }}
       onClick={onClick}
       type="button"
       role="tab"
       aria-selected={selected}
-    >
-      {title}
-    </button>
+      aria-label={title}
+    />
   )
 }
