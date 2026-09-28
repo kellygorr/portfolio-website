@@ -2,7 +2,7 @@
   position: relative;
   width: 500px;
   height: 400px;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: var(--lfc-bg, #16213e);
   overflow: hidden;
 }
 
@@ -34,41 +34,45 @@
 .lfc-fill {
   position: absolute;
   inset: 0;
-  background: white;
+  background: var(--lfc-fill, #fff);
 }
 
 .lfc-punch {
   position: absolute;
   width: 200px;
   height: 200px;
-  background: #16213e;
+  background: var(--lfc-bg, #16213e);
   clip-path: path(
     'M77.26,0 L165.26,0 C180.51,0 194.97,17.90 192.15,40 L159.85,160 C157.03,182.10 144,200 122.74,200 L34.74,200 C21.49,200 9.03,182.10 11.85,160 L44.15,40 C46.97,17.90 64,0 77.26,0 Z'
   );
   transform-origin: center;
+  /* Static enlargement (composes independently of the animated `scale`
+     property below) so the cutout slightly overlaps the fill shape
+     instead of leaving a visible gap between the two elements. */
+  transform: scale(1.08);
   will-change: translate, scale;
 }
 
 /* Shape A */
 .lfc-shape--a {
-  animation: lfc-moveA 3.4s infinite;
+  animation: lfc-moveA var(--lfc-duration, 3.4s) infinite;
 }
 .lfc-shape--a .lfc-clip {
-  animation: lfc-scaleA 3.4s infinite;
+  animation: lfc-scaleA var(--lfc-duration, 3.4s) infinite;
 }
 .lfc-shape--a .lfc-punch {
-  animation: lfc-punchMoveA 3.4s infinite, lfc-punchScaleA 3.4s infinite;
+  animation: lfc-punchMoveA var(--lfc-duration, 3.4s) infinite, lfc-punchScaleA var(--lfc-duration, 3.4s) infinite;
 }
 
 /* Shape B */
 .lfc-shape--b {
-  animation: lfc-moveB 3.4s infinite;
+  animation: lfc-moveB var(--lfc-duration, 3.4s) infinite;
 }
 .lfc-shape--b .lfc-clip {
-  animation: lfc-scaleB 3.4s infinite;
+  animation: lfc-scaleB var(--lfc-duration, 3.4s) infinite;
 }
 .lfc-shape--b .lfc-punch {
-  animation: lfc-punchMoveB 3.4s infinite, lfc-punchScaleB 3.4s infinite;
+  animation: lfc-punchMoveB var(--lfc-duration, 3.4s) infinite, lfc-punchScaleB var(--lfc-duration, 3.4s) infinite;
 }
 
 /* Movement */

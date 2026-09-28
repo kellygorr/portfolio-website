@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Greeting } from './index'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
+import { darkestColor } from '../../src/styles/motionPalettes'
 
-const meta: Meta<typeof Greeting> = {
+type GreetingStoryArgs = Parameters<typeof Greeting>[0] & { motionTheme: string }
+
+const meta = {
   title: 'Welcome Motion/Greeting',
   component: Greeting,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     controls: {
       sort: 'none',
     },
@@ -16,13 +20,6 @@ const meta: Meta<typeof Greeting> = {
       },
     },
   },
-  decorators: [
-    (Story) => (
-      <div style={{ padding: 40 }}>
-        <Story />
-      </div>
-    ),
-  ],
   tags: ['autodocs'],
   argTypes: {
     text: {
@@ -46,7 +43,7 @@ const meta: Meta<typeof Greeting> = {
       control: { type: 'text' },
       description: 'Cubic-bezier values for per-character animation easing',
       table: {
-        defaultValue: { summary: '0, 0, 0, 1' },
+        defaultValue: { summary: '0.1, 0.9, 0.2, 1' },
         type: { summary: 'string' },
       },
     },
@@ -74,85 +71,53 @@ const meta: Meta<typeof Greeting> = {
       control: { type: 'text' },
       description: 'Cubic-bezier values (x1, y1, x2, y2)',
       table: {
-        defaultValue: { summary: '0.33, 0, 0.1, 1' },
+        defaultValue: { summary: '0.33, 0, 0.67, 1' },
         type: { summary: 'string' },
       },
     },
+    motionTheme: motionThemeArgType,
   },
-}
-
-export default meta
-type Story = StoryObj<typeof Greeting>
-
-const InfoBox = ({
-  duration,
-  totalDuration,
-  staggerCurve,
-  useStaggerCurve,
-}: {
-  duration: number
-  totalDuration: number
-  staggerCurve: string
-  useStaggerCurve: boolean
-}) => (
-  <div
-    style={{
-      border: '1px solid #ccc',
-      padding: 12,
-      marginTop: 24,
-      fontFamily: 'monospace',
-      fontSize: 13,
-      lineHeight: 1.6,
-    }}
-  >
-    <div>character duration: {duration}ms</div>
-    <div>total duration: {totalDuration}ms</div>
-    <div>stagger curve: {useStaggerCurve ? `cubic-bezier(${staggerCurve})` : 'none'}</div>
-  </div>
-)
-
-export const Short: Story = {
-  render: (args) => (
-    <>
-      <Greeting {...args} />
-      <InfoBox
-        duration={args.duration!}
-        totalDuration={args.totalDuration!}
-        staggerCurve={args.staggerCurve!}
-        useStaggerCurve={args.useStaggerCurve!}
-      />
-    </>
-  ),
   args: {
-    text: 'What can I help you with?',
     duration: 150,
-    characterEasing: '0, 0, 0, 1',
+    characterEasing: '0.1, 0.9, 0.2, 1',
     totalDuration: 500,
     stagger: 30,
     useStaggerCurve: true,
-    staggerCurve: '0.33, 0, 0.1, 1',
+    staggerCurve: '0.33, 0, 0.67, 1',
+    motionTheme: 'Warm Sand',
+  } as GreetingStoryArgs,
+  render: ({ motionTheme, ...args }: GreetingStoryArgs) => {
+    const palette = resolveMotionTheme(motionTheme)
+    return (
+      <div
+        style={{
+          width: '100%',
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 40,
+          boxSizing: 'border-box',
+          background: palette?.background,
+        }}
+      >
+        <Greeting {...args} color={palette && darkestColor(palette)} />
+      </div>
+    )
   },
+} satisfies Meta<GreetingStoryArgs>
+
+export default meta
+type Story = StoryObj<typeof meta>
+
+export const Short: Story = {
+  args: {
+    text: 'What can I help you with?',
+  } as Partial<GreetingStoryArgs>,
 }
 
 export const Long: Story = {
-  render: (args) => (
-    <>
-      <Greeting {...args} />
-      <InfoBox
-        duration={args.duration!}
-        totalDuration={args.totalDuration!}
-        staggerCurve={args.staggerCurve!}
-        useStaggerCurve={args.useStaggerCurve!}
-      />
-    </>
-  ),
   args: {
     text: "Hi, try asking me what's next on your calendar",
-    duration: 150,
-    characterEasing: '0, 0, 0, 1',
-    totalDuration: 500,
-    stagger: 30,
-    useStaggerCurve: true,
-    staggerCurve: '0.33, 0, 0.1, 1',
-  },
+  } as Partial<GreetingStoryArgs>,
 }

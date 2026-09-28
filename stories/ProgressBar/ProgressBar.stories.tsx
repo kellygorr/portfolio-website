@@ -1,29 +1,13 @@
 import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from '@fluentui/react-components'
-import {
-  ProgressBar,
-  ProgressBarProps,
-  computeDuration,
-} from './ProgressBar'
+import { ProgressBar, ProgressBarProps } from './ProgressBar'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
 
-const ProgressBarWithControls: React.FC<ProgressBarProps> = (props) => {
-  const [running, setRunning] = React.useState(false)
-  const barWrapperRef = React.useRef<HTMLDivElement>(null)
-  const [width, setWidth] = React.useState(0)
+type ProgressBarStoryArgs = ProgressBarProps & { motionTheme: string }
 
-  React.useEffect(() => {
-    if (!barWrapperRef.current) return
-    const el = barWrapperRef.current
-    const observer = new ResizeObserver((entries) => {
-      const w = entries[0]?.contentRect.width
-      if (w) setWidth(Math.round(w))
-    })
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
-  const effectiveDuration = computeDuration(width, props.duration, props.speedFactor)
+const ProgressBarWithTheme: React.FC<ProgressBarStoryArgs> = ({ motionTheme, ...props }) => {
+  const palette = resolveMotionTheme(motionTheme)
+  const color = palette?.colors[2]
 
   return (
     <div
@@ -31,48 +15,16 @@ const ProgressBarWithControls: React.FC<ProgressBarProps> = (props) => {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        gap: 24,
         width: '100%',
         height: '100vh',
         padding: 40,
         boxSizing: 'border-box',
+        background: palette?.background,
       }}
     >
-      <div
-        style={{
-          border: '1px solid #ccc',
-          padding: 12,
-          fontFamily: 'monospace',
-          fontSize: 13,
-          lineHeight: 1.6,
-          alignSelf: 'center',
-        }}
-      >
-        <div>Fade in/fade out 100ms linear opacity.</div>
-        <div>Animation loops until stopped.</div>
+      <div style={{ color }}>
+        <ProgressBar {...props} running />
       </div>
-      <div
-        style={{
-          border: '1px solid #ccc',
-          padding: 12,
-          fontFamily: 'monospace',
-          fontSize: 13,
-          lineHeight: 1.6,
-          alignSelf: 'center',
-        }}
-      >
-        <div>
-          {props.duration}ms at 2600px, duration changes by +/- {props.speedFactor}ms per 100px
-        </div>
-        <div>width: {width}px</div>
-        <div>duration: {Math.round(effectiveDuration)}ms</div>
-      </div>
-      <div ref={barWrapperRef}>
-        <ProgressBar {...props} running={running} />
-      </div>
-      <Button onClick={() => setRunning((r) => !r)} style={{ alignSelf: 'center' }}>
-        {running ? 'Stop' : 'Start'}
-      </Button>
     </div>
   )
 }
@@ -88,7 +40,7 @@ const meta = {
     height: {
       control: { type: 'range', min: 1, max: 20, step: 1 },
       description: 'Height of the progress bar in pixels',
-      table: { defaultValue: { summary: '2' } },
+      table: { defaultValue: { summary: '3' } },
     },
     duration: {
       control: { type: 'range', min: 1000, max: 10000, step: 100 },
@@ -104,17 +56,19 @@ const meta = {
     running: {
       table: { disable: true },
     },
+    motionTheme: motionThemeArgType,
   },
   args: {
-    height: 2,
+    height: 3,
     duration: 4000,
     speedFactor: 25,
-  },
-} satisfies Meta<typeof ProgressBar>
+    motionTheme: 'Warm Sand',
+  } as ProgressBarStoryArgs,
+} satisfies Meta<ProgressBarStoryArgs>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  render: (args) => <ProgressBarWithControls {...args} />,
+  render: (args) => <ProgressBarWithTheme {...args} />,
 }

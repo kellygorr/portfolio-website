@@ -1,5 +1,5 @@
 import { makeStyles, mergeClasses, tokens } from '@fluentui/react-components'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export const CHARACTER_ANIMATION_DURATION_MS = 150
 const CHARACTER_ANIMATION_TOTAL_DURATION_MS = 500
@@ -28,8 +28,11 @@ function cubicBezierInverse(x1: number, y1: number, x2: number, y2: number, prog
   return 3 * (1 - s) * (1 - s) * s * x1 + 3 * (1 - s) * s * s * x2 + s * s * s
 }
 
-const DEFAULT_STAGGER_CURVE = '0.33, 0, 0.1, 1'
-const DEFAULT_CHARACTER_EASING = '0, 0, 0, 1'
+// Stagger delay uses Fluent's curveEasyEase = cubic-bezier(0.33, 0, 0.67, 1)
+// (even distribution across the sequence — no late straggler at the end).
+// Per-character reveal motion uses curveDecelerateMax = cubic-bezier(0.1, 0.9, 0.2, 1).
+const DEFAULT_STAGGER_CURVE = '0.33, 0, 0.67, 1'
+const DEFAULT_CHARACTER_EASING = '0.1, 0.9, 0.2, 1'
 
 function parseStaggerCurve(curve: string): [number, number, number, number] | null {
   const parts = curve.split(',').map((s) => parseFloat(s.trim()))
@@ -54,6 +57,14 @@ export interface GreetingProps {
   useStaggerCurve?: boolean
   /** Cubic-bezier curve for stagger timing, e.g. "0.33, 0, 0.1, 1" */
   staggerCurve?: string
+  /** Text color. Defaults to the Fluent neutral foreground token. */
+  color?: string
+  /** Loop the reveal — pause once fully revealed, then restart. Set to
+   *  false to reveal once and stop. Default: true */
+  loop?: boolean
+  /** How long to hold the fully-revealed text before restarting the
+   *  loop, in ms. Default: 3000 */
+  pauseMs?: number
 }
 
 const useStyles = makeStyles({
@@ -103,8 +114,15 @@ export const Greeting = ({
   stagger = CHARACTER_STAGGER_MS,
   useStaggerCurve = true,
   staggerCurve = DEFAULT_STAGGER_CURVE,
+  color,
+  loop = true,
+  pauseMs = 3000,
 }: GreetingProps) => {
   const styles = useStyles()
+  // Bumped each cycle to force the character <span> elements to remount
+  // (via key) so their CSS animations replay from the start, instead of
+  // staying frozen at their animation-fill-mode: both end state.
+  const [cycle, setCycle] = useState(0)
 
   const characters = useMemo(() => {
     const chars: { char: string; delay: number }[] = []
@@ -132,14 +150,24 @@ export const Greeting = ({
     return chars
   }, [text, totalDuration, stagger, staggerCurve])
 
+  useEffect(() => {
+    if (!loop) return
+    const maxDelay = characters.reduce((max, c) => Math.max(max, c.delay), 0)
+    // Full cycle = time for the last character to finish its own reveal
+    // animation, plus the hold/pause, before restarting.
+    const cycleMs = maxDelay + duration + pauseMs
+    const timer = setTimeout(() => setCycle((c) => c + 1), cycleMs)
+    return () => clearTimeout(timer)
+  }, [loop, pauseMs, duration, characters, cycle])
+
   return (
-    <span className={styles.container} aria-label={text} role="text">
+    <span className={styles.container} style={color ? { color } : undefined} aria-label={text} role="text">
       {characters.map((c, i) =>
         c.char === ' ' ? (
           <span key={i}>{'\u00A0'}</span>
         ) : (
           <span
-            key={i}
+            key={`${cycle}-${i}`}
             className={mergeClasses(styles.characterSpan, styles.characterAnimation)}
             aria-hidden="true"
             style={{

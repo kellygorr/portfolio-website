@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Rocket24Filled } from '@fluentui/react-icons'
 import './DAB.css'
 
 export interface DABProps {
@@ -7,6 +8,25 @@ export interface DABProps {
   strokeWidth?: number
   cornerRadius?: number
   backgroundColor?: string
+  /** Color of the center rocket icon. Defaults to a light neutral. */
+  iconColor?: string
+  /** First color of the partial-arc gradient sweep (::before layer,
+   *  visible in both Intro and Thinking modes). */
+  gradientColor1?: string
+  /** Second color of the partial-arc gradient sweep (::before layer). */
+  gradientColor2?: string
+  /** First color of the full-ring gradient (::after layer, only visible
+   *  during Intro). Falls back to gradientColor1 if omitted. */
+  gradientColor3?: string
+  /** Second color of the full-ring gradient (::after layer, only
+   *  visible during Intro). Falls back to gradientColor2 if omitted. */
+  gradientColor4?: string
+  /** Third color of the full-ring gradient (::after layer). Falls back
+   *  to gradientColor3 if omitted — set for a richer, 4-color ring. */
+  gradientColor5?: string
+  /** Fourth color of the full-ring gradient (::after layer). Falls back
+   *  to gradientColor4 if omitted. */
+  gradientColor6?: string
   /** When true, shows a continuous spinning animation */
   isThinking?: boolean
   /** When false, renders a static (non-animated) frame */
@@ -37,6 +57,13 @@ export const DAB = ({
   strokeWidth = 2,
   cornerRadius = 16,
   backgroundColor = '#fff',
+  iconColor,
+  gradientColor1,
+  gradientColor2,
+  gradientColor3,
+  gradientColor4,
+  gradientColor5,
+  gradientColor6,
   isThinking = false,
   play = true,
   onAnimationEnd,
@@ -58,7 +85,12 @@ export const DAB = ({
   }, [play, isThinking])
 
   const handleAnimationEnd = (e: React.AnimationEvent) => {
-    if (e.animationName !== 'dab-fade-out') return
+    // 'dab-fade-out' signals the thinking-exit fade completing.
+    // 'dab-partial-gradient-fade' signals the intro's ::before layer
+    // completing its own fade-to-0 (the intro no longer runs a separate
+    // trailing fade-out — its whole-layer opacity keyframes already end
+    // at 0 by the end of --dab-duration).
+    if (e.animationName !== 'dab-fade-out' && e.animationName !== 'dab-partial-gradient-fade') return
     if (renderMode === 'thinking-exit') {
       setRenderMode('none')
     }
@@ -69,11 +101,39 @@ export const DAB = ({
 
   const logoSize = Math.round(size * 0.5)
 
+  const gradientVars = {
+    ...(gradientColor1 ? { '--dab-color-1': gradientColor1 } : {}),
+    ...(gradientColor2 ? { '--dab-color-2': gradientColor2 } : {}),
+    // Full-ring (::after, intro-only) layer falls back to the partial
+    // arc's colors if not explicitly set, so passing only 1/2 still
+    // works exactly as before.
+    ...(gradientColor3 ?? gradientColor1
+      ? { '--dab-color-3': gradientColor3 ?? gradientColor1 }
+      : {}),
+    ...(gradientColor4 ?? gradientColor2
+      ? { '--dab-color-4': gradientColor4 ?? gradientColor2 }
+      : {}),
+    // Additional full-ring colors (3rd/4th stops) — fall back to
+    // gradientColor3/4 respectively so a 2-color ring still works if
+    // these are omitted.
+    ...(gradientColor5 ?? gradientColor3 ?? gradientColor1
+      ? { '--dab-color-5': gradientColor5 ?? gradientColor3 ?? gradientColor1 }
+      : {}),
+    ...(gradientColor6 ?? gradientColor4 ?? gradientColor2
+      ? { '--dab-color-6': gradientColor6 ?? gradientColor4 ?? gradientColor2 }
+      : {}),
+  }
+
   return (
     <div
       className="dab-container"
       style={
-        { width: size, height: size, '--dab-duration': `${duration}ms` } as React.CSSProperties
+        {
+          width: size,
+          height: size,
+          '--dab-duration': `${duration}ms`,
+          ...gradientVars,
+        } as React.CSSProperties
       }
       aria-label="Animated stroke"
     >
@@ -89,29 +149,11 @@ export const DAB = ({
         />
       )}
 
-      <svg
+      <Rocket24Filled
         className="dab-logo"
-        width={logoSize}
-        height={logoSize}
-        viewBox="0 0 24 24"
+        style={{ width: logoSize, height: logoSize, color: iconColor }}
         aria-hidden="true"
-      >
-        <defs>
-          <linearGradient id="dab-logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          	<stop offset="0%" stopColor="#0078d4" />
-          	<stop offset="30%" stopColor="#2db4ff" />
-          	<stop offset="60%" stopColor="#d660ff" />
-          	<stop offset="100%" stopColor="#fea874" />
-          </linearGradient>
-        </defs>
-        <path
-          fill="url(#dab-logo-gradient)"
-          d="M12 0c0 5.523 1.477 7 7 7-5.523 0-7 1.477-7 7 0-5.523-1.477-7-7-7 5.523 0 7-1.477 7-7z
-          	M19.5 15c0 2.485.665 3.15 3.15 3.15-2.485 0-3.15.665-3.15 3.15
-          	0-2.485-.665-3.15-3.15-3.15 2.485 0 3.15-.665 3.15-3.15z
-          	M5 16c0 2.21.79 3 3 3-2.21 0-3 .79-3 3 0-2.21-.79-3-3-3 2.21 0 3-.79 3-3z"
-        />
-      </svg>
+      />
     </div>
   )
 }

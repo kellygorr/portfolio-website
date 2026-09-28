@@ -11,6 +11,11 @@
  * 3. transform: rotate() animates the entire pseudo-element
  * 4. will-change: transform promotes to compositor layer for true GPU animation
  * 5. Parent container clips the oversized rotating gradient to the pill shape
+ *
+ * COLOR: Gradient stops are driven by --dab-color-1 / --dab-color-2 (set
+ * inline by DAB.tsx's gradientColor1/gradientColor2 props) — a simple
+ * two-color sweep with transparent fades at the head/tail, themable per
+ * palette instead of a hardcoded multi-color rainbow.
  */
 
 /* Rotation animation using GPU-accelerated transform */
@@ -51,14 +56,36 @@
   }
 }
 
+/* Partial gradient (::before) whole-layer fade, matching production's
+   partialGradientFade: fade in quickly, hold, fade out at the end. */
+@keyframes dab-partial-gradient-fade {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Full gradient (::after) whole-layer fade, matching production's
+   fullGradientFade: appears mid-animation, holds, fades before the end. */
 @keyframes dab-gradient-fade-in {
   0%,
   33% {
     opacity: 0;
   }
   66%,
-  100% {
+  90% {
     opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -68,17 +95,14 @@
 
 .dab-container {
   position: relative;
-  /* contain: layout style isolates calculations without clipping overflow (shadow) */
-  /* Note: avoid 'content' or 'paint' as they clip the box-shadow */
+  /* contain: layout style isolates layout/style calculations without
+     clipping overflow (the border pseudo-elements are oversized). */
   contain: layout style;
 }
 
 .dab-background {
   position: absolute;
   inset: 0;
-  box-shadow:
-    0 8px 16px 0 rgba(0, 0, 0, 0.14),
-    0 0 2px 0 rgba(0, 0, 0, 0.12);
 }
 
 .dab-logo {
@@ -130,47 +154,49 @@
 /* 
  * Partial gradient layer (base): feathered arc — fades in from transparent,
  * holds full color, then fades back to transparent at the tail.
- * STATIC angle - rotation comes from transform, not gradient angle
+ * STATIC angle - rotation comes from transform, not gradient angle.
+ * Feather stops use rgb(from var(...) r g b / 0) (CSS relative color
+ * syntax) instead of the bare `transparent` keyword, so each stop fades
+ * to its OWN hue at 0 alpha. The plain `transparent` keyword resolves to
+ * rgba(0,0,0,0) — interpolating a colored stop toward literal black
+ * (even at fractional alpha) can composite as a washed-out/whitish seam
+ * wherever this layer overlaps the other rotating layer.
  */
 .dab-border::before {
   background: conic-gradient(
     from 145deg at 50% 50%,
-    transparent 0deg,
-    transparent 165deg,
-    #0078d4 195deg,
-    #1696ea 208.8deg,
-    #2db4ff 237.6deg,
-    #828aff 266.4deg,
-    #d660ff 298.8deg,
-    #ea84b9 331.2deg,
-    transparent 360deg
+    rgb(from var(--dab-color-1, #0078d4) r g b / 0) 0deg,
+    rgb(from var(--dab-color-1, #0078d4) r g b / 0) 165deg,
+    var(--dab-color-1, #0078d4) 195deg,
+    var(--dab-color-1, #0078d4) 237.6deg,
+    var(--dab-color-2, #d660ff) 298.8deg,
+    var(--dab-color-2, #d660ff) 331.2deg,
+    rgb(from var(--dab-color-2, #d660ff) r g b / 0) 360deg
   );
 }
 
 /* 
- * Full gradient layer (top): all colors visible, with the same feathered
- * fade applied at the head and tail of the arc.
+ * Full gradient layer (top): a COMPLETE, always-opaque 360° ring — no
+ * transparent stops anywhere. Matches the production DAB's fullGradient
+ * structure: the ring itself never has gaps or per-degree alpha: its
+ * fade in/out is driven entirely by the ::after layer's own opacity
+ * (dab-gradient-fade-in below), never by transparent stops in the
+ * gradient. Two independently-rotating layers each with their OWN
+ * transparent gaps (the earlier, broken version) can expose each
+ * other's backdrop at slightly different rotation offsets, compositing
+ * as a visible seam. A gap-free full ring avoids that entirely.
+ * Supports up to 4 distinct colors (--dab-color-3..6, one every 90°)
+ * for a richer ring than the 2-color partial arc.
  * STATIC angle - rotation comes from transform, not gradient angle
  */
 .dab-border::after {
   background: conic-gradient(
     from 145deg at 50% 50%,
-    transparent 0deg,
-    #fea874 15deg,
-    #ea84b9 28.8deg,
-    #d660ff 61.2deg,
-    #828aff 93.6deg,
-    #2db4ff 122.4deg,
-    #1696ea 151.2deg,
-    #0078d4 180deg,
-    #0078d4 180deg,
-    #1696ea 208.8deg,
-    #2db4ff 237.6deg,
-    #828aff 266.4deg,
-    #d660ff 298.8deg,
-    #ea84b9 331.2deg,
-    transparent 345deg,
-    transparent 360deg
+    var(--dab-color-3, var(--dab-color-1, #0078d4)) 0deg,
+    var(--dab-color-4, var(--dab-color-2, #d660ff)) 90deg,
+    var(--dab-color-5, var(--dab-color-3, var(--dab-color-1, #0078d4))) 180deg,
+    var(--dab-color-6, var(--dab-color-4, var(--dab-color-2, #d660ff))) 270deg,
+    var(--dab-color-3, var(--dab-color-1, #0078d4)) 360deg
   );
 }
 
@@ -188,16 +214,14 @@
 
 .dab-border.dab-intro::before {
   animation:
-    dab-fade-in 300ms ease-out forwards,
-    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards,
-    dab-fade-out 300ms ease-out calc(var(--dab-duration, 3000ms) + 1000ms) forwards;
+    dab-partial-gradient-fade var(--dab-duration, 3000ms) linear forwards,
+    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards;
 }
 
 .dab-border.dab-intro::after {
   animation:
     dab-gradient-fade-in var(--dab-duration, 3000ms) linear forwards,
-    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards,
-    dab-fade-out 300ms ease-out calc(var(--dab-duration, 3000ms) + 1000ms) forwards;
+    dab-rotate-intro var(--dab-duration, 3000ms) cubic-bezier(0, 0, 0.4, 1) forwards;
 }
 
 /* ============================================
