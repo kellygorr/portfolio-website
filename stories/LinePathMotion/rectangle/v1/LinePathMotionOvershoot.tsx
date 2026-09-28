@@ -58,12 +58,12 @@ interface LinePathMotionOvershootProps {
 const DEFAULT_COLOR = '#5940ff'
 const PAUSE_MS = 1000
 const CORNER_RADIUS_RATIO = 0.2
-const AE_OFFSET_DEG = 45
 
 // Perimeter parameterization starts at the MIDPOINT of the top-right
 // corner arc (the corner-diagonal direction) and proceeds CLOCKWISE.
-// The sweep ends at the MIDPOINT of the bottom-right corner arc after
-// one full revolution past the origin (overshoot).
+// The sweep ends at the MIDPOINT of the right edge after one full
+// revolution past the origin (overshoot) — landing on a straight run,
+// not inside a corner arc, regardless of aspect ratio.
 
 // Timeline shape (linear head + linear tail, with tail slower than head
 // so the gap GROWS during the overlap phase, then shrinks when the head
@@ -305,10 +305,14 @@ const buildKeyframes = (
   // midpoint; positive shifts move CW along the perimeter.
   //   startOffset: how far past the TR corner the snake starts.
   const startOffset = (Math.PI * r) / 4 // bottom of TR arc (start of right edge)
-  // AE Trim Paths offset animates to +45° (12.5% of perimeter) by the
-  // end, so the collapsed endpoint should land one full loop + 45° from
-  // the start point.
-  const offsetDriftArc = table.perimeter * (AE_OFFSET_DEG / 360)
+  // End the sweep at the MIDPOINT of the right edge (one full
+  // revolution past the start, plus half the vertical edge length) —
+  // not a fixed-degree drift, which could land the endpoint inside a
+  // corner arc and read as an awkward angled stop. Stopping mid-edge
+  // always keeps the endpoint on a straight run, regardless of the
+  // rectangle's aspect ratio.
+  const sideV = h - 2 * r
+  const offsetDriftArc = sideV / 2
   const totalSweepArc = table.perimeter + offsetDriftArc
 
   const startAngle = angleForArc(startOffset, table)

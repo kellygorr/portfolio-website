@@ -44,12 +44,15 @@ interface LinePathMotionV2Props {
 
 // Defaults derived from the designer's Lottie spec
 // (Icon Marker isolated_001):
-//   - 70 px square, 4 px corner radius, 4 px stroke, #707070
+//   - 70 px square, 4 px stroke, #707070
 //   - sweep ~1500ms (frames 47 → 137 at 60fps)
 //   - long pause (~4.8s) between sweeps in source; we use 1s here
+// Corner radius ratio matches the Rectangle (V3) component's own ratio
+// (0.2 × min(width, height)) instead of the Lottie source's 4/70 ratio,
+// so the Square and Rectangle demos read as consistently rounded.
 const DEFAULT_COLOR = '#707070'
 const PAUSE_MS = 1000
-const CORNER_RADIUS_RATIO = 4 / 70
+const CORNER_RADIUS_RATIO = 0.2
 
 // CSS-conic angles (12 o'clock = 0°, clockwise). The Lottie
 // rounded-rect path starts at the top of the right edge, just

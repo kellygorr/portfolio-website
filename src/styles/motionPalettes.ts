@@ -35,6 +35,12 @@ export interface MotionPalette {
 	description: string
 	/** Card/demo background color this palette is presented on. */
 	background: string
+	/** Secondary background — a plain white surface used for elements
+	 *  that need to visually pop off the card/demo background (e.g. a
+	 *  small labeled control), while still counting as a theme token
+	 *  rather than a hardcoded color sprinkled into story files. White
+	 *  for all 9 palettes today. */
+	background2: string
 	/** Text color that reads legibly against this palette's darkest token
 	 *  (colors[3]) — used e.g. by the Storybook "recreated for portfolio"
 	 *  badge when its background is set to darkestColor(palette). White
@@ -56,30 +62,34 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Warm Sand',
 		description: 'Soft, muted, more neutral-leaning warm palette.',
 		background: '#f7f2e3',
+		background2: '#fff',
 		text: '#fff',
-		colors: ['#e9d7b8', '#e8a668', '#e0a695', '#c9765a', '#e0a695'],
-		swatchNames: ['Cream', 'Sand', 'Amber', 'Rose', 'Clay'],
+		colors: ['#e9d7b8', '#e0a695', '#e8a668', '#c9765a', '#e8a668'],
+		swatchNames: ['Cream', 'Sand', 'Rose', 'Amber', 'Clay'],
 	},
 	{
 		name: 'Golden Hour',
 		description: 'Warmer, more saturated gold/orange lean.',
 		background: '#fbf3dc',
+		background2: '#fff',
 		text: '#fff',
-		colors: ['#f0dcae', '#f2a94e', '#eab3a3', '#cf6d4e', '#eab3a3'],
-		swatchNames: ['Cream', 'Wheat', 'Marigold', 'Blush', 'Rust'],
+		colors: ['#f0dcae', '#eab3a3', '#f2a94e', '#cf6d4e', '#f2a94e'],
+		swatchNames: ['Cream', 'Wheat', 'Blush', 'Marigold', 'Rust'],
 	},
 	{
 		name: 'Dusty Rose',
 		description: 'Cooler, dustier, more pink-leaning.',
 		background: '#fdf8f1',
+		background2: '#fff',
 		text: '#fff',
-		colors: ['#e4d4bd', '#dfa878', '#d9a8a0', '#c17a63', '#d9a8a0'],
-		swatchNames: ['Ivory', 'Oat', 'Apricot', 'Dusty Pink', 'Terracotta'],
+		colors: ['#e4d4bd', '#d9a8a0', '#dfa878', '#c17a63', '#dfa878'],
+		swatchNames: ['Ivory', 'Oat', 'Dusty Pink', 'Apricot', 'Terracotta'],
 	},
 	{
 		name: 'Warm Sand (Lime)',
 		description: 'Warm Sand base, bright lime accent ramp with a teal accent.',
 		background: '#f7f2e3',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#e9d7b8', '#c4d97a', '#a3c93f', '#4f9e7c', '#a3c93f'],
 		swatchNames: ['Cream', 'Sand', 'Lime', 'Chartreuse', 'Teal Lime'],
@@ -88,6 +98,7 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Golden Hour (Lime)',
 		description: 'Golden Hour base, bright lime accent ramp with a teal accent.',
 		background: '#fbf3dc',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#f0dcae', '#c9de85', '#aad147', '#56a67f', '#aad147'],
 		swatchNames: ['Cream', 'Wheat', 'Lime', 'Chartreuse', 'Teal Lime'],
@@ -96,6 +107,7 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Dusty Rose (Lime)',
 		description: 'Dusty Rose base, bright lime accent ramp with a teal accent.',
 		background: '#fdf8f1',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#e4d4bd', '#c0d47e', '#9fc544', '#4a9575', '#9fc544'],
 		swatchNames: ['Ivory', 'Oat', 'Lime', 'Chartreuse', 'Teal Lime'],
@@ -104,6 +116,7 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Warm Sand (Beige)',
 		description: 'Warm Sand base, light beige accent ramp.',
 		background: '#f7f2e3',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#e9d7b8', '#d4b896', '#b8905f', '#b06a3e', '#b8905f'],
 		swatchNames: ['Cream', 'Sand', 'Beige', 'Camel', 'Clay'],
@@ -112,6 +125,7 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Golden Hour (Beige)',
 		description: 'Golden Hour base, light beige accent ramp.',
 		background: '#fbf3dc',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#f0dcae', '#dcbe9a', '#c19765', '#bc7443', '#c19765'],
 		swatchNames: ['Cream', 'Wheat', 'Beige', 'Camel', 'Clay'],
@@ -120,6 +134,7 @@ export const motionPalettes: MotionPalette[] = [
 		name: 'Dusty Rose (Beige)',
 		description: 'Dusty Rose base, light beige accent ramp.',
 		background: '#fdf8f1',
+		background2: '#fff',
 		text: '#fff',
 		colors: ['#e4d4bd', '#d6bb98', '#b99461', '#b3703f', '#b99461'],
 		swatchNames: ['Ivory', 'Oat', 'Beige', 'Camel', 'Clay'],

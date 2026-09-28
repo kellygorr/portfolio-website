@@ -1,20 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useCallback, useMemo, useState } from 'react'
 import { DAB, type DABProps } from './DAB'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
+import { darkestColor } from '../../src/styles/motionPalettes'
 
-const meta: Meta<typeof DAB> = {
+type DABStoryArgs = DABProps & { motionTheme: string }
+
+const meta = {
 	title: 'DAB',
 	component: DAB,
 	parameters: {
-		layout: 'centered',
+		layout: 'fullscreen',
 	},
-  decorators: [
-    (Story) => (
-      <div style={{ padding: 40 }}>
-        <Story />
-      </div>
-    ),
-  ],
   tags: ['autodocs'],
   argTypes: {
     size: {
@@ -37,7 +34,7 @@ const meta: Meta<typeof DAB> = {
       name: 'Stroke Width (px)',
       control: { type: 'range', min: 1, max: 10, step: 0.5 },
       table: {
-        defaultValue: { summary: '2' },
+        defaultValue: { summary: '3' },
         type: { summary: 'number' },
       },
     },
@@ -49,14 +46,14 @@ const meta: Meta<typeof DAB> = {
         type: { summary: 'number' },
       },
     },
-    backgroundColor: {
-      name: 'Background Color',
-      control: { type: 'color' },
-      table: {
-        defaultValue: { summary: '#fff' },
-        type: { summary: 'string' },
-      },
-    },
+    backgroundColor: { table: { disable: true } },
+    iconColor: { table: { disable: true } },
+    gradientColor1: { table: { disable: true } },
+    gradientColor2: { table: { disable: true } },
+    gradientColor3: { table: { disable: true } },
+    gradientColor4: { table: { disable: true } },
+    gradientColor5: { table: { disable: true } },
+    gradientColor6: { table: { disable: true } },
     isThinking: {
       name: 'Is Thinking',
       control: { type: 'boolean' },
@@ -69,16 +66,23 @@ const meta: Meta<typeof DAB> = {
     play: {
       table: { disable: true },
     },
+    motionTheme: motionThemeArgType,
   },
-}
+  args: {
+    size: 80,
+    strokeWidth: 3,
+    motionTheme: 'Warm Sand',
+  } as DABStoryArgs,
+} satisfies Meta<DABStoryArgs>
 
 export default meta
 
-type Story = StoryObj<typeof DAB>
+type Story = StoryObj<typeof meta>
 
-const DABWithButtons = (props: DABProps) => {
-  const [mode, setMode] = useState<'idle' | 'intro' | 'thinking'>('idle')
+const DABWithButtons = ({ motionTheme, ...props }: DABStoryArgs) => {
+  const [mode, setMode] = useState<'idle' | 'intro' | 'thinking'>('thinking')
   const [key, setKey] = useState(0)
+  const palette = resolveMotionTheme(motionTheme)
 
   const isThinking = mode === 'thinking'
   const play = mode !== 'idle'
@@ -114,25 +118,34 @@ const DABWithButtons = (props: DABProps) => {
       ({
         padding: '8px 12px',
         borderRadius: 8,
-        border: '1px solid #ccc',
-        background: '#f8fafc',
+        border: 'none',
         cursor: 'pointer',
         fontSize: 14,
+        fontWeight: 600,
       }) as const,
     []
   )
 
-  const activeButtonStyle = useMemo(
-    () =>
-      ({
-        border: '1px solid #4f46e5',
-        background: '#eef2ff',
-      }) as const,
-    []
-  )
+  // Inactive: darkest token bg, white text. Active: the amber accent
+  // token (colors[2]) bg, white text — a different theme token so the
+  // active state stays visually distinct without a border.
+  const inactiveBg = palette ? darkestColor(palette) : '#333'
+  const activeBg = palette?.colors[2] ?? '#4f46e5'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 30,
+        width: '100%',
+        height: '100vh',
+        boxSizing: 'border-box',
+        background: palette?.background,
+      }}
+    >
       <div style={{ display: 'inline-flex' }}>
         <DAB
           key={key}
@@ -140,6 +153,14 @@ const DABWithButtons = (props: DABProps) => {
           isThinking={isThinking}
           play={play}
           onAnimationEnd={handleAnimationEnd}
+          backgroundColor="#fff"
+          iconColor={palette && darkestColor(palette)}
+          gradientColor1={palette?.colors[1]}
+          gradientColor2={palette && darkestColor(palette)}
+          gradientColor3={palette?.colors[0]}
+          gradientColor4={palette?.colors[1]}
+          gradientColor5={palette?.colors[2]}
+          gradientColor6={palette && darkestColor(palette)}
         />
       </div>
 
@@ -149,7 +170,8 @@ const DABWithButtons = (props: DABProps) => {
           onClick={startIntro}
           style={{
             ...buttonBaseStyle,
-            ...(mode === 'intro' ? activeButtonStyle : null),
+            background: mode === 'intro' ? activeBg : inactiveBg,
+            color: '#fff',
           }}
         >
           Intro
@@ -160,7 +182,8 @@ const DABWithButtons = (props: DABProps) => {
           onClick={toggleThinking}
           style={{
             ...buttonBaseStyle,
-            ...(mode === 'thinking' ? activeButtonStyle : null),
+            background: mode === 'thinking' ? activeBg : inactiveBg,
+            color: '#fff',
           }}
         >
           Thinking
