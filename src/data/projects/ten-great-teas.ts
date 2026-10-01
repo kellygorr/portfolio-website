@@ -1,12 +1,12 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType, ToolType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/tazo-tea.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/tazo-tea.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/tazo-tea.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/ten-great-teas-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/ten-great-teas-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/ten-great-teas-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/ten-great-teas/large2a.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/ten-great-teas/large2b.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/ten-great-teas/large2c.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/ten-great-teas/ten-great-teas-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/ten-great-teas/ten-great-teas-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/ten-great-teas/ten-great-teas-03.jpg', import.meta.url).href
 
 export const tenGreatTeas: IProject = {
 	details: {

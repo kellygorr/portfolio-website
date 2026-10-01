@@ -1,15 +1,15 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/text-adventure.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/text-adventure.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/text-adventure.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/text-adventure-new-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/text-adventure-new-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/text-adventure-new-thumbnail.jpg', import.meta.url).href
 
-const imgDungeonBg = new URL('../../assets/images/text-adventure/dungeon-background.jpeg', import.meta.url).href
-const imgCastleBg = new URL('../../assets/images/text-adventure/castle-background.jpeg', import.meta.url).href
-const imgForestBg = new URL('../../assets/images/text-adventure/forest-background.jpeg', import.meta.url).href
-const imgDungeonCharacter = new URL('../../assets/images/text-adventure/dungeon-character.png', import.meta.url).href
-const imgCastleCharacter = new URL('../../assets/images/text-adventure/castle-character.png', import.meta.url).href
-const imgForestCharacter = new URL('../../assets/images/text-adventure/forest-character.png', import.meta.url).href
+const imgDungeonBg = new URL('../../assets/images/text-adventure/text-adventure-01.jpeg', import.meta.url).href
+const imgCastleBg = new URL('../../assets/images/text-adventure/text-adventure-02.jpeg', import.meta.url).href
+const imgForestBg = new URL('../../assets/images/text-adventure/text-adventure-03.jpeg', import.meta.url).href
+const imgDungeonCharacter = new URL('../../assets/images/text-adventure/text-adventure-04.png', import.meta.url).href
+const imgCastleCharacter = new URL('../../assets/images/text-adventure/text-adventure-05.png', import.meta.url).href
+const imgForestCharacter = new URL('../../assets/images/text-adventure/text-adventure-06.png', import.meta.url).href
 
 /**
  * Text Adventure — a personal learning project exploring generative AI as
@@ -35,7 +35,7 @@ export const textAdventure: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
-		tags: [TagType.AI, TagType.Web],
+		tags: [TagType.AI, TagType.Website],
 	},
 	content: [
 		{
@@ -75,7 +75,7 @@ export const textAdventure: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Web],
+					tags: [TagType.Website],
 				},
 				{
 					header: HighlightName.Skills,

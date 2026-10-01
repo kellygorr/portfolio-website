@@ -24,7 +24,16 @@ export const Tag = (props: ITagProps): JSX.Element => {
 
 	return (
 		<>
-			<TagButton onClick={(e) => handleClick(e, tagName)} tabIndex={-1}>
+			{/* Search on the ORIGINAL tag value ("UI-UX"), not the renamed
+			    display label ("UI/UX") — Sanitize() keeps both '-' and '/'
+			    as valid characters rather than stripping either, so
+			    sanitizing the slash-renamed display text produces a
+			    different query string ("ui/ux") than what's actually
+			    stored on every project's data ("UI-UX" -> "ui-ux"),
+			    silently breaking the search for every project with this
+			    skill. The label itself still shows the friendlier "UI/UX"
+			    rendering. */}
+			<TagButton onClick={(e) => handleClick(e, tag)} tabIndex={-1}>
 				{tagName}
 			</TagButton>
 			{!isLastTag && ', '}

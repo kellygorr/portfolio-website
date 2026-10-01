@@ -3,24 +3,23 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { motionPalette } from '../../styles/motionPalettes'
 
-interface IHeaderProps {
-	setIsSearchOpen: (isOpen: boolean) => void
-}
-
 // Amber, Clay, Rose — the three darker Warm Sand accent swatches, cycled
 // per-letter on name hover (independent of the site's light/dark theme,
 // same as the single-color gradient hover it replaces).
 const warmSand = motionPalette('Warm Sand')
 const nameHoverColors = warmSand.colors.slice(1, 4)
 
-export const Header = (props: IHeaderProps): JSX.Element => {
-	const handleClick = () => {
-		props.setIsSearchOpen(false)
-	}
+export const Header = (): JSX.Element => {
+	// No click handler needed to close search here — the logo's own <Link>
+	// already navigates to "/" (no `?q=`), which is enough on its own for
+	// App.tsx's derived `isSearching` to resolve to false. Explicitly
+	// closing search here too (i.e. calling the same navigate(-1)/replace
+	// used by the search bar's own X button) would fire a SECOND
+	// navigation racing this Link's own push.
 	return (
 		<Container>
 			<Logo>
-				<StyledLink to="/" onClick={handleClick}>
+				<StyledLink to="/">
 					{'Kelly Gorr'.split('').map((char, i) => (
 						<NameChar key={i} $index={i}>
 							{char === ' ' ? '\u00A0' : char}

@@ -1,24 +1,24 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
 import { formatMonthYear } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/mental-health-cognition-plugin.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/mental-health-cognition-plugin.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/mental-health-cognition-plugin.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/figma-mental-health-cognition-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/figma-mental-health-cognition-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/figma-mental-health-cognition-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/mental-health-cognition-plugin-article1.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/mental-health-cognition-plugin-article1.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/mental-health-cognition-plugin-article1.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/figma-mental-health-cognition-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/figma-mental-health-cognition-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/figma-mental-health-cognition-thumbnail-2.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/mental-health-and-cognition-plugin/community-page.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/mental-health-and-cognition-plugin/example1.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/mental-health-and-cognition-plugin/cards.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/mental-health-and-cognition-plugin/ai-section.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/mental-health-and-cognition-plugin/color-section.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/mental-health-and-cognition-plugin/share-learn-section.jpg', import.meta.url).href
-const img7 = new URL('../../assets/images/mental-health-and-cognition-plugin/fre.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-05.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-06.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-07.jpg', import.meta.url).href
 
-const img8 = new URL('../../assets/images/mental-health-and-cognition-plugin/video-thumbnail.jpg', import.meta.url).href
-const video1 = new URL('../../assets/videos/mhc-plugin.mp4', import.meta.url).href
+const img8 = new URL('../../assets/images/figma-mental-health-cognition/figma-mental-health-cognition-08.jpg', import.meta.url).href
+const video1 = new URL('../../assets/videos/figma-mental-health-cognition/figma-mental-health-cognition-09.mp4', import.meta.url).href
 
 export const mhcPlugin: IProject = {
 	details: {

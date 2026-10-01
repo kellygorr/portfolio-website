@@ -10,57 +10,104 @@ import type { MotionDemoProps } from '../../src/components/Page/MotionDemoProps'
 
 const SAMPLE_MESSAGE = "What's on my calendar today?"
 
+// Fade durations — see the required-behavior spec in BEHAVIOR.md.
+// Border fade-IN (centered -> anchored) approximates
+// InputPositionAnimation's own default slide duration (baseDurationMs=250)
+// so it reads as synced with the position change in the common case,
+// without needing a second JS-measured duration threaded through refs.
+// Starts immediately, no delay — same instant Send is clicked, same
+// instant the position slide starts.
+const BORDER_FADE_IN_MS = 250
+// Border fade-OUT (anchored -> centered) is deliberately faster than the
+// fade-in — the line should visibly clear away quickly on the way back,
+// not linger for the same duration as the forward reveal. Also starts
+// immediately, no delay, the instant the return slide begins.
+const BORDER_FADE_OUT_MS = 120
+// Background fades in slowly only once settled...
+const BG_FADE_IN_MS = 200
+// ...but fades out "very quickly" before the return slide is allowed
+// to start at all (see InputPositionDemo's handleNewChat).
+const BG_FADE_OUT_MS = 120
+
 // The footer container: this is the exact box InputPositionAnimation
-// FLIP-animates (it's the direct child passed as `children`), so its
-// top border and background move as one unit with the input for free —
-// no separate line element, no manual timing/sync logic needed. The
-// border is present but invisible (transparent) while centered, and
-// switches to visible the instant `isAnchored` flips — since it's
-// riding along on the same translateY transform as the rest of the
-// box, it arrives already synced.
-//
-// The background fill is an ::after pseudo element (kept behind the
-// content with z-index: -1), transitioning opacity only (compositor-
-// only, GPU-accelerated) instead of animating `background-color`
-// directly (main-thread paint work on every frame — not performant).
-// Appearing fades in; disappearing is instant (no transition) — see
-// the isAnchored class toggle below.
-const FooterContainer = styled.div<{ $accent: string; $background: string }>`
+// FLIP-animates (it's the direct child passed as `children`), so
+// anything that needs to travel WITH the input for free (no separate
+// timing/sync logic) belongs inside it, as a direct child of this
+// element — see BorderLine below. Only establishes a stacking context
+// (z-index: 0) so BorderLine/the background pseudo-element's own
+// z-index: -1 stays scoped to THIS container's children, rather than
+// comparing against ancestors outside it (that was a real bug: the
+// background had the correct computed opacity but never visibly
+// painted, because it ended up behind an ancestor's opaque background
+// instead of just behind this container's own content).
+const FooterContainer = styled.div`
 	position: relative;
-	// Establishes its own stacking context (position: relative + z-index
-	// alone don't do this — z-index only takes effect on a positioned
-	// element, which this already is, but without an explicit z-index
-	// here the ::after's z-index: -1 below escapes to compare against
-	// ancestors OUTSIDE this component instead of staying scoped to
-	// FooterContainer's own children. That was a real bug: the ::after
-	// had the correct color/opacity in computed styles but never
-	// visibly painted, because it ended up behind an ancestor's opaque
-	// background instead of just behind this container's own content.
 	z-index: 0;
 	width: 100%;
-	border-top: 2px solid transparent;
+`
 
-	&.anchored {
-		border-top-color: ${({ $accent }) => $accent};
+// The top border, implemented as its own thin absolutely-positioned bar
+// with an opacity transition — not a literal `border-top` with a
+// transitioned `border-color` — so the fade is a pure compositor
+// opacity animation (GPU, no repaint) instead of a color interpolation
+// (main-thread paint on every frame). `$visible` is driven directly by
+// `isAnchored`, in the SAME render that also drives the FLIP position
+// change (see InputPositionDemo) — not a separate, later state change —
+// so it fades in/out WHILE the box travels, arriving already in sync
+// with the slide (starting the instant the slide starts, in BOTH
+// directions), exactly like it rides along on the same translateY
+// transform as the rest of the footer for free. Fade-in and fade-out
+// use different DURATIONS (quicker clear-away on the way back) via two
+// separate `transition` declarations, same technique as
+// FooterBackground below: the base selector's duration applies when
+// `$visible` goes false (fade out), and the `&[data-visible='true']`
+// selector's own duration applies when it goes true (fade in), since
+// CSS reads the transition from whichever rule matches the element's
+// state AFTER the prop change.
+const BorderLine = styled.div<{ $accent: string; $visible: boolean }>`
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: ${({ $accent }) => $accent};
+	opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+	transition: opacity ${BORDER_FADE_OUT_MS}ms ease-out;
+	pointer-events: none;
+
+	&[data-visible='true'] {
+		transition: opacity ${BORDER_FADE_IN_MS}ms ease-out;
 	}
+`
 
-	&::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: ${({ $background }) => $background};
-		opacity: 0;
-		transition: opacity 250ms ease-out;
-		pointer-events: none;
-		z-index: -1;
-	}
+// The background wash, implemented as an ::after pseudo-element (kept
+// behind the content with z-index: -1) — deliberately NOT tied to
+// `isAnchored` directly. Per the required behavior: the background
+// must only fade in once the footer has fully SETTLED at the anchored
+// position (not while it's still traveling), and must fade out quickly
+// BEFORE the return slide starts (not during it) — see
+// InputPositionDemo's `backgroundVisible` state and its
+// handleAnimationComplete/handleNewChat for exactly when each fade is
+// triggered. Fade-in and fade-out intentionally use different
+// durations (slower reveal once settled, quick "very quickly goes
+// away" on the way out) — achieved via two separate `transition`
+// declarations: the base selector's duration applies when the
+// `bg-visible` class is being REMOVED (fade out), and the
+// `&.bg-visible` selector's own duration applies when it's being ADDED
+// (fade in), since CSS reads the transition from whichever rule
+// matches the element's state AFTER the class change.
+const FooterBackground = styled.div<{ $background: string }>`
+	position: absolute;
+	inset: 0;
+	background: ${({ $background }) => $background};
+	opacity: 0;
+	transition: opacity ${BG_FADE_OUT_MS}ms ease-out;
+	pointer-events: none;
+	z-index: -1;
 
-	&.anchored::after {
+	&.bg-visible {
 		opacity: 1;
-	}
-
-	&:not(.anchored)::after {
-		transition: none;
+		transition: opacity ${BG_FADE_IN_MS}ms ease-out;
 	}
 `
 
@@ -131,6 +178,31 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 	const [isAnchored, setIsAnchored] = React.useState(false)
 	const [inputValue, setInputValue] = React.useState(SAMPLE_MESSAGE)
 	const [sentMessage, setSentMessage] = React.useState(SAMPLE_MESSAGE)
+	// Whether the footer background wash is visible. Deliberately
+	// SEPARATE from `isAnchored` (which drives both the FLIP position
+	// change AND the border — see BorderLine/FooterContainer above):
+	// the background has its own independent timing relationship to the
+	// slide (see BEHAVIOR.md) —
+	//   - Forward (centered -> anchored): background only starts fading
+	//     in once the slide has fully SETTLED (set in
+	//     handleAnimationComplete below), never while still traveling.
+	//   - Reverse (anchored -> centered): background fades out FIRST,
+	//     and the slide back to center must not even START until that
+	//     fade-out has finished (set directly in handleNewChat below,
+	//     with the actual `setIsAnchored(false)` that starts the slide
+	//     delayed by BG_FADE_OUT_MS).
+	// This is safe as plain React state in both cases: forward, the
+	// state change happens in onAnimationComplete, by which point the
+	// WAAPI slide has already fully finished (transform back to
+	// 'none') — InputPositionAnimation's position-tracking layout
+	// effect re-measuring at that point reads the correct, already-
+	// settled position. Reverse, the state change happens the instant
+	// the user clicks, before any slide has started at all — nothing is
+	// animating yet, so there's nothing to corrupt. The one thing this
+	// must never do is change while the slide is ACTIVELY running
+	// (e.g. synced to the slide starting) — that's what previously
+	// corrupted the FLIP distance calculation for the next transition.
+	const [backgroundVisible, setBackgroundVisible] = React.useState(false)
 	const palette = motionPalette(theme)
 	const accent = palette.colors[2]
 	const accentDark = darkestColor(palette)
@@ -140,14 +212,52 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 	// block of the same accent used elsewhere.
 	const footerBackground = lightenHex(palette.colors[2], 0.75)
 
-	const handleToggle = () => {
-		if (!isAnchored) {
-			setSentMessage(inputValue)
-			setInputValue('')
-		} else {
-			setInputValue(SAMPLE_MESSAGE)
+	// Pending reverse-direction timer (background fade-out -> delayed
+	// slide-back) — tracked so a replay or rapid re-click can cancel a
+	// previously scheduled one instead of leaving two in flight.
+	const revertSlideTimerRef = React.useRef<number | null>(null)
+
+	const clearPendingRevert = () => {
+		if (revertSlideTimerRef.current !== null) {
+			window.clearTimeout(revertSlideTimerRef.current)
+			revertSlideTimerRef.current = null
 		}
-		setIsAnchored((prev) => !prev)
+	}
+
+	// Forward: centered -> anchored. Starts the FLIP slide (+ border
+	// fade-in, riding along via the same `isAnchored` render) IMMEDIATELY
+	// — nothing to wait for on this direction. The background fade-in is
+	// NOT started here; it only happens once the slide has fully
+	// settled, via handleAnimationComplete below.
+	const handleSend = () => {
+		clearPendingRevert()
+		setSentMessage(inputValue)
+		setInputValue('')
+		setIsAnchored(true)
+	}
+
+	// Reverse: anchored -> centered. Per the required behavior, this is
+	// SEQUENTIAL, not simultaneous: the background must fade out and
+	// fully disappear BEFORE the position even starts moving. So this
+	// starts the (quick) background fade-out immediately, and only
+	// calls `setIsAnchored(false)` — which starts the FLIP slide back +
+	// border fade-out together — after BG_FADE_OUT_MS has elapsed.
+	const handleNewChat = () => {
+		clearPendingRevert()
+		setBackgroundVisible(false)
+		revertSlideTimerRef.current = window.setTimeout(() => {
+			revertSlideTimerRef.current = null
+			setInputValue(SAMPLE_MESSAGE)
+			setIsAnchored(false)
+		}, BG_FADE_OUT_MS)
+	}
+
+	const handleToggle = () => {
+		if (isAnchored) {
+			handleNewChat()
+		} else {
+			handleSend()
+		}
 	}
 
 	// Scripted auto-play sequence: fires once when this demo first
@@ -155,11 +265,11 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 	// (see Demo.tsx's docstring for why this component stays mounted
 	// continuously across replays instead of being remounted — a
 	// mount-time "skip first run" ref, like the one below, only works
-	// correctly when the component is never remounted). Drives its own
-	// state setters directly (send -> wait -> revert) rather than
-	// calling handleToggle() twice, since handleToggle's closure would
-	// otherwise capture stale `isAnchored`/`inputValue` values from
-	// whichever render scheduled the timers.
+	// correctly when the component is never remounted). Mirrors
+	// handleSend/handleNewChat's own sequencing (background fade-out
+	// must finish before the slide back starts) rather than calling
+	// setIsAnchored directly, so autoplay exercises the exact same
+	// timing as a real click.
 	const { replayToken, onReplayStateChange } = useDemoMotion()
 	const isFirstRun = React.useRef(true)
 
@@ -170,35 +280,88 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 		}
 
 		let cancelled = false
-		// Reset to a known idle state immediately, regardless of
-		// whatever the visitor had already done before requesting this
-		// replay — a restart should always play the same sequence from
-		// the same starting point.
-		setInputValue(SAMPLE_MESSAGE)
+		const timers: number[] = []
+		clearPendingRevert()
+		setBackgroundVisible(false)
 		setSentMessage(SAMPLE_MESSAGE)
-		setIsAnchored(false)
+		setInputValue('')
 
-		const sendTimer = window.setTimeout(() => {
+		const startForward = () => {
 			if (cancelled) return
-			setSentMessage(SAMPLE_MESSAGE)
-			setInputValue('')
 			setIsAnchored(true)
-		}, SEQUENCE_STEP_MS)
+			// Background fade-in on settle is handled automatically by
+			// handleAnimationComplete below — nothing to do here.
+		}
 
-		const revertTimer = window.setTimeout(() => {
-			if (cancelled) return
-			setInputValue(SAMPLE_MESSAGE)
+		// Normal case: demo is centered when replay is requested (true
+		// the vast majority of the time — scroll-into-view auto-run, or
+		// any click after a previous cycle has fully reverted). Kick off
+		// the forward motion IMMEDIATELY, no delay — an earlier version
+		// waited a full SEQUENCE_STEP_MS before starting anything here,
+		// which made clicking the restart icon feel broken (nothing
+		// visibly happens for 1.4s after the click). Only the time
+		// spent VIEWING the anchored state before reverting should be
+		// delayed, never the initial motion.
+		if (!isAnchored) {
+			startForward()
+		} else {
+			// Edge case: replay requested while already anchored
+			// mid-cycle. Reset to centered first — otherwise
+			// setIsAnchored(true) here would be a same-value no-op
+			// (already true), so InputPositionAnimation's position
+			// effect would never fire and no reset slide would play.
+			// Deferred one tick (not SEQUENCE_STEP_MS) purely so the
+			// centered state actually commits as its own render before
+			// flipping back to anchored — imperceptible, not a
+			// meaningful wait.
 			setIsAnchored(false)
-			onReplayStateChange?.(false)
-		}, SEQUENCE_STEP_MS * 2)
+			timers.push(window.setTimeout(startForward, 0))
+		}
+
+		timers.push(
+			window.setTimeout(() => {
+				if (cancelled) return
+				// Same two-step sequencing as handleNewChat: fade the
+				// background out first, THEN (once that's finished) start
+				// the slide back to center.
+				setBackgroundVisible(false)
+				timers.push(
+					window.setTimeout(() => {
+						if (cancelled) return
+						setInputValue(SAMPLE_MESSAGE)
+						setIsAnchored(false)
+						onReplayStateChange?.(false)
+					}, BG_FADE_OUT_MS),
+				)
+			}, SEQUENCE_STEP_MS),
+		)
 
 		return () => {
 			cancelled = true
-			window.clearTimeout(sendTimer)
-			window.clearTimeout(revertTimer)
+			timers.forEach((t) => window.clearTimeout(t))
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [replayToken])
+
+	// Background fade-in is the ONLY thing driven by
+	// InputPositionAnimation's onAnimationComplete — and only when the
+	// slide that just finished was the FORWARD one (isAnchored is true
+	// by the time it completes). This is safe as a state change here:
+	// by the time onAnimationComplete fires, the WAAPI slide has
+	// already fully finished (transform back to 'none'), so
+	// InputPositionAnimation's position-tracking layout effect
+	// re-measuring on the resulting re-render reads the correct,
+	// already-settled position — it does NOT corrupt the next
+	// transition's distance calculation the way a state change DURING
+	// an active slide would. When the slide that just finished was the
+	// REVERSE one (isAnchored false), there's nothing to do here — the
+	// background was already faded out and hidden before that slide
+	// even started (see handleNewChat/the replay effect above).
+	const handleAnimationComplete = () => {
+		if (isAnchored) {
+			setBackgroundVisible(true)
+		}
+	}
 
 	return (
 		<div
@@ -252,12 +415,11 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 					baseDistance={baseDistance}
 					baseDurationMs={baseDurationMs}
 					msPer100px={msPer100px}
+					onAnimationComplete={handleAnimationComplete}
 				>
-					<FooterContainer
-						$accent={accent}
-						$background={footerBackground}
-						className={isAnchored ? 'anchored' : undefined}
-					>
+					<FooterContainer>
+						<BorderLine $accent={accent} $visible={isAnchored} data-visible={isAnchored} />
+						<FooterBackground $background={footerBackground} className={backgroundVisible ? 'bg-visible' : undefined} />
 						<div style={{ maxWidth: 720, width: '100%', margin: '0 auto', padding: 32, boxSizing: 'border-box' }}>
 							<div
 								style={{

@@ -12,7 +12,6 @@ export enum TagType {
 	Infographic = 'infographic',
 	Website = 'website',
 	Mobile = 'mobile',
-	Web = 'web',
 	Kinect = 'Xbox Kinect',
 	Print = 'print',
 	Figma = 'Figma',

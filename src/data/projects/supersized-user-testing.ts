@@ -1,16 +1,16 @@
-import { IProject, FileType, ToolType, SectionName, HighlightName, SkillType } from '../IProject'
+import { IProject, FileType, ToolType, SectionName, HighlightName, SkillType, TagType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/supersized.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/supersized.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/supersized.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/supersized-user-testing-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/supersized-user-testing-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/supersized-user-testing-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/supersized-user-testing/large22e.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/supersized-user-testing/large22a.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/supersized-user-testing/large22b.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/supersized-user-testing/large22c.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/supersized-user-testing/large22d.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-05.jpg', import.meta.url).href
 
-const pdf = new URL('../../assets/images/supersized-user-testing/kelly_gorr_user_testing_plan.pdf', import.meta.url).href
+const pdf = new URL('../../assets/images/supersized-user-testing/supersized-user-testing-06.pdf', import.meta.url).href
 
 export const supersizedUserTesting: IProject = {
 	details: {
@@ -20,6 +20,7 @@ export const supersizedUserTesting: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
+		tags: [TagType.Design],
 	},
 	content: [
 		{

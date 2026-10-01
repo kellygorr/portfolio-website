@@ -48,9 +48,18 @@ export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 51
         } as React.CSSProperties
       }
     >
-      <div className={styles.dropped0} />
-      <div className={styles.dropped1} />
-      <div className={styles.dropped2} />
+      {/* Each dropped/picked-up box has its OWN independent infinite CSS
+          animation (opacity 0/1 cycling, see MiniLoader.styles.tsx) — it
+          is not driven by the rolling block's animation at all, so
+          pausing just the roller (below) never stops these on its own.
+          At the resting frame (roller sitting at its start position,
+          nothing rolled out yet), all three are hidden — matching the
+          0%/100% keyframe state each of their own animations already
+          holds — so isStatic must explicitly freeze+hide them here too,
+          the same way it already freezes the roller. */}
+      <div className={styles.dropped0} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
+      <div className={styles.dropped1} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
+      <div className={styles.dropped2} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
       <div className={styles.block} style={isStatic ? { animation: 'none', left: 0, transform: 'none' } : undefined} />
     </div>
     </div>

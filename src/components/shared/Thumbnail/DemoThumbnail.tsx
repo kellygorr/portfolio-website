@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import { motionPalette } from '../../../styles/motionPalettes'
+import { darkestColor, motionPalette } from '../../../styles/motionPalettes'
 import { StopButton } from '../../Page/StopButton'
 import { DemoMotionContext } from '../../Page/DemoMotionContext'
 import { useMediaQuery } from '../hooks/useMediaQuery'
@@ -21,6 +21,13 @@ import type { MotionDemoProps } from '../../Page/MotionDemoProps'
  * wrapped in a link (Thumbnail.tsx navigates to the project page on
  * click), so the button stops propagation/prevents default — otherwise
  * clicking Stop would also navigate away.
+ *
+ * StopButton's bg/color use `darkestColor(palette)` + `palette.text`,
+ * the same theming DemoHeader.tsx uses for its own StopButton — so each
+ * thumbnail's pause chip is colored with that card's own randomly
+ * assigned motion palette (Warm Sand, Golden Hour, Dusty Rose, etc.)
+ * instead of one generic translucent black/white shared by every card
+ * regardless of theme.
  */
 export const DemoThumbnail = ({ theme, children }: MotionDemoProps & { children: ReactNode }) => {
 	const palette = motionPalette(theme)
@@ -51,7 +58,7 @@ export const DemoThumbnail = ({ theme, children }: MotionDemoProps & { children:
 				}}
 			>
 				<StopButton
-					bg={palette.text === '#fff' ? 'rgba(0, 0, 0, 0.55)' : 'rgba(255, 255, 255, 0.85)'}
+					bg={darkestColor(palette)}
 					color={palette.text}
 					stopped={stopped}
 					onToggle={() => {

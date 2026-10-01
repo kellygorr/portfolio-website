@@ -1,18 +1,18 @@
 import { IProject, FileType, TagType, ToolType, SectionName, HighlightName, SkillType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/crime-spot.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/crime-spot.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/crime-spot.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/crime-spot-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/crime-spot-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/crime-spot-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/crime-spot.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/crime-spot.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/crime-spot.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/crime-spot-thumbnail.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/crime-spot-thumbnail.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/crime-spot-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/crime-spot/crimespot_1.png', import.meta.url).href
-const img2 = new URL('../../assets/images/crime-spot/crimespot_2.png', import.meta.url).href
-const img3 = new URL('../../assets/images/crime-spot/crimespot_3.png', import.meta.url).href
+const img1 = new URL('../../assets/images/crime-spot/crime-spot-01.png', import.meta.url).href
+const img2 = new URL('../../assets/images/crime-spot/crime-spot-02.png', import.meta.url).href
+const img3 = new URL('../../assets/images/crime-spot/crime-spot-03.png', import.meta.url).href
 
-const pdf1 = new URL('../../assets/images/crime-spot/kelly_gorr_web_integration.pdf', import.meta.url).href
+const pdf1 = new URL('../../assets/images/crime-spot/crime-spot-04.pdf', import.meta.url).href
 
 export const crimeSpot: IProject = {
 	details: {

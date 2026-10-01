@@ -1,15 +1,15 @@
 import { IProject, FileType, TagType, ToolType, SectionName, HighlightName, SkillType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/malaria.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/malaria.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/malaria.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/malaria-infographic-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/malaria-infographic-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/malaria-infographic-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/malaria-pdf.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/malaria-pdf.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/malaria-pdf.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/malaria-infographic-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/malaria-infographic-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/malaria-infographic-thumbnail-2.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/malaria-infographic/large4a.jpg', import.meta.url).href
-const pdf = new URL('../../assets/images/malaria-infographic/research_based_design.pdf', import.meta.url).href
+const img1 = new URL('../../assets/images/malaria-infographic/malaria-infographic-01.jpg', import.meta.url).href
+const pdf = new URL('../../assets/images/malaria-infographic/malaria-infographic-02.pdf', import.meta.url).href
 
 export const malariaInfographic: IProject = {
 	details: {

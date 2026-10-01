@@ -1,27 +1,27 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
 import { formatYear } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/outlook-calendar.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/outlook-calendar.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/outlook-calendar.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/owa-calendar-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/owa-calendar-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/owa-calendar-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-verge.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-verge.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-verge.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/owa-calendar-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/owa-calendar-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/owa-calendar-thumbnail-2.jpg', import.meta.url).href
 
-const thumbnail3x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-ms.jpg', import.meta.url).href
-const thumbnail3x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-ms.jpg', import.meta.url).href
-const thumbnail3x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-ms.jpg', import.meta.url).href
+const thumbnail3x1 = new URL('../../assets/thumbnails/x1/owa-calendar-thumbnail-3.jpg', import.meta.url).href
+const thumbnail3x15 = new URL('../../assets/thumbnails/x15/owa-calendar-thumbnail-3.jpg', import.meta.url).href
+const thumbnail3x2 = new URL('../../assets/thumbnails/x2/owa-calendar-thumbnail-3.jpg', import.meta.url).href
 
-const thumbnail4x1 = new URL('../../assets/thumbnails/x1/outlook-calendar-ms-tech.jpg', import.meta.url).href
-const thumbnail4x15 = new URL('../../assets/thumbnails/x15/outlook-calendar-ms-tech.jpg', import.meta.url).href
-const thumbnail4x2 = new URL('../../assets/thumbnails/x2/outlook-calendar-ms-tech.jpg', import.meta.url).href
+const thumbnail4x1 = new URL('../../assets/thumbnails/x1/owa-calendar-thumbnail-4.jpg', import.meta.url).href
+const thumbnail4x15 = new URL('../../assets/thumbnails/x15/owa-calendar-thumbnail-4.jpg', import.meta.url).href
+const thumbnail4x2 = new URL('../../assets/thumbnails/x2/owa-calendar-thumbnail-4.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/owa-calendar/calendar5.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/owa-calendar/calendar3.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/owa-calendar/calendar1.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/owa-calendar/calendar2.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/owa-calendar/calendar4.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/owa-calendar/owa-calendar-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/owa-calendar/owa-calendar-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/owa-calendar/owa-calendar-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/owa-calendar/owa-calendar-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/owa-calendar/owa-calendar-05.jpg', import.meta.url).href
 
 export const owaCalendar: IProject = {
 	details: {
@@ -31,7 +31,7 @@ export const owaCalendar: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
-		tags: [TagType.Microsoft, TagType.Web],
+		tags: [TagType.Microsoft, TagType.Website],
 	},
 	content: [
 		{
@@ -101,7 +101,7 @@ export const owaCalendar: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Web],
+					tags: [TagType.Website],
 				},
 				{
 					header: HighlightName.Featured_On,

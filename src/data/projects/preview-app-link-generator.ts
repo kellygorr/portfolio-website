@@ -1,14 +1,14 @@
 import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/link-generator.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/link-generator.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/link-generator.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/preview-app-link-generator-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/preview-app-link-generator-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/preview-app-link-generator-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/preview-app-link-generator/previewApp1.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/preview-app-link-generator/previewApp4.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/preview-app-link-generator/previewApp6.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/preview-app-link-generator/previewApp3.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/preview-app-link-generator/previewApp2.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/preview-app-link-generator/preview-app-link-generator-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/preview-app-link-generator/preview-app-link-generator-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/preview-app-link-generator/preview-app-link-generator-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/preview-app-link-generator/preview-app-link-generator-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/preview-app-link-generator/preview-app-link-generator-05.jpg', import.meta.url).href
 
 export const previewAppLinkGenerator: IProject = {
 	details: {
@@ -67,7 +67,7 @@ export const previewAppLinkGenerator: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Web],
+					tags: [TagType.Website],
 				},
 				{
 					header: HighlightName.Designer,

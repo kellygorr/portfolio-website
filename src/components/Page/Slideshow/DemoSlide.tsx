@@ -88,6 +88,13 @@ export const DemoSlide = ({
 					minHeight: 0,
 					boxSizing: 'border-box',
 					overflow: 'hidden',
+					// Same reasoning as Demo.tsx: block pointer interaction
+					// with the demo's own content while its scripted replay
+					// is actively playing, so a visitor can't click into a
+					// button/input and race the sequence's own state
+					// changes. DemoHeader's restart icon is a sibling of
+					// this div, so it stays clickable throughout.
+					pointerEvents: interactive && running ? 'none' : undefined,
 				}}
 			>
 				{interactive ? (

@@ -28,10 +28,21 @@ const preview: Preview = {
 			// with no motion theme selected. Text uses the palette's own
 			// `text` token (white for all 9 palettes today) so it always
 			// reads legibly against that background.
+			//
+			// Stories whose own canvas background IS a palette's dark
+			// background (full-bleed dark-mode demos, e.g. Motion Tokens/
+			// Durations and Easings) opt in via
+			// `parameters.motionBadgeStyle: 'onDark'` — otherwise the
+			// badge would use the same dark pairing as the page behind it
+			// and blend in. In that case the pairing inverts: badge uses
+			// the palette's own light background token with `textDark`
+			// (the same hand-tuned dark tone used as the page background
+			// itself) so it still stands out.
 			const motionTheme = context.args?.motionTheme as string | undefined
 			const palette = motionTheme ? resolveMotionTheme(motionTheme) : undefined
-			const badgeBackground = palette ? darkestColor(palette) : 'rgba(0, 0, 0, 0.65)'
-			const badgeText = palette ? palette.text : '#fff'
+			const onDark = context.parameters.motionBadgeStyle === 'onDark'
+			const badgeBackground = onDark ? (palette?.background ?? '#fff') : palette ? darkestColor(palette) : 'rgba(0, 0, 0, 0.65)'
+			const badgeText = onDark ? (palette?.textDark ?? '#000') : palette ? palette.text : '#fff'
 			return (
 				<FluentProvider theme={webLightTheme} style={{ background: 'transparent' }}>
 					{!context.parameters.hideRecreatedBadge && (

@@ -1,15 +1,15 @@
 import { IProject, TagType, SkillType, HighlightName, SectionName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/calc.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/calc.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/calc.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/calculator-tool-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/calculator-tool-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/calculator-tool-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/calculator-tool/itemcalc1.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/calculator-tool/itemcalc2.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/calculator-tool/itemcalc3.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/calculator-tool/itemcalc4.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/calculator-tool/itemcalc5.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/calculator-tool/itemcalc7.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/calculator-tool/calculator-tool-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/calculator-tool/calculator-tool-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/calculator-tool/calculator-tool-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/calculator-tool/calculator-tool-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/calculator-tool/calculator-tool-05.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/calculator-tool/calculator-tool-06.jpg', import.meta.url).href
 
 export const calculatorTool: IProject = {
 	details: {
@@ -60,7 +60,7 @@ export const calculatorTool: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Web],
+					tags: [TagType.Website],
 				},
 				{
 					header: HighlightName.Skills,

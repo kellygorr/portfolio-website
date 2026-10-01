@@ -1,5 +1,5 @@
 import { useState, useEffect, type JSX } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { BOTTOM_GAP, GlobalStyles, LARGE_SCREEN, MIN_WIDTH, SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from './styles/GlobalStyles'
 import { Header as HeaderContent } from './components/Header'
@@ -19,26 +19,70 @@ interface Props {
 
 const App = ({ projects }: Props): JSX.Element => {
 	const location = useLocation()
+	const navigate = useNavigate()
 	const searchQuery = new URLSearchParams(location.search).get('q')
 	const [isDarkMode, toggleDarkMode] = useDarkMode()
-	const [isSearching, setIsSearching] = useState(false)
 	// Let's not use a search page.  Google is indexing search pages, and this is not a place I want people to land for the first time
 	const [query, setQuery] = useState(searchQuery)
 
 	const isSmallScreen = useMediaQuery(`(max-width: ${SMALL_SCREEN}px)`)
 
-	useEffect(() => {
-		if (query) {
-			setIsSearching(true)
-		}
-	}, [query])
+	// isSearching is DERIVED from the URL/history entry rather than its own
+	// independent state — this is what makes the browser Back button work
+	// correctly. Every search-state change (opening the bar, typing+Enter a
+	// query, clicking a tag/skill/idea anywhere) pushes its own history
+	// entry (see setIsSearching below and Tag.tsx / SearchBar.tsx's
+	// navigate() calls), so Back naturally steps back through them and
+	// ends up on a real, non-searching entry — instead of search staying
+	// stuck open while Back silently navigates the page underneath it.
+	// `location.state.searching` covers the "opened, no query typed yet"
+	// case (no visible query param for that state, so a plain open doesn't
+	// clutter the URL bar) — `query` covers every state that has one.
+	const isSearching = Boolean(query) || Boolean((location.state as { searching?: boolean } | null)?.searching)
 
 	useEffect(() => {
 		setQuery(searchQuery)
 	}, [searchQuery])
 
+	/** Closes search by asking the browser to go back one entry — since
+	 *  every way of opening/changing search pushed its own entry, going
+	 *  back always lands exactly on the real page that was showing
+	 *  underneath, with no extra bookkeeping needed. Falls back to a
+	 *  same-pathname `replace` (dropping the query) only when the current
+	 *  entry is the very first one this tab ever loaded (e.g. someone
+	 *  opened a shared link with `?q=...` directly) — `navigate(-1)` there
+	 *  would leave the site entirely instead of just closing search. */
+	const closeSearch = () => {
+		if (location.key === 'default') {
+			navigate(location.pathname, { replace: true })
+		} else {
+			navigate(-1)
+		}
+	}
+
+	/** Passed to SearchBar/Header as `setIsSearching` — opening pushes a
+	 *  new history entry (so Back has something of ours to land on);
+	 *  closing hands off to `closeSearch` above. Kept as a single
+	 *  `(open: boolean) => void` function (rather than two separately
+	 *  named props) so existing callers — SearchBar's icon/X toggle —
+	 *  don't need to change how they call it. */
+	const setIsSearching = (open: boolean) => {
+		if (open) {
+			navigate(location.pathname + location.search, { state: { searching: true } })
+		} else {
+			closeSearch()
+		}
+	}
+
 	const thumbnailClick = () => {
-		setIsSearching(false)
+		// No navigation here on purpose — the thumbnail itself is wrapped
+		// in a <Link> that's already navigating to the project page in
+		// this same click, so calling closeSearch() (which would push its
+		// own navigate(-1)/replace) would race that Link and double
+		// navigate. The project page's URL has no `?q=`, so `isSearching`
+		// above resolves to false on its own as soon as that navigation
+		// lands — this just clears the local `query` a little earlier for
+		// a snappier transition.
 		setQuery(null)
 	}
 
@@ -49,8 +93,7 @@ const App = ({ projects }: Props): JSX.Element => {
 					<GlobalStyles theme={isDarkMode ? themeDark : themeLight} />
 
 					<Header>
-						{/* ToDo Do not handle closing search from header, use location/route */}
-						<HeaderContent setIsSearchOpen={setIsSearching} />
+						<HeaderContent />
 					</Header>
 
 					<SearchBar
