@@ -1,14 +1,14 @@
 import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/billboard-generator.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/billboard-generator.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/billboard-generator.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/xbox-billboard-generator-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/xbox-billboard-generator-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/xbox-billboard-generator-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/xbox-billboard-generator/billGen0.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/xbox-billboard-generator/billGen2.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/xbox-billboard-generator/billGen3.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/xbox-billboard-generator/billGen4.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/xbox-billboard-generator/billGen5.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboard-generator-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboard-generator-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboard-generator-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboard-generator-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboard-generator-05.jpg', import.meta.url).href
 
 export const xboxBillboardGenerator: IProject = {
 	details: {
@@ -58,7 +58,7 @@ export const xboxBillboardGenerator: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Web],
+					tags: [TagType.Website],
 				},
 				{
 					header: HighlightName.Skills,

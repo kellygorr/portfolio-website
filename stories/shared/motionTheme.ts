@@ -47,3 +47,21 @@ export const lightenHex = (hex: string, amount: number): string => {
 	const toHex = (channel: number) => channel.toString(16).padStart(2, '0')
 	return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`
 }
+
+/** Darkens a `#rrggbb` hex color by mixing it toward black by `amount`
+ *  (0-1, e.g. 0.5 = 50% darker). Returns an opaque `#rrggbb` hex string.
+ *  Used to push a palette's `darkestColor()` token (still a fairly light,
+ *  warm accent in most of our 9 palettes) further toward true dark-mode
+ *  contrast for full-bleed dark backgrounds, without needing a second
+ *  hardcoded near-black color per palette. */
+export const darkenHex = (hex: string, amount: number): string => {
+	const clean = hex.replace('#', '')
+	const bigint = parseInt(clean, 16)
+	const r = (bigint >> 16) & 255
+	const g = (bigint >> 8) & 255
+	const b = bigint & 255
+	const mix = (channel: number) => Math.round(channel * (1 - amount))
+	const toHex = (channel: number) => channel.toString(16).padStart(2, '0')
+	return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`
+}
+

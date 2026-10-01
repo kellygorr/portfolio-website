@@ -186,6 +186,23 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 						minHeight,
 						paddingBottom: 24,
 						boxSizing: 'border-box',
+						// While the scripted replay is actively playing
+						// (interactive demos only — autoplay demos have no
+						// equivalent "mid-sequence" state to worry about),
+						// block all pointer interaction with the demo's own
+						// content. A visitor clicking into a button/input
+						// mid-sequence could otherwise race the scripted
+						// sequence's own state changes in ways the demo
+						// was never designed to handle (e.g. clicking Send
+						// while InputPositionDemo's own auto-play timers are
+						// already mid-flight) — rather than trying to make
+						// every demo defensive against that, just disallow
+						// it outright while `running` is true. The restart
+						// icon itself lives in DemoHeader, a SIBLING of this
+						// div, so it's unaffected and stays clickable the
+						// whole time (letting a visitor restart again mid-
+						// sequence if they want to).
+						pointerEvents: interactive && running ? 'none' : undefined,
 					}}
 				>
 					{interactive ? (

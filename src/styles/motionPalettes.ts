@@ -49,6 +49,27 @@ export interface MotionPalette {
 	 *  for all 9 palettes, since every darkestColor is dark enough for
 	 *  white text to stay legible. */
 	text: string
+	/** Full dark-mode background — a deliberately hand-tuned dark tone
+	 *  (deeper/more saturated than `darkestColor(palette)`, which is a
+	 *  palette's 4th *accent* token and reads too mid-tone for a true
+	 *  dark-mode canvas). Derived per-palette from a fixed HSL transform
+	 *  against Warm Sand's hand-picked `#5a3028`, so every palette gets a
+	 *  perceptually consistent, comparably dark background instead of a
+	 *  single hardcoded hex reused everywhere. Used by full-bleed
+	 *  dark-mode demos (e.g. Motion Tokens/Durations, Motion Tokens/
+	 *  Easings) as the page background — kept separate from `colors[3]`
+	 *  so darkestColor() and every accent-token-driven demo elsewhere in
+	 *  the app are completely unaffected by this. */
+	backgroundDark: string
+	/** Dark text color for use on a LIGHT badge/chip background (the
+	 *  inverse of `text`, which is for a dark badge background) — e.g. the
+	 *  "recreated for portfolio" badge flips to a light chip with this as
+	 *  its text color on the full-bleed dark-mode demos, so the badge
+	 *  still stands out against a dark canvas instead of disappearing.
+	 *  Same computed value as `backgroundDark` — one hand-tuned dark tone
+	 *  per palette, used as a background in one context and as text in
+	 *  the other. */
+	textDark: string
 	/** 5 colors, ordered light to dark. Used everywhere — swatches,
 	 *  motionThemeTokens, darkestColor, and fed directly into
 	 *  <Blocks colors={...} />. The 5th is always a duplicate of the 3rd
@@ -66,6 +87,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#f7f2e3',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#5a3028',
+		textDark: '#5a3028',
 		colors: ['#e9d7b8', '#e0a695', '#e8a668', '#c9765a', '#e8a668'],
 		swatchNames: ['Cream', 'Sand', 'Rose', 'Amber', 'Clay'],
 	},
@@ -75,6 +98,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fbf3dc',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#5b2c24',
+		textDark: '#5b2c24',
 		colors: ['#f0dcae', '#eab3a3', '#f2a94e', '#cf6d4e', '#f2a94e'],
 		swatchNames: ['Cream', 'Wheat', 'Blush', 'Marigold', 'Rust'],
 	},
@@ -84,6 +109,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fdf8f1',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#57322c',
+		textDark: '#57322c',
 		colors: ['#e4d4bd', '#d9a8a0', '#dfa878', '#c17a63', '#dfa878'],
 		swatchNames: ['Ivory', 'Oat', 'Dusty Pink', 'Apricot', 'Terracotta'],
 	},
@@ -93,6 +120,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#f7f2e3',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#284234',
+		textDark: '#284234',
 		colors: ['#e9d7b8', '#c4d97a', '#a3c93f', '#4f9e7c', '#a3c93f'],
 		swatchNames: ['Cream', 'Sand', 'Lime', 'Chartreuse', 'Teal Lime'],
 	},
@@ -102,6 +131,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fbf3dc',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#2b4636',
+		textDark: '#2b4636',
 		colors: ['#f0dcae', '#c9de85', '#aad147', '#56a67f', '#aad147'],
 		swatchNames: ['Cream', 'Wheat', 'Lime', 'Chartreuse', 'Teal Lime'],
 	},
@@ -111,6 +142,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fdf8f1',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#253f31',
+		textDark: '#253f31',
 		colors: ['#e4d4bd', '#c0d47e', '#9fc544', '#4a9575', '#9fc544'],
 		swatchNames: ['Ivory', 'Oat', 'Lime', 'Chartreuse', 'Teal Lime'],
 	},
@@ -120,6 +153,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#f7f2e3',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#482d22',
+		textDark: '#482d22',
 		colors: ['#e9d7b8', '#d4b896', '#b8905f', '#b06a3e', '#b8905f'],
 		swatchNames: ['Cream', 'Sand', 'Beige', 'Camel', 'Clay'],
 	},
@@ -129,6 +164,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fbf3dc',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#4d3124',
+		textDark: '#4d3124',
 		colors: ['#f0dcae', '#dcbe9a', '#c19765', '#bc7443', '#c19765'],
 		swatchNames: ['Cream', 'Wheat', 'Beige', 'Camel', 'Clay'],
 	},
@@ -138,6 +175,8 @@ export const motionPalettes: MotionPalette[] = [
 		background: '#fdf8f1',
 		background2: '#fff',
 		text: '#fff',
+		backgroundDark: '#4a2f22',
+		textDark: '#4a2f22',
 		colors: ['#e4d4bd', '#d6bb98', '#b99461', '#b3703f', '#b99461'],
 		swatchNames: ['Ivory', 'Oat', 'Beige', 'Camel', 'Clay'],
 	},

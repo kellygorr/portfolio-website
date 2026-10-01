@@ -72,7 +72,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	}
 
 	return (
-		<Container $isOpen={props.isSearching}>
+		<Container>
 			<Sidebar
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
@@ -110,11 +110,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	)
 }
 
-interface IStyle {
-	$isOpen: boolean
-}
-
-const Container = styled.div<IStyle>`
+const Container = styled.div`
 	position: absolute;
 	top: 135px;
 	display: flex;
@@ -123,21 +119,36 @@ const Container = styled.div<IStyle>`
 	z-index: 1000;
 
 	> div > button {
+		position: relative;
+		overflow: hidden;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
-		background-image: linear-gradient(
-			to right,
-			${({ theme }) => theme.gradient1} 5%,
-			${({ theme }) => theme.gradient2} 30%,
-			${({ theme }) => theme.sidebarBackground} 75%
-		);
-		background-position: right center;
-		background-size: 400% 100%;
+		/* Gradient sits on its own layer, fixed in place, and simply fades
+		   in/out on hover — it no longer sweeps left-to-right via an
+		   animated background-position (the ::before element's own
+		   position never changes; only its opacity transitions). Spans
+		   edge-to-edge (gradient1 -> gradient2, no trailing fade back to
+		   the plain background color) so the highlight visibly covers
+		   the whole tab instead of blending back into the background
+		   partway across — that trailing fade-to-background stop only
+		   made sense for the old sweep animation, which relied on it to
+		   look like the highlight was wiping in from one side. */
+		&::before {
+			content: '';
+			position: absolute;
+			inset: 0;
+			background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1}, ${({ theme }) => theme.gradient2});
+			opacity: 0;
+			transition: opacity 300ms ease-in-out;
+			pointer-events: none;
+		}
 
-		&:hover {
-			background-position: ${({ $isOpen }) => ($isOpen ? 'right center' : 'left center')};
+		&:hover::before {
+			opacity: 1;
+		}
 
-			transition: background-position 500ms ease-in-out;
+		> * {
+			position: relative;
 		}
 	}
 `

@@ -1,9 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from '../shared'
 
-// Fallback duration the restart icon spins for demos that never call
-// onReplayStateChange themselves.
-const DEFAULT_SPIN_MS = 700
+// Pure safety net — NOT the normal way `running` turns false. Every
+// current interactive demo (GroundingMenuDemo, InputPositionDemo,
+// Durations, Easings) calls `onReplayStateChange(false)` itself once its
+// OWN scripted sequence actually finishes, and that call is what should
+// normally stop the spin / re-enable pointer events (see
+// DemoMotionContext.ts's docstring). This timer exists only to recover
+// from a demo that has a bug and never calls back at all — it's
+// deliberately long (way longer than any real sequence in this
+// codebase, the longest of which is Easings' multi-card click-through,
+// which can run several seconds depending on the duration ticker) so it
+// never fires in the normal case. An earlier version used a short
+// 700ms value here as if it were the expected completion signal for
+// every demo — but since every real demo's sequence takes LONGER than
+// 700ms, that fired first every single time, stopping the spin (and,
+// since `running` also now gates pointer-events on the demo content —
+// see Demo.tsx/DemoSlide.tsx — re-enabling clicks) well before the
+// sequence had actually finished.
+const SAFETY_FALLBACK_MS = 30000
 
 /**
  * Shared restart-management logic for `interactive` demos, used by
@@ -23,11 +38,28 @@ export const useReplayControl = (interactive: boolean | undefined) => {
 	const containerRef = useRef<HTMLDivElement>(null)
 	const settleTimerRef = useRef<number | undefined>(undefined)
 
+	const clearSettleTimer = () => {
+		if (settleTimerRef.current) {
+			window.clearTimeout(settleTimerRef.current)
+			settleTimerRef.current = undefined
+		}
+	}
+
 	const runReplay = () => {
 		setRestartKey((prev) => prev + 1)
 		setRunning(true)
-		if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current)
-		settleTimerRef.current = window.setTimeout(() => setRunning(false), DEFAULT_SPIN_MS)
+		clearSettleTimer()
+		settleTimerRef.current = window.setTimeout(() => setRunning(false), SAFETY_FALLBACK_MS)
+	}
+
+	// Exposed as `onReplayStateChange` via DemoMotionContext — this is
+	// the REAL completion signal a demo calls once its own scripted
+	// sequence actually finishes. Clears the safety-net timer at the
+	// same time, since it's no longer needed once the demo has reported
+	// in on its own.
+	const reportRunningState = (value: boolean) => {
+		clearSettleTimer()
+		setRunning(value)
 	}
 
 	// Auto-play once: the first time an `interactive` demo scrolls into
@@ -54,10 +86,8 @@ export const useReplayControl = (interactive: boolean | undefined) => {
 	}, [interactive, prefersReducedMotion])
 
 	useEffect(() => {
-		return () => {
-			if (settleTimerRef.current) window.clearTimeout(settleTimerRef.current)
-		}
+		return () => clearSettleTimer()
 	}, [])
 
-	return { containerRef, restartKey, running, setRunning, runReplay }
+	return { containerRef, restartKey, running, setRunning: reportRunningState, runReplay }
 }

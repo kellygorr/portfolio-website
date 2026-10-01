@@ -1,10 +1,10 @@
 import { IProject, FileType, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/jewelbox.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/jewelbox.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/jewelbox.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/jewel-box-cafe-redesign-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/jewel-box-cafe-redesign-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/jewel-box-cafe-redesign-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/jewel-box-cafe-redesign/large5.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/jewel-box-cafe-redesign/jewel-box-cafe-redesign-01.jpg', import.meta.url).href
 
 export const jewelBoxCafe: IProject = {
 	details: {

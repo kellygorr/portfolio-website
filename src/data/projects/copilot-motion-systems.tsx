@@ -17,27 +17,27 @@ import type { MotionPaletteName } from '../../styles/motionPalettes'
 import { formatYearRange } from '../../utils/dateFormat'
 
 const inputPositionCentered = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-centered.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-01.jpg',
 	import.meta.url
 ).href
 const inputPositionCentered2x = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-centered@2x.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-01@2x.jpg',
 	import.meta.url
 ).href
 const inputPositionAnchored = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-anchored.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-02.jpg',
 	import.meta.url
 ).href
 const inputPositionAnchored2x = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-anchored@2x.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-02@2x.jpg',
 	import.meta.url
 ).href
 const inputPositionSearchExpanded = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-search-expanded.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-03.jpg',
 	import.meta.url
 ).href
 const inputPositionSearchExpanded2x = new URL(
-	'../../assets/images/copilot-motion-systems/input-position-search-expanded@2x.jpg',
+	'../../assets/images/copilot-motion-systems/copilot-motion-systems-03@2x.jpg',
 	import.meta.url
 ).href
 
@@ -118,6 +118,12 @@ const GroundingMenuDemo = ({ theme }: { theme: MotionPaletteName }) => {
 		const steps = [1, 2, 3, 0]
 		const timers: number[] = []
 
+		// First step fires IMMEDIATELY (i=0 -> 0ms delay) — not after a
+		// full GROUNDING_MENU_STEP_MS wait. An earlier version scheduled
+		// every step at `GROUNDING_MENU_STEP_MS * (i + 1)`, which made
+		// even the FIRST tab change wait a full step interval after the
+		// click/auto-trigger before anything visibly happened at all —
+		// same class of bug as InputPositionDemo's replay-delay fix.
 		steps.forEach((tabIndex, i) => {
 			const timer = window.setTimeout(
 				() => {
@@ -127,7 +133,7 @@ const GroundingMenuDemo = ({ theme }: { theme: MotionPaletteName }) => {
 						onReplayStateChange?.(false)
 					}
 				},
-				GROUNDING_MENU_STEP_MS * (i + 1)
+				GROUNDING_MENU_STEP_MS * i
 			)
 			timers.push(timer)
 		})
@@ -372,22 +378,22 @@ const TeachingHandraiseDemo = ({ theme }: { theme: MotionPaletteName }) => {
  */
 export const copilotMotionSystems: IProject = {
 	details: {
-		header: 'Copilot Motion Systems',
+		header: 'Copilot Interaction Systems',
 		thumbnail: null,
 		demo: (
 			<DemoThumbnail theme={thumbnailTheme}>
 				<GreetingMotionDemo theme={thumbnailTheme} />
 			</DemoThumbnail>
 		),
-		tags: [TagType.Microsoft, TagType.Copilot, TagType.Motion],
+		tags: [TagType.Microsoft, TagType.Copilot, TagType.Motion, TagType.Website],
 	},
 	content: [
 		{
-			title: 'Copilot Motion Systems',
+			title: 'Copilot Interaction Systems',
 		},
 		{
 			header: SectionName.Overview,
-			body: `Motion engineering across Microsoft Copilot: AI thinking states, chat and panel interactions, grounding/menu patterns, and teaching popups. I led how designers and engineers across Copilot chose performant, accessible motion implementations — from CSS and SVG to JavaScript-driven animation — and delivered craft improvements for major public moments at Build and Ignite.`,
+			body: `Interaction engineering across Microsoft Copilot: chat input transitions, grounding and overlay menu patterns, teaching cues, and AI response moments. Motion was often the visible layer, but the work also included component structure, information architecture, focus behavior, accessibility, and production-ready implementation decisions for major Copilot craft pushes.`,
 		},
 		{
 			header: SectionName.Role,
@@ -397,14 +403,14 @@ export const copilotMotionSystems: IProject = {
 					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping],
 				},
 			],
-			body: `Motion engineering leader for this work across Microsoft 365 and Copilot. Partnered with the Fluent team on reusable motion components and implementation patterns to reduce duplicate work across Copilot surfaces. Delivered high-priority craft improvements — theming, menu interactions, accessibility, and optimized motion — for Build and Ignite. Helped designers and engineers choose performant implementation approaches across CSS, SVG, and JavaScript-driven animation, including reduced-motion support and cross-platform tradeoffs, and presented motion performance best practices to engineering and design teams across Microsoft.`,
+			body: `UX engineer for Copilot interaction systems that combined product craft, component work, and performant motion. I partnered with design, Copilot engineering, and Fluent AI to turn interaction patterns into reusable implementations, including menu behavior, input transitions, teaching cues, accessibility considerations, and reduced-motion support.`,
 		},
 		{
 			header: SectionName.Details,
 			highlight: [
 				{
 					header: HighlightName.Platform,
-					tags: [TagType.Copilot, TagType.Web],
+					tags: [TagType.Copilot, TagType.Website],
 				},
 				{
 					header: HighlightName.Dates,
@@ -457,7 +463,11 @@ export const copilotMotionSystems: IProject = {
 			),
 		},
 		{
-			body: `Copilot surfaces grounding sources — files, people, meetings, emails — through a tabbed menu pattern. This wireframe demonstrates the interaction shape (tab switching, directional content transitions) independent of any specific visual design, so the underlying motion and information architecture can be evaluated on its own.`,
+			body: `Copilot surfaces grounding sources such as files, people, meetings, and emails through a tabbed menu pattern. This was one of the clearer examples where my work was not only adding motion to an existing surface. I built the menu pattern as a component-level interaction, including the tab model, list structure, directional transitions, selected-state behavior, and simplified wireframe treatment so the motion and information architecture could be evaluated apart from final visual styling.`,
+		},
+		{
+			header: 'Overlay and capabilities menus',
+			body: `The related Bebop overlay menu work extended this pattern into product UI: capabilities and sources menus, submenu motion, menu styling, prevention of background interaction, navigation fixes, and focus behavior. This is a useful section to expand because it shows full-circle UX engineering: interpreting design intent, building the component behavior, solving interaction bugs, and making the motion feel integrated rather than decorative.`,
 		},
 		{
 			header: 'Greeting Motion',

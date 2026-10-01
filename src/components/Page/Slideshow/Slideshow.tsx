@@ -1,5 +1,6 @@
 import { useState, useEffect, type JSX } from 'react'
 import styled from 'styled-components'
+import { ChevronLeft16Filled, ChevronRight16Filled } from '@fluentui/react-icons'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
 import { MIN_WIDTH } from '../../../styles/GlobalStyles'
@@ -27,6 +28,16 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 		}
 	}, [isScrolling])
 
+	/** Scrolls a specific slide into view — shared by clicking the
+	 *  left/right 25%/75% zones of the slideshow itself (see
+	 *  `handleSlideShowClick`) and the explicit prev/next buttons next to
+	 *  the "X of Y" counter below. */
+	const goToSlide = (index: number) => {
+		if (!slideshowRef || !slideshowRef.current) return
+		const nextSlide = slideshowRef.current.children[index] as HTMLElement | undefined
+		nextSlide?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+	}
+
 	const handleSlideShowClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		if (slideshowRef && slideshowRef.current) {
 			const slideWidth = slideshowRef.current.clientWidth
@@ -42,8 +53,7 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 
 			if (!(nextIndex === null)) {
 				e.preventDefault()
-				const nextSlide = slideshowRef.current.children[nextIndex] as HTMLElement | undefined
-				nextSlide?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+				goToSlide(nextIndex)
 			}
 		}
 	}
@@ -78,7 +88,17 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 			</Slides>
 			<Caption>
 				{props.data[active].caption}
-				<Key>{`${active + 1} of ${props.data.length}`}</Key>
+				{props.data.length > 1 && (
+					<Counter>
+						<NavButton onClick={() => goToSlide(active - 1)} disabled={active === 0} aria-label="Previous slide">
+							<ChevronLeft16Filled />
+						</NavButton>
+						<Key>{`${active + 1} of ${props.data.length}`}</Key>
+						<NavButton onClick={() => goToSlide(active + 1)} disabled={active === props.data.length - 1} aria-label="Next slide">
+							<ChevronRight16Filled />
+						</NavButton>
+					</Counter>
+				)}
 			</Caption>
 		</>
 	)
@@ -147,5 +167,47 @@ const Caption = styled.div`
 `
 
 const Key = styled.div`
-	width: 100%;
+	white-space: nowrap;
+`
+
+/** Row holding the prev/next nav buttons flanking the "X of Y" counter. */
+const Counter = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 4px;
+`
+
+/** Previous/next slide buttons — bordered even at rest (not just on
+ *  hover/focus) so they read as real clickable buttons rather than plain
+ *  decorative icons, matching the user's ask to make the counter
+ *  controls "look more like buttons" in their natural state. */
+const NavButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+	border: 1px solid ${({ theme }) => theme.accent};
+	background: transparent;
+	color: ${({ theme }) => theme.text};
+	cursor: pointer;
+	padding: 0;
+	transition: background-color 150ms ease-in-out;
+
+	&:hover:not(:disabled) {
+		background-color: ${({ theme }) => theme.accent}22;
+	}
+
+	&:disabled {
+		opacity: 0.35;
+		cursor: default;
+	}
+
+	svg {
+		width: 16px;
+		height: 16px;
+	}
 `

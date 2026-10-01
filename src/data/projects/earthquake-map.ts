@@ -1,15 +1,15 @@
 import { IProject, FileType, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/earthquake.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/earthquake.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/earthquake.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/earthquake-map-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/earthquake-map-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/earthquake-map-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/earthquake-pdf.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/earthquake-pdf.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/earthquake-pdf.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/earthquake-map-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/earthquake-map-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/earthquake-map-thumbnail-2.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/earthquake-map/large17.jpg', import.meta.url).href
-const pdf1 = new URL('../../assets/images/earthquake-map/Kelly_Gorr_Code_Sample.pdf', import.meta.url).href
+const img1 = new URL('../../assets/images/earthquake-map/earthquake-map-01.jpg', import.meta.url).href
+const pdf1 = new URL('../../assets/images/earthquake-map/earthquake-map-02.pdf', import.meta.url).href
 
 export const earthquakeMap: IProject = {
 	details: {

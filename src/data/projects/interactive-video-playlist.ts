@@ -2,29 +2,29 @@ import { IProject, FileType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 import { formatMonthYear } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/summer.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/summer.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/summer.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/interactive-video-playlist-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/interactive-video-playlist-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/interactive-video-playlist-thumbnail.jpg', import.meta.url).href
 
 // const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/summerME.mp4'
-const video2 = new URL('../../assets/videos/slipknotXboxI.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/interactive-video-playlist/interactive-video-playlist-01.mp4', import.meta.url).href
 
-const img1 = new URL('../../assets/images/interactive-video-playlist/summer5.png', import.meta.url).href
-const img2 = new URL('../../assets/images/interactive-video-playlist/summer8.png', import.meta.url).href
-const img3 = new URL('../../assets/images/interactive-video-playlist/summer1.png', import.meta.url).href
-const img4 = new URL('../../assets/images/interactive-video-playlist/summer6.png', import.meta.url).href
-const img5 = new URL('../../assets/images/interactive-video-playlist/summer3.png', import.meta.url).href
-const img6 = new URL('../../assets/images/interactive-video-playlist/summer4.png', import.meta.url).href
-const img7 = new URL('../../assets/images/interactive-video-playlist/summer7.png', import.meta.url).href
-const img8 = new URL('../../assets/images/interactive-video-playlist/summer14.png', import.meta.url).href
-const img9 = new URL('../../assets/images/interactive-video-playlist/summer11.png', import.meta.url).href
-const img10 = new URL('../../assets/images/interactive-video-playlist/summer15.png', import.meta.url).href
-const img11 = new URL('../../assets/images/interactive-video-playlist/summer12.png', import.meta.url).href
+const img1 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-02.png', import.meta.url).href
+const img2 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-03.png', import.meta.url).href
+const img3 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-04.png', import.meta.url).href
+const img4 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-05.png', import.meta.url).href
+const img5 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-06.png', import.meta.url).href
+const img6 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-07.png', import.meta.url).href
+const img7 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-08.png', import.meta.url).href
+const img8 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-09.png', import.meta.url).href
+const img9 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-10.png', import.meta.url).href
+const img10 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-11.png', import.meta.url).href
+const img11 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-12.png', import.meta.url).href
 
-const img12 = new URL('../../assets/images/interactive-video-playlist/itv6.jpg', import.meta.url).href
-const img13 = new URL('../../assets/images/interactive-video-playlist/itv3.jpg', import.meta.url).href
-const img14 = new URL('../../assets/images/interactive-video-playlist/itv4.jpg', import.meta.url).href
-const img15 = new URL('../../assets/images/interactive-video-playlist/itv5.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-13.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-14.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-15.jpg', import.meta.url).href
+const img15 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-16.jpg', import.meta.url).href
 
 export const interactiveVideoPlaylist: IProject = {
 	details: {

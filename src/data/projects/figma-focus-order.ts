@@ -1,42 +1,43 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
-import { formatMonthYear } from '../../utils/dateFormat'
+import { formatMonthYear, formatMonthYearRange } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/focus-order.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/focus-order.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/focus-order.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/figma-focus-order-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/focus-order-twitter.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/focus-order-twitter.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/focus-order-twitter.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/figma-focus-order-thumbnail-2.jpg', import.meta.url).href
 
-const thumbnail3x1 = new URL('../../assets/thumbnails/x1/focus-order-instagram.jpg', import.meta.url).href
-const thumbnail3x15 = new URL('../../assets/thumbnails/x15/focus-order-instagram.jpg', import.meta.url).href
-const thumbnail3x2 = new URL('../../assets/thumbnails/x2/focus-order-instagram.jpg', import.meta.url).href
+const thumbnail3x1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail-3.jpg', import.meta.url).href
+const thumbnail3x15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail-3.jpg', import.meta.url).href
+const thumbnail3x2 = new URL('../../assets/thumbnails/x2/figma-focus-order-thumbnail-3.jpg', import.meta.url).href
 
-const thumbnail4x1 = new URL('../../assets/thumbnails/x1/focus-order-log-rocket.jpg', import.meta.url).href
-const thumbnail4x15 = new URL('../../assets/thumbnails/x15/focus-order-log-rocket.jpg', import.meta.url).href
-const thumbnail4x2 = new URL('../../assets/thumbnails/x2/focus-order-log-rocket.jpg', import.meta.url).href
+const thumbnail4x1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail-4.jpg', import.meta.url).href
+const thumbnail4x15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail-4.jpg', import.meta.url).href
+const thumbnail4x2 = new URL('../../assets/thumbnails/x2/figma-focus-order-thumbnail-4.jpg', import.meta.url).href
 
-const thumbnail5x1 = new URL('../../assets/thumbnails/x1/focus-order-kalamuna.jpg', import.meta.url).href
-const thumbnail5x15 = new URL('../../assets/thumbnails/x15/focus-order-kalamuna.jpg', import.meta.url).href
-const thumbnail5x2 = new URL('../../assets/thumbnails/x2/focus-order-kalamuna.jpg', import.meta.url).href
+const thumbnail5x1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail-5.jpg', import.meta.url).href
+const thumbnail5x15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail-5.jpg', import.meta.url).href
+const thumbnail5x2 = new URL('../../assets/thumbnails/x2/figma-focus-order-thumbnail-5.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/focus-order/1.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/focus-order/3.jpg', import.meta.url).href
-const img7 = new URL('../../assets/images/focus-order/4.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/focus-order/video1thumb2.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/focus-order/video2thumb2.jpg', import.meta.url).href
-const img8 = new URL('../../assets/images/focus-order/v2/v2-1.jpg', import.meta.url).href
-const img9 = new URL('../../assets/images/focus-order/v2/v2-2.jpg', import.meta.url).href
-const img10 = new URL('../../assets/images/focus-order/v2/v2-3.jpg', import.meta.url).href
-const img11 = new URL('../../assets/images/focus-order/v2/v2-4.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/figma-focus-order/figma-focus-order-01.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/figma-focus-order/figma-focus-order-02.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/figma-focus-order/figma-focus-order-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/figma-focus-order/figma-focus-order-04.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/figma-focus-order/figma-focus-order-05.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/figma-focus-order/figma-focus-order-06.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/figma-focus-order/figma-focus-order-07.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/figma-focus-order/figma-focus-order-08.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/figma-focus-order/figma-focus-order-09.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/figma-focus-order/figma-focus-order-10.png', import.meta.url).href
 
-const video1 = new URL('../../assets/videos/focus-order/v2/v2-video.mp4', import.meta.url).href
-const video2 = new URL('../../assets/videos/focus-order/sizedvid2.mp4', import.meta.url).href
+const video1 = new URL('../../assets/videos/figma-focus-order/figma-focus-order-10.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/figma-focus-order/figma-focus-order-11.mp4', import.meta.url).href
 
 export const focusOrder: IProject = {
 	details: {
-		header: 'Focus Order Plugin',
+		header: 'Accessibility Assistant',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -45,6 +46,40 @@ export const focusOrder: IProject = {
 		tags: [TagType.Microsoft, TagType.Tooling],
 	},
 	content: [
+		{
+			title: 'Accessibility Assistant',
+		},
+		{
+			slideshow: {
+				width: 1735,
+				slides: [
+					{
+						img: img12,
+						caption: 'Accessibility Assistant product page',
+					},
+				],
+			},
+		},
+		{
+			header: SectionName.URL,
+			body: '<a href="https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant">https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant</a>',
+		},
+		{
+			header: SectionName.Role,
+			highlight: [
+				{
+					header: HighlightName.Dates,
+					body: formatMonthYearRange('May', 2024, 'May', 2025),
+				},
+			],
+			body: `Accessibility Assistant began as the Focus Order plugin, a public Figma accessibility tool I rebuilt and expanded as the engineering lead. As the project evolved into Accessibility Assistant, my later role focused on release support, contributor mentorship, and implementation guidance. The plugin grew to 34K+ downloads, was used in Microsoft accessibility training, and was recognized by Microsoft accessibility leadership.`,
+		},
+		{
+			body: `The work below focuses on the Focus Order foundation I built before the plugin expanded into the broader Accessibility Assistant experience.`,
+		},
+		{
+			title: 'Focus Order Plugin',
+		},
 		{
 			slideshow: {
 				width: 1735,
@@ -97,10 +132,6 @@ export const focusOrder: IProject = {
 			},
 		},
 		{
-			header: SectionName.URL,
-			body: '<a href="https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-order">https://www.figma.com/community/plugin/731310036968334777/A11y---Focus-order</a>',
-		},
-		{
 			header: SectionName.Accessibility,
 			body: `Microsoft's Focus Order is a plugin for Figma that allows designers to build accessibility for assitive technology into their designs.  It is publicly available to the figma community.`,
 		},
@@ -112,11 +143,11 @@ export const focusOrder: IProject = {
 					tags: [SkillType.TypeScript, SkillType.React, SkillType.HTML, SkillType.CSS, SkillType.UIUX],
 				},
 			],
-			body: `My team and I partnered with the a11y team to redesign the Focus Order plugin and expand its capabilities.  I rebuilt the plugin in React and added new features including: 
+			body: `I partnered with the a11y team to redesign the Focus Order plugin and expand its capabilities.  I rebuilt the plugin in React and added new features including: 
 			1) Edit screen to add roles, properties, and comments on each annotation 2) First Run Experience tutorial for new plugin users 3) Auto load user annotations when plugin launches 4) A readout of the annotation details so users can see them without having to download the plugin`,
 		},
 		{
-			body: `For many years I continued to work with a designer to add more features to the plugin, even though it was no longer a core project.  Later a contractor was hired and I transitioned to a lead engineering role with the project.`,
+			body: `For many years I continued to work with a designer to add more features to the plugin, even though it was no longer a core project.`,
 		},
 		{
 			header: SectionName.Details,
@@ -127,7 +158,7 @@ export const focusOrder: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: formatMonthYear('Sep', 2020, 'Present'),
+					body: formatMonthYearRange('Sep', 2020, 'May', 2024),
 				},
 				{
 					header: HighlightName.Designer,
@@ -147,7 +178,7 @@ export const focusOrder: IProject = {
 				},
 				{
 					header: HighlightName.Engineer,
-					body: 'Kelly Gorr, Himanshu Shah',
+					body: 'Kelly Gorr',
 				},
 			],
 		},

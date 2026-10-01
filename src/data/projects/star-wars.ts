@@ -2,20 +2,20 @@ import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IP
 import { TagType } from '../IProject'
 import { formatMonthYear } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/starwars.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/starwars.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/starwars.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/star-wars-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/star-wars-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/star-wars-thumbnail.jpg', import.meta.url).href
 
-const thumbnail2x1 = new URL('../../assets/thumbnails/x1/starwars-kotaku.jpg', import.meta.url).href
-const thumbnail2x15 = new URL('../../assets/thumbnails/x15/starwars-kotaku.jpg', import.meta.url).href
-const thumbnail2x2 = new URL('../../assets/thumbnails/x2/starwars-kotaku.jpg', import.meta.url).href
+const thumbnail2x1 = new URL('../../assets/thumbnails/x1/star-wars-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x15 = new URL('../../assets/thumbnails/x15/star-wars-thumbnail-2.jpg', import.meta.url).href
+const thumbnail2x2 = new URL('../../assets/thumbnails/x2/star-wars-thumbnail-2.jpg', import.meta.url).href
 
-const video1 = new URL('../../assets/videos/starWars.mp4', import.meta.url).href
+const video1 = new URL('../../assets/videos/star-wars/star-wars-01.mp4', import.meta.url).href
 
-const img1 = new URL('../../assets/images/star-wars/starwars1.png', import.meta.url).href
-const img2 = new URL('../../assets/images/star-wars/starwars2.png', import.meta.url).href
-const img3 = new URL('../../assets/images/star-wars/starwars3.png', import.meta.url).href
-const img5 = new URL('../../assets/images/star-wars/starwars5.png', import.meta.url).href
+const img1 = new URL('../../assets/images/star-wars/star-wars-02.png', import.meta.url).href
+const img2 = new URL('../../assets/images/star-wars/star-wars-03.png', import.meta.url).href
+const img3 = new URL('../../assets/images/star-wars/star-wars-04.png', import.meta.url).href
+const img5 = new URL('../../assets/images/star-wars/star-wars-05.png', import.meta.url).href
 
 export const starWars: IProject = {
 	details: {

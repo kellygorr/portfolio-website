@@ -1,19 +1,19 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/billboards.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/billboards.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/billboards.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/xbox-billboards-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/xbox-billboards-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/xbox-billboards-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/xbox-billboards/billboard3.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/xbox-billboards/billboard1.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/xbox-billboards/billboard2.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/xbox-billboards/ffSweepstakes.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/xbox-billboards/X1-COMP-Billboard-GoldGameE3Promo-ES-MX-v2.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/xbox-billboards/X1-FUT-Anniversary-billboard-MX-v2-COMP.jpg', import.meta.url).href
-const img7 = new URL('../../assets/images/xbox-billboards/billboard5.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/xbox-billboards/xbox-billboards-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-billboards/xbox-billboards-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-billboards/xbox-billboards-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-billboards/xbox-billboards-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-billboards/xbox-billboards-05.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-billboards/xbox-billboards-06.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/xbox-billboards/xbox-billboards-07.jpg', import.meta.url).href
 
-const video1 = new URL('../../assets/videos/iggyazalea.mp4', import.meta.url).href
+const video1 = new URL('../../assets/videos/xbox-billboards/xbox-billboards-08.mp4', import.meta.url).href
 
 export const xboxBillboards: IProject = {
 	details: {

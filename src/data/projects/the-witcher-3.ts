@@ -2,26 +2,26 @@ import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IP
 import { TagType } from '../IProject'
 import { formatMonthYearRange } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/witcher3.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/witcher3.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/witcher3.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/the-witcher-3-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/the-witcher-3-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/the-witcher-3-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/the-witcher-3/witcher2.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/the-witcher-3/witcher3.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/the-witcher-3/witcher5.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/the-witcher-3/witcher6.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/the-witcher-3/witcher7.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/the-witcher-3/witcher9.jpg', import.meta.url).href
-const img7 = new URL('../../assets/images/the-witcher-3/witcher10.jpg', import.meta.url).href
-const img8 = new URL('../../assets/images/the-witcher-3/witcher11.jpg', import.meta.url).href
-const img9 = new URL('../../assets/images/the-witcher-3/witcher12.jpg', import.meta.url).href
-const img10 = new URL('../../assets/images/the-witcher-3/witchera.jpg', import.meta.url).href
-const img11 = new URL('../../assets/images/the-witcher-3/witcher13.jpg', import.meta.url).href
-const img12 = new URL('../../assets/images/the-witcher-3/witcher14.jpg', import.meta.url).href
-const img13 = new URL('../../assets/images/the-witcher-3/witcher8.jpg', import.meta.url).href
-const img14 = new URL('../../assets/images/the-witcher-3/witcher1.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/the-witcher-3/the-witcher-3-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/the-witcher-3/the-witcher-3-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/the-witcher-3/the-witcher-3-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/the-witcher-3/the-witcher-3-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/the-witcher-3/the-witcher-3-05.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/the-witcher-3/the-witcher-3-06.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/the-witcher-3/the-witcher-3-07.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/the-witcher-3/the-witcher-3-08.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/the-witcher-3/the-witcher-3-09.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/the-witcher-3/the-witcher-3-10.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/the-witcher-3/the-witcher-3-11.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/the-witcher-3/the-witcher-3-12.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/the-witcher-3/the-witcher-3-13.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/the-witcher-3/the-witcher-3-14.jpg', import.meta.url).href
 
-const video1 = new URL('../../assets/videos/witcherPollOpt.mp4', import.meta.url).href
+const video1 = new URL('../../assets/videos/the-witcher-3/the-witcher-3-15.mp4', import.meta.url).href
 
 export const theWitcher3: IProject = {
 	details: {

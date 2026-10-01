@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { ArrowClockwise16Filled } from '@fluentui/react-icons'
 
 /**
@@ -67,18 +67,28 @@ const IconButton = styled.button<{ $color: string; $running: boolean }>`
 		opacity: 0.85;
 	}
 
+	&:disabled {
+		cursor: default;
+	}
+
 	svg {
-		${({ $running }) =>
-			$running
-				? css`
-						animation: ${spin} 900ms linear infinite;
-					`
-				: // Settling: ease back to the upright resting position instead
-					// of freezing mid-spin the instant the sequence finishes.
-					css`
-						transition: transform 300ms ease-out;
-						transform: rotate(0deg);
-					`}
+		/* Always has the spin animation attached — toggling between
+		   "running" and "stopped" only ever changes animation-play-state,
+		   never swaps to a different rule/style. An earlier version
+		   swapped between an animation declaration (while running) and
+		   a transition: transform ... rotate(0deg) declaration (while
+		   stopped) — but transitioning transform can only interpolate
+		   FROM whatever inline/computed rotation the element already has
+		   TO the new target, and an animation shorthand being removed
+		   entirely doesn't leave behind a usable rotation value for that
+		   transition to start from — so the icon never visibly appeared
+		   to be spinning while running. animation-play-state avoids this
+		   entirely: the exact same keyframes rule stays attached the
+		   whole time, just paused/resumed, so there's always continuous
+		   rotation while running and a true freeze-in-place (not a
+		   separate ease-to-rotate(0)) once stopped. */
+		animation: ${spin} 900ms linear infinite;
+		animation-play-state: ${({ $running }) => ($running ? 'running' : 'paused')};
 	}
 `
 
@@ -101,7 +111,21 @@ export const InteractiveBadge = ({ bg, color, running, onToggle, hideRestart }: 
 		{!hideRestart && (
 			<>
 				<Divider $color={color} />
-				<IconButton $color={color} $running={running} onClick={onToggle} aria-label="Restart demo animation" type="button">
+				{/* Disabled while a replay is actively running — clicking
+				    restart mid-sequence would re-trigger the demo's own
+				    scripted state changes (e.g. setTimeout-driven steps)
+				    on top of the ones already in flight, visibly corrupting
+				    the animation (skipped/out-of-order steps, state left
+				    mid-transition). A fresh restart is only safe to request
+				    once the previous one has fully settled. */}
+				<IconButton
+					$color={color}
+					$running={running}
+					onClick={onToggle}
+					disabled={running}
+					aria-label="Restart demo animation"
+					type="button"
+				>
 					<ArrowClockwise16Filled />
 				</IconButton>
 			</>

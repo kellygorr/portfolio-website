@@ -1,12 +1,12 @@
-import { IProject, ToolType, SkillType, SectionName, HighlightName } from '../IProject'
+import { IProject, ToolType, SkillType, TagType, SectionName, HighlightName } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/email.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/email.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/email.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/welcome-emails-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/welcome-emails-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/welcome-emails-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/welcome-emails/email1.jpg', import.meta.url).href
-const img2 = new URL('../../assets/images/welcome-emails/email2.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/welcome-emails/email3.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/welcome-emails/welcome-emails-01.jpg', import.meta.url).href
+const img2 = new URL('../../assets/images/welcome-emails/welcome-emails-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/welcome-emails/welcome-emails-03.jpg', import.meta.url).href
 
 export const welcomeEmails: IProject = {
 	details: {
@@ -16,6 +16,7 @@ export const welcomeEmails: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
+		tags: [TagType.Design],
 	},
 	content: [
 		{

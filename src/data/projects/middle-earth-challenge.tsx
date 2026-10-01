@@ -1,19 +1,19 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/middle-earth-challenge.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/middle-earth-challenge.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/middle-earth-challenge.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
 
-const imgMap = new URL('../../assets/images/middle-earth-challenge/05-map-minimal-progress.png', import.meta.url).href
-const imgMapClassic = new URL('../../assets/images/middle-earth-challenge/08-map-classic-theme.png', import.meta.url).href
-const imgMapZoomed = new URL('../../assets/images/middle-earth-challenge/09-map-classic-zoomed.png', import.meta.url).href
-const imgSettings = new URL('../../assets/images/middle-earth-challenge/02-settings.png', import.meta.url).href
-const imgStats = new URL('../../assets/images/middle-earth-challenge/06-stats-progress.png', import.meta.url).href
-const imgCheckpoint = new URL('../../assets/images/middle-earth-challenge/10-checkpoint.png', import.meta.url).href
-const imgSync = new URL('../../assets/images/middle-earth-challenge/13-sync.png', import.meta.url).href
-const imgFriends = new URL('../../assets/images/middle-earth-challenge/14-friends.png', import.meta.url).href
-const imgMapZoomedMinimal = new URL('../../assets/images/middle-earth-challenge/15-map-zoomed-minimal.png', import.meta.url).href
-const imgWelcome = new URL('../../assets/images/middle-earth-challenge/17-welcome.png', import.meta.url).href
+const imgMap = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-01.png', import.meta.url).href
+const imgMapClassic = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-02.png', import.meta.url).href
+const imgMapZoomed = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-03.png', import.meta.url).href
+const imgSettings = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-04.png', import.meta.url).href
+const imgStats = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-05.png', import.meta.url).href
+const imgCheckpoint = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-06.png', import.meta.url).href
+const imgSync = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-07.png', import.meta.url).href
+const imgFriends = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-08.png', import.meta.url).href
+const imgMapZoomedMinimal = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-09.png', import.meta.url).href
+const imgWelcome = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-10.png', import.meta.url).href
 
 /**
  * Middle Earth Challenge — a personal React Native app that maps a

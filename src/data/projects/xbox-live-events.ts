@@ -2,51 +2,51 @@ import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IP
 import { TagType } from '../IProject'
 import { formatYearRange, formatFullDate, formatFullDateRange } from '../../utils/dateFormat'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/xlei.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/xlei.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/xlei.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/xbox-live-events-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/xbox-live-events-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/xbox-live-events-thumbnail.jpg', import.meta.url).href
 
-const thumbnail6x1 = new URL('../../assets/thumbnails/x1/xlei-twitter.jpg', import.meta.url).href
-const thumbnail6x15 = new URL('../../assets/thumbnails/x15/xlei-twitter.jpg', import.meta.url).href
-const thumbnail6x2 = new URL('../../assets/thumbnails/x2/xlei-twitter.jpg', import.meta.url).href
+const thumbnail6x1 = new URL('../../assets/thumbnails/x1/xbox-live-events-thumbnail-2.jpg', import.meta.url).href
+const thumbnail6x15 = new URL('../../assets/thumbnails/x15/xbox-live-events-thumbnail-2.jpg', import.meta.url).href
+const thumbnail6x2 = new URL('../../assets/thumbnails/x2/xbox-live-events-thumbnail-2.jpg', import.meta.url).href
 
-const thumbnail7x1 = new URL('../../assets/thumbnails/x1/xlei-twitter2.jpg', import.meta.url).href
-const thumbnail7x15 = new URL('../../assets/thumbnails/x15/xlei-twitter2.jpg', import.meta.url).href
-const thumbnail7x2 = new URL('../../assets/thumbnails/x2/xlei-twitter2.jpg', import.meta.url).href
+const thumbnail7x1 = new URL('../../assets/thumbnails/x1/xbox-live-events-thumbnail-3.jpg', import.meta.url).href
+const thumbnail7x15 = new URL('../../assets/thumbnails/x15/xbox-live-events-thumbnail-3.jpg', import.meta.url).href
+const thumbnail7x2 = new URL('../../assets/thumbnails/x2/xbox-live-events-thumbnail-3.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/xbox-live-events/xlei1.png', import.meta.url).href
-const img2 = new URL('../../assets/images/xbox-live-events/E32.jpg', import.meta.url).href
-const img3 = new URL('../../assets/images/xbox-live-events/TGA1.jpg', import.meta.url).href
-const img4 = new URL('../../assets/images/xbox-live-events/TGA2.jpg', import.meta.url).href
-const img5 = new URL('../../assets/images/xbox-live-events/TGA4.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/xbox-live-events/TGA9.jpg', import.meta.url).href
-const img7 = new URL('../../assets/images/xbox-live-events/TGA7.jpg', import.meta.url).href
-const img8 = new URL('../../assets/images/xbox-live-events/TGA5.jpg', import.meta.url).href
-const img9 = new URL('../../assets/images/xbox-live-events/TGA10.jpg', import.meta.url).href
-const img10 = new URL('../../assets/images/xbox-live-events/TGA11.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/xbox-live-events/xbox-live-events-01.png', import.meta.url).href
+const img2 = new URL('../../assets/images/xbox-live-events/xbox-live-events-02.jpg', import.meta.url).href
+const img3 = new URL('../../assets/images/xbox-live-events/xbox-live-events-03.jpg', import.meta.url).href
+const img4 = new URL('../../assets/images/xbox-live-events/xbox-live-events-04.jpg', import.meta.url).href
+const img5 = new URL('../../assets/images/xbox-live-events/xbox-live-events-05.jpg', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-live-events/xbox-live-events-06.jpg', import.meta.url).href
+const img7 = new URL('../../assets/images/xbox-live-events/xbox-live-events-07.jpg', import.meta.url).href
+const img8 = new URL('../../assets/images/xbox-live-events/xbox-live-events-08.jpg', import.meta.url).href
+const img9 = new URL('../../assets/images/xbox-live-events/xbox-live-events-09.jpg', import.meta.url).href
+const img10 = new URL('../../assets/images/xbox-live-events/xbox-live-events-10.jpg', import.meta.url).href
 
-const img11 = new URL('../../assets/images/xbox-live-events/Gamescom11.jpg', import.meta.url).href
-const img12 = new URL('../../assets/images/xbox-live-events/Gamescom1.jpg', import.meta.url).href
-const img13 = new URL('../../assets/images/xbox-live-events/Gamescom5.jpg', import.meta.url).href
-const img14 = new URL('../../assets/images/xbox-live-events/Gamescom6.jpg', import.meta.url).href
-const img15 = new URL('../../assets/images/xbox-live-events/Gamescom10.jpg', import.meta.url).href
-const img16 = new URL('../../assets/images/xbox-live-events/Gamescom12.jpg', import.meta.url).href
-const img17 = new URL('../../assets/images/xbox-live-events/Gamescom3.png', import.meta.url).href
-const img24 = new URL('../../assets/images/xbox-live-events/Gamescom16.jpg', import.meta.url).href
-const img25 = new URL('../../assets/images/xbox-live-events/Gamescom17.jpg', import.meta.url).href
+const img11 = new URL('../../assets/images/xbox-live-events/xbox-live-events-11.jpg', import.meta.url).href
+const img12 = new URL('../../assets/images/xbox-live-events/xbox-live-events-12.jpg', import.meta.url).href
+const img13 = new URL('../../assets/images/xbox-live-events/xbox-live-events-13.jpg', import.meta.url).href
+const img14 = new URL('../../assets/images/xbox-live-events/xbox-live-events-14.jpg', import.meta.url).href
+const img15 = new URL('../../assets/images/xbox-live-events/xbox-live-events-15.jpg', import.meta.url).href
+const img16 = new URL('../../assets/images/xbox-live-events/xbox-live-events-16.jpg', import.meta.url).href
+const img17 = new URL('../../assets/images/xbox-live-events/xbox-live-events-17.png', import.meta.url).href
+const img24 = new URL('../../assets/images/xbox-live-events/xbox-live-events-18.jpg', import.meta.url).href
+const img25 = new URL('../../assets/images/xbox-live-events/xbox-live-events-19.jpg', import.meta.url).href
 
-const img18 = new URL('../../assets/images/xbox-live-events/E31.jpg', import.meta.url).href
-const img19 = new URL('../../assets/images/xbox-live-events/E32.jpg', import.meta.url).href
+const img18 = new URL('../../assets/images/xbox-live-events/xbox-live-events-20.jpg', import.meta.url).href
+const img19 = new URL('../../assets/images/xbox-live-events/xbox-live-events-02.jpg', import.meta.url).href
 
-const img20 = new URL('../../assets/images/xbox-live-events/CODLive4.png', import.meta.url).href
-const img21 = new URL('../../assets/images/xbox-live-events/CODLive.jpg', import.meta.url).href
-const img22 = new URL('../../assets/images/xbox-live-events/CODLive2.jpg', import.meta.url).href
-const img23 = new URL('../../assets/images/xbox-live-events/CODLive5.png', import.meta.url).href
+const img20 = new URL('../../assets/images/xbox-live-events/xbox-live-events-21.png', import.meta.url).href
+const img21 = new URL('../../assets/images/xbox-live-events/xbox-live-events-22.jpg', import.meta.url).href
+const img22 = new URL('../../assets/images/xbox-live-events/xbox-live-events-23.jpg', import.meta.url).href
+const img23 = new URL('../../assets/images/xbox-live-events/xbox-live-events-24.png', import.meta.url).href
 
-const video1 = new URL('../../assets/videos/TGAPromo.mp4', import.meta.url).href
-const video2 = new URL('../../assets/videos/TGAscreencapture.mp4', import.meta.url).href
-const video3 = new URL('../../assets/videos/GCPromo.mp4', import.meta.url).href
-const video4 = new URL('../../assets/videos/GCTombraiderQuiz.mp4', import.meta.url).href
+const video1 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-25.mp4', import.meta.url).href
+const video2 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-26.mp4', import.meta.url).href
+const video3 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-27.mp4', import.meta.url).href
+const video4 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-28.mp4', import.meta.url).href
 
 export const xboxLiveEvents: IProject = {
 	details: {

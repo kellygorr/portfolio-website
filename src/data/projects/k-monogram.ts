@@ -1,10 +1,10 @@
-import { HighlightName, IProject, SectionName, SkillType, ToolType } from '../IProject'
+import { HighlightName, IProject, SectionName, SkillType, TagType, ToolType } from '../IProject'
 
-const thumbnailx1 = new URL('../../assets/thumbnails/x1/monogram.jpg', import.meta.url).href
-const thumbnailx15 = new URL('../../assets/thumbnails/x15/monogram.jpg', import.meta.url).href
-const thumbnailx2 = new URL('../../assets/thumbnails/x2/monogram.jpg', import.meta.url).href
+const thumbnailx1 = new URL('../../assets/thumbnails/x1/k-monogram-thumbnail.jpg', import.meta.url).href
+const thumbnailx15 = new URL('../../assets/thumbnails/x15/k-monogram-thumbnail.jpg', import.meta.url).href
+const thumbnailx2 = new URL('../../assets/thumbnails/x2/k-monogram-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/k-monogram/large6.jpg', import.meta.url).href
+const img1 = new URL('../../assets/images/k-monogram/k-monogram-01.jpg', import.meta.url).href
 
 export const kMonogram: IProject = {
 	details: {
@@ -14,6 +14,7 @@ export const kMonogram: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
+		tags: [TagType.Design],
 	},
 	content: [
 		{
