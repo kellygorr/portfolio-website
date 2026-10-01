@@ -50,6 +50,8 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 		font-family: 'open_sansregular';
 		font-size: 1rem;
 		color: ${({ theme }) => theme.text};
+		background-color: ${({ theme }) => theme.background};
+		transition: background-color 0.5s ease-in;
 	}
 
 	*:focus {
@@ -63,7 +65,7 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 			right: -3px;
 			bottom: -2px;
 			border-radius: inherit;
-			box-shadow: 0 0 0 2px ${AccentColors.white}, 0 0 0 5px ${AccentColors.darkPink};
+			box-shadow: 0 0 0 2px ${AccentColors.white}, 0 0 0 5px #000000;
 
 		}
 

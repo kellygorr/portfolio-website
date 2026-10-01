@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Standalone sub-sites in websites/ build to their own build/ dir (CRA default)
+websites/*/build
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

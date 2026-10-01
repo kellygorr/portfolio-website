@@ -46,6 +46,14 @@ export const jewelBoxCafe: IProject = {
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator],
 				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr',
+				},
 			],
 		},
 	],

@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { motionTokens } from '@fluentui/react-components'
 import { useProgressBarStyles } from './ProgressBar.styles'
+import { durationsMs } from '../../src/styles/motionTokens'
 
 /** Base width where duration equals BASE_DURATION_MS */
 const BASE_WIDTH_PX = 2600
@@ -32,15 +32,24 @@ export interface ProgressBarProps {
   speedFactor?: number
   /** Whether the progress bar is animating. When false, fades out in place. Default: true */
   running?: boolean
+  /** Render the settled resting frame (the bar's own 0% keyframe — a
+   *  small sliver at the far left, `translateX(0%) scaleX(0.0235)`)
+   *  with no animation running and no fade — used by Demo's Stop
+   *  control (see DemoMotionContext) so a "stopped" demo shows a static
+   *  snapshot instead of nothing. Distinct from `running={false}`,
+   *  which fades the whole bar out to invisible rather than showing a
+   *  settled frame. */
+  isStatic?: boolean
 }
 
-const FADE_DURATION = motionTokens.durationUltraFast
+const FADE_DURATION = durationsMs.ultraFast
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({
   height = 2,
   duration = BASE_DURATION_MS,
   speedFactor = MS_PER_100PX,
   running = true,
+  isStatic = false,
 }) => {
   const styles = useProgressBarStyles()
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -64,18 +73,18 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div
       style={{
-        opacity: running ? 1 : 0,
+        opacity: isStatic || running ? 1 : 0,
         transition: `opacity ${FADE_DURATION}ms linear`,
       }}
     >
       <div ref={containerRef} className={styles.container} style={{ height }}>
-        {running && (
+        {(isStatic || running) && (
           <div
             className={styles.bar}
             style={
-              {
-                '--progress-bar-duration': `${effectiveDuration}ms`,
-              } as React.CSSProperties
+              isStatic
+                ? { animation: 'none', transform: 'translateX(0%) scaleX(0.0235)' }
+                : ({ '--progress-bar-duration': `${effectiveDuration}ms` } as React.CSSProperties)
             }
           />
         )}

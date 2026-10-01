@@ -1,4 +1,5 @@
-import { makeStyles, motionTokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
+import { durations, curves } from '../../src/styles/motionTokens'
 
 /*
   Grounding Menu List Item — simplified wireframe row: a plain circle
@@ -21,8 +22,8 @@ export const useGroundingMenuListItemStyles = makeStyles({
     backgroundColor: 'transparent',
     borderRadius: '12px',
     transitionProperty: 'background-color',
-    transitionDuration: motionTokens.durationUltraFast,
-    transitionTimingFunction: motionTokens.curveLinear,
+    transitionDuration: durations.ultraFast,
+    transitionTimingFunction: curves.linear,
 
     ':hover': {
       backgroundColor: 'var(--gm-item-hover-bg, rgba(0, 0, 0, 0.05))',

@@ -1,4 +1,5 @@
 import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IProject'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/microsoft-design-website.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/microsoft-design-website.jpg', import.meta.url).href
@@ -104,7 +105,7 @@ export const microsoftDesignWebsite: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'July. 2023 - Present',
+					body: formatMonthYear('Jul', 2023, 'Present'),
 				},
 				{
 					header: HighlightName.Designer,

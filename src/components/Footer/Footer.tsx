@@ -122,7 +122,9 @@ const ListItem = styled.li`
 `
 
 const Header = styled.div``
-const URL = styled.span``
+const URL = styled.span`
+	opacity: 0.7;
+`
 
 const StyledLink = styled.a`
 	&:before {

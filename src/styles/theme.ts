@@ -1,4 +1,5 @@
 import { neutralThemeBases, ACTIVE_SITE_THEME_KEY } from './neutralThemes'
+import { motionPalette } from './motionPalettes'
 
 export const NeutralColors = {
 	black: 'rgba(0,0,0,1)',
@@ -57,6 +58,13 @@ export interface Theme {
  */
 const activeNeutral = neutralThemeBases[ACTIVE_SITE_THEME_KEY]
 
+// The last two (darkest) Warm Sand accent tokens. Used for both light and
+// dark mode — intentionally independent of light/dark and the neutral
+// theme choice.
+const warmSand = motionPalette('Warm Sand')
+const siteGradient1 = warmSand.colors[2]
+const siteGradient2 = warmSand.colors[3]
+
 export const themeLight: Theme = {
 	accent: activeNeutral.accent,
 	neutral: NeutralColors.gray11,
@@ -70,8 +78,8 @@ export const themeLight: Theme = {
 	footerText: activeNeutral.darkFooterText,
 	footerBackground: activeNeutral.darkFooterBackground,
 	footerBackgroundSecondary: NeutralColors.white15,
-	gradient1: AccentColors.darkPink,
-	gradient2: AccentColors.darkPurple,
+	gradient1: siteGradient1,
+	gradient2: siteGradient2,
 }
 
 export const themeDark: Theme = {
@@ -87,6 +95,6 @@ export const themeDark: Theme = {
 	footerText: NeutralColors.white,
 	footerBackground: NeutralColors.gray95,
 	footerBackgroundSecondary: NeutralColors.white,
-	gradient1: AccentColors.lightPink,
-	gradient2: AccentColors.lightOrange,
+	gradient1: siteGradient1,
+	gradient2: siteGradient2,
 }

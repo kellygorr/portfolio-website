@@ -18,7 +18,8 @@ interface IThumbnailProps {
 export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 	const { data, style, hideTags } = props
 	const link = data.file ? data.file.source : `/page/${GetPageName(data.header)}`
-	const thumbnailStyle: React.CSSProperties = !data.thumbnail
+	const hasVisual = Boolean(data.demo || data.thumbnail)
+	const thumbnailStyle: React.CSSProperties = !hasVisual
 		? { pointerEvents: 'none' }
 		: { alignItems: props.showFull ? 'flex-start' : 'center' }
 
@@ -29,11 +30,16 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 	})
 
 	return (
-		<Container ref={ref} style={{ ...thumbnailStyle, ...style }} aria-hidden={!data.thumbnail}>
-			<LinkStyle onClick={props.thumbnailClick} style={{ flex: !data.thumbnail ? 1 : 'inherit' }}>
-				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!data.thumbnail ? -1 : undefined}>
+		<Container ref={ref} style={{ ...thumbnailStyle, ...style }} aria-hidden={!hasVisual}>
+			<LinkStyle onClick={props.thumbnailClick} style={{ flex: !hasVisual ? 1 : 'inherit' }}>
+				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!hasVisual ? -1 : undefined}>
 					<ImageWrapper $neutralBorder={Boolean(data.neutralBorder)}>
-						{inView && data.thumbnail ? (
+						{inView && data.demo ? (
+							<>
+								<BackgroundCard />
+								<DemoSlot>{data.demo}</DemoSlot>
+							</>
+						) : inView && data.thumbnail ? (
 							<>
 								<BackgroundCard />
 								<Image
@@ -121,6 +127,24 @@ const Image = styled.img`
 	animation-fill-mode: forwards;
 	width: 100%;
 	object-fit: cover;
+	border: 2px solid ${({ theme }) => theme.background};
+
+	@media (min-width: ${SMALL_SCREEN}px) {
+		height: 100%;
+	}
+`
+
+const DemoSlot = styled.div`
+	height: 200px;
+	min-height: 200px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	opacity: 0;
+	animation: 1s ease-out 0.5s ${AnimateIn};
+	animation-fill-mode: forwards;
 	border: 2px solid ${({ theme }) => theme.background};
 
 	@media (min-width: ${SMALL_SCREEN}px) {

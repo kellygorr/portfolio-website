@@ -23,33 +23,34 @@
  */
 
 import { ReactNode, useEffect, useReducer } from 'react'
-import { createPresenceComponent, motionTokens } from '@fluentui/react-motion'
+import { createPresenceComponent } from '@fluentui/react-motion'
+import { durationsMs, curves } from '../../../src/styles/motionTokens'
 
 const FadeSlidePresence = createPresenceComponent({
   exit: [
     {
       keyframes: [{ transform: 'translateX(0px)' }, { transform: 'translateX(var(--exit-to))' }],
-      duration: motionTokens.durationNormal,
-      easing: motionTokens.curveDecelerateMin,
+      duration: durationsMs.normal,
+      easing: curves.decelerateMin,
     },
     {
       keyframes: [{ opacity: 1 }, { opacity: 0 }],
       delay: 100,
-      duration: motionTokens.durationUltraFast,
-      easing: motionTokens.curveLinear,
+      duration: durationsMs.ultraFast,
+      easing: curves.linear,
     },
   ],
   enter: [
     {
       keyframes: [{ transform: 'translateX(var(--enter-from))' }, { transform: 'translateX(0px)' }],
-      duration: motionTokens.durationNormal,
-      easing: motionTokens.curveDecelerateMin,
+      duration: durationsMs.normal,
+      easing: curves.decelerateMin,
     },
     {
       keyframes: [{ opacity: 0 }, { opacity: 1 }],
-      duration: motionTokens.durationFaster,
+      duration: durationsMs.faster,
       delay: 0, // delay = 0, starts at 150ms (end of exit animation)
-      easing: motionTokens.curveLinear,
+      easing: curves.linear,
     },
   ],
 })

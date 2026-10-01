@@ -54,6 +54,14 @@ export const welcomeEmails: IProject = {
 					header: HighlightName.Assets,
 					link: 'istockphoto.com',
 				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr',
+				},
 			],
 		},
 	],

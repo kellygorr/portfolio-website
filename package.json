@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "concurrently -n site,storybook -c blue,magenta \"npm:dev:site\" \"npm:storybook\"",
     "dev:site": "vite",
-    "build": "tsc && vite build",
+    "dev:text-adventure": "npm --prefix websites/text-adventure-on-rails start",
+    "build": "tsc && vite build && npm run build:storybook && npm run build:websites",
+    "build:storybook": "storybook build -o dist/storybook",
+    "build:websites": "node scripts/build-websites.mjs",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",

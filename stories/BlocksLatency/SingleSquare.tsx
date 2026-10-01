@@ -16,6 +16,13 @@ export interface SingleSquareProps {
   duration?: number
   /** Optional solid color for the square. Falls back to currentColor if omitted. */
   color?: string
+  /** Render the settled resting frame (upright, 0deg — its own 0%
+   *  keyframe) with no animation running — used by Demo's Stop control
+   *  (see DemoMotionContext) so a "stopped" demo shows a static
+   *  snapshot instead of a blank/frozen-mid-cycle box. Skips generating
+   *  and injecting the per-instance @keyframes entirely, not just
+   *  disabling playback. */
+  isStatic?: boolean
 }
 
 export const SingleSquare: React.FC<SingleSquareProps> = ({
@@ -23,6 +30,7 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({
   delay = 1000,
   duration = DURATION_MS,
   color,
+  isStatic = false,
 }) => {
   const styles = useSingleSquareStyles()
   const scale = size / SINGLE_SQUARE_CELL
@@ -32,7 +40,7 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({
 
   return (
     <>
-      <style>{keyframesCSS}</style>
+      {!isStatic && <style>{keyframesCSS}</style>}
       <div style={{ width: SINGLE_SQUARE_CELL * scale, height: SINGLE_SQUARE_CELL * scale, color }}>
         <div
           className={styles.container}
@@ -43,10 +51,14 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({
         >
           <div
             className={styles.square}
-            style={{
-              animationName,
-              animationDuration: `${totalMs}ms`,
-            }}
+            style={
+              isStatic
+                ? { animation: 'none', transform: 'rotate(0deg)' }
+                : {
+                    animationName,
+                    animationDuration: `${totalMs}ms`,
+                  }
+            }
           />
         </div>
       </div>

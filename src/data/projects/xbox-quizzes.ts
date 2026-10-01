@@ -1,5 +1,6 @@
 import { IProject, FileType, SkillType, HighlightName, SectionName } from '../IProject'
 import { TagType } from '../IProject'
+import { formatFullDate, formatMonthYearRange } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/quizzes.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/quizzes.jpg', import.meta.url).href
@@ -92,7 +93,7 @@ export const xboxQuizzes: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'March 29, 2015',
+					body: formatFullDate('Mar', 29, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -153,7 +154,7 @@ export const xboxQuizzes: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'May 2015 - June 2015',
+					body: formatMonthYearRange('May', 2015, 'Jun', 2015),
 				},
 				{
 					header: HighlightName.Skills,

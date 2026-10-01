@@ -1,5 +1,6 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/starwars.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/starwars.jpg', import.meta.url).href
@@ -78,7 +79,7 @@ export const starWars: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'April 2016',
+					body: formatMonthYear('Apr', 2016),
 				},
 				{
 					header: HighlightName.Designer,

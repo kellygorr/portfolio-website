@@ -1,0 +1,27 @@
+import styled from 'styled-components'
+
+/**
+ * "Recreated for portfolio" badge, matching the same badge shown on
+ * every Storybook story (see .storybook/preview.tsx). Rendered inside
+ * DemoHeader's normal flex flow (not absolutely positioned) — the
+ * header row itself owns layout/positioning, so this component only
+ * needs to handle the badge's own look. No motion/animation on this
+ * badge — it's a static label.
+ */
+const Badge = styled.div<{ $bg: string; $color: string }>`
+	padding: 6px 12px;
+	border-radius: 6px;
+	background: ${({ $bg }) => $bg};
+	color: ${({ $color }) => $color};
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	pointer-events: none;
+	white-space: nowrap;
+`
+
+export const RecreatedBadge = ({ bg, color }: { bg: string; color: string }) => (
+	<Badge $bg={bg} $color={color}>
+		Motion Interaction — recreated for portfolio
+	</Badge>
+)

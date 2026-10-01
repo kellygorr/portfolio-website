@@ -61,6 +61,10 @@ export const supersizedUserTesting: IProject = {
 					header: HighlightName.Tools,
 					tags: [ToolType.InDesign],
 				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
+				},
 			],
 		},
 		{

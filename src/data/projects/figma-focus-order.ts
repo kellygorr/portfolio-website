@@ -1,4 +1,5 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/focus-order.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/focus-order.jpg', import.meta.url).href
@@ -126,7 +127,7 @@ export const focusOrder: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'Sept. 2020 - Present',
+					body: formatMonthYear('Sep', 2020, 'Present'),
 				},
 				{
 					header: HighlightName.Designer,
@@ -141,8 +142,8 @@ export const focusOrder: IProject = {
 					body: 'Chris Lorance',
 				},
 				{
-					header: `Original plugin ${HighlightName.Engineer}`,
-					body: 'Tiffany Chen',
+					header: HighlightName.Engineer,
+					body: 'Tiffany Chen (original plugin)',
 				},
 				{
 					header: HighlightName.Engineer,

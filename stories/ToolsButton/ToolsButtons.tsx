@@ -2,11 +2,11 @@ import {
   Button,
   createPresenceComponent,
   mergeClasses,
-  motionTokens,
   tokens,
 } from '@fluentui/react-components'
 import { bundleIcon, Options24Filled, Options24Regular } from '@fluentui/react-icons'
 import { useToolsButtonStyles } from './ToolsButton.styles'
+import { durationsMs } from '../../src/styles/motionTokens'
 import { useState, useEffect, useRef, useMemo } from 'react'
 
 interface ToolsButtonProps {
@@ -18,14 +18,23 @@ interface ToolsButtonProps {
   textFadeOutDuration?: number
   /** Button text content */
   buttonText?: string
+  /** Background color for the Expand/Collapse toggle button. */
+  toggleBg?: string
+  /** Background color for the Tools button on hover/active. */
+  bgHoverColor?: string
+  /** Icon color for the Tools button on hover/active. */
+  iconHoverColor?: string
 }
 
 const TriggerButtonIcon = bundleIcon(Options24Filled, Options24Regular)
 
 export const ToolsButton = ({
-  widthTransitionDuration = motionTokens.durationFaster + 'ms',
-  textFadeInDuration = motionTokens.durationUltraFast,
-  textFadeOutDuration = motionTokens.durationUltraFast,
+  widthTransitionDuration = durationsMs.faster + 'ms',
+  textFadeInDuration = durationsMs.ultraFast,
+  textFadeOutDuration = durationsMs.ultraFast,
+  toggleBg,
+  bgHoverColor,
+  iconHoverColor,
 }: ToolsButtonProps = {}) => {
   // Recreate TextFade whenever durations change
   const TextFade = useMemo(
@@ -68,8 +77,17 @@ export const ToolsButton = ({
   }, [expandedWidth])
 
   return (
-    <div className={mergeClasses(styles.wrapper)}>
-      <div>
+    <div
+      className={mergeClasses(styles.wrapper)}
+      style={
+        {
+          '--tb-toggle-bg': toggleBg,
+          '--tb-bg-hover': bgHoverColor,
+          '--tb-icon-hover': iconHoverColor,
+        } as React.CSSProperties
+      }
+    >
+      <div style={{ height: '42px', display: 'flex', alignItems: 'center' }}>
         <Button
           ref={buttonRef}
           className={mergeClasses(styles.root)}
@@ -80,6 +98,7 @@ export const ToolsButton = ({
           onClick={handleClick}
           style={{
             width: minimizeButton ? '40px' : expandedWidth ? `${expandedWidth}px` : 'auto',
+            height: minimizeButton ? '40px' : undefined,
             transition: minimizeButton
               ? `width ${widthTransitionDuration} linear ${textFadeOutDuration}ms` // Delay when collapsing
               : `width ${widthTransitionDuration} linear`, // No delay when expanding
@@ -91,7 +110,9 @@ export const ToolsButton = ({
           </TextFade>
         </Button>
       </div>
-      <button onClick={handleClick}>{minimizeButton ? 'Expand' : 'Collapse'}</button>
+      <button className={styles.toggleButton} onClick={handleClick}>
+        {minimizeButton ? 'Expand' : 'Collapse'}
+      </button>
     </div>
   )
 }

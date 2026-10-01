@@ -1,4 +1,5 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
+import { formatYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/outlook-calendar.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/outlook-calendar.jpg', import.meta.url).href
@@ -112,7 +113,7 @@ export const owaCalendar: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: '2018',
+					body: formatYear(2018),
 				},
 				{
 					header: HighlightName.Designer,

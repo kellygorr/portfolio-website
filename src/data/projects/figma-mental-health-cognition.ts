@@ -1,4 +1,5 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/mental-health-cognition-plugin.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/mental-health-cognition-plugin.jpg', import.meta.url).href
@@ -100,7 +101,7 @@ export const mhcPlugin: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'Mar. 2024 - Present',
+					body: formatMonthYear('Mar', 2024, 'Present'),
 				},
 				{
 					header: HighlightName.Designer,

@@ -1,3 +1,5 @@
+import { randomSubset } from '../utils/randomSubset'
+
 /**
  * Motion palettes — the single source of truth for every color palette used
  * across the motion-demo Storybook stories (Blocks Latency palette swatches,
@@ -141,6 +143,48 @@ export const motionPalettes: MotionPalette[] = [
 	},
 ]
 
+/**
+ * Type-safe union of every valid palette name, derived directly from
+ * `motionPalettes` (add a palette above and this type updates itself —
+ * no separate list to keep in sync). Use this instead of a raw `string`
+ * anywhere a palette name is passed around (e.g. `MotionDemoProps.theme`)
+ * so a typo is a compile error and callers get autocomplete, instead of
+ * only failing at runtime inside `motionPalette()`.
+ */
+export type MotionPaletteName = (typeof motionPalettes)[number]['name']
+
+/**
+ * Discoverable, importable constants for every palette name — lets
+ * callers write `MotionPaletteNames.WarmSand` instead of retyping the
+ * string `'Warm Sand'`, so the name is autocompleted and refactor-safe
+ * (rename here, every usage updates). Purely a convenience layer over
+ * the same string literals in `MotionPaletteName`.
+ */
+export const MotionPaletteNames = {
+	WarmSand: 'Warm Sand',
+	GoldenHour: 'Golden Hour',
+	DustyRose: 'Dusty Rose',
+	WarmSandLime: 'Warm Sand (Lime)',
+	GoldenHourLime: 'Golden Hour (Lime)',
+	DustyRoseLime: 'Dusty Rose (Lime)',
+	WarmSandBeige: 'Warm Sand (Beige)',
+	GoldenHourBeige: 'Golden Hour (Beige)',
+	DustyRoseBeige: 'Dusty Rose (Beige)',
+} as const satisfies Record<string, MotionPaletteName>
+
+/**
+ * Returns `count` distinct palette names in random order (no repeats,
+ * up to the total number of palettes available). Used to give each demo
+ * on a page a different, randomized-per-page-load theme, matching the
+ * "each demo gets its own palette" convention without hand-picking which
+ * one goes where.
+ */
+export const randomMotionPaletteNames = (count: number): MotionPaletteName[] =>
+	randomSubset(
+		motionPalettes.map((p) => p.name),
+		count
+	)
+
 /** Derives the 5 named swatches [background, colors[0], colors[1], colors[2], colors[3]] for a palette. */
 export const paletteSwatches = (palette: MotionPalette): { name: string; hex: string }[] => [
 	{ name: palette.swatchNames[0], hex: palette.background },
@@ -172,7 +216,7 @@ export const motionThemeTokens = (palette: MotionPalette): MotionThemeTokens => 
 })
 
 /** Convenience lookup by exact palette name, e.g. motionPalette('Warm Sand'). */
-export const motionPalette = (name: string): MotionPalette => {
+export const motionPalette = (name: MotionPaletteName): MotionPalette => {
 	const found = motionPalettes.find((p) => p.name === name)
 	if (!found) {
 		throw new Error(`Unknown motion palette: ${name}`)

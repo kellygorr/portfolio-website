@@ -1,5 +1,6 @@
 import { IProject, FileType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/summer.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/summer.jpg', import.meta.url).href
@@ -154,7 +155,7 @@ export const interactiveVideoPlaylist: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'Sept. 2014',
+					body: formatMonthYear('Sep', 2014),
 				},
 				{
 					header: HighlightName.Designer,
