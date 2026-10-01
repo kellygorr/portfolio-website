@@ -1,4 +1,5 @@
-import { makeStyles, motionTokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
+import { curves } from '../../src/styles/motionTokens'
 
 /*
   Box latency from motionspec.io, recreated in React and CSS based on the original animation
@@ -26,7 +27,7 @@ import { makeStyles, motionTokens } from '@fluentui/react-components'
 */
 
 const CELL = 4
-const EASE = motionTokens.curveEasyEaseMax
+const EASE = curves.easyEaseMax
 
 const block = {
   position: 'absolute' as const,
@@ -133,6 +134,7 @@ export const useBlocksStyles = makeStyles({
       '42.2%': { transform: `translate(${CELL}px, ${-CELL * 2}px)` },
       '53.433%': { transform: `translate(${CELL}px, ${-CELL * 2}px)` },
       '55.767%': { transform: `translate(0, ${-CELL * 2}px)` },
+      '66.667%': { transform: `translate(0, ${-CELL * 2}px)` },
       '69%': { transform: `translate(0, ${-CELL}px)` },
       '83.5%': { transform: `translate(0, ${-CELL}px)` },
       '85.833%': { transform: 'translate(0, 0)' },

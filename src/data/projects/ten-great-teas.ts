@@ -41,7 +41,7 @@ export const tenGreatTeas: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'Interface design for an interactive tea map for Tazo tea.',
+			body: 'I designed the interface for an interactive tea map for Tazo tea.',
 		},
 		{
 			header: SectionName.Details,
@@ -53,6 +53,10 @@ export const tenGreatTeas: IProject = {
 				{
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator],
+				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
 				},
 			],
 		},

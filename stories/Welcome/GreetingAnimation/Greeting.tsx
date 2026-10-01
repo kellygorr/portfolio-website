@@ -65,6 +65,13 @@ export interface GreetingProps {
   /** How long to hold the fully-revealed text before restarting the
    *  loop, in ms. Default: 3000 */
   pauseMs?: number
+  /** Render the fully-revealed end state immediately, with no reveal
+   *  animation and no loop timer — used by Demo's Stop control (see
+   *  DemoMotionContext) so a "stopped" demo shows the settled text
+   *  instead of nothing (the reveal animation starts every character
+   *  at opacity 0, so without this a freshly-mounted, never-animated
+   *  instance would render blank). */
+  isStatic?: boolean
 }
 
 const useStyles = makeStyles({
@@ -117,6 +124,7 @@ export const Greeting = ({
   color,
   loop = true,
   pauseMs = 3000,
+  isStatic = false,
 }: GreetingProps) => {
   const styles = useStyles()
   // Bumped each cycle to force the character <span> elements to remount
@@ -151,20 +159,27 @@ export const Greeting = ({
   }, [text, totalDuration, stagger, staggerCurve])
 
   useEffect(() => {
-    if (!loop) return
+    if (!loop || isStatic) return
     const maxDelay = characters.reduce((max, c) => Math.max(max, c.delay), 0)
     // Full cycle = time for the last character to finish its own reveal
     // animation, plus the hold/pause, before restarting.
     const cycleMs = maxDelay + duration + pauseMs
     const timer = setTimeout(() => setCycle((c) => c + 1), cycleMs)
     return () => clearTimeout(timer)
-  }, [loop, pauseMs, duration, characters, cycle])
+  }, [loop, pauseMs, duration, characters, cycle, isStatic])
 
   return (
     <span className={styles.container} style={color ? { color } : undefined} aria-label={text} role="text">
       {characters.map((c, i) =>
         c.char === ' ' ? (
           <span key={i}>{'\u00A0'}</span>
+        ) : isStatic ? (
+          // No animation classes/inline timing at all — just the
+          // character rendered plainly, already at its fully-revealed
+          // (opacity 1, scale 1) resting state.
+          <span key={`static-${i}`} className={styles.characterSpan} aria-hidden="true">
+            {c.char}
+          </span>
         ) : (
           <span
             key={`${cycle}-${i}`}

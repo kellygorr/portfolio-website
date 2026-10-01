@@ -1,16 +1,19 @@
 import styled from 'styled-components'
 import { createRef } from 'react'
+import type { ReactNode } from 'react'
 import { ISlideshow, SectionType, IHighlight, IThumbnail, TagType, SkillType, ToolType } from '../../data/IProject'
 import { Body } from './Body'
 import { Slideshow } from './Slideshow/Slideshow'
 import { Tags, Thumbnail } from '../shared'
 import { Heading, Title } from '.'
 import { SMALL_SCREEN } from '../../styles/GlobalStyles'
+import { sortHighlights } from '../../utils/sortHighlights'
 
 interface ISectionProps {
 	type: SectionType
-	data: string | ISlideshow | IThumbnail[] | IHighlight[] | (TagType | SkillType | ToolType | string)[]
+	data: string | ISlideshow | IThumbnail[] | IHighlight[] | (TagType | SkillType | ToolType | string)[] | ReactNode
 	setQuery: (query: string) => void
+	isHalfWidthDemo?: boolean
 }
 
 export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
@@ -22,10 +25,14 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				data={(props.data as ISlideshow).slides}
 				neutralBorder={(props.data as ISlideshow).neutralBorder}
 				defaultwidth={(props.data as ISlideshow).width}
+				gap={(props.data as ISlideshow).gap}
 				slideshowRef={createRef<HTMLDivElement>()}
 			/>
 		)}
 		{props.type === SectionType.Body && <Body data={props.data as string} />}
+		{props.type === SectionType.Demo && (
+			<DemoWrapper $rounded={props.isHalfWidthDemo}>{props.data as ReactNode}</DemoWrapper>
+		)}
 		{props.type === SectionType.Attachments && (
 			<Gallery>
 				{(props.data as IThumbnail[]).map((data, index) => (
@@ -38,7 +45,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 			<Tags tags={props.data as (TagType | SkillType | ToolType | string)[]} setQuery={props.setQuery} />
 		)}
 		{props.type === SectionType.Highlight &&
-			(props.data as IHighlight[]).map((data, index) => {
+			sortHighlights(props.data as IHighlight[]).map((data, index) => {
 				const items = Object.entries(data)
 				const type = items[1][0]
 				return (
@@ -63,6 +70,25 @@ const Gallery = styled.div`
 	@media (min-width: ${SMALL_SCREEN}px) {
 		grid-template-columns: repeat(2, 50%);
 	}
+`
+
+const DemoWrapper = styled.div<{ $rounded?: boolean }>`
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	${({ $rounded }) =>
+		$rounded &&
+		`
+		border-radius: 12px;
+		overflow: hidden;
+
+		@media (max-width: ${SMALL_SCREEN}px) {
+			border-radius: 0;
+			overflow: visible;
+		}
+	`}
 `
 
 export const Link = styled.a``

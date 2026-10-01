@@ -28,7 +28,7 @@ export const kMonogram: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'K monogram design',
+			body: 'I designed a K monogram.',
 		},
 		{
 			header: SectionName.Details,
@@ -40,6 +40,10 @@ export const kMonogram: IProject = {
 				{
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator],
+				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
 				},
 			],
 		},

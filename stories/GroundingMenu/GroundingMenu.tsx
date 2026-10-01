@@ -17,15 +17,28 @@ export interface GroundingMenuProps {
    *  hover/press states use a translucent white overlay so they read as
    *  a subtle lightening against the dark card. */
   palette?: MotionPalette
+  /** Controlled tab index — when provided (together with
+   *  onSelectedMenuChange), an external driver (e.g. a scripted replay
+   *  sequence) owns which tab is shown instead of GroundingMenu's own
+   *  internal click-handling state. Omit both for normal uncontrolled
+   *  use (the default — clicking a tab just works). */
+  selectedMenu?: number | null
+  onSelectedMenuChange?: (index: number | null) => void
 }
 
-export const GroundingMenu = ({ headerMenu, list, palette }: GroundingMenuProps) => {
-  const [selectedMenu, setSelectedMenu] = useState<number | null>(0)
+export const GroundingMenu = ({ headerMenu, list, palette, selectedMenu: controlledSelectedMenu, onSelectedMenuChange }: GroundingMenuProps) => {
+  const [internalSelectedMenu, setInternalSelectedMenu] = useState<number | null>(0)
+  const isControlled = controlledSelectedMenu !== undefined
+  const selectedMenu = isControlled ? controlledSelectedMenu : internalSelectedMenu
   const styles = useGroundingMenuStyles()
 
   // Handle menu changes
   const handleMenuChange = (newMenu: number | null) => {
-    setSelectedMenu(newMenu)
+    if (isControlled) {
+      onSelectedMenuChange?.(newMenu)
+    } else {
+      setInternalSelectedMenu(newMenu)
+    }
   }
 
   // Determine animation direction based on index comparison

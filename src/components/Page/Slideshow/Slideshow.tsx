@@ -8,6 +8,9 @@ interface IPageProps {
 	data: ISlide[]
 	neutralBorder?: boolean
 	defaultwidth: number
+	/** Horizontal spacing between slides, in px. Passed through to each
+	 *  Slide's margin. See ISlideshow.gap for details. */
+	gap?: number
 	slideshowRef: React.RefObject<HTMLDivElement | null>
 }
 
@@ -39,8 +42,8 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 
 			if (!(nextIndex === null)) {
 				e.preventDefault()
-				const nextSlide = slideshowRef.current.querySelectorAll('div')[nextIndex]
-				nextSlide.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+				const nextSlide = slideshowRef.current.children[nextIndex] as HTMLElement | undefined
+				nextSlide?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 			}
 		}
 	}
@@ -63,11 +66,12 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 			>
 				{props.data.map((slide: ISlide, index) => (
 					<Slide
-						key={slide.img}
+						key={slide.img ?? `demo-${index}`}
 						isActive={index === active && props.data.length > 1}
 						isScrolling={isScrolling}
 						neutralBorder={props.neutralBorder}
 						defaultwidth={props.defaultwidth}
+						gap={props.gap}
 						data={slide}
 					/>
 				))}
@@ -82,7 +86,11 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 
 const findActiveSlide = (setActive: (index: number) => void, slideshowRef: React.RefObject<HTMLDivElement | null>): void => {
 	if (slideshowRef && slideshowRef.current) {
-		const slideArray = [].slice.call(slideshowRef.current.querySelectorAll('div'))
+		// Only the direct children of the scroll container are slides (each
+		// Slide renders exactly one top-level Container div) — querying all
+		// descendant divs would also match divs nested inside a slide's own
+		// content (e.g. a `demo`'s internal markup), throwing off the index.
+		const slideArray = [].slice.call(slideshowRef.current.children)
 		const activeSlideIndex = slideArray.findIndex((el) => isElementCentered(el))
 		if (activeSlideIndex >= 0) {
 			setActive(activeSlideIndex)

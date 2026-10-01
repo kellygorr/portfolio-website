@@ -34,7 +34,7 @@ export const malariaInfographic: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'Malaria infographic design.',
+			body: 'I designed a malaria infographic.',
 		},
 		{
 			header: SectionName.Details,
@@ -46,6 +46,10 @@ export const malariaInfographic: IProject = {
 				{
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator],
+				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
 				},
 			],
 		},

@@ -1,10 +1,17 @@
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { motionPalette } from '../../styles/motionPalettes'
 
 interface IHeaderProps {
 	setIsSearchOpen: (isOpen: boolean) => void
 }
+
+// Amber, Clay, Rose — the three darker Warm Sand accent swatches, cycled
+// per-letter on name hover (independent of the site's light/dark theme,
+// same as the single-color gradient hover it replaces).
+const warmSand = motionPalette('Warm Sand')
+const nameHoverColors = warmSand.colors.slice(1, 4)
 
 export const Header = (props: IHeaderProps): JSX.Element => {
 	const handleClick = () => {
@@ -13,8 +20,12 @@ export const Header = (props: IHeaderProps): JSX.Element => {
 	return (
 		<Container>
 			<Logo>
-				<StyledLink to="/" onClick={handleClick} className="gradient-animation">
-					Kelly Gorr
+				<StyledLink to="/" onClick={handleClick}>
+					{'Kelly Gorr'.split('').map((char, i) => (
+						<NameChar key={i} $index={i}>
+							{char === ' ' ? '\u00A0' : char}
+						</NameChar>
+					))}
 				</StyledLink>
 			</Logo>
 			<H2>UX Engineer + Designer</H2>
@@ -33,41 +44,34 @@ const Container = styled.div`
 const Logo = styled.h1`
 	font-size: 2rem;
 `
+
+const NameChar = styled.span<{ $index: number }>`
+	transition: color 200ms ease-in-out;
+`
+
 const StyledLink = styled(Link)`
 	font-family: 'montserrat';
 	border: 3px solid transparent;
-	transition:
-		color 1s ease-in,
-		background-position 500ms ease-in-out;
+	color: ${({ theme }) => theme.text};
+	text-decoration: none;
 
 	&:hover {
-		color: ${({ theme }) => theme.accent};
 		text-decoration: none;
 	}
 
-	&.gradient-animation {
-		background-image: linear-gradient(
-			to right,
-			${({ theme }) => theme.gradient1} 5%,
-			${({ theme }) => theme.gradient2} 40%,
-			${({ theme }) => theme.text} 75%
-		);
-		background-position: right center;
-		background-size: 400% 100%;
-		-webkit-background-clip: text;
-		background-clip: text;
+	&:hover ${NameChar} {
 		color: ${({ theme }) => theme.text};
-		-webkit-text-fill-color: transparent;
-		text-fill-color: transparent;
 	}
 
-	&.gradient-animation:hover {
-		background-position: left center;
-
-		transition:
-			background-position 500ms ease-in-out,
-			color 1s ease-in;
-	}
+	${Array.from({ length: nameHoverColors.length })
+		.map(
+			(_, colorIndex) => `
+		&:hover ${NameChar}:nth-child(${nameHoverColors.length}n + ${colorIndex + 1}) {
+			color: ${nameHoverColors[colorIndex]};
+		}
+	`
+		)
+		.join('\n')}
 `
 const H2 = styled.h2`
 	font-size: 1.25rem;

@@ -61,6 +61,14 @@ export const earthquakeMap: IProject = {
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator, ToolType.Photoshop],
 				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr',
+				},
 			],
 		},
 		{

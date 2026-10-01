@@ -20,9 +20,17 @@ import { owaCalendar } from './projects/owa-calendar'
 import { focusOrder } from './projects/figma-focus-order'
 import { microsoftDesignWebsite } from './projects/microsoft-design-website'
 import { mhcPlugin } from './projects/figma-mental-health-cognition'
+import { copilotMotionSystems } from './projects/copilot-motion-systems'
+import { copilotLatencyMotion } from './projects/copilot-latency-motion'
+import { middleEarthChallenge } from './projects/middle-earth-challenge'
+import { textAdventure } from './projects/text-adventure'
 // import { crimeSpot } from './projects/crime-spot'
 
 export const allProjects: IProject[] = [
+	copilotMotionSystems,
+	copilotLatencyMotion,
+	middleEarthChallenge,
+	textAdventure,
 	microsoftDesignWebsite,
 	mhcPlugin,
 	focusOrder,

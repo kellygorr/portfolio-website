@@ -8,12 +8,15 @@ interface IPageProps {
 	isScrolling: boolean
 	neutralBorder?: boolean
 	defaultwidth: number
+	/** Horizontal spacing between slides, in px. Defaults to 5 (10px
+	 *  total gap between two adjacent slides) if not provided. */
+	gap?: number
 	data: ISlide
 }
 
 export const Slide = (props: IPageProps): JSX.Element => {
 	const ref = useRef<HTMLDivElement>(null)
-	const { data, isActive, isScrolling, neutralBorder, defaultwidth } = props
+	const { data, isActive, isScrolling, neutralBorder, defaultwidth, gap } = props
 	useEffect(() => {
 		window.scrollTo(0, 0)
 	}, [])
@@ -34,9 +37,12 @@ export const Slide = (props: IPageProps): JSX.Element => {
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}
 			$defaultwidth={defaultwidth}
+			$gap={gap}
 			onClick={handleSlideClick}
 		>
-			{data.file && data.file.type === FileType.Video ? (
+			{data.demo ? (
+				<DemoSlideContent>{data.demo}</DemoSlideContent>
+			) : data.file && data.file.type === FileType.Video ? (
 				<video
 					controls
 					poster={data.img}
@@ -48,7 +54,7 @@ export const Slide = (props: IPageProps): JSX.Element => {
 					<source src={data.file.source} type="video/mp4" />
 				</video>
 			) : (
-				<img src={data.img} alt={data.img} />
+				<img src={data.img} srcSet={data.img2x ? `${data.img} 1x, ${data.img2x} 2x` : undefined} alt={data.img} />
 			)}
 		</Container>
 	)
@@ -58,15 +64,17 @@ interface IStyle {
 	isActive?: boolean
 	isScrolling?: boolean
 	$defaultwidth?: number
+	$gap?: number
 }
 
 const BorderSize = 3
+const DEFAULT_GAP = 5
 
 const Container = styled.div<IStyle>`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 0 5px;
+	margin: 0 ${({ $gap }) => $gap ?? DEFAULT_GAP}px;
 	height: 100%;
 
 	border-color: ${({ theme }) => theme.accent};
@@ -87,17 +95,36 @@ const Container = styled.div<IStyle>`
 	}
 
 	img,
-	video {
+	video,
+	.demo-slide-content {
 		border: ${BorderSize}px solid transparent;
 		border-color: inherit;
 		max-height: 60vh;
 		max-width: 75vw;
 	}
 
+	.demo-slide-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		position: relative;
+		/* Unlike img/video, a demo has no intrinsic size of its own, so it
+		 *  collapses to fit its content instead of filling this box.
+		 *  Giving it an explicit height + aspect-ratio (matching the other
+		 *  screenshot slides in this same slideshow) makes it occupy the
+		 *  same footprint so it doesn't look tiny next to them. */
+		height: 60vh;
+		aspect-ratio: 8 / 5;
+	}
+
 	@media (max-width: ${({ $defaultwidth }) => $defaultwidth}px) {
 		img,
-		video {
+		video,
+		.demo-slide-content {
 			max-width: 100vw;
 		}
 	}
 `
+
+const DemoSlideContent = styled.div.attrs({ className: 'demo-slide-content' })``

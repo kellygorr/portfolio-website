@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { IProject, ISection, SectionType } from '../../data/IProject'
-import { MEDIUM_SMALL_SCREEN, SIDE_GAP } from '../../styles/GlobalStyles'
+import { MEDIUM_SMALL_SCREEN, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Section } from './Section'
 import { Navigate, useParams } from 'react-router-dom'
 import { GetPageName, SanitizePath } from '../shared'
@@ -19,6 +19,10 @@ const slideshowStyle = {
 	paddingBottom: `1.5rem`,
 }
 
+const demoStyle = {
+	padding: `1.5rem 0`,
+}
+
 export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 	const { title } = useParams()
 	const projectName = title && SanitizePath(title)
@@ -29,18 +33,30 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 	}
 
 	const content: ISection[] = project.content
-	console.log('PAGE content', content)
 	return (
 		<Container>
 			{(content || []).map((data: ISection, index) => {
 				const items: [string, ISection][] = Object.entries(data)
 				const type = items[0][0]
+				const isHalfWidthDemo = type === SectionType.Demo && data.demoWidth === 'half'
+				const isFullWidth = (type === SectionType.Slideshow || type === SectionType.Demo) && !isHalfWidthDemo
 
 				return (
-					<SectionPadding key={index} style={type !== SectionType.Slideshow ? sectionStyle : slideshowStyle}>
-						<SectionWidth style={{ maxWidth: type !== SectionType.Slideshow ? MAX_WIDTH : '' }}>
+					<SectionPadding
+						key={index}
+						style={type === SectionType.Demo ? demoStyle : !isFullWidth ? sectionStyle : slideshowStyle}
+					>
+						<SectionWidth $collapsible={isHalfWidthDemo} style={{ maxWidth: !isFullWidth ? MAX_WIDTH : '' }}>
 							{items.map((item, index) => {
-								return <Section key={index} type={item[0] as SectionType} data={item[1] as any} setQuery={props.setQuery} />
+								return (
+									<Section
+										key={index}
+										type={item[0] as SectionType}
+										data={item[1] as any}
+										setQuery={props.setQuery}
+										isHalfWidthDemo={isHalfWidthDemo}
+									/>
+								)
 							})}
 						</SectionWidth>
 					</SectionPadding>
@@ -71,6 +87,23 @@ const SectionPadding = styled.div`
 	width: 100%;
 	word-wrap: break-word;
 `
-const SectionWidth = styled.div`
+/**
+ * $constrained mirrors the inline maxWidth style (700px cap for non-full-
+ * width sections). $collapsible is set only for a half-width Demo section
+ * — below SMALL_SCREEN it collapses to the same unconstrained width as a
+ * full-width demo (see also DemoWrapper's matching $rounded override in
+ * Section.tsx), since there isn't enough room on narrow screens for a
+ * demo to visually "match the body text column" the way it does on
+ * wider viewports.
+ */
+const SectionWidth = styled.div<{ $collapsible?: boolean }>`
 	margin: 0 auto;
+
+	${({ $collapsible }) =>
+		$collapsible &&
+		`
+		@media (max-width: ${SMALL_SCREEN}px) {
+			max-width: none !important;
+		}
+	`}
 `

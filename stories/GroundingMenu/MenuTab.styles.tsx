@@ -1,4 +1,5 @@
-import { makeStyles, shorthands, motionTokens } from '@fluentui/react-components'
+import { makeStyles, shorthands } from '@fluentui/react-components'
+import { durations, curves } from '../../src/styles/motionTokens'
 
 /*
   Menu Tab — pill-shaped header tab for the Grounding Menu wireframe.
@@ -19,8 +20,8 @@ export const useMenuTabStyles = makeStyles({
     borderRadius: '9999px',
     outline: 'none',
     transitionProperty: 'background-color, border-color',
-    transitionDuration: motionTokens.durationUltraFast,
-    transitionTimingFunction: motionTokens.curveLinear,
+    transitionDuration: durations.ultraFast,
+    transitionTimingFunction: curves.linear,
 
     ':hover': {
       backgroundColor: 'var(--gm-tab-hover-bg, rgba(0, 0, 0, 0.12))',

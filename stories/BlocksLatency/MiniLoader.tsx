@@ -14,9 +14,17 @@ export interface MiniLoaderProps {
    *  [0, 1, 2] as the roller passes through and picks back up on its
    *  way back. Falls back to currentColor if omitted. */
   trackColors?: [string, string, string]
+  /** Render the settled resting frame (roller sitting at its start
+   *  position, not mid-roll) with no animation running — used by
+   *  Demo's Stop control (see DemoMotionContext) so a "stopped" demo
+   *  shows a static snapshot instead of a blank/frozen-mid-cycle box.
+   *  The rolling block's own CSS class only sets `top`, not `left`
+   *  (left is driven entirely by the animation), so isStatic also
+   *  supplies `left: 0` explicitly to match its 0% keyframe position. */
+  isStatic?: boolean
 }
 
-export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors }) => {
+export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors, isStatic = false }) => {
   const styles = useMiniLoaderStyles()
   // scale animation (for storybook only).  Remove
   const scale = size / MINI_LOADER_CELL
@@ -43,7 +51,7 @@ export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 51
       <div className={styles.dropped0} />
       <div className={styles.dropped1} />
       <div className={styles.dropped2} />
-      <div className={styles.block} />
+      <div className={styles.block} style={isStatic ? { animation: 'none', left: 0, transform: 'none' } : undefined} />
     </div>
     </div>
   )

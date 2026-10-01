@@ -1,5 +1,6 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
+import { formatMonthYearRange } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/witcher3.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/witcher3.jpg', import.meta.url).href
@@ -131,7 +132,7 @@ export const theWitcher3: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'May 2015 - June 2015',
+					body: formatMonthYearRange('May', 2015, 'Jun', 2015),
 				},
 				{
 					header: HighlightName.Design_Lead,

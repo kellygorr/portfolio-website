@@ -1,5 +1,6 @@
 import { IProject, FileType, SkillType, SectionName, HighlightName } from '../IProject'
 import { TagType } from '../IProject'
+import { formatYearRange, formatFullDate, formatFullDateRange } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/xlei.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/xlei.jpg', import.meta.url).href
@@ -96,7 +97,7 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: '2014 - 2015',
+					body: formatYearRange(2014, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -107,12 +108,12 @@ export const xboxLiveEvents: IProject = {
 					body: 'Jacqueline Montplaisir',
 				},
 				{
-					header: `${HighlightName.Engineer} - XLEi App and database`,
-					body: 'Xbox Broadcast Service Team',
+					header: HighlightName.Engineer,
+					body: 'Xbox Broadcast Service Team (XLEi App and database)',
 				},
 				{
-					header: `${HighlightName.Engineer} - Overlays`,
-					body: 'Kelly Gorr',
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr (Overlays)',
 				},
 			],
 		},
@@ -183,7 +184,7 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'Dec. 3, 2015',
+					body: formatFullDate('Dec', 3, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -194,12 +195,12 @@ export const xboxLiveEvents: IProject = {
 					body: 'Jacqueline Montplaisir',
 				},
 				{
-					header: `${HighlightName.Engineer} - XLEi App and database`,
-					body: 'Xbox Broadcast Service Team',
+					header: HighlightName.Engineer,
+					body: 'Xbox Broadcast Service Team (XLEi App and database)',
 				},
 				{
-					header: `${HighlightName.Engineer} - Overlays`,
-					body: 'Kelly Gorr',
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr (Overlays)',
 				},
 			],
 		},
@@ -299,7 +300,7 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'June 17, 2015 - June 18, 2015',
+					body: formatFullDateRange('Jun', 17, 'Jun', 18, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -310,12 +311,12 @@ export const xboxLiveEvents: IProject = {
 					body: 'Jacqueline Montplaisir',
 				},
 				{
-					header: `${HighlightName.Engineer} - XLEi App and database`,
-					body: 'Xbox Broadcast Service Team',
+					header: HighlightName.Engineer,
+					body: 'Xbox Broadcast Service Team (XLEi App and database)',
 				},
 				{
-					header: `${HighlightName.Engineer} - Overlays`,
-					body: 'Kelly Gorr',
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr (Overlays)',
 				},
 			],
 		},
@@ -350,7 +351,7 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'June 17, 2015 - June 18, 2015',
+					body: formatFullDateRange('Jun', 17, 'Jun', 18, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -361,12 +362,12 @@ export const xboxLiveEvents: IProject = {
 					body: 'Jacqueline Montplaisir',
 				},
 				{
-					header: `${HighlightName.Engineer} - XLEi App and database`,
-					body: 'Xbox Broadcast Service Team',
+					header: HighlightName.Engineer,
+					body: 'Xbox Broadcast Service Team (XLEi App and database)',
 				},
 				{
-					header: `${HighlightName.Engineer} - Overlays`,
-					body: 'Kelly Gorr',
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr (Overlays)',
 				},
 			],
 		},
@@ -408,7 +409,7 @@ export const xboxLiveEvents: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: 'March 29, 2015',
+					body: formatFullDate('Mar', 29, 2015),
 				},
 				{
 					header: HighlightName.Skills,
@@ -419,12 +420,12 @@ export const xboxLiveEvents: IProject = {
 					body: 'Efus Richman',
 				},
 				{
-					header: `${HighlightName.Engineer} - XLEi App and database`,
-					body: 'Xbox Broadcast Service Team',
+					header: HighlightName.Engineer,
+					body: 'Xbox Broadcast Service Team (XLEi App and database)',
 				},
 				{
-					header: `${HighlightName.Engineer} - Overlays`,
-					body: 'Kelly Gorr',
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr (Overlays)',
 				},
 			],
 		},

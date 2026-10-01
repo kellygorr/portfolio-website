@@ -1,4 +1,5 @@
-import { makeStyles, motionTokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
+import { curves } from '../../src/styles/motionTokens'
 
 /*
   Mini Loader — one block rolling into place, then rolling back
@@ -47,7 +48,7 @@ import { makeStyles, motionTokens } from '@fluentui/react-components'
 const CELL = 80
 const GAP = 25 // space between blocks = translation during roll
 const DURATION = 'var(--mini-loader-duration, 5117ms)'
-const EASE = motionTokens.curveAccelerateMin
+const EASE = curves.accelerateMin
 const STEP = 'steps(1, jump-end)'
 
 const ROLLER = 'var(--roller-color, currentColor)'

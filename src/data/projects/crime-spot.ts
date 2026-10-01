@@ -46,7 +46,7 @@ export const crimeSpot: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'Mobile/web design for an entertainment app that allows people to track real life homicides and other violent crime in their city.',
+			body: 'I designed a mobile/web entertainment app that allows people to track real life homicides and other violent crime in their city.',
 		},
 		{
 			header: SectionName.Details,
@@ -58,6 +58,10 @@ export const crimeSpot: IProject = {
 				{
 					header: HighlightName.Tools,
 					tags: [ToolType.Illustrator, ToolType.Photoshop, ToolType.InDesign],
+				},
+				{
+					header: HighlightName.Designer,
+					body: 'Kelly Gorr',
 				},
 			],
 		},
