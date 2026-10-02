@@ -7,8 +7,14 @@ import styled from 'styled-components'
  * header row itself owns layout/positioning, so this component only
  * needs to handle the badge's own look. No motion/animation on this
  * badge — it's a static label.
+ *
+ * The underlying `Badge` styled-component is also reused by
+ * ImagesRecreatedBadge (the slideshow equivalent of this disclosure,
+ * shown above image slideshows rather than motion demos) so both
+ * badges share one definition instead of duplicating the same CSS.
  */
-const Badge = styled.div<{ $bg: string; $color: string }>`
+export const Badge = styled.div<{ $bg: string; $color: string }>`
+	display: inline-block;
 	padding: 6px 12px;
 	border-radius: 6px;
 	background: ${({ $bg }) => $bg};

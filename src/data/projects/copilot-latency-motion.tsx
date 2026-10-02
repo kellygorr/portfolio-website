@@ -7,18 +7,25 @@ import { useDemoMotion } from '../../components/Page/DemoMotionContext'
 import { Blocks } from '../../../stories/BlocksLatency/Blocks'
 import { MiniLoader } from '../../../stories/BlocksLatency/MiniLoader'
 import { SingleSquare } from '../../../stories/BlocksLatency/SingleSquare'
+import { StretchyCircles as StretchyCirclesV1 } from '../../../stories/StretchyCircles/v1/StretchyCirclesV1'
+import { StretchyCircles as StretchyCirclesV2 } from '../../../stories/StretchyCircles/v2/StretchyCirclesV2'
 import { DAB } from '../../../stories/DAB/DAB'
 import { ProgressBar } from '../../../stories/ProgressBar/ProgressBar'
 import { randomMotionPaletteNames, darkestColor, motionPalette } from '../../styles/motionPalettes'
 import { formatYearRange } from '../../utils/dateFormat'
 
-const dabPlaceholder = new URL('../../assets/images/copilot-latency/copilot-latency-01.svg', import.meta.url).href
 const copilotLogoPlaceholder = new URL('../../assets/images/copilot-latency/copilot-latency-02.svg', import.meta.url).href
+const dabPowerPointWeb = new URL('../../assets/images/copilot-latency/copilot-latency-03.png', import.meta.url).href
+const dabPowerPointWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-03-2x.png', import.meta.url).href
+const dabWordWeb = new URL('../../assets/images/copilot-latency/copilot-latency-04.png', import.meta.url).href
+const dabWordWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-04-2x.png', import.meta.url).href
+const dabExcelWeb = new URL('../../assets/images/copilot-latency/copilot-latency-05.png', import.meta.url).href
+const dabExcelWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-05-2x.png', import.meta.url).href
 
-// Randomized once per page load: each of the 4 in-page demos below gets a
+// Randomized once per page load: each of the 5 in-page demos below gets a
 // different, non-repeating motion palette, reshuffled every time this
 // module is freshly evaluated (i.e. on every full page load/refresh).
-const [dabTheme, allBlocksTheme, progressBarTheme, thumbnailTheme] = randomMotionPaletteNames(4)
+const [dabTheme, allBlocksTheme, circleLatencyTheme, progressBarTheme, thumbnailTheme] = randomMotionPaletteNames(5)
 
 const AllBlocksItem = ({ label, children, textColor }: { label: string; children: ReactNode; textColor: string }) => (
 	<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 24 }}>
@@ -55,6 +62,34 @@ const AllBlocks = ({ theme }: { theme: typeof allBlocksTheme }) => {
 			</AllBlocksItem>
 			<AllBlocksItem label="Single Square" textColor={darkestColor(palette)}>
 				<SingleSquare size={24} color={palette.colors[1]} isStatic={stopped} />
+			</AllBlocksItem>
+		</div>
+	)
+}
+
+// Both stretchy-circle explorations shown side by side, mirroring the
+// adjacent body copy's narrative (built the SVG version first, then
+// rewrote it in pure CSS for performance) — same AllBlocksItem layout
+// pattern as the Blocks/MiniLoader/SingleSquare comparison above.
+const CircleLatency = ({ theme }: { theme: typeof circleLatencyTheme }) => {
+	const palette = motionPalette(theme)
+	const { stopped } = useDemoMotion()
+	return (
+		<div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+			<AllBlocksItem label="SVG filter version" textColor={darkestColor(palette)}>
+				<StretchyCirclesV1 size={90} duration={1200} color={palette.colors[2]} isStatic={stopped} />
+			</AllBlocksItem>
+			<AllBlocksItem label="CSS rewrite" textColor={darkestColor(palette)}>
+				{/* No backgroundColor override here (unlike the circle color) —
+				    StretchyCirclesV2's CSS "goo" technique needs an opaque fill
+				    behind the shapes for its contrast() filter to work, and
+				    that filter crunches any near-white color (like this
+				    palette's cream background) to pure white anyway — passing
+				    palette.background here would look like it's theming the
+				    box, but would render identically to the component's own
+				    white default. Left as an intentional white card instead
+				    (see StretchyCirclesV2.styles.tsx's `wrapper` comment). */}
+				<StretchyCirclesV2 size={90} duration={1200} circleColor={palette.colors[2]} isStatic={stopped} />
 			</AllBlocksItem>
 		</div>
 	)
@@ -254,8 +289,19 @@ export const copilotLatencyMotion: IProject = {
 				width: 1600,
 				slides: [
 					{
-						img: dabPlaceholder,
-						caption: 'Placeholder for DAB presentation screenshots',
+						img: dabPowerPointWeb,
+						img2x: dabPowerPointWeb2x,
+						caption: 'The DAB (bottom right) in PowerPoint',
+					},
+					{
+						img: dabWordWeb,
+						img2x: dabWordWeb2x,
+						caption: 'The DAB (expanded bottom right) in Word',
+					},
+					{
+						img: dabExcelWeb,
+						img2x: dabExcelWeb2x,
+						caption: 'The DAB (expanded bottom right) in Excel',
 					},
 				],
 			},
@@ -295,6 +341,13 @@ export const copilotLatencyMotion: IProject = {
 		},
 		{
 			header: 'Circle Latency',
+		},
+		{
+			demo: (
+				<Demo theme={circleLatencyTheme} minHeight={160}>
+					<CircleLatency theme={circleLatencyTheme} />
+				</Demo>
+			),
 		},
 		{
 			body: `The stretchy circle latency animation was a useful performance and system-fit exploration. I first built a scalable vector version, then found that the vector filters created main-thread work and were not performant enough for web. I rewrote the animation in pure CSS to reduce JavaScript overhead, improve frame rate, and make the motion more GPU-friendly. Even though the animation was fun and technically successful, it did not move forward because the stretch behavior was not represented elsewhere in the Copilot motion language and felt less cohesive as a product-wide latency pattern.`,

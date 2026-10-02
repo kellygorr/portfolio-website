@@ -16,7 +16,7 @@ export const welcomeEmails: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
-		tags: [TagType.Design],
+		tags: [TagType.Design, TagType.Website],
 	},
 	content: [
 		{
@@ -38,7 +38,8 @@ export const welcomeEmails: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'These are welcome emails that I built and designed for an email marketing drip program. They were compatible with multiple devices and email programs. The body copy in the images has been altered from the original version.',
+			body: 'I built and designed these templates for an email marketing drip program. They were hand-coded to render correctly across Outlook, Gmail, and other major email clients. Coding for emails is notorious for having inconsistent and outdated CSS support, which meant testing each template across all platforms and variants to make sure every recipient got the same polished experience, no matter which client opened it.',
+			imagesRecreated: true,
 		},
 		{
 			header: SectionName.Details,

@@ -8,6 +8,7 @@ import { Tags, Thumbnail } from '../shared'
 import { Heading, Title } from '.'
 import { SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { sortHighlights } from '../../utils/sortHighlights'
+import { pluralizeHighlightHeader } from '../../utils/pluralizeHighlightHeader'
 
 interface ISectionProps {
 	type: SectionType
@@ -50,7 +51,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				const type = items[1][0]
 				return (
 					<Highlight key={index}>
-						<HighlightHeader>{data.header}</HighlightHeader>
+						<HighlightHeader>{pluralizeHighlightHeader(data.header, data.body)}</HighlightHeader>
 						{type && <Section type={type as SectionType} data={(data as any)[type]} setQuery={props.setQuery} />}
 					</Highlight>
 				)

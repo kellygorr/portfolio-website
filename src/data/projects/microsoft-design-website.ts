@@ -71,7 +71,7 @@ export const microsoftDesignWebsite: IProject = {
 		},
 		{
 			header: SectionName.URL,
-			body: '<a href="https://microsoft.design">https://microsoft.design</a>',
+			body: '[ <a href="https://microsoft.design">https://microsoft.design</a> ]',
 		},
 		{
 			header: SectionName.Overview,

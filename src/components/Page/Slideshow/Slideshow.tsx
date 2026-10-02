@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { ChevronLeft16Filled, ChevronRight16Filled } from '@fluentui/react-icons'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
-import { MIN_WIDTH } from '../../../styles/GlobalStyles'
+import { MIN_WIDTH, MAX_WIDTH } from '../../../styles/GlobalStyles'
 
 interface IPageProps {
 	data: ISlide[]
@@ -160,7 +160,7 @@ const Caption = styled.div`
 	justify-content: center;
 	text-align: center;
 	width: 100%;
-	max-width: 700px;
+	max-width: ${MAX_WIDTH};
 	opacity: 1;
 	transition: opacity linear;
 	margin: 0 auto;

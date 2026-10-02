@@ -12,12 +12,6 @@ const meta: Meta<typeof LinePathMotionOvershootV3Css> = {
   component: LinePathMotionOvershootV3Css,
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      description: {
-        component:
-          'Rectangle V3 AE Data. Includes both CSS and OffscreenCanvas Worker renderers with AE baseline duration set to 1670ms. Final path/easing calibration will be updated from incoming AE JSON data.',
-      },
-    },
   },
   argTypes: {
     width: {

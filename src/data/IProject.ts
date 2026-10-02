@@ -103,7 +103,7 @@ export enum HighlightName {
 	Illustrator = 'Illustrator',
 	Localization = 'Localization',
 	Motion = 'Motion',
-	Motion_Designer = 'Motion designer',
+	Motion_Designer = 'Motion designer(s)',
 	Platform = 'Platform',
 	Platform_Accessories = 'Platform and Accessories',
 	Skills = 'Skills',
@@ -164,6 +164,13 @@ export interface ISection {
 	 *  max-width as text sections (700px), so a demo can sit inline at
 	 *  the same width as the body copy around it. */
 	demoWidth?: 'full' | 'half'
+	/** Shows a small "Images — recreated for portfolio" badge directly
+	 *  below this section's body text, left-aligned. Same disclosure
+	 *  convention as RecreatedBadge (used on motion demos), but for
+	 *  sections whose slideshow images have been edited/recreated (e.g.
+	 *  body copy altered from the original) rather than a live
+	 *  interactive component. */
+	imagesRecreated?: boolean
 }
 
 export interface ISlideshow {
@@ -225,4 +232,14 @@ export interface IThumbnail {
 	 *  for aria/inView bookkeeping) — this project's card shows a real,
 	 *  running animation instead of a screenshot. */
 	demo?: ReactNode
+	/** Shows a small "Demo" badge in the top-right corner of this
+	 *  thumbnail (homepage grid card and project-detail header card —
+	 *  wherever Thumbnail.tsx is used). Lets visitors know, at a glance
+	 *  and before clicking in, that the project page has something they
+	 *  can actually click around in/play with (e.g. a live game or
+	 *  interactive site), rather than only static images/case-study
+	 *  text. Distinct from `demo` above (an embedded motion demo
+	 *  replacing the thumbnail image itself) — `demoBadge` is just an
+	 *  overlay label on top of a normal static thumbnail image. */
+	demoBadge?: boolean
 }

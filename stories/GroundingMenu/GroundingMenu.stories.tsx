@@ -12,17 +12,6 @@ const meta = {
   component: GroundingMenu,
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      description: {
-        component: `
-**Motion spec: ** <a href="https://microsoft.sharepoint-df.com/:v:/t/TechCreativeMotion/EQLxS49Z-e5ElRaOVOZXoK8B6uiF5XPRQmDE2C9SCdeFrw?e=rTh1DF" target="_blank">View</a>
-
-**Figma: ** <a href="https://www.figma.com/design/fkZgR5M9vBbW9awDT5mGZ2/Peek-Menu?m=auto&node-id=20548-44865&t=Qw9pmtvTEL8ngq7M-1" target="_blank">View</a>
-
-This component demonstrates the grounding menu interaction pattern with smooth animations and micro-interactions, simplified to a themed wireframe.
-        `,
-      },
-    },
   },
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
   tags: ['autodocs'],

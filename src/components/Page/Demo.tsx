@@ -136,7 +136,7 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 
 	// --- Interactive path: restart via full remount, not stop/start ---
 	// (shared with DemoSlide — see useReplayControl.ts)
-	const { containerRef, restartKey, running, setRunning, runReplay } = useReplayControl(interactive)
+	const { containerRef, restartKey, running, setRunning, runReplay } = useReplayControl(interactive, hideRestartIcon)
 
 	return (
 		<div

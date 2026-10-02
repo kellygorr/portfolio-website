@@ -13,12 +13,6 @@ const meta = {
     controls: {
       sort: 'none',
     },
-    docs: {
-      description: {
-        component:
-          'A welcome message animation that reveals text character by character with scale and fade effects.',
-      },
-    },
   },
   tags: ['autodocs'],
   argTypes: {
