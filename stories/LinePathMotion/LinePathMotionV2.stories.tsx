@@ -8,12 +8,6 @@ const meta: Meta<typeof LinePathMotionV2> = {
   component: LinePathMotionV2,
   parameters: {
     layout: 'fullscreen',
-    docs: {
-      description: {
-        component:
-          'A line that travels around the border of a squircle, matching the Lottie designer spec (butt-cap head, soft tail, ~45° drift per revolution, long pause between sweeps).',
-      },
-    },
   },
   decorators: [
     (Story, context) => {

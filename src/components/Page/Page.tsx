@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import { IProject, ISection, SectionType } from '../../data/IProject'
-import { MEDIUM_SMALL_SCREEN, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
+import { MAX_WIDTH, MEDIUM_SMALL_SCREEN, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Section } from './Section'
+import { ImagesRecreatedBadge } from './ImagesRecreatedBadge'
 import { Navigate, useParams } from 'react-router-dom'
 import { GetPageName, SanitizePath } from '../shared'
 interface IPageProps {
@@ -9,7 +10,7 @@ interface IPageProps {
 	setQuery: (query: string) => void
 }
 
-export const MAX_WIDTH = '700px'
+export { MAX_WIDTH }
 
 const sectionStyle = {
 	padding: `0 ${SIDE_GAP} 1.5rem ${SIDE_GAP}`,
@@ -36,7 +37,7 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 	return (
 		<Container>
 			{(content || []).map((data: ISection, index) => {
-				const items: [string, ISection][] = Object.entries(data)
+				const items: [string, ISection][] = Object.entries(data).filter(([key]) => key !== 'imagesRecreated' && key !== 'demoWidth')
 				const type = items[0][0]
 				const isHalfWidthDemo = type === SectionType.Demo && data.demoWidth === 'half'
 				const isFullWidth = (type === SectionType.Slideshow || type === SectionType.Demo) && !isHalfWidthDemo
@@ -58,6 +59,7 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 									/>
 								)
 							})}
+							{data.imagesRecreated && <ImagesRecreatedBadge />}
 						</SectionWidth>
 					</SectionPadding>
 				)

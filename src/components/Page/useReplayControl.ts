@@ -29,8 +29,22 @@ const SAFETY_FALLBACK_MS = 30000
  *
  * Restart always means a full remount (a React `key` bump), never a
  * pause/resume-in-place toggle — see Demo.tsx's docstring for why.
+ *
+ * `selfDriven` — set true for demos that drive their own ongoing
+ * interaction directly (e.g. DAB's Intro/Thinking toggle buttons,
+ * PillMotionDemo's own "See more"/"See less" button) instead of
+ * watching `replayToken` to play out a scripted sequence. These demos
+ * never call `onReplayStateChange(false)` back (they have no concept
+ * of a sequence "finishing"), so if the normal auto-run-once-on-scroll
+ * behavior ran for them, `running` would get stuck `true` — and since
+ * `running` gates pointer-events on the demo's own content (see
+ * Demo.tsx/DemoSlide.tsx) — their buttons would be unclickable for the
+ * whole SAFETY_FALLBACK_MS window after scrolling into view. They also
+ * never render a restart icon (Demo's `hideRestartIcon`) since there's
+ * no scripted replay to manually trigger either. So for these, skip
+ * the auto-run entirely and leave `running` permanently false.
  */
-export const useReplayControl = (interactive: boolean | undefined) => {
+export const useReplayControl = (interactive: boolean | undefined, selfDriven?: boolean) => {
 	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 	const [restartKey, setRestartKey] = useState(0)
 	const [running, setRunning] = useState(false)
@@ -66,9 +80,14 @@ export const useReplayControl = (interactive: boolean | undefined) => {
 	// view, run its scripted sequence automatically so a visitor who
 	// never thinks to click anything still sees the motion at least
 	// once — then hands control back (this never fires again for this
-	// demo instance). Skipped entirely under prefers-reduced-motion.
+	// demo instance). Skipped entirely under prefers-reduced-motion, and
+	// skipped entirely for `selfDriven` demos (see this hook's
+	// docstring) — they have no scripted sequence to auto-play and never
+	// report completion, so auto-running here would leave `running`
+	// (and pointer-events) stuck for SAFETY_FALLBACK_MS with no way to
+	// clear early.
 	useEffect(() => {
-		if (!interactive || prefersReducedMotion) return
+		if (!interactive || prefersReducedMotion || selfDriven) return
 		const el = containerRef.current
 		if (!el) return
 		const observer = new IntersectionObserver(
@@ -83,7 +102,7 @@ export const useReplayControl = (interactive: boolean | undefined) => {
 		observer.observe(el)
 		return () => observer.disconnect()
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [interactive, prefersReducedMotion])
+	}, [interactive, prefersReducedMotion, selfDriven])
 
 	useEffect(() => {
 		return () => clearSettleTimer()

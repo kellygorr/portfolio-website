@@ -13,7 +13,7 @@ import { tenGreatTeas } from './projects/ten-great-teas'
 import { earthquakeMap } from './projects/earthquake-map'
 import { malariaInfographic } from './projects/malaria-infographic'
 import { welcomeEmails } from './projects/welcome-emails'
-import { kMonogram } from './projects/k-monogram'
+// import { kMonogram } from './projects/k-monogram'
 import { supersizedUserTesting } from './projects/supersized-user-testing'
 import { jewelBoxCafe } from './projects/jewel-box-cafe-redesign'
 import { owaCalendar } from './projects/owa-calendar'
@@ -57,7 +57,6 @@ export const allProjects: IProject[] = [
 	// crimeSpot,
 	malariaInfographic,
 	welcomeEmails,
-	kMonogram,
 	supersizedUserTesting,
 	jewelBoxCafe,
 ]

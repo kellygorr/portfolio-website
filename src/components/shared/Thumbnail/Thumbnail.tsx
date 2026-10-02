@@ -34,6 +34,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 			<LinkStyle onClick={props.thumbnailClick} style={{ flex: !hasVisual ? 1 : 'inherit' }}>
 				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!hasVisual ? -1 : undefined}>
 					<ImageWrapper $neutralBorder={Boolean(data.neutralBorder)}>
+						{data.demoBadge && <DemoBadge>Demo</DemoBadge>}
 						{inView && data.demo ? (
 							<>
 								<BackgroundCard />
@@ -137,6 +138,7 @@ const Image = styled.img`
 const DemoSlot = styled.div`
 	height: 200px;
 	min-height: 200px;
+	max-height: 200px;
 	width: 100%;
 	display: flex;
 	align-items: center;
@@ -147,13 +149,52 @@ const DemoSlot = styled.div`
 	animation-fill-mode: forwards;
 	border: 2px solid ${({ theme }) => theme.background};
 
-	@media (min-width: ${SMALL_SCREEN}px) {
-		height: 100%;
-	}
+	/* Unlike Image above, this intentionally does NOT grow to height:
+	100% at wider screens. Image's content is a single <img> with
+	object-fit: cover, so stretching it to 100% of an auto-height parent
+	just crops/fills — it can never make the parent taller. DemoSlot's
+	children are arbitrary React demo content with their own intrinsic
+	height; if this also went to height: 100% here, then on a parent
+	with no fixed height (ImageWrapper is content-sized, not fixed),
+	the percentage can't resolve against anything and height effectively
+	reverts to auto/content-based per the CSS spec — so the box silently
+	grows to fit whatever the demo renders, and overflow: hidden never
+	actually clips anything because nothing is overflowing a box that
+	just resized to match it. That one demo thumbnail then stretched
+	its entire homepage grid row taller (CSS Grid's default
+	align-items: stretch), making every other card in that row look
+	oversized too. Keeping a hard max-height here, at every screen size,
+	is what makes every demo thumbnail reliably no larger than a plain
+	image thumbnail — any demo content taller than 200px just gets
+	silently clipped (no scrollbar) instead of resizing the card. */
 `
 
 const Header = styled.h4`
 	font-family: 'Museo_Slab_500_2';
+`
+
+/**
+ * "Demo" badge overlaid on the top-right corner of a thumbnail (see
+ * IThumbnail.demoBadge) — lets visitors know from the homepage grid (or
+ * a project's header thumbnail) that there's a live, playable demo
+ * behind this card, not just static images. Positioned the same way as
+ * DemoThumbnail's StopButton corner chip, and z-indexed above
+ * ImageWrapper's hover-gradient pseudo-element so it stays visible/
+ * legible on hover.
+ */
+const DemoBadge = styled.div`
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	z-index: 1;
+	padding: 4px 10px;
+	border-radius: 6px;
+	background: ${({ theme }) => theme.accent};
+	color: ${({ theme }) => theme.textNegative};
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.2px;
+	pointer-events: none;
 `
 
 const LinkStyle = styled.div`

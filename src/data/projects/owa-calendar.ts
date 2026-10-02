@@ -65,10 +65,10 @@ export const owaCalendar: IProject = {
 		{
 			header: SectionName.URL,
 
-			body: 'Outlook Calendar (subscription required) <br /> <a href="https://outlook-sdf.office.com/calendar/">https://outlook-sdf.office.com/calendar/</a>',
+			body: 'Outlook Calendar (subscription required) <br /> [ <a href="https://outlook-sdf.office.com/calendar/">https://outlook-sdf.office.com/calendar/</a> ]',
 		},
 		{
-			body: 'Fabric calendar component (Rebranded to Fluent)<br /> <a href="https://developer.microsoft.com/en-us/fluentui#/controls/web/calendar">https://developer.microsoft.com/en-us/fluentui#/controls/web/calendar</a>',
+			body: 'Fabric calendar component (Rebranded to Fluent)<br /> [ <a href="https://developer.microsoft.com/en-us/fluentui#/controls/web/calendar">https://developer.microsoft.com/en-us/fluentui#/controls/web/calendar</a> ]',
 		},
 
 		{

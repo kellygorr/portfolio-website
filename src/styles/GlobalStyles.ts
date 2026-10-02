@@ -14,6 +14,11 @@ export const MEDIUM_SCREEN = 1024
 export const MEDIUM_SMALL_SCREEN = 768
 export const SMALL_SCREEN = 640
 export const MIN_WIDTH = 300
+/** Body text column width, used on Page.tsx for non-full-width
+ *  sections. Kept here (rather than on Page.tsx) so other components,
+ *  like Slideshow's "Images - recreated for portfolio" badge, can
+ *  match it without a circular import back to Page.tsx. */
+export const MAX_WIDTH = '700px'
 
 /**For non-home screen thumbnails */
 export const THUMBNAIL_SINGLE_COLUMN = 779

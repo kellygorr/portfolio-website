@@ -76,7 +76,7 @@ export const mhcPlugin: IProject = {
 		},
 		{
 			header: SectionName.URL,
-			body: '<a href="https://www.figma.com/community/plugin/1268611308971699930/mental-health-cognition-plugin">https://www.figma.com/community/plugin/1268611308971699930/mental-health-cognition-plugin</a>',
+			body: '[ <a href="https://www.figma.com/community/plugin/1268611308971699930/mental-health-cognition-plugin">https://www.figma.com/community/plugin/1268611308971699930/mental-health-cognition-plugin</a> ]',
 		},
 		{
 			header: SectionName.Accessibility,

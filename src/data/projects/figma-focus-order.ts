@@ -62,7 +62,7 @@ export const focusOrder: IProject = {
 		},
 		{
 			header: SectionName.URL,
-			body: '<a href="https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant">https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant</a>',
+			body: '[ <a href="https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant">https://www.figma.com/community/plugin/731310036968334777/accessibility-assistant</a> ]',
 		},
 		{
 			header: SectionName.Role,

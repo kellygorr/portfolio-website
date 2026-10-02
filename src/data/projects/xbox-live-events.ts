@@ -74,11 +74,11 @@ export const xboxLiveEvents: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'The XLEi app was built by the Xbox Broadcast Service Team and is available on the Xbox One to play live events and video on-demand.  The main feature of the app is the interactive overlays it inserts over the video that lets users make purchases and take polls and quizzes while watching an event.  The app can also be used to create a game that lets users play along with events (and possibly win prizes) by keeping track of the user’s points and showing a leaderboard of the highest scores.',
+			body: "The XLEi app was built by the Xbox Broadcast Service Team and is available on the Xbox One to play live events and video on-demand.  The main feature of the app is the interactive overlays it inserts over the video that lets users make purchases, take polls and quizzes, and compete on live leaderboards while watching an event.  I built the interactive overlays used during some of gaming's biggest live broadcasts, including The Game Awards, E3, Gamescom, and the Call of Duty Championship, reaching millions of viewers.",
 		},
 		{
 			header: SectionName.Role,
-			body: "My role was to build the interactive overlays that were used during the live events.  I was chosen to collaborate with the Broadcast Team because I had built an interactive video playlist (<a href='index.html#interactive_playlist?plugin=project'>featured here</a>) that had similar interactivity.  I built in the animations and functionality of the overlays and hooked up the polls, quizzes, and leaderboards to the Broadcast Team’s database.",
+			body: "My role was to build the interactive overlays that were used during the live events.  My work on the [ <a href='interactive-video-playlist'>interactive video playlist</a> ] demonstrated the kind of interactivity the Broadcast Team needed, and led to them bringing me on to collaborate on these broadcasts.  I built in the animations and functionality of the overlays and hooked up the polls, quizzes, and leaderboards to the Broadcast Team’s database. Content and requirements often changed right up until broadcast, so I was also present at each live event to make last-minute updates, monitor the overlays, and troubleshoot in real time.",
 		},
 		{
 			header: SectionName.Details,
@@ -165,11 +165,7 @@ export const xboxLiveEvents: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'The Game Awards celebrates the best video games of the year.  For the 2015 event it was available to watch live on Xbox One (XLEi), Twitch, Playstation Network, Steam, YouTube, Kotaku, and more.  The XLEi app featured an exclusive game that let viewers play along with the event and it was promoted on YouTube, Twitter, and other media outlets and it was discussed during the live show.',
-		},
-		{
-			header: SectionName.Role,
-			body: 'I was in charge of building the interactive game and overlays. During the event players guessed who would win at the beginning each category and they received points based on how fast they answered correctly (once the winner was announced).  Throughout the event an overlay was inserted that showed the top ten highest scoring players, and there was also an overlay that was customized for each player to show them their total points and how fast and accurate they were guessing the winners.  At the end of the event a fullscreen leaderboard was inserted into the live broadcast that allowed users streaming on other devices to see who was at the top of the Xbox leaderboard.',
+			body: 'The Game Awards celebrates the best video games of the year.  For the 2015 event it was available to watch live on Xbox One (XLEi), Twitch, Playstation Network, Steam, YouTube, and more, and it was promoted on Twitter and other media outlets and discussed during the live show.<br /><br />The XLEi app turned the broadcast into a competitive game: players guessed who would win each category and earned points based on how fast they answered correctly once the winner was announced, with their rank tracked on a live leaderboard throughout the show. An overlay showed the top ten highest-scoring players, along with a player-specific overlay showing total points and guess speed/accuracy, and at the end of the event a fullscreen leaderboard was inserted directly into the live broadcast so viewers on other devices could see who was at the top of the Xbox leaderboard.',
 		},
 		{
 			header: SectionName.Details,
@@ -284,8 +280,8 @@ export const xboxLiveEvents: IProject = {
 			},
 		},
 		{
-			header: SectionName.Role,
-			body: 'The Xbox Daily Show held two live shows during Gamescom 2015.  I was in charge of building the interactive poll and quiz overlays for the event.  I also built the overlays for the preshow.',
+			header: SectionName.Overview,
+			body: 'The Xbox Daily Show ran two live broadcasts during Gamescom 2015, each paired with its own preshow. The preshow quizzes and polls primed the audience, then carried through into the live overlays on the main show, keeping the interactive experience continuous across both formats.',
 		},
 		{
 			header: SectionName.Details,
@@ -335,8 +331,8 @@ export const xboxLiveEvents: IProject = {
 			},
 		},
 		{
-			header: SectionName.Role,
-			body: 'The Xbox Daily Show held three live shows during E3 2015.  I was in charge of building the interactive poll and quiz overlays for the event.  Some polls influenced what was presented during the show.',
+			header: SectionName.Overview,
+			body: "The Xbox Daily Show ran three live broadcasts during E3 2015. Audience polls didn't just run alongside the show. Results directly influenced what content was presented live, making viewers part of shaping the broadcast in real time.",
 		},
 		{
 			header: SectionName.Details,
@@ -393,8 +389,8 @@ export const xboxLiveEvents: IProject = {
 			},
 		},
 		{
-			header: SectionName.Role,
-			body: 'This was the debut of the interactive overlays on the XLEi.  I was in charge of building the preshow polls.  Once the user made a selection the poll and numbers animated to show the live results.',
+			header: SectionName.Overview,
+			body: 'This was the debut of the interactive overlay system on XLEi: preshow polls where, once a viewer made a selection, the poll and result numbers animated live to reflect real-time audience results.',
 		},
 		{
 			header: SectionName.Details,
