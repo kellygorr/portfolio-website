@@ -25,7 +25,7 @@ const img5 = new URL('../../assets/images/owa-calendar/owa-calendar-05.jpg', imp
 
 export const owaCalendar: IProject = {
 	details: {
-		header: 'Outlook Calendar',
+		header: 'Outlook calendar',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -86,14 +86,14 @@ export const owaCalendar: IProject = {
 			body: 'The main feature I worked on for the Calendar team was an updated Fabric calendar component.  It was being used in the project in various places to select a date.  I expanded the functionality of the component by: creating a side by side calendar and year view, adding additional date math to highlight the current week, style refresh, and more.',
 		},
 		{
-			header: 'Quick Compose',
+			header: 'Quick compose',
 			body: `For the Calendar Capture team I helped to build the new Quick Compose calendar feature.  This feature allows a user to quickly create a calendar event by adding a note to their calendar.  The user can type a note like "Dinner at 7pm McDonalds", and it auto fills an event form with the information.  The user can then make adjustments and save the event.  I built the highlighting UI that occurs on the keywords as the user types a note, along with updating some of the functionality and design of the fabric components used in quick compose.`,
 		},
 		{
 			body: `In the previous year I had created a prototype of this functionality for the Calendar Capture team and I had participated in the user research that used it.  Throughout the research I built different scenarious to test and made improvements to the prototype. Later I was invited back to help the team build it in-product.`,
 		},
 		{
-			header: 'First Run Experience (FRE)',
+			header: 'First run experience (FRE)',
 			body: `To introduce users to the new Quick Compose feature I built the Lightning component that was displayed the first time the user enters their calendar after the feature was launched.`,
 		},
 		{

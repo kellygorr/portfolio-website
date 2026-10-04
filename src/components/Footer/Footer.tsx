@@ -1,6 +1,7 @@
 import type { JSX } from 'react'
 import styled from 'styled-components'
 import { IHighlight, ILink } from '../../data/IProject'
+import { NeutralColors } from '../../styles/theme'
 
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Sidebar } from '../shared'
@@ -77,23 +78,18 @@ const Container = styled.footer`
 		overflow: hidden;
 		background-color: ${({ theme }) => theme.footerBackgroundSecondary};
 
-		/* Gradient sits on its own layer, fixed in place, and simply fades
-		   in/out on hover — it no longer sweeps left-to-right via an
-		   animated background-position (the ::before element's own
-		   position never changes; only its opacity transitions). Spans
-		   edge-to-edge (gradient1 -> gradient2, no trailing fade back to
-		   the plain background color) so the highlight visibly covers
-		   the whole tab instead of blending back into the background
-		   partway across — that trailing fade-to-background stop only
-		   made sense for the old sweep animation, which relied on it to
-		   look like the highlight was wiping in from one side. */
+		/* Neutral grey wash, fixed in place, that simply fades in/out on
+		   hover (the ::before element's own position never changes;
+		   only its opacity transitions) — replaces an earlier accent
+		   gradient here, which read as too colorful/attention-grabbing
+		   for a plain hover state. */
 		&::before {
 			content: '';
 			position: absolute;
 			inset: 0;
-			background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1}, ${({ theme }) => theme.gradient2});
+			background-color: ${NeutralColors.neutral40};
 			opacity: 0;
-			transition: opacity 300ms ease-in-out;
+			transition: opacity 150ms ease-in-out;
 			pointer-events: none;
 		}
 

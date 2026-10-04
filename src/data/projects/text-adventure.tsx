@@ -32,18 +32,18 @@ const imgEscaped = new URL('../../assets/images/text-adventure-new/text-adventur
  */
 export const textAdventure: IProject = {
 	details: {
-		header: 'Text Adventure',
+		header: 'Text adventure',
 		demoBadge: true,
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
-		tags: [TagType.AI, TagType.Website],
+		tags: [SkillType.AI, TagType.Website],
 	},
 	content: [
 		{
-			title: 'Text Adventure',
+			title: 'Text adventure',
 		},
 		{
 			slideshow: {
@@ -72,11 +72,11 @@ export const textAdventure: IProject = {
 			body: `A personal learning project: a text adventure game where OpenAI generates the rooms, story, and art in real time. This was built to learn generative AI application development and prompt engineering hands-on.`,
 		},
 		{
-			header: 'Turning AI Output Into Reliable Game State',
+			header: 'Turning AI output into reliable game state',
 			body: `The hardest problem wasn't generating content, it was trusting it. The model would routinely hallucinate: inventing items in an empty inventory, adding obstacles to doors it had just said were unlocked, or re-blocking a room the player had already passed through. Rather than trust the model's narration, the app kept track of the game state (player inventory, room state, and progression), so that the model couldn't make things up randomly.`,
 		},
 		{
-			header: 'Prompt Engineering for Structured Actions',
+			header: 'Prompt engineering for structured actions',
 			body: `When returning the text description, the model also labels the action type (like picked up vs. looked at), so the app can update the game state correctly instead of guessing from the model's response alone. If a pick-up is labeled successful but the model does not respond with the required item data (so the game knows what was picked up), a fallback re-prompts as if the player had dropped the item, so the game degrades gracefully instead of losing an item permanently. The player can try and pick up the item again.`,
 		},
 		{

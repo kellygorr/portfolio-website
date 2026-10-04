@@ -89,7 +89,7 @@ export const copilotNotebooks: IProject = {
 		},
 		{
 			demo: (
-				<Demo theme={pillMotionTheme} minHeight={620} interactive>
+				<Demo theme={pillMotionTheme} minHeight={620} interactive allowRestartWhileRunning>
 					<PillMotionDemo theme={pillMotionTheme} />
 				</Demo>
 			),

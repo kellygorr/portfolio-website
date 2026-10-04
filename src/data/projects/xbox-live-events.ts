@@ -50,7 +50,7 @@ const video4 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-28
 
 export const xboxLiveEvents: IProject = {
 	details: {
-		header: 'Xbox Live Events',
+		header: 'Xbox live events',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -74,11 +74,11 @@ export const xboxLiveEvents: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: "The XLEi app was built by the Xbox Broadcast Service Team and is available on the Xbox One to play live events and video on-demand.  The main feature of the app is the interactive overlays it inserts over the video that lets users make purchases, take polls and quizzes, and compete on live leaderboards while watching an event.  I built the interactive overlays used during some of gaming's biggest live broadcasts, including The Game Awards, E3, Gamescom, and the Call of Duty Championship, reaching millions of viewers.",
+			body: "The XLEi app was built by the Xbox Broadcast Service Team and is available on the Xbox One to play live events and video on-demand. The main feature of the app is the interactive overlays it inserts over the video that lets users make purchases, take polls and quizzes, and compete on live leaderboards while watching an event. I built the interactive overlays used during some of gaming's biggest live broadcasts, including The Game Awards, E3, Gamescom, and the Call of Duty Championship, reaching millions of viewers.",
 		},
 		{
 			header: SectionName.Role,
-			body: "My role was to build the interactive overlays that were used during the live events.  My work on the [ <a href='interactive-video-playlist'>interactive video playlist</a> ] demonstrated the kind of interactivity the Broadcast Team needed, and led to them bringing me on to collaborate on these broadcasts.  I built in the animations and functionality of the overlays and hooked up the polls, quizzes, and leaderboards to the Broadcast Team’s database. Content and requirements often changed right up until broadcast, so I was also present at each live event to make last-minute updates, monitor the overlays, and troubleshoot in real time.",
+			body: "My role was to build the interactive overlays that were used during the live events. My work on the [ <a href='interactive-video-playlist'>interactive video playlist</a> ] demonstrated the kind of interactivity the Broadcast Team needed, and led to them bringing me on to collaborate on these broadcasts. I built in the animations and functionality of the overlays and hooked up the polls, quizzes, and leaderboards to the Broadcast Team’s database. Content and requirements often changed right up until broadcast, so I was also present at each live event to make last-minute updates, monitor the overlays, and troubleshoot in real time.",
 		},
 		{
 			header: SectionName.Details,
@@ -165,7 +165,7 @@ export const xboxLiveEvents: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'The Game Awards celebrates the best video games of the year.  For the 2015 event it was available to watch live on Xbox One (XLEi), Twitch, Playstation Network, Steam, YouTube, and more, and it was promoted on Twitter and other media outlets and discussed during the live show.<br /><br />The XLEi app turned the broadcast into a competitive game: players guessed who would win each category and earned points based on how fast they answered correctly once the winner was announced, with their rank tracked on a live leaderboard throughout the show. An overlay showed the top ten highest-scoring players, along with a player-specific overlay showing total points and guess speed/accuracy, and at the end of the event a fullscreen leaderboard was inserted directly into the live broadcast so viewers on other devices could see who was at the top of the Xbox leaderboard.',
+			body: 'The Game Awards celebrates the best video games of the year. For the 2015 event it was available to watch live on Xbox One (XLEi), Twitch, Playstation Network, Steam, YouTube, and more, and it was promoted on Twitter and other media outlets and discussed during the live show.<br /><br />The XLEi app turned the broadcast into a competitive game: players guessed who would win each category and earned points based on how fast they answered correctly once the winner was announced, with their rank tracked on a live leaderboard throughout the show. An overlay showed the top ten highest-scoring players, along with a player-specific overlay showing total points and guess speed/accuracy, and at the end of the event a fullscreen leaderboard was inserted directly into the live broadcast so viewers on other devices could see who was at the top of the Xbox leaderboard.',
 		},
 		{
 			header: SectionName.Details,

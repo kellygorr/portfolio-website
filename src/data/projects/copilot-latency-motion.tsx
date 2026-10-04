@@ -2,30 +2,33 @@ import { useCallback, useState } from 'react'
 import type { ReactNode } from 'react'
 import { IProject, SkillType, SectionName, HighlightName, TagType } from '../IProject'
 import { Demo } from '../../components/Page/Demo'
+import { DemoSlide } from '../../components/Page/Slideshow/DemoSlide'
 import { DemoThumbnail } from '../../components/shared'
 import { useDemoMotion } from '../../components/Page/DemoMotionContext'
 import { Blocks } from '../../../stories/BlocksLatency/Blocks'
 import { MiniLoader } from '../../../stories/BlocksLatency/MiniLoader'
 import { SingleSquare } from '../../../stories/BlocksLatency/SingleSquare'
-import { StretchyCircles as StretchyCirclesV1 } from '../../../stories/StretchyCircles/v1/StretchyCirclesV1'
-import { StretchyCircles as StretchyCirclesV2 } from '../../../stories/StretchyCircles/v2/StretchyCirclesV2'
+import { StretchyCircles as StretchyCirclesV1 } from '../../../stories/StretchyCircles/StretchyCirclesV1'
+import { StretchyCircles as StretchyCirclesV2 } from '../../../stories/StretchyCircles/StretchyCirclesV2'
+import { LogoFauxCutout } from '../../../stories/LogoFauxCutout/LogoFauxCutout'
 import { DAB } from '../../../stories/DAB/DAB'
 import { ProgressBar } from '../../../stories/ProgressBar/ProgressBar'
 import { randomMotionPaletteNames, darkestColor, motionPalette } from '../../styles/motionPalettes'
 import { formatYearRange } from '../../utils/dateFormat'
 
-const copilotLogoPlaceholder = new URL('../../assets/images/copilot-latency/copilot-latency-02.svg', import.meta.url).href
 const dabPowerPointWeb = new URL('../../assets/images/copilot-latency/copilot-latency-03.png', import.meta.url).href
 const dabPowerPointWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-03-2x.png', import.meta.url).href
 const dabWordWeb = new URL('../../assets/images/copilot-latency/copilot-latency-04.png', import.meta.url).href
 const dabWordWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-04-2x.png', import.meta.url).href
 const dabExcelWeb = new URL('../../assets/images/copilot-latency/copilot-latency-05.png', import.meta.url).href
 const dabExcelWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-05-2x.png', import.meta.url).href
+const copilotLogoScreenshot = new URL('../../assets/images/copilot-latency/copilot-latency-06.jpg', import.meta.url).href
+const copilotLogoScreenshot2x = new URL('../../assets/images/copilot-latency/copilot-latency-06-2x.jpg', import.meta.url).href
 
-// Randomized once per page load: each of the 5 in-page demos below gets a
+// Randomized once per page load: each of the 6 in-page demos below gets a
 // different, non-repeating motion palette, reshuffled every time this
 // module is freshly evaluated (i.e. on every full page load/refresh).
-const [dabTheme, allBlocksTheme, circleLatencyTheme, progressBarTheme, thumbnailTheme] = randomMotionPaletteNames(5)
+const [dabTheme, allBlocksTheme, circleLatencyTheme, progressBarTheme, logoTheme, thumbnailTheme] = randomMotionPaletteNames(6)
 
 const AllBlocksItem = ({ label, children, textColor }: { label: string; children: ReactNode; textColor: string }) => (
 	<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: 24 }}>
@@ -40,16 +43,13 @@ const AllBlocksItem = ({ label, children, textColor }: { label: string; children
 // SingleSquare) shown side by side for comparison. Local to this file
 // since the layout (flex-wrap so the three stack on narrow viewports)
 // is specific to this one section, not a generic reusable wrapper.
-// Reads Demo's `stopped` flag (via useDemoMotion()) and passes it
-// straight through to all three as `isStatic`, same pattern as
-// GreetingMotionDemo/TeachingHandraiseDemo in copilot-motion-systems.tsx.
 const AllBlocks = ({ theme }: { theme: typeof allBlocksTheme }) => {
 	const palette = motionPalette(theme)
 	const { stopped } = useDemoMotion()
 	return (
 		<div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
 			<AllBlocksItem label="Blocks" textColor={darkestColor(palette)}>
-				<Blocks size={24} duration={3567} colors={palette.colors as [string, string, string, string, string]} isStatic={stopped} />
+				<Blocks size={24} duration={3567} colors={palette.colors as [string, string, string, string, string]} paused={stopped} />
 			</AllBlocksItem>
 			<AllBlocksItem label="Mini Loader" textColor={darkestColor(palette)}>
 				<MiniLoader
@@ -57,11 +57,11 @@ const AllBlocks = ({ theme }: { theme: typeof allBlocksTheme }) => {
 					duration={5117}
 					rollerColor={darkestColor(palette)}
 					trackColors={[palette.colors[0], palette.colors[1], palette.colors[2]]}
-					isStatic={stopped}
+					paused={stopped}
 				/>
 			</AllBlocksItem>
 			<AllBlocksItem label="Single Square" textColor={darkestColor(palette)}>
-				<SingleSquare size={24} color={palette.colors[1]} isStatic={stopped} />
+				<SingleSquare size={24} color={palette.colors[1]} paused={stopped} />
 			</AllBlocksItem>
 		</div>
 	)
@@ -76,20 +76,17 @@ const CircleLatency = ({ theme }: { theme: typeof circleLatencyTheme }) => {
 	const { stopped } = useDemoMotion()
 	return (
 		<div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
-			<AllBlocksItem label="SVG filter version" textColor={darkestColor(palette)}>
-				<StretchyCirclesV1 size={90} duration={1200} color={palette.colors[2]} isStatic={stopped} />
+			<AllBlocksItem label="SVG" textColor={darkestColor(palette)}>
+				<StretchyCirclesV1 size={90} duration={1200} color={palette.colors[2]} paused={stopped} />
 			</AllBlocksItem>
-			<AllBlocksItem label="CSS rewrite" textColor={darkestColor(palette)}>
-				{/* No backgroundColor override here (unlike the circle color) —
-				    StretchyCirclesV2's CSS "goo" technique needs an opaque fill
-				    behind the shapes for its contrast() filter to work, and
-				    that filter crunches any near-white color (like this
-				    palette's cream background) to pure white anyway — passing
-				    palette.background here would look like it's theming the
-				    box, but would render identically to the component's own
-				    white default. Left as an intentional white card instead
-				    (see StretchyCirclesV2.styles.tsx's `wrapper` comment). */}
-				<StretchyCirclesV2 size={90} duration={1200} circleColor={palette.colors[2]} isStatic={stopped} />
+			<AllBlocksItem label="CSS" textColor={darkestColor(palette)}>
+				<StretchyCirclesV2
+					size={50}
+					blur={2}
+					contrast={13}
+					duration={1200}
+					paused={stopped}
+				/>
 			</AllBlocksItem>
 		</div>
 	)
@@ -150,8 +147,8 @@ const DABInteractive = ({ theme }: { theme: typeof dabTheme }) => {
 		<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30 }}>
 			<DAB
 				key={key}
-				size={140}
-				strokeWidth={4}
+				size={70}
+				strokeWidth={2}
 				isThinking={isThinking}
 				play={play}
 				onAnimationEnd={handleAnimationEnd}
@@ -186,26 +183,36 @@ const DABInteractive = ({ theme }: { theme: typeof dabTheme }) => {
 
 /**
  * Reads Demo/DemoThumbnail's `stopped` flag and passes it through to
- * Blocks as `isStatic`, same pattern as AllBlocks above — used by the
- * homepage thumbnail card, which renders Blocks directly (not wrapped
- * in AllBlocksItem).
+ * Blocks as `paused` so the homepage thumbnail freezes mid-animation
+ * instead of swapping to the resting frame.
  */
 const ThumbnailBlocks = ({ theme }: { theme: typeof thumbnailTheme }) => {
 	const palette = motionPalette(theme)
 	const { stopped } = useDemoMotion()
-	return <Blocks size={32} duration={3567} colors={palette.colors as [string, string, string, string, string]} isStatic={stopped} />
+	return <Blocks size={32} duration={3567} colors={palette.colors as [string, string, string, string, string]} paused={stopped} />
 }
 
-/**
- * Reads Demo's `stopped` flag and passes it through to ProgressBar as
- * `isStatic` — distinct from ProgressBar's own `running` prop, which
- * fades the bar out to invisible rather than showing a settled frame.
- */
 const ProgressBarDemo = ({ theme }: { theme: typeof progressBarTheme }) => {
 	const { stopped } = useDemoMotion()
 	return (
 		<div style={{ width: '100%', padding: '0 40px', boxSizing: 'border-box', color: motionPalette(theme).colors[2] }}>
-			<ProgressBar running={!stopped} isStatic={stopped} />
+			<ProgressBar running paused={stopped} />
+		</div>
+	)
+}
+
+const CopilotLogoDemo = ({ theme }: { theme: typeof logoTheme }) => {
+	const palette = motionPalette(theme)
+	const { stopped } = useDemoMotion()
+	return (
+		<div style={{ transform: 'scale(0.45)' }}>
+			<LogoFauxCutout
+				noBackground
+				backgroundColor={palette.background}
+				fillColor={palette.colors[2]}
+				duration={1000}
+				paused={stopped}
+			/>
 		</div>
 	)
 }
@@ -220,7 +227,7 @@ const ProgressBarDemo = ({ theme }: { theme: typeof progressBarTheme }) => {
  */
 export const copilotLatencyMotion: IProject = {
 	details: {
-		header: 'Copilot Latency',
+		header: 'Copilot latency',
 		thumbnail: null,
 		demo: (
 			<DemoThumbnail theme={thumbnailTheme}>
@@ -231,7 +238,7 @@ export const copilotLatencyMotion: IProject = {
 	},
 	content: [
 		{
-			title: 'Copilot Latency',
+			title: 'Copilot latency',
 		},
 		{
 			demo: (
@@ -276,7 +283,7 @@ export const copilotLatencyMotion: IProject = {
 			],
 		},
 		{
-			header: 'Dynamic Action Bar (DAB)',
+			header: 'Dynamic action bar (DAB)',
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
@@ -321,7 +328,7 @@ export const copilotLatencyMotion: IProject = {
 			body: `The Dynamic Action Bar's animated border communicates state, idle, thinking, and an intro moment when it first appears. The trickiest part was the crossfade between the "thinking" state's partial gradient arc and a fuller gradient ring: two independently rotating gradient layers, each with their own transparent gaps, composited into a visible seam at certain rotation offsets. The fix was architectural: the full-ring layer needed to be a complete, gap-free 360 degree gradient with its appearance driven by whole-layer opacity keyframes, never per-degree transparency. I also migrated animation state to data attributes, added prop-based control for scale behavior, and added reduced-motion behavior so the thinking state could communicate activity without continuous spinning.`,
 		},
 		{
-			header: 'Latency & Loading Blocks',
+			header: 'Latency & loading blocks',
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
@@ -340,7 +347,7 @@ export const copilotLatencyMotion: IProject = {
 			body: `Three lightweight loading and latency indicators built for low-attention contexts: Blocks, Mini Loader, and Single Square. I created these as implementation-ready prototypes so product engineers could copy the approach into product code. The value was not just the visuals, but making the motion decisions concrete enough for engineers to implement without having to reverse-engineer the interaction intent.`,
 		},
 		{
-			header: 'Circle Latency',
+			header: 'Circle latency',
 		},
 		{
 			demo: (
@@ -350,13 +357,13 @@ export const copilotLatencyMotion: IProject = {
 			),
 		},
 		{
-			body: `The stretchy circle latency animation was a useful performance and system-fit exploration. I first built a scalable vector version, then found that the vector filters created main-thread work and were not performant enough for web. I rewrote the animation in pure CSS to reduce JavaScript overhead, improve frame rate, and make the motion more GPU-friendly. Even though the animation was fun and technically successful, it did not move forward because the stretch behavior was not represented elsewhere in the Copilot motion language and felt less cohesive as a product-wide latency pattern.`,
+			body: `The stretchy circle latency animation was a useful performance and system-fit exploration. I first built a scalable vector version, then found that the vector filters created main-thread work and were not performant enough for web. I rewrote the animation in pure CSS to reduce JavaScript overhead, improve frame rate, and make the motion more GPU-friendly. The CSS technique had its own tradeoff: it looked best at the smaller size it was designed for, while scaling it up made the softened connection feel less refined. Even though the animation was fun and technically successful, it did not move forward because the stretch behavior was not represented elsewhere in the Copilot motion language and felt less cohesive as a product-wide latency pattern.`,
 		},
 		{
 			body: `That contrast directly informed the adoption of the Blocks latency set. Blocks was stronger as a system because it was not just one expressive loader. It created a family of related latency indicators that could scale across different densities and surfaces while maintaining a consistent visual language across the product.`,
 		},
 		{
-			header: 'Progress Bar',
+			header: 'Progress bar',
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
@@ -376,21 +383,30 @@ export const copilotLatencyMotion: IProject = {
 			body: `A thin, ambient progress indicator that replaced stale skeleton UI in conversation loading states. This was part of a broader effort to reduce loading surfaces that flashed briefly, popped in at the wrong moment, or made Copilot feel less polished. I built the replacement on top of Fluent's ProgressBar for consistency and accessibility, then adjusted the visual treatment so the bar felt softer and less bounded: longer travel, feathered edges, and responsive overshoot on larger screens. The animation speed scales to the width of its container so perceived motion speed reads consistently across layouts.`,
 		},
 		{
-			header: 'Copilot logo prototype',
+			header: 'Copilot logo consultation and solutions',
 		},
 		{
 			slideshow: {
-				width: 1600,
+				width: 900,
 				slides: [
 					{
-						img: copilotLogoPlaceholder,
-						caption: 'Placeholder for CSS Copilot logo prototype',
+						img: copilotLogoScreenshot,
+						img2x: copilotLogoScreenshot2x,
+						caption: 'Product screenshot — the animated Copilot logo at real display size',
+					},
+					{
+						demo: (
+							<DemoSlide theme={logoTheme} hasHeader>
+								<CopilotLogoDemo theme={logoTheme} />
+							</DemoSlide>
+						),
+						caption: 'CSS prototype — a simpler implementation route at the logo\'s real display scale',
 					},
 				],
 			},
 		},
 		{
-			body: `I also helped prototype implementation routes for the animated Copilot logo and consulted on the performance tradeoffs. The production path needed to preserve every visual feature of the source animation, which pushed the implementation toward a more flexible rendering approach. My CSS prototype explored a simpler alternative optimized for the logo's actual display size: at small scale, the path detail and corner-radius differences were much less perceptible, so a CSS-based approach could deliver a similar user-facing effect with a simpler implementation. This became a useful tradeoff study in fidelity and feature preservation versus implementation simplicity, runtime cost, and perceptual equivalence at real product size.`,
+			body: `The MAI motion design team brought me in to evaluate whether their new Copilot logo and thinking-state animation could actually ship, and if so, how. I built and compared both CSS-based and JavaScript-based implementations; the center-cutout effect and separate animated corners were the parts causing the most friction for performance. My CSS version explored a simpler alternative optimized for the logo's actual display size: at small scale, the path detail and corner-radius differences were much less perceptible, so a CSS-based approach could deliver a similar user-facing effect with a simpler implementation. This became a useful tradeoff study in fidelity and feature preservation versus implementation simplicity, runtime cost, and perceptual equivalence at real product size.`,
 		},
 	],
 }

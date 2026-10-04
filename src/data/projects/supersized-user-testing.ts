@@ -14,7 +14,7 @@ const pdf = new URL('../../assets/images/supersized-user-testing/supersized-user
 
 export const supersizedUserTesting: IProject = {
 	details: {
-		header: 'Supersized User Testing',
+		header: 'Supersized user testing',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -69,7 +69,7 @@ export const supersizedUserTesting: IProject = {
 			],
 		},
 		{
-			header: 'Methods and Results',
+			header: 'Methods and results',
 			attachments: [
 				{
 					header: 'Testing PDF',

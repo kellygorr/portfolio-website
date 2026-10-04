@@ -82,9 +82,17 @@ export const SearchResults = (props: ISearchProps): JSX.Element | null => {
 	)
 }
 
+// Treats '/' and '-' as equivalent when comparing tag values, so a
+// typed "UI/UX" query matches the stored "UI-UX" tag (the friendlier
+// "UI/UX" slash is only ever shown as a display label — see Tag.tsx
+// and the search suggestion pill in SearchBar.tsx — the underlying
+// data still uses "UI-UX").
+const normalizeTagValue = (value: string): string => value.toLowerCase().replace(/\//g, '-')
+
 const queryMatches = (projects: IProject[], query: string): IProjectSearch[] => {
 	const tagMatches: IProject[] = projects.filter(
-		(project: IProject) => project.details.tags && project.details.tags.find((tag) => tag.toLowerCase() === query.toLowerCase())
+		(project: IProject) =>
+			project.details.tags && project.details.tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
 	)
 	const skillMatches: IProject[] = projects.filter(
 		(project: IProject) =>
@@ -92,7 +100,9 @@ const queryMatches = (projects: IProject[], query: string): IProjectSearch[] => 
 			project.content.find(
 				(section) =>
 					section.highlight &&
-					section.highlight.find((item) => item.tags && item.tags.find((tag) => tag.toLowerCase() === query.toLowerCase()))
+					section.highlight.find(
+						(item) => item.tags && item.tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
+					)
 			)
 	)
 	const titleMatches: IProject[] = projects.filter(
@@ -111,7 +121,7 @@ const removeDuplicateTitles = (matches: IProjectSearch[]) =>
 	matches.filter((item, pos, array) => array.map((mapItem) => mapItem.details['header']).indexOf(item.details['header']) === pos)
 
 const relatedQueryTags = (query: string) => {
-	let tags: any = relatedTags.filter((tags) => tags.find((tag) => tag.toLowerCase() === query.toLowerCase()))
+	let tags: any = relatedTags.filter((tags) => tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query)))
 	tags = removeDuplicates([].concat(...tags))
 	return tags.filter((tag: TagType | SkillType) => tag !== query)
 }

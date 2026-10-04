@@ -12,7 +12,7 @@ const img5 = new URL('../../assets/images/preview-app-link-generator/preview-app
 
 export const previewAppLinkGenerator: IProject = {
 	details: {
-		header: 'Video App Link Generator',
+		header: 'Video app link generator',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

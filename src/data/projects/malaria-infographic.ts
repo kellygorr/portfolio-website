@@ -13,7 +13,7 @@ const pdf = new URL('../../assets/images/malaria-infographic/malaria-infographic
 
 export const malariaInfographic: IProject = {
 	details: {
-		header: 'Malaria Infographic',
+		header: 'Malaria infographic',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -54,10 +54,10 @@ export const malariaInfographic: IProject = {
 			],
 		},
 		{
-			header: 'Project Statement',
+			header: 'Project statement',
 			attachments: [
 				{
-					header: 'Research Based Design PDF',
+					header: 'Research based design PDF',
 					thumbnail: {
 						x1: thumbnail2x1,
 						x15: thumbnail2x15,

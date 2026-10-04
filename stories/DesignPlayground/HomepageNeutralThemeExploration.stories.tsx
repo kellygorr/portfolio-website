@@ -4,27 +4,6 @@ import { Blocks } from '../BlocksLatency/Blocks'
 import { motionPalettes } from '../../src/styles/motionPalettes'
 import { neutralThemes, type NeutralTheme } from '../../src/styles/neutralThemes'
 
-/**
- * Homepage Neutral Theme Exploration — following feedback that an earlier
- * literal motion-palette treatment (bright gradients, tinted thumbnails,
- * rainbow name hover) read as too colorful/juvenile for a portfolio that
- * should stay mostly black/white/neutral, matching the real site's
- * existing aesthetic.
- *
- * These themes intentionally do NOT pull from the Warm Sand / Golden Hour
- * / Dusty Rose / Lime / Beige motion palettes for their base colors. Each is
- * dominated by black, white, and grey, with at most one quiet, desaturated
- * accent used sparingly (a thin underline or a single subtle text-color
- * shift on hover) — never a full gradient sweep or colored thumbnail fill.
- *
- * Theme data lives in src/styles/neutralThemes.ts (the same source the real
- * site's src/styles/theme.ts reads from), so a color change there
- * automatically shows up here too.
- *
- * Fully self-contained (does not use stories/shared/SiteChrome.tsx) so we
- * can freely experiment without touching other mockups.
- */
-
 const themes = neutralThemes
 const palettes = motionPalettes
 
@@ -121,7 +100,6 @@ const SearchButtonWrapper = styled.div`
 	right: 32px;
 `
 
-/* Simple solid ring, no gradient — a thin border that darkens/tints on hover. */
 const SearchButton = styled.button<{ $text: string; $accent: string; $bg: string }>`
 	width: 40px;
 	height: 40px;
@@ -141,11 +119,6 @@ const SearchButton = styled.button<{ $text: string; $accent: string; $bg: string
 	}
 `
 
-/*
- * Name: solid text color at rest. On hover, a simple color shift to the
- * theme's single quiet accent plus a thin underline — no gradient sweep,
- * no per-letter rainbow.
- */
 const Name = styled.h1<{ $text: string; $accent: string }>`
 	font-family: 'montserrat', sans-serif;
 	font-size: 2.5rem;
@@ -215,7 +188,6 @@ const Card = styled.div`
 	text-align: center;
 `
 
-/* Thin solid border on hover instead of a gradient sweep. */
 const ImageWrapper = styled.div<{ $accent: string }>`
 	position: relative;
 	width: 100%;
@@ -252,14 +224,6 @@ const Tags = styled.div<{ $subtitle: string }>`
 	margin-top: 4px;
 `
 
-/*
- * Two mutually-exclusive footer styles, both using the same filled zigzag
- * notch mask technique (punches background-colored triangles out of a
- * solid block):
- * - dark: solid dark-color block.
- * - light: same technique, using the theme's lighter footer color
- *   (matching its thumbnail placeholder) instead of a dark block.
- */
 const Footer = styled.footer<{ $bg: string; $text: string; $footerStyle: NeutralTheme['footerStyle'] }>`
 	position: relative;
 	width: 100%;
@@ -307,13 +271,6 @@ const ThemeLabel = styled.div`
 	padding: 12px 16px 0;
 `
 
-const ThemeDescription = styled.div`
-	font-family: sans-serif;
-	font-size: 0.8rem;
-	color: #888;
-	padding: 2px 16px 12px;
-`
-
 const OverviewGrid = styled.div`
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -350,7 +307,6 @@ export const Overview: Story = {
 			{Object.entries(themes).map(([key, theme]) => (
 				<OverviewCard key={key}>
 					<ThemeLabel>{theme.label}</ThemeLabel>
-					<ThemeDescription>{theme.description}</ThemeDescription>
 					<OverviewFrame>
 						<ThemedHomepage theme={theme} scale={0.45} />
 					</OverviewFrame>
@@ -371,5 +327,4 @@ export const SoftStoneLight: Story = { render: () => <ThemedHomepage theme={them
 
 export const BoneAndCharcoalDark: Story = { render: () => <ThemedHomepage theme={themes.boneAndCharcoalDark} /> }
 export const BoneAndCharcoalLight: Story = { render: () => <ThemedHomepage theme={themes.boneAndCharcoalLight} /> }
-
 

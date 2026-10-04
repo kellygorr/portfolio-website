@@ -1,5 +1,5 @@
 import { mergeClasses, useIsomorphicLayoutEffect } from '@fluentui/react-components'
-import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useId, useRef, useState, type MutableRefObject, type ReactNode } from 'react'
 import { flushSync } from 'react-dom'
 import {
 	Add20Regular,
@@ -130,11 +130,13 @@ export function useLowerContentTransition({
 	railBg,
 	containerPaddingInline,
 	onCollapseSettled,
+	skipNextTransitionRef,
 }: {
 	expanded: boolean
 	railBg: string
 	containerPaddingInline: string
 	onCollapseSettled: () => void
+	skipNextTransitionRef?: MutableRefObject<boolean>
 }) {
 	const [makerSpaceElement, setMakerSpaceElement] = useState<HTMLDivElement | null>(null)
 	const lowerContentRef = useRef<HTMLDivElement>(null)
@@ -163,6 +165,20 @@ export function useLowerContentTransition({
 		}
 
 		element.getAnimations().forEach((animation) => animation.cancel())
+
+		if (skipNextTransitionRef?.current) {
+			skipNextTransitionRef.current = false
+			interruptedTranslateYRef.current = null
+			element.style.position = ''
+			element.style.top = ''
+			element.style.left = ''
+			element.style.right = ''
+			element.style.paddingInline = ''
+			element.style.backgroundColor = ''
+			element.style.minHeight = ''
+			if (!expanded) onCollapseSettledRef.current()
+			return
+		}
 
 		const removableElements = Array.from(makerSpaceElement.querySelectorAll<HTMLElement>('[data-collapse-removable]'))
 		const previousDisplays = removableElements.map((removableElement) => removableElement.style.display)
@@ -338,6 +354,7 @@ export const SeeMorePillButtonMotion = ({ palette }: SeeMorePillButtonMotionProp
 	const [contentMounted, setContentMounted] = useState(expanded)
 	const [collapseMotionFinishedKey, setCollapseMotionFinishedKey] = useState(0)
 	const pendingCollapseRemovalRef = useRef(false)
+	const skipNextLowerContentTransitionRef = useRef(false)
 	// Set while a scripted replay's auto-collapse is in flight, waiting
 	// for the lower-content FLIP transition to actually finish (see
 	// useLowerContentTransition's onCollapseSettled below) before
@@ -347,7 +364,7 @@ export const SeeMorePillButtonMotion = ({ palette }: SeeMorePillButtonMotionProp
 	// of a separate guessed timeout.
 	const pendingReplayDoneRef = useRef(false)
 	const { replayToken, onReplayStateChange } = useDemoMotion()
-	const isFirstRun = useRef(true)
+	const handledReplayToken = useRef(replayToken)
 
 	// Rail is a light, near-white surface (same intent as Fluent's
 	// colorNeutralBackground1) so the pills visibly pop off of it —
@@ -377,6 +394,7 @@ export const SeeMorePillButtonMotion = ({ palette }: SeeMorePillButtonMotionProp
 		railBg,
 		containerPaddingInline: '16px',
 		onCollapseSettled: () => setCollapseMotionFinishedKey((key) => key + 1),
+		skipNextTransitionRef: skipNextLowerContentTransitionRef,
 	})
 
 	useIsomorphicLayoutEffect(() => {
@@ -410,13 +428,14 @@ export const SeeMorePillButtonMotion = ({ palette }: SeeMorePillButtonMotionProp
 	// component stays mounted continuously across replays instead of
 	// being remounted).
 	useEffect(() => {
-		if (isFirstRun.current) {
-			isFirstRun.current = false
+		if (handledReplayToken.current === replayToken) {
 			return
 		}
+		handledReplayToken.current = replayToken
 
 		let cancelled = false
 		const timers: number[] = []
+		pendingReplayDoneRef.current = false
 
 		const startExpand = () => {
 			if (cancelled) return
@@ -437,20 +456,31 @@ export const SeeMorePillButtonMotion = ({ palette }: SeeMorePillButtonMotionProp
 			)
 		}
 
-		// Normal case: demo is collapsed when replay is requested (true
-		// the vast majority of the time). Expand immediately, no delay.
-		if (!expanded) {
-			startExpand()
+		// Always snap back to the collapsed starting state before replaying.
+		// That keeps the header replay button interruptible even while the
+		// demo is expanded or mid-collapse, without waiting for the normal
+		// FLIP collapse animation to finish first.
+		if (expanded || contentMounted) {
+			skipNextLowerContentTransitionRef.current = expanded
+			const lowerContent = lowerContentRef.current
+			lowerContent?.getAnimations().forEach((animation) => animation.cancel())
+			if (lowerContent) {
+				lowerContent.style.position = ''
+				lowerContent.style.top = ''
+				lowerContent.style.left = ''
+				lowerContent.style.right = ''
+				lowerContent.style.paddingInline = ''
+				lowerContent.style.backgroundColor = ''
+				lowerContent.style.minHeight = ''
+			}
+			flushSync(() => {
+				setExpanded(false)
+				setContentMounted(false)
+				pendingCollapseRemovalRef.current = false
+			})
+			timers.push(window.setTimeout(startExpand, 0))
 		} else {
-			// Edge case: replay requested while already expanded
-			// mid-cycle (e.g. a visitor clicked the real toggle, then hit
-			// restart before it auto-collapsed). Collapse first — a plain
-			// timeout approximation of the FLIP collapse's own duration,
-			// since this path doesn't need pixel-perfect sync with the
-			// collapse's real completion the way the scripted collapse
-			// above does.
-			setExpanded(false)
-			timers.push(window.setTimeout(startExpand, TRANSITION_DURATION_MS))
+			startExpand()
 		}
 
 		return () => {

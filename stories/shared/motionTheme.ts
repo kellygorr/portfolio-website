@@ -1,18 +1,10 @@
 import { motionPalettes, type MotionPalette } from '../../src/styles/motionPalettes'
 
-/**
- * Shared "Motion Theme" Storybook Controls-panel dropdown, reused across
- * every Blocks Latency story so there's one consistent select control
- * (not per-story color pickers, and not a separate "Themed" story
- * variant — the default story IS themed).
- */
-
 export const motionThemeNames = motionPalettes.map((p) => p.name)
 
 export const motionThemeArgType = {
 	control: { type: 'select' as const },
 	options: motionThemeNames,
-	description: 'Motion color theme applied to this component',
 	table: { defaultValue: { summary: 'Warm Sand' } },
 }
 
@@ -64,4 +56,3 @@ export const darkenHex = (hex: string, amount: number): string => {
 	const toHex = (channel: number) => channel.toString(16).padStart(2, '0')
 	return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`
 }
-

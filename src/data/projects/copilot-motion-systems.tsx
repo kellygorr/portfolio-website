@@ -11,6 +11,7 @@ import { Greeting } from '../../../stories/Welcome/GreetingAnimation/Greeting'
 import { GroundingMenu } from '../../../stories/GroundingMenu/GroundingMenu'
 import type { GroundingMenuProps } from '../../../stories/GroundingMenu/GroundingMenu'
 import { LinePathMotionOvershootV3Css } from '../../../stories/LinePathMotion/rectangle/v3/LinePathMotionOvershootV3Css'
+import { LinePathMotionV2 } from '../../../stories/LinePathMotion/square/v2/LinePathMotionV2'
 import { InputPositionDemo } from '../../../stories/InputPosition/InputPositionDemo'
 import { randomMotionPaletteNames, darkestColor, motionPalette } from '../../styles/motionPalettes'
 import type { MotionPaletteName } from '../../styles/motionPalettes'
@@ -41,10 +42,15 @@ const inputPositionSearchExpanded2x = new URL(
 	import.meta.url
 ).href
 
+const overlayWelcomeImg = new URL('../../assets/images/copilot-motion-systems/copilot-motion-systems-04.jpg', import.meta.url).href
+const overlayWelcomeImg2x = new URL('../../assets/images/copilot-motion-systems/copilot-motion-systems-04@2x.jpg', import.meta.url).href
+const overlayFooterImg = new URL('../../assets/images/copilot-motion-systems/copilot-motion-systems-05.jpg', import.meta.url).href
+const overlayFooterImg2x = new URL('../../assets/images/copilot-motion-systems/copilot-motion-systems-05@2x.jpg', import.meta.url).href
+
 // Randomized once per page load: each of the 5 in-page demos below gets a
 // different, non-repeating motion palette, reshuffled every time this
 // module is freshly evaluated (i.e. on every full page load/refresh).
-const [thinkingLineTheme, groundingMenuTheme, greetingTheme, inputPositionTheme, thumbnailTheme] = randomMotionPaletteNames(5)
+const [thinkingLineTheme, groundingMenuTheme, greetingTheme, inputPositionTheme, thumbnailTheme, topGreetingTheme] = randomMotionPaletteNames(6)
 
 const groundingMenuHeaderMenu: GroundingMenuProps['headerMenu'] = [
 	{ title: 'All' },
@@ -58,16 +64,16 @@ const groundingMenuList: GroundingMenuProps['list'] = [
 		menuTitle: 'All',
 		list: [
 			{ title: 'Mona Kane', subtitle: 'mona.kane@outlook.com' },
-			{ title: 'Q3 Budget Review', subtitle: 'Shared with Finance team' },
+			{ title: 'Q3 budget review', subtitle: 'Shared with Finance team' },
 			{ title: 'Stand-up meeting', subtitle: 'Occurs every Thu, 2:30 PM - 3:30 PM' },
-			{ title: 'Research Guide', subtitle: 'Mona Kane sent 2 hours ago' },
+			{ title: 'Research guide', subtitle: 'Mona Kane sent 2 hours ago' },
 		],
 	},
 	{
 		menuTitle: 'Files',
 		list: [
-			{ title: 'Q3 Budget Review', subtitle: 'Shared with Finance team' },
-			{ title: 'Onboarding Guide', subtitle: 'Last edited 3 days ago' },
+			{ title: 'Q3 budget review', subtitle: 'Shared with Finance team' },
+			{ title: 'Onboarding guide', subtitle: 'Last edited 3 days ago' },
 		],
 	},
 	{
@@ -103,16 +109,13 @@ const GROUNDING_MENU_STEP_MS = 900
 const GroundingMenuDemo = ({ theme }: { theme: MotionPaletteName }) => {
 	const [selectedMenu, setSelectedMenu] = useState<number | null>(0)
 	const { replayToken, onReplayStateChange } = useDemoMotion()
-	const isFirstRun = useRef(true)
+	const handledReplayToken = useRef(replayToken)
 
 	useEffect(() => {
-		// Skip on initial mount — replayToken starts at 0 and this effect
-		// would otherwise immediately "replay" a sequence nobody asked
-		// for the moment the demo first renders.
-		if (isFirstRun.current) {
-			isFirstRun.current = false
+		if (handledReplayToken.current === replayToken) {
 			return
 		}
+		handledReplayToken.current = replayToken
 
 		let cancelled = false
 		const steps = [1, 2, 3, 0]
@@ -158,12 +161,8 @@ const GroundingMenuDemo = ({ theme }: { theme: MotionPaletteName }) => {
 
 /**
  * Reads Demo's `stopped` flag (via useDemoMotion()) and passes it
- * straight through to Greeting as `isStatic` — Greeting renders its own
- * settled, fully-revealed end state when isStatic is true, instead of
- * Demo trying to swap in some separate static element. Local to this
- * file since the "read stopped, pass isStatic" wiring is specific to
- * how this one demo instance is embedded, same pattern as
- * GroundingMenuDemo above.
+ * straight through to Greeting as `paused` so the animation freezes in
+ * place instead of swapping to a separate static frame.
  */
 const GreetingMotionDemo = ({ theme }: { theme: MotionPaletteName }) => {
 	const { stopped } = useDemoMotion()
@@ -171,7 +170,7 @@ const GreetingMotionDemo = ({ theme }: { theme: MotionPaletteName }) => {
 		<Greeting
 			text="Hi, try asking me what's next on your calendar"
 			color={darkestColor(motionPalette(theme))}
-			isStatic={stopped}
+			paused={stopped}
 		/>
 	)
 }
@@ -192,6 +191,18 @@ const HANDRAISE_CORNER_RADIUS = Math.min(HANDRAISE_WIDTH, HANDRAISE_HEIGHT) * 0.
 const HANDRAISE_ICON_SIZE = Math.round(HANDRAISE_HEIGHT * 0.5)
 const HANDRAISE_PADDING_LEFT = Math.max(16, HANDRAISE_HEIGHT * 0.35)
 const HANDRAISE_BAR_HEIGHT = Math.max(6, Math.round(HANDRAISE_ICON_SIZE * 0.22))
+
+// Square companion shape shown alongside the rectangle card — the
+// body text calls out that the CSS conic-gradient trick only produces
+// visible seams on long, narrow rectangles, not on a more square
+// aspect ratio. Showing both side by side makes that contrast visible
+// directly instead of just describing it in prose. Its `duration`
+// prop is set to match LinePathMotionOvershootV3Css's own 1833ms (see
+// below) — both shapes then share the exact same 2833ms sweep+pause
+// cycle (PAUSE_MS=1000 is identical in both components), so they stay
+// visually in sync and both complete HANDRAISE_LOOP_MS's "two full
+// cycles" at the same pace.
+const HANDRAISE_SQUARE_SIZE = HANDRAISE_HEIGHT
 
 // Full lifecycle, driven by a small phase state machine:
 //   'looping' — the line sweeps/traces for two full internal cycles
@@ -225,141 +236,123 @@ const FreezeWrapper = styled.div<{ $paused: boolean }>`
 	`}
 `
 
-const TeachingHandraise = ({ theme, isStatic = false }: { theme: MotionPaletteName; isStatic?: boolean }) => {
+const TeachingHandraise = ({ theme, paused = false }: { theme: MotionPaletteName; paused?: boolean }) => {
 	const palette = motionPalette(theme)
 	const [phase, setPhase] = useState<'looping' | 'holding' | 'hidden'>('looping')
 
 	useEffect(() => {
-		if (isStatic) return
+		if (paused) return
 		const nextDelay =
 			phase === 'looping' ? HANDRAISE_LOOP_MS : phase === 'holding' ? HANDRAISE_HOLD_MS : HANDRAISE_HIDDEN_MS
 		const nextPhase = phase === 'looping' ? 'holding' : phase === 'holding' ? 'hidden' : 'looping'
 		const timer = setTimeout(() => setPhase(nextPhase), nextDelay)
 		return () => clearTimeout(timer)
-	}, [phase, isStatic])
-
-	// Static: settled resting frame, no AnimatePresence mount/unmount
-	// cycle, no phase machine, and no LinePathMotionOvershootV3Css (its
-	// sweep geometry has no natural "paused mid-frame" state to render
-	// safely) — a plain static border stands in for the line instead.
-	if (isStatic) {
-		return (
-			<div
-				style={{
-					position: 'relative',
-					width: HANDRAISE_WIDTH,
-					height: HANDRAISE_HEIGHT,
-					background: palette.background2,
-					borderRadius: HANDRAISE_CORNER_RADIUS,
-					border: `2px solid ${palette.colors[1]}`,
-					boxSizing: 'border-box',
-					overflow: 'hidden',
-				}}
-			>
-				<div
-					style={{
-						position: 'absolute',
-						inset: 0,
-						display: 'flex',
-						alignItems: 'center',
-						gap: 10,
-						paddingLeft: HANDRAISE_PADDING_LEFT,
-						paddingRight: 16,
-						color: darkestColor(palette),
-					}}
-				>
-					<Rocket24Filled style={{ width: HANDRAISE_ICON_SIZE, height: HANDRAISE_ICON_SIZE, flexShrink: 0 }} />
-					<div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-						<div
-							style={{
-								width: '100%',
-								height: HANDRAISE_BAR_HEIGHT,
-								borderRadius: 9999,
-								backgroundColor: palette.colors[1],
-							}}
-						/>
-						<div
-							style={{
-								width: '60%',
-								height: HANDRAISE_BAR_HEIGHT,
-								borderRadius: 9999,
-								backgroundColor: palette.colors[1],
-							}}
-						/>
-					</div>
-				</div>
-			</div>
-		)
-	}
+	}, [phase, paused])
 
 	const visible = phase !== 'hidden'
-	const paused = phase === 'holding'
+	const linePaused = paused || phase === 'holding'
 
 	return (
-		<AnimatePresence>
-			{visible && (
-				<motion.div
-					initial={{ opacity: 0, y: 8 }}
-					animate={{ opacity: 1, y: 0 }}
-					exit={{ opacity: 0, y: 8 }}
-					transition={{ duration: 0.3, ease: 'easeOut' }}
-					style={{
-						position: 'relative',
-						width: HANDRAISE_WIDTH,
-						height: HANDRAISE_HEIGHT,
-						background: palette.background2,
-						borderRadius: HANDRAISE_CORNER_RADIUS,
-						overflow: 'hidden',
-					}}
-				>
-					<FreezeWrapper $paused={paused}>
-						<LinePathMotionOvershootV3Css width={HANDRAISE_WIDTH} height={HANDRAISE_HEIGHT} color={palette.colors[1]} />
-						<div
-							style={{
-								position: 'absolute',
-								inset: 0,
-								display: 'flex',
-								alignItems: 'center',
-								gap: 10,
-								paddingLeft: HANDRAISE_PADDING_LEFT,
-								paddingRight: 16,
-								color: darkestColor(palette),
-							}}
-						>
-							<Rocket24Filled style={{ width: HANDRAISE_ICON_SIZE, height: HANDRAISE_ICON_SIZE, flexShrink: 0 }} />
-							<div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-								<div
-									style={{
-										width: '100%',
-										height: HANDRAISE_BAR_HEIGHT,
-										borderRadius: 9999,
-										backgroundColor: palette.colors[1],
-									}}
-								/>
-								<div
-									style={{
-										width: '60%',
-										height: HANDRAISE_BAR_HEIGHT,
-										borderRadius: 9999,
-										backgroundColor: palette.colors[1],
-									}}
-								/>
+		<div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+			<AnimatePresence>
+				{visible && (
+					<motion.div
+						initial={{ opacity: 0, y: 8 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 8 }}
+						transition={{ duration: 0.3, ease: 'easeOut' }}
+						style={{
+							position: 'relative',
+							width: HANDRAISE_WIDTH,
+							height: HANDRAISE_HEIGHT,
+							background: palette.background2,
+							borderRadius: HANDRAISE_CORNER_RADIUS,
+							overflow: 'hidden',
+						}}
+					>
+						<FreezeWrapper $paused={linePaused}>
+							<LinePathMotionOvershootV3Css width={HANDRAISE_WIDTH} height={HANDRAISE_HEIGHT} color={palette.colors[1]} />
+							<div
+								style={{
+									position: 'absolute',
+									inset: 0,
+									display: 'flex',
+									alignItems: 'center',
+									gap: 10,
+									paddingLeft: HANDRAISE_PADDING_LEFT,
+									paddingRight: 16,
+									color: darkestColor(palette),
+								}}
+							>
+								<Rocket24Filled style={{ width: HANDRAISE_ICON_SIZE, height: HANDRAISE_ICON_SIZE, flexShrink: 0 }} />
+								<div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+									<div
+										style={{
+											width: '100%',
+											height: HANDRAISE_BAR_HEIGHT,
+											borderRadius: 9999,
+											backgroundColor: palette.colors[1],
+										}}
+									/>
+									<div
+										style={{
+											width: '60%',
+											height: HANDRAISE_BAR_HEIGHT,
+											borderRadius: 9999,
+											backgroundColor: palette.colors[1],
+										}}
+									/>
+								</div>
 							</div>
-						</div>
-					</FreezeWrapper>
-				</motion.div>
-			)}
-		</AnimatePresence>
+						</FreezeWrapper>
+					</motion.div>
+				)}
+			</AnimatePresence>
+			<AnimatePresence>
+				{visible && (
+					<motion.div
+						initial={{ opacity: 0, y: 8 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: 8 }}
+						transition={{ duration: 0.3, ease: 'easeOut' }}
+						style={{
+							position: 'relative',
+							width: HANDRAISE_SQUARE_SIZE,
+							height: HANDRAISE_SQUARE_SIZE,
+							background: palette.background2,
+							borderRadius: HANDRAISE_CORNER_RADIUS,
+							overflow: 'hidden',
+						}}
+					>
+						<FreezeWrapper $paused={linePaused}>
+							<LinePathMotionV2 size={HANDRAISE_SQUARE_SIZE} duration={1833} color={palette.colors[1]} />
+							<div
+								style={{
+									position: 'absolute',
+									inset: 0,
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: darkestColor(palette),
+								}}
+							>
+								<Rocket24Filled style={{ width: HANDRAISE_ICON_SIZE, height: HANDRAISE_ICON_SIZE, flexShrink: 0 }} />
+							</div>
+						</FreezeWrapper>
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
 	)
 }
 
 /**
  * Reads Demo's `stopped` flag and passes it through to TeachingHandraise
- * as `isStatic`, same pattern as GreetingMotionDemo above.
+ * as `paused` so the line animations freeze in place.
  */
 const TeachingHandraiseDemo = ({ theme }: { theme: MotionPaletteName }) => {
 	const { stopped } = useDemoMotion()
-	return <TeachingHandraise theme={theme} isStatic={stopped} />
+	return <TeachingHandraise theme={theme} paused={stopped} />
 }
 
 /**
@@ -378,7 +371,7 @@ const TeachingHandraiseDemo = ({ theme }: { theme: MotionPaletteName }) => {
  */
 export const copilotMotionSystems: IProject = {
 	details: {
-		header: 'Copilot Interaction Systems',
+		header: 'Copilot interaction systems',
 		thumbnail: null,
 		demo: (
 			<DemoThumbnail theme={thumbnailTheme}>
@@ -389,7 +382,14 @@ export const copilotMotionSystems: IProject = {
 	},
 	content: [
 		{
-			title: 'Copilot Interaction Systems',
+			title: 'Copilot interaction systems',
+		},
+		{
+			demo: (
+				<Demo theme={topGreetingTheme} minHeight={140}>
+					<GreetingMotionDemo theme={topGreetingTheme} />
+				</Demo>
+			),
 		},
 		{
 			header: SectionName.Overview,
@@ -400,7 +400,7 @@ export const copilotMotionSystems: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping],
+					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping, SkillType.UIUX],
 				},
 			],
 			body: `UX engineer for Copilot interaction systems that combined product craft, component work, and performant motion. I partnered with design, Copilot engineering, and Fluent AI to turn interaction patterns into reusable implementations, including menu behavior, input transitions, teaching cues, accessibility considerations, and reduced-motion support.`,
@@ -427,69 +427,30 @@ export const copilotMotionSystems: IProject = {
 			],
 		},
 		{
-			header: 'Teaching Handraise',
-			highlight: [
-				{
-					header: HighlightName.Motion_Designer,
-					body: 'Andrew Falk',
-				},
-			],
-		},
-		{
-			demo: (
-				<Demo theme={thinkingLineTheme} minHeight={94} variant="half">
-					<TeachingHandraiseDemo theme={thinkingLineTheme} />
-				</Demo>
-			),
-			demoWidth: 'half',
-		},
-		{
-			body: `This border-tracing indicator is a "teaching handraise," a motion cue used to draw the user's attention to something. It went through many implementation passes chasing a specific performance/fidelity tradeoff. The CSS-only version (shown below) uses a conic-gradient trick to draw the traveling line — cheap and GPU-friendly, but it has a real visual compromise: on long, narrow rectangles, the gradient's start angle causes visible seams/cracks in the line at certain points in the sweep. The only implementation that fully eliminated the artifact was rendering the line to an OffscreenCanvas on a Web Worker, keeping the drawing work off the main thread entirely. I built and compared both versions myself to understand exactly where the CSS approach breaks down and when the added complexity of a worker-driven canvas is actually justified.`,
-		},
-		{
-			header: 'Grounding Menu',
-			highlight: [
-				{
-					header: HighlightName.Motion_Designer,
-					body: 'Chris Lorence',
-				},
-			],
-		},
-		{
-			demo: (
-				<Demo theme={groundingMenuTheme} minHeight={360} interactive>
-					<GroundingMenuDemo theme={groundingMenuTheme} />
-				</Demo>
-			),
-		},
-		{
-			body: `Copilot surfaces grounding sources such as files, people, meetings, and emails through a tabbed menu pattern. This was one of the clearer examples where my work was not only adding motion to an existing surface. I built the menu pattern as a component-level interaction, including the tab model, list structure, directional transitions, selected-state behavior, and simplified wireframe treatment so the motion and information architecture could be evaluated apart from final visual styling.`,
-		},
-		{
 			header: 'Overlay and capabilities menus',
-			body: `The related Bebop overlay menu work extended this pattern into product UI: capabilities and sources menus, submenu motion, menu styling, prevention of background interaction, navigation fixes, and focus behavior. This is a useful section to expand because it shows full-circle UX engineering: interpreting design intent, building the component behavior, solving interaction bugs, and making the motion feel integrated rather than decorative.`,
 		},
 		{
-			header: 'Greeting Motion',
-			highlight: [
-				{
-					header: HighlightName.Motion_Designer,
-					body: 'Andrew Falk',
-				},
-			],
+			slideshow: {
+				width: 900,
+				slides: [
+					{
+						img: overlayWelcomeImg,
+						img2x: overlayWelcomeImg2x,
+						caption: 'Overlay menu',
+					},
+					{
+						img: overlayFooterImg,
+						img2x: overlayFooterImg2x,
+						caption: 'Overlay menu in Footer',
+					},
+				],
+			},
 		},
 		{
-			demo: (
-				<Demo theme={greetingTheme} minHeight={140}>
-					<GreetingMotionDemo theme={greetingTheme} />
-				</Demo>
-			),
+			body: `I built Copilot's overlay menu component, including its submenu structure, background isolation, and entrance motion, on top of Fluent's existing overlay primitive. Getting the interaction model right took real debugging: clicks were passing through to content behind the overlay, submenus could get stuck open or lose keyboard focus when navigating quickly, and the entrance animation sometimes played from the wrong direction on first open because Fluent's underlying positioning logic resolved asynchronously, after the animation had already locked in its direction. None of these showed up in a quick look at the component; they only surfaced under real interaction patterns like fast navigation or reopening the menu. I tracked down and resolved each one, so the overlay now holds up under exactly the conditions that used to break it.`,
 		},
 		{
-			body: `A character-by-character reveal used for Copilot's welcome/greeting message. Each character animates in on its own easing curve, staggered across the sequence with a second, distinct curve — tuned specifically so the animation doesn't produce a "late straggler" effect where the last character visibly lags behind the rest.`,
-		},
-		{
-			header: 'Input Position Animation',
+			header: 'Input position animation',
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
@@ -530,6 +491,64 @@ export const copilotMotionSystems: IProject = {
 		},
 		{
 			body: `The chat input moves between two anchor points: centered in an empty conversation, or docked to the footer once a conversation starts. Both the footer's divider line and its background fill are carried by the exact same FLIP-animated container as the input itself, so they arrive already in sync with zero extra timing logic. Recreated from Copilot's design system for this portfolio; click Send in the demo above to see it in both directions.`,
+		},
+		{
+			header: 'Grounding menu',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Chris Lorence',
+				},
+			],
+		},
+		{
+			demo: (
+				<Demo theme={groundingMenuTheme} minHeight={360} interactive allowRestartWhileRunning>
+					<GroundingMenuDemo theme={groundingMenuTheme} />
+				</Demo>
+			),
+		},
+		{
+			body: `Copilot surfaces grounding sources such as files, people, meetings, and emails through a tabbed menu pattern. This was one of the clearer examples where my work was not only adding motion to an existing surface. I built the menu pattern as a component-level interaction, including the tab model, list structure, directional transitions, selected-state behavior, and simplified wireframe treatment so the motion and information architecture could be evaluated apart from final visual styling.`,
+		},
+		{
+			header: 'Teaching handraise',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Andrew Falk',
+				},
+			],
+		},
+		{
+			demo: (
+				<Demo theme={thinkingLineTheme} minHeight={94} variant="half">
+					<TeachingHandraiseDemo theme={thinkingLineTheme} />
+				</Demo>
+			),
+			demoWidth: 'half',
+		},
+		{
+			body: `This border-tracing indicator is a "teaching handraise," a motion cue used to draw the user's attention to something. It went through many implementation passes chasing a specific performance/fidelity tradeoff. The CSS-only version uses a conic-gradient trick to draw the traveling line — cheap and GPU-friendly, but it has a real visual compromise: on long, narrow rectangles like the one below, the gradient's start angle causes visible seams/cracks in the line at certain points in the sweep; on a more square aspect ratio, the same technique holds up fine. The only implementation that fully eliminated the artifact on every shape was rendering the line to an OffscreenCanvas on a Web Worker, keeping the drawing work off the main thread entirely. I built and compared both versions myself to understand exactly where the CSS approach breaks down and when the added complexity of a worker-driven canvas is actually justified.`,
+		},
+		{
+			header: 'Greeting motion',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Andrew Falk',
+				},
+			],
+		},
+		{
+			demo: (
+				<Demo theme={greetingTheme} minHeight={140}>
+					<GreetingMotionDemo theme={greetingTheme} />
+				</Demo>
+			),
+		},
+		{
+			body: `A character-by-character reveal used for Copilot's welcome/greeting message. Each character animates in on its own easing curve, staggered across the sequence with a second, distinct curve — tuned specifically so the animation doesn't produce a "late straggler" effect where the last character visibly lags behind the rest.`,
 		},
 	],
 }

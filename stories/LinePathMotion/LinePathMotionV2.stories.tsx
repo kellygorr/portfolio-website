@@ -33,7 +33,6 @@ const meta: Meta<typeof LinePathMotionV2> = {
       )
     },
   ],
-  tags: ['autodocs'],
   argTypes: {
     size: {
       name: 'Size (px)',

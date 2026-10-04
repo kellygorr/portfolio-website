@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useState, useRef, useImperativeHandle, forwardRef } from 'react'
+import { flushSync } from 'react-dom'
+import { mergeClasses } from '@fluentui/react-components'
 import { useEasingsStyles } from './Easings.styles'
 import { fluentMotionEasings, type FluentMotionEasing } from '../../src/styles/fluentMotionTokens'
 import { cubicBezierSvgPath } from '../shared/cubicBezier'
@@ -15,6 +17,13 @@ export interface EasingsProps {
 	 *  rotation. Falls back to a neutral orange ramp if no palette is
 	 *  resolved. */
 	palette?: MotionPalette
+	/** Renders a tighter, smaller version of the grid (smaller fonts,
+	 *  shorter gaps, axis labels and tone text hidden, the intent copy
+	 *  hidden) and shows only 6 of the 7 easing tokens (drops
+	 *  `functional-linear`, the least visually distinctive curve — a
+	 *  straight line) — for embedding in a fixed-size slideshow slide,
+	 *  where the full-size 7-card layout doesn't fit. */
+	compact?: boolean
 }
 
 const GRAPH_W = 280
@@ -35,7 +44,7 @@ const GRAPH_PAD_X_PCT = (GRAPH_PADDING / GRAPH_W) * 100
 const GRAPH_PAD_Y_PCT = (GRAPH_PADDING / GRAPH_H) * 100
 
 /** How long an easing's dot/fill hold at the end position before
- *  automatically resetting back to the start — so a card never sits
+ *  automatically animating back to the start — so a card never sits
  *  parked mid- or post-animation indefinitely; it always settles back to
  *  its idle "ready to replay" pose shortly after finishing. */
 const RESET_HOLD_MS = 500
@@ -48,13 +57,9 @@ interface EasingCardProps {
 	 *  same color for both, but different from its sibling cards'. */
 	accentColor: string
 	durationMs: number
+	compact?: boolean
 }
 
-/** Imperative handle exposed by each card so the whole `Easings`
- *  component (see below) can trigger one specific card's replay from
- *  outside — used to sequence a "click through every graph" playback
- *  instead of each card only ever being triggerable by a direct click
- *  on its own graph. */
 export interface EasingCardHandle {
 	replay: () => void
 }
@@ -64,19 +69,24 @@ export interface EasingCardHandle {
  * card only replays that card — the other 6 are untouched, instead of
  * everything firing in lockstep from a single shared control.
  */
-const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curveColor, accentColor, durationMs }, ref) => {
+const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curveColor, accentColor, durationMs, compact }, ref) => {
 	const styles = useEasingsStyles()
 	const [run, setRun] = useState(0)
+	const [dotRun, setDotRun] = useState(0)
 	// Cards rest at the START position by default (not the end) — clicking
 	// is what runs the motion, and after it finishes the card automatically
 	// resets back here (see `resetTimeoutRef` below) rather than staying
 	// parked at the end indefinitely.
 	const [atEnd, setAtEnd] = useState(false)
 	const resetTimeoutRef = useRef<number | undefined>(undefined)
+	const replayFrameRef = useRef<number | undefined>(undefined)
 
 	const replay = () => {
 		if (resetTimeoutRef.current !== undefined) {
 			window.clearTimeout(resetTimeoutRef.current)
+		}
+		if (replayFrameRef.current !== undefined) {
+			window.cancelAnimationFrame(replayFrameRef.current)
 		}
 		// Bump key + reset to start FIRST (synchronously, same render) so
 		// the fresh DOM node's very first paint already shows the start
@@ -85,15 +95,21 @@ const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curv
 		// actually triggers the CSS transition. Skipping the key bump here
 		// would make setAtEnd(false) on the EXISTING node itself animate a
 		// reverse transition first, instead of an instant reset.
-		setRun((r) => r + 1)
-		setAtEnd(false)
-		requestAnimationFrame(() => requestAnimationFrame(() => setAtEnd(true)))
-		// After the travel finishes, hold at the end for RESET_HOLD_MS,
-		// then snap back to the start — bumping the key again remounts a
-		// fresh node whose first paint is already at the start position,
-		// so this reset is instant rather than an animated reverse trip.
-		resetTimeoutRef.current = window.setTimeout(() => {
+		flushSync(() => {
 			setRun((r) => r + 1)
+			setDotRun((r) => r + 1)
+			setAtEnd(false)
+		})
+		replayFrameRef.current = requestAnimationFrame(() => {
+			replayFrameRef.current = requestAnimationFrame(() => {
+				replayFrameRef.current = undefined
+				setAtEnd(true)
+			})
+		})
+		// After the travel finishes, hold at the end for RESET_HOLD_MS,
+		// then animate back to the start on the existing DOM node.
+		resetTimeoutRef.current = window.setTimeout(() => {
+			setDotRun((r) => r + 1)
 			setAtEnd(false)
 		}, durationMs + RESET_HOLD_MS)
 	}
@@ -106,20 +122,23 @@ const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curv
 			if (resetTimeoutRef.current !== undefined) {
 				window.clearTimeout(resetTimeoutRef.current)
 			}
+			if (replayFrameRef.current !== undefined) {
+				window.cancelAnimationFrame(replayFrameRef.current)
+			}
 		}
 	}, [])
 
 	return (
-		<div className={styles.card}>
-			<div className={styles.label}>
-				<span className={styles.tokenName}>{easing.label}</span>
-				<span className={styles.tone}>{easing.tone}</span>
+		<div className={mergeClasses(styles.card, compact && styles.cardCompact)}>
+			<div className={mergeClasses(styles.label, compact && styles.labelCompact)}>
+				<span className={mergeClasses(styles.tokenName, compact && styles.tokenNameCompact)}>{easing.label}</span>
+				<span className={mergeClasses(styles.tone, compact && styles.toneCompact)}>{easing.tone}</span>
 			</div>
 			<button
-				className={styles.graphBox}
+				className={mergeClasses(styles.graphBox, compact && styles.graphBoxCompact)}
 				onClick={replay}
 				aria-label={`Replay ${easing.label} easing`}
-				key={run}
+				key={dotRun}
 			>
 				<svg width="100%" height="100%" viewBox={`0 0 ${GRAPH_W} ${GRAPH_H}`} preserveAspectRatio="none">
 					<path
@@ -130,8 +149,8 @@ const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curv
 						opacity={0.75}
 					/>
 				</svg>
-				<span className={`${styles.axisLabel} ${styles.positionLabel}`}>Position</span>
-				<span className={`${styles.axisLabel} ${styles.timeLabel}`}>Time</span>
+				<span className={mergeClasses(styles.axisLabel, styles.positionLabel)}>Position</span>
+				<span className={mergeClasses(styles.axisLabel, styles.timeLabel)}>Time</span>
 				<div
 					className={styles.dot}
 					style={
@@ -152,11 +171,10 @@ const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curv
 			    card's own `accentColor` — the same color as its dot —
 			    while sibling cards use a different color from the same
 			    rotation (see `accentColors` in the parent component).
-			    `key={run}` forces a fresh remount on every replay/reset —
-			    without it this element keeps its existing DOM node across
-			    state changes, so setting atEnd(false) would itself animate
-			    a REVERSE transition (100% back down to 0%) before the
-			    next forward run starts, instead of resetting instantly. */}
+			    `key={run}` forces a fresh remount before every forward
+			    replay so it can start from 0% instantly; the post-replay
+			    return intentionally keeps the same DOM node so it animates
+			    back down to 0%. */}
 			<div className={styles.timeTrack} aria-hidden="true">
 				<div
 					className={styles.timeTrackFill}
@@ -171,7 +189,7 @@ const EasingCard = forwardRef<EasingCardHandle, EasingCardProps>(({ easing, curv
 					}
 				/>
 			</div>
-			<span className={styles.intent}>{easing.intent}</span>
+			<span className={mergeClasses(styles.intent, compact && styles.intentCompact)}>{easing.intent}</span>
 		</div>
 	)
 })
@@ -207,44 +225,34 @@ EasingCard.displayName = 'EasingCard'
  *
  * Each card rests at its START position by default and after finishing a
  * replay — clicking a card's graph plays it through to the end, holds
- * there briefly (`RESET_HOLD_MS`), then automatically resets back to the
- * start, so a card is never left sitting at the end pose indefinitely.
+ * there briefly (`RESET_HOLD_MS`), then automatically animates back to
+ * the start, so a card is never left sitting at the end pose indefinitely.
  *
- * Each card is independently clickable (the graph itself is the trigger)
- * rather than driven by one shared "replay all" control, so comparing two
- * easings means clicking each one in turn instead of watching all 7 fire
- * at once.
+ * Each card is also independently clickable (the graph itself is the
+ * trigger) for comparing one easing at a time, in addition to the
+ * "replay all" sequence below that runs every card together.
  */
 const DEFAULT_DURATION_MS = 300
 const DURATION_STEP_MS = 100
 const MIN_DURATION_MS = 100
 const MAX_DURATION_MS = 2000
-// Gap between one card finishing its hold and the next card starting,
-// during a "click through" sequence (see `playSequence` below) — keeps
-// consecutive cards from blurring together with zero breathing room,
-// without adding much dead time to the overall sequence.
-const SEQUENCE_GAP_MS = 150
 
 /** Imperative handle exposed by the whole Easings component so an
  *  embedding wrapper — e.g. the Fluent Design System Motion project
  *  page's `EasingsDemo`, which drives this via Demo's
- *  `interactive`/`replayToken` mechanism — can trigger a scripted
- *  "click through every graph, one at a time" sequence. There is no
- *  equivalent "run every card at once" mode here on purpose: 7 curves
- *  animating simultaneously would be visually noisy and hard to compare,
- *  unlike Durations' rows (which are deliberately designed to be
- *  compared side by side while running together). */
+ *  `interactive`/`replayToken` mechanism — can trigger a "replay all"
+ *  sequence that runs every card's easing at the same time, matching
+ *  Durations' side-by-side "run every row at once" replay. */
 export interface EasingsHandle {
-	/** Plays each card's replay in turn, waiting for one card's full
-	 *  travel + hold (its own `durationMs + RESET_HOLD_MS`) plus a short
-	 *  `SEQUENCE_GAP_MS` gap before starting the next. Calls `onComplete`
-	 *  once the last card's hold has finished. Returns the total sequence
-	 *  duration in ms so a caller that doesn't use `onComplete` can still
-	 *  schedule its own follow-up. */
+	/** Plays every card's replay simultaneously. Calls `onComplete` once
+	 *  the longest-running card's full travel + hold (`durationMs +
+	 *  RESET_HOLD_MS`) has finished. Returns that total duration in ms so
+	 *  a caller that doesn't use `onComplete` can still schedule its own
+	 *  follow-up. */
 	playSequence: (onComplete?: () => void) => number
 }
 
-export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette }, ref) => {
+export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette, compact }, ref) => {
 	const styles = useEasingsStyles()
 	const [durationMs, setDurationMs] = useState(DEFAULT_DURATION_MS)
 	const cardRefs = useRef<(EasingCardHandle | null)[]>([])
@@ -265,20 +273,24 @@ export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette }, ref
 	// dark background (darkestColor === colors[3]); including it would
 	// make that card's dot/fill invisible against its own backdrop.
 	const accentColors = palette ? [palette.colors[0], palette.colors[1], palette.colors[2]] : ['#e9d7b8', '#e0a695', '#e8a668']
+	const accentOrder = compact ? [0, 1, 2, 1, 2, 0] : [0, 1, 2]
+
+	// The compact/slide version shows only 6 of the 7 tokens — a
+	// slideshow slide's fixed box isn't tall enough for a legible 7-card
+	// grid, so `functional-linear` (the least visually distinctive
+	// curve — a straight line, easiest to infer from the others) is
+	// dropped.
+	const easings = compact ? fluentMotionEasings.filter((e) => e.label !== 'functional-linear') : fluentMotionEasings
 
 	const playSequence = (onComplete?: () => void): number => {
 		sequenceTimeoutsRef.current.forEach((t) => window.clearTimeout(t))
 		sequenceTimeoutsRef.current = []
 
-		const stepMs = durationMs + RESET_HOLD_MS + SEQUENCE_GAP_MS
-		fluentMotionEasings.forEach((_, i) => {
-			const timer = window.setTimeout(() => {
-				cardRefs.current[i]?.replay()
-			}, stepMs * i)
-			sequenceTimeoutsRef.current.push(timer)
+		easings.forEach((_, i) => {
+			cardRefs.current[i]?.replay()
 		})
 
-		const totalMs = stepMs * fluentMotionEasings.length
+		const totalMs = durationMs + RESET_HOLD_MS + durationMs
 		if (onComplete) {
 			const completeTimer = window.setTimeout(onComplete, totalMs)
 			sequenceTimeoutsRef.current.push(completeTimer)
@@ -295,9 +307,9 @@ export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette }, ref
 	}, [])
 
 	return (
-		<div className={styles.root} style={{ '--motion-text': textColor } as React.CSSProperties}>
-			<div className={styles.heading}>
-				<h2 className={styles.title}>Fluent Flex Motion — Easings</h2>
+		<div className={mergeClasses(styles.root, compact && styles.rootCompact)} style={{ '--motion-text': textColor } as React.CSSProperties}>
+			<div className={mergeClasses(styles.heading, compact && styles.headingCompact)}>
+				<h2 className={mergeClasses(styles.title, compact && styles.titleCompact)}>Fluent Motion — Easings</h2>
 				{/* Duration ticker: adjusts the shared duration used by every
 				    card's dot + progress bar (independent of each card's own
 				    replay state), in +/-100ms steps — lets a viewer see how
@@ -323,8 +335,8 @@ export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette }, ref
 					</button>
 				</div>
 			</div>
-			<div className={styles.grid}>
-				{fluentMotionEasings.map((e, i) => (
+			<div className={mergeClasses(styles.grid, compact && styles.gridCompact)}>
+				{easings.map((e, i) => (
 					<EasingCard
 						key={e.token}
 						ref={(el) => {
@@ -332,8 +344,9 @@ export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette }, ref
 						}}
 						easing={e}
 						curveColor={curveColor}
-						accentColor={accentColors[i % accentColors.length]}
+						accentColor={accentColors[accentOrder[i % accentOrder.length]]}
 						durationMs={durationMs}
+						compact={compact}
 					/>
 				))}
 			</div>

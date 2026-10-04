@@ -12,7 +12,6 @@ const meta = {
 	parameters: {
 		layout: 'fullscreen',
 	},
-  tags: ['autodocs'],
   argTypes: {
     size: {
       name: 'Size (px)',
@@ -61,7 +60,6 @@ const meta = {
         defaultValue: { summary: 'false' },
         type: { summary: 'boolean' },
       },
-      description: 'When true, shows a continuous spinning animation.',
     },
     play: {
       table: { disable: true },

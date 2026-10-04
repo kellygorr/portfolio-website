@@ -14,17 +14,11 @@ export interface MiniLoaderProps {
    *  [0, 1, 2] as the roller passes through and picks back up on its
    *  way back. Falls back to currentColor if omitted. */
   trackColors?: [string, string, string]
-  /** Render the settled resting frame (roller sitting at its start
-   *  position, not mid-roll) with no animation running — used by
-   *  Demo's Stop control (see DemoMotionContext) so a "stopped" demo
-   *  shows a static snapshot instead of a blank/frozen-mid-cycle box.
-   *  The rolling block's own CSS class only sets `top`, not `left`
-   *  (left is driven entirely by the animation), so isStatic also
-   *  supplies `left: 0` explicitly to match its 0% keyframe position. */
-  isStatic?: boolean
+  /** Pause all CSS animations in their current frame. */
+  paused?: boolean
 }
 
-export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors, isStatic = false }) => {
+export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors, paused = false }) => {
   const styles = useMiniLoaderStyles()
   // scale animation (for storybook only).  Remove
   const scale = size / MINI_LOADER_CELL
@@ -48,19 +42,10 @@ export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 51
         } as React.CSSProperties
       }
     >
-      {/* Each dropped/picked-up box has its OWN independent infinite CSS
-          animation (opacity 0/1 cycling, see MiniLoader.styles.tsx) — it
-          is not driven by the rolling block's animation at all, so
-          pausing just the roller (below) never stops these on its own.
-          At the resting frame (roller sitting at its start position,
-          nothing rolled out yet), all three are hidden — matching the
-          0%/100% keyframe state each of their own animations already
-          holds — so isStatic must explicitly freeze+hide them here too,
-          the same way it already freezes the roller. */}
-      <div className={styles.dropped0} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
-      <div className={styles.dropped1} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
-      <div className={styles.dropped2} style={isStatic ? { animation: 'none', opacity: 0 } : undefined} />
-      <div className={styles.block} style={isStatic ? { animation: 'none', left: 0, transform: 'none' } : undefined} />
+      <div className={styles.dropped0} style={paused ? { animationPlayState: 'paused' } : undefined} />
+      <div className={styles.dropped1} style={paused ? { animationPlayState: 'paused' } : undefined} />
+      <div className={styles.dropped2} style={paused ? { animationPlayState: 'paused' } : undefined} />
+      <div className={styles.block} style={paused ? { animationPlayState: 'paused' } : undefined} />
     </div>
     </div>
   )

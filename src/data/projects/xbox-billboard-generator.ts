@@ -12,7 +12,7 @@ const img5 = new URL('../../assets/images/xbox-billboard-generator/xbox-billboar
 
 export const xboxBillboardGenerator: IProject = {
 	details: {
-		header: 'Xbox Billboard Generator',
+		header: 'Xbox billboard generator',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -50,7 +50,7 @@ export const xboxBillboardGenerator: IProject = {
 			body: 'Billboards are single page Xbox One promotions for games, TV, and more.  Hundreds of billboards have been published on the Xbox One since 2013.  They are completely customizable (buttons, text, background video/audio) and can integrate team plugins (preroll videos, slideshows, quizzes, etc.).  Billboard templates and the billboard generator were created to allow team designers to make billboards quickly on their own.',
 		},
 		{
-			header: 'Billboard Generator Tool',
+			header: 'Billboard generator tool',
 			body: 'To further simplify the process of creating billboards I built a billboard generator tool for the designers. The tool allowed designers to create billboards using a CMS where they could upload images, make customizations, preview the billboard, save/edit different versions, and generate the completed billboard files.',
 		},
 		{

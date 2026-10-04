@@ -1,0 +1,5 @@
+/* Typography page base styles - for rem calculations */
+/* Applied via class when typography components mount */
+html.typography-active {
+	font-size: 100% !important; /* 10px base (62.5% of 16px = 10px) */
+}

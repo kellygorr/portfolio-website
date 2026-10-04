@@ -17,7 +17,7 @@ const img9 = new URL('../../assets/images/microsoft-design-website/microsoft-des
 
 export const microsoftDesignWebsite: IProject = {
 	details: {
-		header: 'Microsoft Design Website',
+		header: 'Microsoft Design website',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -116,7 +116,7 @@ export const microsoftDesignWebsite: IProject = {
 					body: 'Kelly Gorr',
 				},
 				{
-					header: `Additional Engineering Contributors`,
+					header: `Additional engineering contributors`,
 					body: 'Zann St Pierre, Will Chavez, Ankit Potdar',
 				},
 			],

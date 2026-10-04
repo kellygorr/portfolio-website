@@ -10,7 +10,7 @@ const img3 = new URL('../../assets/images/welcome-emails/welcome-emails-03.jpg',
 
 export const welcomeEmails: IProject = {
 	details: {
-		header: 'Welcome Emails',
+		header: 'Welcome emails',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -38,7 +38,7 @@ export const welcomeEmails: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'I built and designed these templates for an email marketing drip program. They were hand-coded to render correctly across Outlook, Gmail, and other major email clients. Coding for emails is notorious for having inconsistent and outdated CSS support, which meant testing each template across all platforms and variants to make sure every recipient got the same polished experience, no matter which client opened it.',
+			body: 'I built and designed these templates for an email marketing drip program. They were coded to render correctly across Outlook, Gmail, and other major email clients. Coding for emails is notorious for having inconsistent and outdated CSS support, which meant testing each template across all platforms and variants to make sure every recipient got the same polished experience, no matter which client opened it.',
 			imagesRecreated: true,
 		},
 		{

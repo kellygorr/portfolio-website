@@ -12,6 +12,15 @@ export const useDurationsStyles = makeStyles({
 		fontFamily: 'sans-serif',
 		color: 'var(--motion-text, inherit)',
 	},
+	// Tighter spacing/sizing used by the slideshow-slide version of this
+	// demo (see Durations' `compact` prop) — the slide box is much
+	// smaller than the full page-width demo, so every dimension below
+	// shrinks to fit comfortably without overflowing the slide.
+	rootCompact: {
+		gap: '8px',
+		padding: '16px',
+		maxWidth: '100%',
+	},
 	title: {
 		fontSize: '20px',
 		fontWeight: 700,
@@ -43,10 +52,25 @@ export const useDurationsStyles = makeStyles({
 			backgroundColor: 'rgba(255,255,255,0.1)',
 		},
 	},
+	// Rows flow in a plain vertical stack in the full-size version
+	// (`root`'s flexDirection: column, one row per flex child). The
+	// compact/slide version instead wraps all rows in a 2-column CSS
+	// grid (see `rowsGridCompact`) so all 6 duration tokens fit in a
+	// slide's limited height — each individual row's own internal layout
+	// (label above track, as below) is unchanged either way.
+	rowsGridCompact: {
+		display: 'grid',
+		gridTemplateColumns: 'repeat(2, 1fr)',
+		columnGap: '40px',
+		rowGap: '12px',
+	},
 	row: {
 		display: 'flex',
 		alignItems: 'flex-start',
 		gap: '16px',
+	},
+	rowCompact: {
+		gap: '8px',
 	},
 	// Label + track are stacked in one column now (label ABOVE the box,
 	// matching Easings' card layout — tokenName/tone sit above graphBox
@@ -57,6 +81,17 @@ export const useDurationsStyles = makeStyles({
 		flexDirection: 'column',
 		gap: '8px',
 		flex: 1,
+	},
+	graphColumnCompact: {
+		gap: '2px',
+		// Without an explicit minimum, this column's rendered width falls
+		// back to its own min-content size (just wide enough for the
+		// "Xms" axis label) — since it sits inside ScaleToFit's
+		// max-content measuring box (see ScaleToFit.tsx), there's no
+		// surrounding width to stretch into otherwise. This keeps the
+		// 2-column compact grid a comparable overall width to Easings'
+		// 3-column compact grid, instead of rendering much narrower.
+		minWidth: '300px',
 	},
 	label: {
 		display: 'flex',
@@ -69,15 +104,21 @@ export const useDurationsStyles = makeStyles({
 		fontSize: '13px',
 		fontWeight: 700,
 	},
+	// The "Xms" value — now sits to the right of the token name in the
+	// label row (matching Easings' tokenName/tone layout) instead of
+	// overlaid in the track's bottom-right corner, which read as
+	// cramped/too close to the fill line underneath it.
+	msLabel: {
+		fontSize: '12px',
+		opacity: 0.7,
+	},
 	// Outlined like Motion Tokens/Easings' graph box (transparent fill,
 	// 1px LINE_COLOR border, same hover tint) rather than a filled
 	// pill-shaped track — a thin line is the only thing drawn inside it
 	// (see `fillLine`/`fillLineTrack`), instead of a round swatch/ball
 	// sliding across a solid capsule. Rendered as a <button> (clicking it
 	// replays this row's animation), so browser button chrome is reset
-	// back to a plain block first. Generous padding keeps the line well
-	// clear of the box edges, and the axis-style "Xms" label sits in the
-	// bottom-right corner, echoing Easings' Position/Time axis labels.
+	// back to a plain block first.
 	track: {
 		position: 'relative',
 		boxSizing: 'border-box',
@@ -98,25 +139,10 @@ export const useDurationsStyles = makeStyles({
 			backgroundColor: 'rgba(255,255,255,0.06)',
 		},
 	},
-	msAxisLabel: {
-		position: 'absolute',
-		right: '10px',
-		bottom: '6px',
-		fontSize: '9px',
-		textTransform: 'uppercase',
-		letterSpacing: '0.04em',
-		// Same color/opacity as the (now-removed) "50ms" label that used
-		// to sit outside the graph next to the token name — this axis
-		// label is its replacement, so it keeps that same color instead
-		// of the more faded tone axis labels normally use elsewhere.
-		opacity: 0.7,
-	},
 	// The thin line itself: background line color when empty (unfilled
 	// remainder), fillLine grows over it left-to-right using this row's
 	// own duration token and this row's own rotating accent color — same
 	// "background line + colored fill" language as Easings' progress bar.
-	// Sits above center of the box so the "Xms" axis label has clear room
-	// below it rather than overlapping.
 	fillLineTrack: {
 		position: 'relative',
 		width: '100%',
@@ -124,7 +150,6 @@ export const useDurationsStyles = makeStyles({
 		borderRadius: '1.5px',
 		backgroundColor: LINE_COLOR,
 		overflow: 'hidden',
-		marginBottom: '14px',
 	},
 	fillLine: {
 		position: 'absolute',
@@ -145,5 +170,8 @@ export const useDurationsStyles = makeStyles({
 		opacity: 0.7,
 		maxWidth: '220px',
 		alignSelf: 'center',
+	},
+	useHidden: {
+		display: 'none',
 	},
 })

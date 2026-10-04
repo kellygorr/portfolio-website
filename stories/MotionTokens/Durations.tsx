@@ -1,6 +1,8 @@
 import * as React from 'react'
 import { useState, useRef, useImperativeHandle, forwardRef } from 'react'
+import { flushSync } from 'react-dom'
 import { ArrowClockwise16Filled } from '@fluentui/react-icons'
+import { mergeClasses } from '@fluentui/react-components'
 import { useDurationsStyles } from './Durations.styles'
 import { fluentMotionDurations } from '../../src/styles/fluentMotionTokens'
 import type { MotionPalette } from '../../src/styles/motionPalettes'
@@ -11,6 +13,11 @@ export interface DurationsProps {
 	 *  cycles through the palette's accent tokens; falls back to a neutral
 	 *  orange ramp if no palette is resolved. */
 	palette?: MotionPalette
+	/** Renders a tighter, smaller version of every row (smaller fonts,
+	 *  shorter tracks, less padding, and the "use case" description
+	 *  hidden) — for embedding in a fixed-size slideshow slide, where the
+	 *  full-size layout doesn't fit. */
+	compact?: boolean
 }
 
 /** How long a row's fill line holds at 100% before automatically
@@ -23,6 +30,7 @@ interface DurationRowProps {
 	ms: number
 	use: string
 	accentColor: string
+	compact?: boolean
 }
 
 /** Imperative handle exposed by each row so the page-level "replay all"
@@ -42,19 +50,30 @@ export interface DurationRowHandle {
  * via `RESET_HOLD_MS`), matching Motion Tokens/Easings' same
  * click-to-replay and auto-reset behavior.
  */
-const DurationRow = forwardRef<DurationRowHandle, DurationRowProps>(({ token, ms, use, accentColor }, ref) => {
+const DurationRow = forwardRef<DurationRowHandle, DurationRowProps>(({ token, ms, use, accentColor, compact }, ref) => {
 	const styles = useDurationsStyles()
 	const [run, setRun] = useState(0)
 	const [atEnd, setAtEnd] = useState(false)
 	const resetTimeoutRef = useRef<number | undefined>(undefined)
+	const replayFrameRef = useRef<number | undefined>(undefined)
 
 	const replay = () => {
 		if (resetTimeoutRef.current !== undefined) {
 			window.clearTimeout(resetTimeoutRef.current)
 		}
-		setRun((r) => r + 1)
-		setAtEnd(false)
-		requestAnimationFrame(() => requestAnimationFrame(() => setAtEnd(true)))
+		if (replayFrameRef.current !== undefined) {
+			window.cancelAnimationFrame(replayFrameRef.current)
+		}
+		flushSync(() => {
+			setRun((r) => r + 1)
+			setAtEnd(false)
+		})
+		replayFrameRef.current = requestAnimationFrame(() => {
+			replayFrameRef.current = requestAnimationFrame(() => {
+				replayFrameRef.current = undefined
+				setAtEnd(true)
+			})
+		})
 		resetTimeoutRef.current = window.setTimeout(() => {
 			setRun((r) => r + 1)
 			setAtEnd(false)
@@ -68,16 +87,25 @@ const DurationRow = forwardRef<DurationRowHandle, DurationRowProps>(({ token, ms
 			if (resetTimeoutRef.current !== undefined) {
 				window.clearTimeout(resetTimeoutRef.current)
 			}
+			if (replayFrameRef.current !== undefined) {
+				window.cancelAnimationFrame(replayFrameRef.current)
+			}
 		}
 	}, [])
 
 	return (
-		<div className={styles.row}>
-			<div className={styles.graphColumn}>
+		<div className={mergeClasses(styles.row, compact && styles.rowCompact)}>
+			<div className={mergeClasses(styles.graphColumn, compact && styles.graphColumnCompact)}>
 				<div className={styles.label}>
 					<span className={styles.tokenName}>{token}</span>
+					<span className={styles.msLabel}>{ms}ms</span>
 				</div>
-				<button className={styles.track} onClick={replay} aria-label={`Replay ${token} duration`} key={run}>
+				<button
+					className={styles.track}
+					onClick={replay}
+					aria-label={`Replay ${token} duration`}
+					key={run}
+				>
 					<div className={styles.fillLineTrack}>
 						<div
 							className={styles.fillLine}
@@ -90,10 +118,9 @@ const DurationRow = forwardRef<DurationRowHandle, DurationRowProps>(({ token, ms
 							}
 						/>
 					</div>
-					<span className={styles.msAxisLabel}>{ms}ms</span>
 				</button>
 			</div>
-			<span className={styles.use}>{use}</span>
+			<span className={mergeClasses(styles.use, compact && styles.useHidden)}>{use}</span>
 		</div>
 	)
 })
@@ -131,7 +158,7 @@ export interface DurationsHandle {
  * from its own "interact" control instead of needing a second, separate
  * implementation of the same logic.
  */
-export const Durations = forwardRef<DurationsHandle, DurationsProps>(({ palette }, ref) => {
+export const Durations = forwardRef<DurationsHandle, DurationsProps>(({ palette, compact }, ref) => {
 	const styles = useDurationsStyles()
 	const rowRefs = useRef<(DurationRowHandle | null)[]>([])
 
@@ -149,32 +176,47 @@ export const Durations = forwardRef<DurationsHandle, DurationsProps>(({ palette 
 	const accentColors = palette ? [palette.colors[0], palette.colors[1], palette.colors[2]] : ['#e9d7b8', '#e0a695', '#e8a668']
 	const textColor = palette?.text ?? '#fff'
 
+	// The compact/slide version now shows all 6 tokens, laid out in a
+	// 2-column grid (see `rowsGridCompact`) — previously limited to a
+	// 4-item subset when rows were a single vertical column, but a
+	// 2-column grid gives enough room to show the complete scale.
+	const durations = fluentMotionDurations
+
 	const replayAll = () => {
 		rowRefs.current.forEach((row) => row?.replay())
 	}
 
 	useImperativeHandle(ref, () => ({ replayAll }))
 
+	const accentOrder = compact ? [0, 1, 2, 1, 2, 0] : [0, 1, 2]
+	const rows = durations.map((d, i) => (
+		<DurationRow
+			key={d.token}
+			ref={(el) => {
+				rowRefs.current[i] = el
+			}}
+			token={d.label}
+			ms={d.ms}
+			use={d.use}
+			accentColor={accentColors[accentOrder[i % accentOrder.length]]}
+			compact={compact}
+		/>
+	))
+
 	return (
-		<div className={styles.root} style={{ '--motion-text': textColor } as React.CSSProperties}>
+		<div className={mergeClasses(styles.root, compact && styles.rootCompact)} style={{ '--motion-text': textColor } as React.CSSProperties}>
 			<div className={styles.heading}>
-				<h2 className={styles.title}>Fluent Flex Motion — Durations</h2>
+				<h2 className={styles.title}>Fluent Motion — Durations</h2>
 				<button className={styles.replayAllButton} onClick={replayAll} aria-label="Replay all durations">
 					<ArrowClockwise16Filled />
 				</button>
 			</div>
-			{fluentMotionDurations.map((d, i) => (
-				<DurationRow
-					key={d.token}
-					ref={(el) => {
-						rowRefs.current[i] = el
-					}}
-					token={d.label}
-					ms={d.ms}
-					use={d.use}
-					accentColor={accentColors[i % accentColors.length]}
-				/>
-			))}
+			{/* Full-size: rows are direct flex children of `root` (so
+			    `root`'s own 20px gap applies between each row, same as
+			    before). Compact: rows are wrapped in a 2-column CSS grid
+			    instead, since `root`'s flex column layout can't arrange
+			    children into columns on its own. */}
+			{compact ? <div className={styles.rowsGridCompact}>{rows}</div> : rows}
 		</div>
 	)
 })

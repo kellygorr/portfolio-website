@@ -7,14 +7,9 @@ import { createContext, useContext } from 'react'
  * JavaScript-driven animation logic (timers, state machines, etc.).
  *
  * `stopped` — true while a non-interactive (autoplay) demo's StopButton
- * is in its stopped state. Demo content should read this and render
- * itself in a static, non-animating, settled end-state (e.g. via an
- * `isStatic` prop on the actual motion component) instead of its normal
- * animated rendering — otherwise a component that starts from an
- * invisible/mid-transition state on mount (e.g. Greeting's characters
- * fading in from opacity 0) would show nothing at all while stopped,
- * which reads as broken rather than paused. Always false for
- * `interactive` demos (they don't have a stopped state).
+ * is in its stopped state. Demo content should read this and decide how
+ * to pause or stop its own animation. Always false for `interactive`
+ * demos (they don't have a stopped state).
  *
  * `replayToken` — increments every time a restart is requested (a
  * manual ReplayButton click, or Demo's own auto-run-once-on-scroll-

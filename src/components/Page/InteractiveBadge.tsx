@@ -103,9 +103,10 @@ interface Props {
 	 *  drive its own animation directly) and don't need Demo's separate
 	 *  auto-play-once/restart mechanism layered on top. */
 	hideRestart?: boolean
+	allowRestartWhileRunning?: boolean
 }
 
-export const InteractiveBadge = ({ bg, color, running, onToggle, hideRestart }: Props) => (
+export const InteractiveBadge = ({ bg, color, running, onToggle, hideRestart, allowRestartWhileRunning }: Props) => (
 	<Pill $bg={bg} $color={color}>
 		<Label>Click below to interact</Label>
 		{!hideRestart && (
@@ -122,7 +123,7 @@ export const InteractiveBadge = ({ bg, color, running, onToggle, hideRestart }: 
 					$color={color}
 					$running={running}
 					onClick={onToggle}
-					disabled={running}
+					disabled={running && !allowRestartWhileRunning}
 					aria-label="Restart demo animation"
 					type="button"
 				>

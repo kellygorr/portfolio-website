@@ -80,7 +80,6 @@ const meta: Meta<typeof LinePathMotionOvershootV3Css> = {
       )
     },
   ],
-  tags: ['autodocs'],
 }
 
 export default meta

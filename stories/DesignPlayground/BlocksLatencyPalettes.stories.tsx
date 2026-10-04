@@ -31,7 +31,6 @@ const PaletteCard = ({ palette }: { palette: MotionPalette }) => (
 		</div>
 		<div style={{ padding: '12px 16px', background: '#fff' }}>
 			<div style={{ fontWeight: 700, fontSize: 15 }}>{palette.name}</div>
-			<div style={{ fontSize: 12, color: '#888', marginTop: 2 }}>{palette.description}</div>
 		</div>
 	</div>
 )

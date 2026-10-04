@@ -19,27 +19,12 @@ import type { MotionDemoProps } from './MotionDemoProps'
  * Two distinct control types, based on `interactive`:
  *
  *   - Non-interactive (autoplay) demos get a StopButton — a real
- *     stop/start TOGGLE, implemented via a full remount (a React `key`
- *     bump on Start). Freezing a CSS animation mid-flight via
- *     `animation-play-state: paused` and resuming it later proved
- *     unreliable in practice — not every animation actually picked back
- *     up cleanly, and JS-driven state machines (e.g. Teaching
- *     Handraise's phase machine) could get stuck between states. A
- *     clean remount sidesteps that entirely: there's never a
- *     partially-applied "resume" to get wrong. `stopped` is ALSO
- *     exposed via DemoMotionContext (useDemoMotion()) — not used by
- *     Demo to unmount its content while stopped (children stay mounted
- *     the whole time it's running; only Start triggers a remount).
- *     Instead, the demo's own component reads `stopped` itself and
- *     renders its own static, non-animating, settled end-state through
- *     a plain `isStatic` prop it defines (e.g. `<Greeting
- *     isStatic={stopped} />`), instead of its normal animated
- *     rendering. This avoids showing nothing at all for demos that
- *     start from an invisible/mid-transition state on mount (e.g.
- *     Greeting's characters fading in from opacity 0), which would
- *     otherwise look broken rather than paused. Starts stopped by
- *     default when the visitor has prefers-reduced-motion set (a
- *     manual toggle always wins after that — never fight the
+ *     stop/start toggle. `stopped` is exposed via DemoMotionContext
+ *     (useDemoMotion()), and the demo's own component decides whether
+ *     to pause in place or show another stopped state. Start resumes the
+ *     already-mounted content instead of remounting it.
+ *     Starts stopped by default when the visitor has prefers-reduced-motion
+ *     set (a manual toggle always wins after that — never fight the
  *     visitor's own choice once made).
  *
  *   - `interactive` demos (ones the visitor has to click/type into,
@@ -87,7 +72,8 @@ import type { MotionDemoProps } from './MotionDemoProps'
 interface DemoProps extends MotionDemoProps {
 	/** Minimum height of the content area (below the header). */
 	minHeight?: number
-	/** 'full' (default) spans the page's 700px text column. 'half'
+	/** 'full' (default) stays unconstrained so demos can render at full
+	 *  available width. 'half'
 	 *  fills whatever width the parent section slot gives it (used for
 	 *  ISection.demoWidth = 'half', which sits the demo inline next to
 	 *  body copy at the same column width instead of full-bleed). */
@@ -115,24 +101,40 @@ interface DemoProps extends MotionDemoProps {
 	 *  DemoSlide (which layers its header directly over scrollable demo
 	 *  content) sets this true. */
 	hasHeader?: boolean
+	/** When true, uses the palette's dark background token
+	 *  (`palette.backgroundDark`) instead of its normal light
+	 *  `palette.background` — for demos like Motion Tokens/Durations and
+	 *  /Easings that are designed to sit on a dark backdrop. */
+	darkBackground?: boolean
+	iframeSrc?: string
+	iframeTitle?: string
+	simpleBadge?: boolean
+	allowRestartWhileRunning?: boolean
 	children: ReactNode
 }
 
-export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hideRestartIcon, hasHeader, children }: DemoProps) => {
+export const Demo = ({
+	theme,
+	minHeight = 220,
+	interactive,
+	hideRestartIcon,
+	hasHeader,
+	darkBackground,
+	iframeSrc,
+	iframeTitle,
+	simpleBadge,
+	allowRestartWhileRunning,
+	children,
+}: DemoProps) => {
 	const palette = motionPalette(theme)
 	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 
 	// --- Non-interactive (autoplay) path: stop/start toggle ---
 	// `stopped` is exposed via DemoMotionContext, not used to unmount
 	// children — the demo's own component reads it (via useDemoMotion())
-	// and renders its OWN static/settled visual state through an
-	// `isStatic` prop it defines itself (e.g. <Greeting isStatic={...} />
-	// or <TeachingHandraise isStatic={...} />), instead of Demo trying to
-	// swap in a separate staticContent element. Demo just remounts the
-	// content on Start (a mount key bump) so "start" always restarts the
-	// animation from frame one.
+	// and decides how to pause/stop itself. Start resumes the existing
+	// mounted content instead of remounting it.
 	const [stopped, setStopped] = useState(prefersReducedMotion)
-	const [autoplayMountKey, setAutoplayMountKey] = useState(0)
 
 	// --- Interactive path: restart via full remount, not stop/start ---
 	// (shared with DemoSlide — see useReplayControl.ts)
@@ -146,34 +148,32 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 				display: 'flex',
 				justifyContent: 'center',
 				width: '100%',
-				background: palette.background,
+				background: darkBackground ? palette.backgroundDark : palette.background,
 				boxSizing: 'border-box',
-				// Keeps the card from visually touching the section above/below
-				// it (e.g. a Highlight's "Motion designer" line right before a
-				// half-width demo) — Page.tsx's own section padding isn't always
-				// enough breathing room on its own.
-				margin: '8px 0',
 			}}
 		>
-			<div style={{ position: 'relative', display: 'flex', flexDirection: 'column', width: '100%', maxWidth: variant === 'full' ? 700 : undefined }}>
+			<div
+				style={{
+					position: 'relative',
+					display: 'flex',
+					flexDirection: 'column',
+					width: '100%',
+					maxWidth: undefined,
+				}}
+			>
 				<DemoHeader
 					theme={theme}
 					hasHeader={hasHeader}
 					showClickToInteract={interactive}
 					hideRestartIcon={hideRestartIcon}
+					simpleBadge={simpleBadge}
 					running={running}
 					onRestart={runReplay}
+					allowRestartWhileRunning={allowRestartWhileRunning}
 					showPausePlay={!interactive}
 					stopped={stopped}
 					onToggleStop={() => {
-						setStopped((prev) => {
-							const next = !prev
-							// Going from stopped -> started: bump the mount key so
-							// the content remounts fresh (restart from frame one),
-							// not "whatever it happened to be when unmounted".
-							if (prev && !next) setAutoplayMountKey((k) => k + 1)
-							return next
-						})
+						setStopped((prev) => !prev)
 					}}
 				/>
 				<div
@@ -184,7 +184,11 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 						justifyContent: 'center',
 						width: '100%',
 						minHeight,
-						paddingBottom: 24,
+						// Skipped for iframe-embedded demos (Typography's
+						// Storybook stories) — the iframe is full-bleed and
+						// already owns its own internal spacing, so this
+						// extra gap just adds unwanted space below it.
+						paddingBottom: iframeSrc ? 0 : 24,
 						boxSizing: 'border-box',
 						// While the scripted replay is actively playing
 						// (interactive demos only — autoplay demos have no
@@ -205,7 +209,18 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 						pointerEvents: interactive && running ? 'none' : undefined,
 					}}
 				>
-					{interactive ? (
+					{iframeSrc ? (
+						<iframe
+							title={iframeTitle ?? 'Embedded demo'}
+							src={iframeSrc}
+							style={{
+								width: '100%',
+								height: minHeight,
+								border: 0,
+								display: 'block',
+							}}
+						/>
+					) : interactive ? (
 						// No `key`-based remount here (unlike the autoplay branch
 						// below) — interactive demo content stays mounted across
 						// every replay. It drives its own scripted sequence by
@@ -222,7 +237,7 @@ export const Demo = ({ theme, minHeight = 220, variant = 'full', interactive, hi
 						</DemoMotionContext.Provider>
 					) : (
 						<DemoMotionContext.Provider value={{ stopped, replayToken: 0 }}>
-							<div key={autoplayMountKey} style={{ display: 'contents' }}>
+							<div style={{ display: 'contents' }}>
 								{children}
 							</div>
 						</DemoMotionContext.Provider>

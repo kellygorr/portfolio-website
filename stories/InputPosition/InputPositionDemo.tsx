@@ -207,10 +207,11 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 	const accent = palette.colors[2]
 	const accentDark = darkestColor(palette)
 	const background = palette.background
-	// Greatly lightened colors[2] — just for this footer background, so
-	// it reads as a subtle surface distinction rather than a bold flat
-	// block of the same accent used elsewhere.
-	const footerBackground = lightenHex(palette.colors[2], 0.75)
+	// Greatly lightened darkestColor (the palette's deepest accent
+	// token) — just for this footer background, so it reads as a
+	// subtle surface distinction rather than a bold flat block of the
+	// same accent used elsewhere.
+	const footerBackground = lightenHex(accentDark, 0.75)
 
 	// Pending reverse-direction timer (background fade-out -> delayed
 	// slide-back) — tracked so a replay or rapid re-click can cancel a

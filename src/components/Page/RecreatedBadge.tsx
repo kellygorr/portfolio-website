@@ -14,7 +14,8 @@ import styled from 'styled-components'
  * badges share one definition instead of duplicating the same CSS.
  */
 export const Badge = styled.div<{ $bg: string; $color: string }>`
-	display: inline-block;
+	display: block;
+	max-width: 100%;
 	padding: 6px 12px;
 	border-radius: 6px;
 	background: ${({ $bg }) => $bg};
@@ -24,10 +25,12 @@ export const Badge = styled.div<{ $bg: string; $color: string }>`
 	letter-spacing: 0.2px;
 	pointer-events: none;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 `
 
-export const RecreatedBadge = ({ bg, color }: { bg: string; color: string }) => (
+export const RecreatedBadge = ({ bg, color, simple }: { bg: string; color: string; simple?: boolean }) => (
 	<Badge $bg={bg} $color={color}>
-		Motion Interaction — recreated for portfolio
+		{simple ? 'Recreated for portfolio' : 'Motion Interaction — recreated for portfolio'}
 	</Badge>
 )

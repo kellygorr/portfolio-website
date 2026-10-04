@@ -28,7 +28,7 @@ const img15 = new URL('../../assets/images/interactive-video-playlist/interactiv
 
 export const interactiveVideoPlaylist: IProject = {
 	details: {
-		header: 'Interactive Video Playlist',
+		header: 'Interactive video playlist',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -107,7 +107,7 @@ export const interactiveVideoPlaylist: IProject = {
 				},
 			],
 		},
-		{ title: 'Interactive Slipknot Music Video' },
+		{ title: 'Interactive Slipknot music video' },
 		{
 			slideshow: {
 				width: 1250,

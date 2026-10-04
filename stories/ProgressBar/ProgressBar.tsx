@@ -32,14 +32,8 @@ export interface ProgressBarProps {
   speedFactor?: number
   /** Whether the progress bar is animating. When false, fades out in place. Default: true */
   running?: boolean
-  /** Render the settled resting frame (the bar's own 0% keyframe — a
-   *  small sliver at the far left, `translateX(0%) scaleX(0.0235)`)
-   *  with no animation running and no fade — used by Demo's Stop
-   *  control (see DemoMotionContext) so a "stopped" demo shows a static
-   *  snapshot instead of nothing. Distinct from `running={false}`,
-   *  which fades the whole bar out to invisible rather than showing a
-   *  settled frame. */
-  isStatic?: boolean
+  /** Pause the CSS animation in its current frame instead of swapping to the resting frame. */
+  paused?: boolean
 }
 
 const FADE_DURATION = durationsMs.ultraFast
@@ -49,7 +43,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   duration = BASE_DURATION_MS,
   speedFactor = MS_PER_100PX,
   running = true,
-  isStatic = false,
+  paused = false,
 }) => {
   const styles = useProgressBarStyles()
   const containerRef = React.useRef<HTMLDivElement>(null)
@@ -73,19 +67,18 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div
       style={{
-        opacity: isStatic || running ? 1 : 0,
+        opacity: running ? 1 : 0,
         transition: `opacity ${FADE_DURATION}ms linear`,
       }}
     >
       <div ref={containerRef} className={styles.container} style={{ height }}>
-        {(isStatic || running) && (
+        {running && (
           <div
             className={styles.bar}
-            style={
-              isStatic
-                ? { animation: 'none', transform: 'translateX(0%) scaleX(0.0235)' }
-                : ({ '--progress-bar-duration': `${effectiveDuration}ms` } as React.CSSProperties)
-            }
+            style={{
+              '--progress-bar-duration': `${effectiveDuration}ms`,
+              animationPlayState: paused ? 'paused' : undefined,
+            } as React.CSSProperties}
           />
         )}
       </div>

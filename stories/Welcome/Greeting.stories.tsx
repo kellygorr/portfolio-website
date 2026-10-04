@@ -14,7 +14,6 @@ const meta = {
       sort: 'none',
     },
   },
-  tags: ['autodocs'],
   argTypes: {
     text: {
       name: 'Text',
@@ -35,7 +34,6 @@ const meta = {
     characterEasing: {
       name: 'Character Easing',
       control: { type: 'text' },
-      description: 'Cubic-bezier values for per-character animation easing',
       table: {
         defaultValue: { summary: '0.1, 0.9, 0.2, 1' },
         type: { summary: 'string' },
@@ -63,7 +61,6 @@ const meta = {
     staggerCurve: {
       name: 'Stagger Curve',
       control: { type: 'text' },
-      description: 'Cubic-bezier values (x1, y1, x2, y2)',
       table: {
         defaultValue: { summary: '0.33, 0, 0.67, 1' },
         type: { summary: 'string' },
