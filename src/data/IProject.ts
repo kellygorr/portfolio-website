@@ -16,8 +16,8 @@ export enum TagType {
 	Print = 'print',
 	Figma = 'Figma',
 	Design = 'design',
+	FluentDesignSystem = 'Fluent design system',
 	Android = 'Android',
-	AI = 'AI',
 }
 export enum SkillType {
 	UIUX = 'UI-UX',

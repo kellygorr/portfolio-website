@@ -13,7 +13,7 @@ const pdf1 = new URL('../../assets/images/earthquake-map/earthquake-map-02.pdf',
 
 export const earthquakeMap: IProject = {
 	details: {
-		header: 'Earthquake Map',
+		header: 'Earthquake map',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -72,10 +72,10 @@ export const earthquakeMap: IProject = {
 			],
 		},
 		{
-			header: 'Code Sample',
+			header: 'Code sample',
 			attachments: [
 				{
-					header: 'Code Sample PDF',
+					header: 'Code sample PDF',
 					thumbnail: {
 						x1: thumbnail2x1,
 						x15: thumbnail2x15,

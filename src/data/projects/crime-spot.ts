@@ -16,7 +16,7 @@ const pdf1 = new URL('../../assets/images/crime-spot/crime-spot-04.pdf', import.
 
 export const crimeSpot: IProject = {
 	details: {
-		header: 'Crime Spot',
+		header: 'Crime spot',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -66,10 +66,10 @@ export const crimeSpot: IProject = {
 			],
 		},
 		{
-			header: 'Project Statement',
+			header: 'Project statement',
 			attachments: [
 				{
-					header: 'Web/Mobile Integration PDF',
+					header: 'Web/mobile integration PDF',
 					thumbnail: {
 						x1: thumbnail2x1,
 						x15: thumbnail2x15,

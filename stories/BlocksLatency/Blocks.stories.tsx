@@ -10,15 +10,12 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: { type: 'range', min: 2, max: 50, step: 1 },
-      description: 'Size of one grid cell in pixels (component is 3×3 cells)',
     },
     duration: {
       control: { type: 'range', min: 500, max: 10000, step: 50 },
-      description: 'Duration of one full cycle in ms',
       table: { defaultValue: { summary: '3567' } },
     },
     motionTheme: motionThemeArgType,

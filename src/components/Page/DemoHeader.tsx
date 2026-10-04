@@ -4,6 +4,7 @@ import { RecreatedBadge } from './RecreatedBadge'
 import { InteractiveBadge } from './InteractiveBadge'
 import { StopButton } from './StopButton'
 import type { MotionDemoProps } from './MotionDemoProps'
+import { MAX_WIDTH } from '../../styles/GlobalStyles'
 
 /**
  * Shared in-flow header row for Demo and DemoSlide — the single place
@@ -57,17 +58,28 @@ interface DemoHeaderProps extends MotionDemoProps {
 	hideRestartIcon?: boolean
 	running?: boolean
 	onRestart?: () => void
+	simpleBadge?: boolean
+	allowRestartWhileRunning?: boolean
 }
 
 const Header = styled.div<{ $hasHeader?: boolean; $bg?: string }>`
 	position: relative;
 	z-index: 1;
+	width: 100%;
+	padding: ${({ $hasHeader }) => ($hasHeader ? '0' : '16px 0')};
+	${({ $hasHeader, $bg }) => $hasHeader && `background: ${$bg};`}
+`
+
+const HeaderContent = styled.div<{ $hasHeader?: boolean }>`
 	display: flex;
-	align-items: flex-start;
+	align-items: ${({ $hasHeader }) => ($hasHeader ? 'center' : 'flex-start')};
 	justify-content: space-between;
 	gap: 8px;
-	padding: ${({ $hasHeader }) => ($hasHeader ? '0 16px' : '16px')};
-	${({ $hasHeader, $bg }) => $hasHeader && `background: ${$bg};`}
+	width: 100%;
+	max-width: ${({ $hasHeader }) => ($hasHeader ? 'none' : MAX_WIDTH)};
+	margin: 0 auto;
+	padding: 0 16px;
+	box-sizing: border-box;
 `
 
 const HeaderStart = styled.div`
@@ -95,6 +107,8 @@ export const DemoHeader = ({
 	hideRestartIcon,
 	running = false,
 	onRestart,
+	simpleBadge,
+	allowRestartWhileRunning,
 }: DemoHeaderProps) => {
 	const palette = motionPalette(theme)
 	const bg = darkestColor(palette)
@@ -102,15 +116,24 @@ export const DemoHeader = ({
 
 	return (
 		<Header $hasHeader={hasHeader} $bg={bg}>
-			<HeaderStart>{!hideBadge && <RecreatedBadge bg={bg} color={color} />}</HeaderStart>
-			<HeaderEnd>
-				{showClickToInteract && onRestart && (
-					<InteractiveBadge bg={bg} color={color} running={running} onToggle={onRestart} hideRestart={hideRestartIcon} />
-				)}
-				{showPausePlay && onToggleStop && (
-					<StopButton bg={bg} color={color} stopped={stopped} onToggle={onToggleStop} />
-				)}
-			</HeaderEnd>
+			<HeaderContent $hasHeader={hasHeader}>
+				<HeaderStart>{!hideBadge && <RecreatedBadge bg={bg} color={color} simple={simpleBadge} />}</HeaderStart>
+				<HeaderEnd>
+					{showClickToInteract && onRestart && (
+						<InteractiveBadge
+							bg={bg}
+							color={color}
+							running={running}
+							onToggle={onRestart}
+							hideRestart={hideRestartIcon}
+							allowRestartWhileRunning={allowRestartWhileRunning}
+						/>
+					)}
+					{showPausePlay && onToggleStop && (
+						<StopButton bg={bg} color={color} stopped={stopped} onToggle={onToggleStop} />
+					)}
+				</HeaderEnd>
+			</HeaderContent>
 		</Header>
 	)
 }

@@ -17,10 +17,22 @@ export const useEasingsStyles = makeStyles({
 		fontFamily: 'sans-serif',
 		color: 'var(--motion-text, inherit)',
 	},
+	// Tighter spacing/sizing used by the slideshow-slide version of this
+	// demo (see Easings' `compact` prop) — the slide box is much smaller
+	// than the full page-width demo, so every dimension below shrinks to
+	// fit a 6-card grid without overflowing the slide.
+	rootCompact: {
+		gap: '10px',
+		padding: '16px',
+		maxWidth: '100%',
+	},
 	title: {
 		fontSize: '20px',
 		fontWeight: 700,
 		margin: '0 0 4px',
+	},
+	titleCompact: {
+		margin: 0,
 	},
 	heading: {
 		display: 'flex',
@@ -28,6 +40,9 @@ export const useEasingsStyles = makeStyles({
 		justifyContent: 'space-between',
 		gap: '16px',
 		marginBottom: '4px',
+	},
+	headingCompact: {
+		marginBottom: '0',
 	},
 	durationTicker: {
 		display: 'flex',
@@ -67,10 +82,21 @@ export const useEasingsStyles = makeStyles({
 		gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
 		gap: '20px',
 	},
+	// Fixed 3-column grid for the compact/slide version (6 cards =
+	// 3x2) instead of the full version's auto-fit flow — a slideshow
+	// slide's fixed box needs a predictable layout, not one that
+	// reflows based on available width.
+	gridCompact: {
+		gridTemplateColumns: 'repeat(3, 1fr)',
+		gap: '10px',
+	},
 	card: {
 		display: 'flex',
 		flexDirection: 'column',
 		gap: '8px',
+	},
+	cardCompact: {
+		gap: '4px',
 	},
 	label: {
 		display: 'flex',
@@ -82,16 +108,32 @@ export const useEasingsStyles = makeStyles({
 		// in the same row regardless of whether its own label wrapped.
 		minHeight: '36px',
 	},
+	// Compact grid: truncate to one line with an ellipsis instead of
+	// wrapping to 2 lines — a wrapped label (e.g. "functional-
+	// transition") pushes that card's graph box down, breaking row
+	// alignment with its siblings in the same compact grid row.
+	labelCompact: {
+		minHeight: '0',
+	},
 	tokenName: {
 		fontFamily: 'monospace',
 		fontSize: '13px',
 		fontWeight: 700,
+	},
+	tokenNameCompact: {
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
+		minWidth: '0',
 	},
 	tone: {
 		fontSize: '10px',
 		textTransform: 'uppercase',
 		letterSpacing: '0.04em',
 		opacity: 0.6,
+	},
+	toneCompact: {
+		display: 'none',
 	},
 	// The graph box: axes + static curve line + animated dot are all
 	// clipped to this box (overflow: hidden) so nothing can ever spill
@@ -120,6 +162,14 @@ export const useEasingsStyles = makeStyles({
 		':hover': {
 			backgroundColor: 'rgba(255,255,255,0.06)',
 		},
+	},
+	// Stays width: 100% of its column (inherited from `graphBox`, not
+	// overridden here) so it naturally matches `timeTrack`'s width below
+	// it — the box reads smaller than the full-size version simply
+	// because `gridCompact` above packs 3 columns into the same space
+	// instead of 1, not because of a separate fixed pixel size here.
+	graphBoxCompact: {
+		borderRadius: '6px',
 	},
 	axisLabel: {
 		position: 'absolute',
@@ -185,5 +235,9 @@ export const useEasingsStyles = makeStyles({
 	intent: {
 		fontSize: '12px',
 		opacity: 0.7,
+	},
+	intentCompact: {
+		fontSize: '12px',
+		lineHeight: '1.3',
 	},
 })

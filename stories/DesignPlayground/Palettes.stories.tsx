@@ -8,14 +8,12 @@ interface Swatch {
 
 interface PaletteProps {
 	title: string
-	description: string
 	swatches: Swatch[]
 }
 
-const Palette = ({ title, description, swatches }: PaletteProps) => (
+const Palette = ({ title, swatches }: PaletteProps) => (
 	<div style={{ fontFamily: 'sans-serif', maxWidth: 720 }}>
 		<h2 style={{ marginBottom: 4 }}>{title}</h2>
-		<p style={{ color: '#666', marginTop: 0, marginBottom: 16 }}>{description}</p>
 		<div style={{ display: 'flex', borderRadius: 12, overflow: 'hidden', boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
 			{swatches.map((s) => (
 				<div key={s.hex} style={{ flex: 1, minWidth: 90 }}>
@@ -39,132 +37,100 @@ const meta: Meta<typeof Palette> = {
 export default meta
 type Story = StoryObj<typeof Palette>
 
-/**
- * Rose variants: the 3 original palettes (Warm Sand, Golden Hour, Dusty
- * Rose) as first proposed, before the Lime/Beige accent variants existed.
- */
 export const RoseVariants: Story = {
 	render: () => (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 			<Palette
 				title="Option A — Warm Sand"
-				description={motionPalette('Warm Sand').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour"
-				description={motionPalette('Golden Hour').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose"
-				description={motionPalette('Dusty Rose').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose'))}
 			/>
 		</div>
 	),
 }
 
-/**
- * Lime variants: keep each palette's first two (cream/tan base) colors,
- * swap the remaining three for a bright yellow-green lime ramp, with the
- * darkest tile pushed toward a blue-green teal for contrast.
- */
 export const GreenVariants: Story = {
 	render: () => (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 			<Palette
 				title="Option A — Warm Sand (Lime)"
-				description={motionPalette('Warm Sand (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand (Lime)'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour (Lime)"
-				description={motionPalette('Golden Hour (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour (Lime)'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose (Lime)"
-				description={motionPalette('Dusty Rose (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose (Lime)'))}
 			/>
 		</div>
 	),
 }
 
-/**
- * Beige variants: keep each palette's first two (cream/tan base) colors,
- * swap the remaining three for a light, warm beige/camel ramp.
- */
 export const BrownVariants: Story = {
 	render: () => (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 			<Palette
 				title="Option A — Warm Sand (Beige)"
-				description={motionPalette('Warm Sand (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand (Beige)'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour (Beige)"
-				description={motionPalette('Golden Hour (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour (Beige)'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose (Beige)"
-				description={motionPalette('Dusty Rose (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose (Beige)'))}
 			/>
 		</div>
 	),
 }
 
-/** All 9 palettes together — Rose, Lime, and Beige variants in one place. */
 export const All: Story = {
 	render: () => (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
 			<Palette
 				title="Option A — Warm Sand"
-				description={motionPalette('Warm Sand').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour"
-				description={motionPalette('Golden Hour').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose"
-				description={motionPalette('Dusty Rose').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose'))}
 			/>
 			<Palette
 				title="Option A — Warm Sand (Lime)"
-				description={motionPalette('Warm Sand (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand (Lime)'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour (Lime)"
-				description={motionPalette('Golden Hour (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour (Lime)'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose (Lime)"
-				description={motionPalette('Dusty Rose (Lime)').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose (Lime)'))}
 			/>
 			<Palette
 				title="Option A — Warm Sand (Beige)"
-				description={motionPalette('Warm Sand (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Warm Sand (Beige)'))}
 			/>
 			<Palette
 				title="Option B — Golden Hour (Beige)"
-				description={motionPalette('Golden Hour (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Golden Hour (Beige)'))}
 			/>
 			<Palette
 				title="Option C — Dusty Rose (Beige)"
-				description={motionPalette('Dusty Rose (Beige)').description}
 				swatches={paletteSwatches(motionPalette('Dusty Rose (Beige)'))}
 			/>
 		</div>

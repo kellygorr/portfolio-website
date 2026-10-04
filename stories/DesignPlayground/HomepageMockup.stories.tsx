@@ -2,16 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import styled from 'styled-components'
 import { SiteHeader, SiteFooter, CURRENT_THEME } from '../shared/SiteChrome'
 
-/**
- * A rough, editable-in-isolation recreation of the current portfolio
- * homepage design (colors, gradient hover, decorative spikey footer,
- * search button, layout) using fake project cards. This is a SAFE PLACE
- * to try color/design changes without touching the real site code in src/.
- *
- * Header/Footer come from stories/shared/SiteChrome.tsx, reused across
- * page mockups so they stay in sync in this playground.
- */
-
 const fakeProjects = [
 	{ title: 'Focus Order Plugin', tags: ['Microsoft', 'tooling'] },
 	{ title: 'Copilot Motion System', tags: ['Copilot', 'motion'] },

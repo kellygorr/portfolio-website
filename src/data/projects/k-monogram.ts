@@ -8,7 +8,7 @@ const img1 = new URL('../../assets/images/k-monogram/k-monogram-01.jpg', import.
 
 export const kMonogram: IProject = {
 	details: {
-		header: 'K Monogram',
+		header: 'K monogram',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

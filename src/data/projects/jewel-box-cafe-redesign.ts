@@ -8,7 +8,7 @@ const img1 = new URL('../../assets/images/jewel-box-cafe-redesign/jewel-box-cafe
 
 export const jewelBoxCafe: IProject = {
 	details: {
-		header: 'Jewel Box Cafe Re-Imagine',
+		header: 'Jewel Box Cafe re-imagine',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

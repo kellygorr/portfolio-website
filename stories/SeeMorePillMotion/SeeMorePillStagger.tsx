@@ -98,6 +98,16 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 		onCollapseSettled: () => setCollapseMotionFinishedKey((key) => key + 1),
 	})
 
+	useEffect(() => {
+		lowerContentRef.current?.getAnimations().forEach((animation) => {
+			if (stopped) {
+				animation.pause()
+			} else {
+				animation.play()
+			}
+		})
+	}, [lowerContentRef, stopped])
+
 	// Both of these must be LAYOUT effects (synchronous, before paint —
 	// not a plain useEffect), matching the full component exactly.
 	// contentMounted gates whether the collapsible tiles are actually
@@ -161,6 +171,7 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 		: undefined
 
 	const visible = expanded || contentMounted
+	const pausedStyle: React.CSSProperties | undefined = stopped ? { animationPlayState: 'paused' } : undefined
 
 	return (
 		<div className={styles.canvas} style={themeVars}>
@@ -190,7 +201,7 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 									key={entry.key}
 									data-collapse-removable
 									className={expanded ? styles.additionalTile : styles.additionalTileExit}
-									style={expanded ? { animationDelay: `${index * STAGGER_DELAY_MS}ms` } : undefined}
+									style={expanded ? { ...pausedStyle, animationDelay: `${index * STAGGER_DELAY_MS}ms` } : pausedStyle}
 								>
 									<PillButton entry={entry} />
 								</div>

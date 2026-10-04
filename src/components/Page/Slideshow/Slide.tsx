@@ -2,6 +2,7 @@ import { useRef, useEffect, type JSX } from 'react'
 import styled from 'styled-components'
 import { FileType, ISlide } from '../../../data/IProject'
 import { NeutralColors } from '../../../styles/theme'
+import { MIN_WIDTH } from '../../../styles/GlobalStyles'
 
 interface IPageProps {
 	isActive: boolean
@@ -100,7 +101,15 @@ const Container = styled.div<IStyle>`
 		border: ${BorderSize}px solid transparent;
 		border-color: inherit;
 		max-height: 60vh;
-		max-width: 75vw;
+		/* vw tracks the REAL viewport width, which has no knowledge of
+		   this app's own MIN_WIDTH floor (enforced on AppContainer) — so
+		   on a real device narrower than MIN_WIDTH, this would keep
+		   shrinking past that floor instead of stopping at it like every
+		   other element on the page. CSS max() picks whichever value is
+		   larger at render time, so it falls back to 75% of MIN_WIDTH
+		   (matching what 75vw would resolve to AT the floor) once the
+		   real viewport drops below it. */
+		max-width: max(75vw, ${MIN_WIDTH * 0.75}px);
 	}
 
 	.demo-slide-content {
@@ -122,7 +131,10 @@ const Container = styled.div<IStyle>`
 		img,
 		video,
 		.demo-slide-content {
-			max-width: 100vw;
+			/* Same MIN_WIDTH floor reasoning as the default max-width
+			   above — 100vw should never resolve smaller than MIN_WIDTH
+			   itself, since nothing else on the page shrinks past it. */
+			max-width: max(100vw, ${MIN_WIDTH}px);
 		}
 	}
 `

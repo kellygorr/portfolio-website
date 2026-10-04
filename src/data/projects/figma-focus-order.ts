@@ -1,5 +1,5 @@
 import { IProject, TagType, SkillType, FileType, SectionName, HighlightName } from '../IProject'
-import { formatMonthYear, formatMonthYearRange } from '../../utils/dateFormat'
+import { formatMonthYearRange } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/figma-focus-order-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/figma-focus-order-thumbnail.jpg', import.meta.url).href
@@ -78,7 +78,7 @@ export const focusOrder: IProject = {
 			body: `The work below focuses on the Focus Order foundation I built before the plugin expanded into the broader Accessibility Assistant experience.`,
 		},
 		{
-			title: 'Focus Order Plugin',
+			title: 'Focus Order plugin',
 		},
 		{
 			slideshow: {
@@ -222,7 +222,7 @@ export const focusOrder: IProject = {
 					},
 				},
 				{
-					header: `Free Figma Plugins for Accessibility Design`,
+					header: `Free Figma plugins for accessibility design`,
 					thumbnail: {
 						x1: thumbnail5x1,
 						x15: thumbnail5x15,

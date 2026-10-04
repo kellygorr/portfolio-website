@@ -1,23 +1,9 @@
 import { makeStyles } from '@fluentui/react-components'
 
 export const useStretchyCirclesStyles = makeStyles({
-  // Transparent, not an opaque fill — unlike many "CSS goo" tutorials
-  // that put a solid background behind the blurred/contrast-boosted
-  // shapes, this one works fine without it: `contrast()` only touches
-  // RGB channels (per the CSS Filter Effects spec, alpha is
-  // untouched), so the blurred circles' own soft ALPHA falloff at
-  // their edges is what the browser's rendering pipeline uses to snap
-  // them together — no backdrop needed for that part of the effect.
-  // An earlier version gave this an opaque `backgroundColor` (then a
-  // styled white "card" wrapper) to make that fill look intentional,
-  // but `contrast(13)` crunches almost any light/near-white color to
-  // literal `#ffffff` regardless of what's passed in — so it always
-  // rendered as a plain white box that visibly mismatched whatever
-  // (non-white) color sat behind the demo. Transparent avoids that
-  // entirely: no box, no mismatch, same stretch/merge motion as the
-  // SVG (V1) version, which also has no visible background of its own.
   wrapper: {
     position: 'relative',
+    backgroundColor: '#fff',
   },
   container: {
     position: 'absolute',

@@ -29,11 +29,13 @@ import type { MotionDemoProps } from '../../Page/MotionDemoProps'
  * instead of one generic translucent black/white shared by every card
  * regardless of theme.
  */
-export const DemoThumbnail = ({ theme, children }: MotionDemoProps & { children: ReactNode }) => {
+export const DemoThumbnail = ({
+	theme,
+	children,
+}: MotionDemoProps & { children: ReactNode }) => {
 	const palette = motionPalette(theme)
 	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 	const [stopped, setStopped] = useState(prefersReducedMotion)
-	const [mountKey, setMountKey] = useState(0)
 
 	return (
 		<div
@@ -62,16 +64,12 @@ export const DemoThumbnail = ({ theme, children }: MotionDemoProps & { children:
 					color={palette.text}
 					stopped={stopped}
 					onToggle={() => {
-						setStopped((prev) => {
-							const next = !prev
-							if (prev && !next) setMountKey((k) => k + 1)
-							return next
-						})
+						setStopped((prev) => !prev)
 					}}
 				/>
 			</div>
 			<DemoMotionContext.Provider value={{ stopped, replayToken: 0 }}>
-				<div key={mountKey} style={{ display: 'contents' }}>
+				<div style={{ display: 'contents' }}>
 					{children}
 				</div>
 			</DemoMotionContext.Provider>

@@ -17,7 +17,7 @@ const video1 = new URL('../../assets/videos/xbox-billboards/xbox-billboards-08.m
 
 export const xboxBillboards: IProject = {
 	details: {
-		header: 'Xbox Promotional Billboards',
+		header: 'Xbox promotional billboards',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -70,7 +70,7 @@ export const xboxBillboards: IProject = {
 			body: 'Billboards are single page Xbox One promotions for games, TV, and more.  Hundreds of billboards have been published on the Xbox One since 2013.  They are completely customizable (buttons, text, background video/audio) and can integrate team plugins (preroll videos, slideshows, quizzes, etc.).  Billboard templates and the billboard generator were created to allow team designers to make billboards quickly on their own.',
 		},
 		{
-			header: 'Billboard Templates',
+			header: 'Billboard templates',
 			body: 'The templates for the billboards were continuously evolving and being updated by myself and other members of my team.  I greatly expanded the available customization options adding:   Text customizations, stackable buttons, data tracking, and a scrollable terms and conditions overlay.',
 		},
 		{

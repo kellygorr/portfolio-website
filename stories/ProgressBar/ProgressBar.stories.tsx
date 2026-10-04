@@ -35,22 +35,18 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
   argTypes: {
     height: {
       control: { type: 'range', min: 1, max: 20, step: 1 },
-      description: 'Height of the progress bar in pixels',
       table: { defaultValue: { summary: '3' } },
     },
     duration: {
       control: { type: 'range', min: 1000, max: 10000, step: 100 },
-      description: 'Base duration at 2600px width in ms',
       table: { defaultValue: { summary: '4000' } },
     },
     speedFactor: {
       name: 'Speed Factor (ms/100px)',
       control: { type: 'range', min: 0, max: 100, step: 5 },
-      description: 'Ms added/subtracted per 100px of width difference',
       table: { defaultValue: { summary: '25' } },
     },
     running: {

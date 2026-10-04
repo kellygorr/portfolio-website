@@ -37,20 +37,7 @@ export interface DABProps {
 
 type RenderMode = 'none' | 'intro' | 'thinking' | 'thinking-exit'
 
-/**
- * DAB: GPU-Accelerated Gradient Border Animation
- *
- * Uses transform: rotate() on pseudo-elements (instead of animating the
- * conic-gradient()'s angle directly) so the rotation runs on the GPU
- * compositor thread instead of the main thread.
- *
- * - Gradient angle is STATIC (from 145deg)
- * - Pseudo-elements are oversized (150%) to avoid corner clipping
- * - transform: rotate() animates the entire pseudo-element
- * - will-change: transform promotes to compositor layer
- * - Both ends of the arc feather to transparent for a soft comet-trail look
- * - Stopping "thinking" fades out (still rotating) instead of vanishing abruptly
- */
+/** Dynamic Action Bar — GPU-accelerated rotating gradient border. See DAB.css for the implementation approach. */
 export const DAB = ({
   size = 44,
   duration = 3000,

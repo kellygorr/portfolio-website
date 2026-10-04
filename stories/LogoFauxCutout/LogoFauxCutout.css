@@ -75,6 +75,12 @@
   animation: lfc-punchMoveB var(--lfc-duration, 3.4s) infinite, lfc-punchScaleB var(--lfc-duration, 3.4s) infinite;
 }
 
+.lfc-scene--paused .lfc-shape,
+.lfc-scene--paused .lfc-clip,
+.lfc-scene--paused .lfc-punch {
+  animation-play-state: paused;
+}
+
 /* Movement */
 @keyframes lfc-moveA {
   0% { translate: -40px -40px; }

@@ -10,18 +10,14 @@ const meta = {
 	component: MiniLoader,
 	parameters: {
 		layout: 'fullscreen',
-		docs: {},
 	},
-	tags: ['autodocs'],
 	argTypes: {
 		size: {
 			control: { type: 'range', min: 4, max: 120, step: 4 },
-			description: 'Size of each block in pixels',
 			table: { defaultValue: { summary: '80' } },
 		},
 		duration: {
 			control: { type: 'range', min: 500, max: 10000, step: 50 },
-			description: 'Duration of one full cycle in ms',
 			table: { defaultValue: { summary: '5117' } },
 		},
 		motionTheme: motionThemeArgType,

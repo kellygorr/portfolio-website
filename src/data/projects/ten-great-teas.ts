@@ -10,7 +10,7 @@ const img3 = new URL('../../assets/images/ten-great-teas/ten-great-teas-03.jpg',
 
 export const tenGreatTeas: IProject = {
 	details: {
-		header: 'Ten Great Teas',
+		header: 'Ten great teas',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

@@ -5,29 +5,23 @@ import { darkestColor } from '../../src/styles/motionPalettes'
 
 type ToolsButtonStoryArgs = Parameters<typeof ToolsButton>[0] & { motionTheme: string }
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Copilot/ToolsButton',
   component: ToolsButton,
   parameters: {
     layout: 'fullscreen',
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
   argTypes: {
     widthTransitionDuration: {
       control: { type: 'text' },
-      description: 'Duration for width transition animation (e.g. "500ms", "1s")',
       defaultValue: '100ms',
     },
     textFadeInDuration: {
       control: { type: 'number', min: 50, max: 2000, step: 50 },
-      description: 'Duration for text fade in animation in milliseconds',
       defaultValue: 50,
     },
     textFadeOutDuration: {
       control: { type: 'number', min: 50, max: 2000, step: 50 },
-      description: 'Duration for text fade out animation in milliseconds',
       defaultValue: 50,
     },
     toggleBg: { table: { disable: true } },

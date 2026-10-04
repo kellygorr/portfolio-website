@@ -13,7 +13,7 @@ const img6 = new URL('../../assets/images/calculator-tool/calculator-tool-06.jpg
 
 export const calculatorTool: IProject = {
 	details: {
-		header: 'Calculator Tool',
+		header: 'Calculator tool',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

@@ -60,11 +60,11 @@ export const middleEarthChallenge: IProject = {
 			},
 		},
 		{
-			header: 'Gesture-Driven Map',
+			header: 'Gesture-driven map',
 			body: `The map is rendered with React Native Skia and driven by a custom gesture hook layering pinch-to-zoom and pan (react-native-gesture-handler + react-native-reanimated, scale clamped 0.5x–3x). Two independent visual themes — a minimal black-and-white ink style and a fuller color "Classic" style — plus an optional color toggle, let the same route data render in very different moods without touching the underlying map logic.`,
 		},
 		{
-			header: 'Offline-First & Health Integration',
+			header: 'Offline-first & health integration',
 			body: `Progress is tracked locally first: OP-SQLite for persistence and Zustand for state, so the app works fully without a network connection. On Android, react-native-health-connect syncs real step/distance data; a separate reconciliation service merges health-data updates with manually-logged distance so both sources stay consistent without double-counting.`,
 		},
 		{

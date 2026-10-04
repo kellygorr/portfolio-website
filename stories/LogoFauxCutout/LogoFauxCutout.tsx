@@ -11,9 +11,10 @@ interface LogoFauxCutoutProps {
   fillColor?: string
   /** Duration of one full animation cycle in ms. Default: 3400 (CSS fallback) */
   duration?: number
+  paused?: boolean
 }
 
-export const LogoFauxCutout = ({ noBackground, backgroundColor, fillColor, duration }: LogoFauxCutoutProps) => {
+export const LogoFauxCutout = ({ noBackground, backgroundColor, fillColor, duration, paused = false }: LogoFauxCutoutProps) => {
   const themeVars = {
     '--lfc-bg': backgroundColor,
     '--lfc-fill': fillColor,
@@ -21,7 +22,7 @@ export const LogoFauxCutout = ({ noBackground, backgroundColor, fillColor, durat
   } as React.CSSProperties
 
   return (
-    <div className={noBackground ? 'lfc-scene lfc-scene--no-bg' : 'lfc-scene'} style={themeVars}>
+    <div className={`${noBackground ? 'lfc-scene lfc-scene--no-bg' : 'lfc-scene'}${paused ? ' lfc-scene--paused' : ''}`} style={themeVars}>
       {/* Shape A */}
       <div className="lfc-shape lfc-shape--a">
         <div className="lfc-clip">

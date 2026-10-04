@@ -6,15 +6,12 @@ import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
 
 type GroundingMenuStoryArgs = GroundingMenuProps & { motionTheme: string }
 
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Copilot/GroundingMenu',
   component: GroundingMenu,
   parameters: {
     layout: 'fullscreen',
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
   argTypes: {
     motionTheme: motionThemeArgType,
     palette: { table: { disable: true } },

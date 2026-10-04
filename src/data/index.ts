@@ -22,9 +22,8 @@ import { microsoftDesignWebsite } from './projects/microsoft-design-website'
 import { mhcPlugin } from './projects/figma-mental-health-cognition'
 import { copilotMotionSystems } from './projects/copilot-motion-systems'
 import { copilotLatencyMotion } from './projects/copilot-latency-motion'
-import { copilotDesignSystemTypography } from './projects/copilot-design-system-typography'
+import { copilotDesignSystemTypography } from './projects/copilot-design-system-typography.tsx'
 import { copilotNotebooks } from './projects/copilot-notebooks'
-import { copilotProductCraftComponents } from './projects/copilot-product-craft-components'
 import { fluentMotionSystem } from './projects/fluent-motion-system'
 import { middleEarthChallenge } from './projects/middle-earth-challenge'
 import { textAdventure } from './projects/text-adventure'
@@ -32,13 +31,12 @@ import { textAdventure } from './projects/text-adventure'
 
 export const allProjects: IProject[] = [
 	fluentMotionSystem,
-	copilotDesignSystemTypography,
-	copilotProductCraftComponents,
-	copilotNotebooks,
 	copilotMotionSystems,
 	copilotLatencyMotion,
-	middleEarthChallenge,
 	textAdventure,
+	copilotDesignSystemTypography,
+	copilotNotebooks,
+	middleEarthChallenge,
 	microsoftDesignWebsite,
 	mhcPlugin,
 	focusOrder,

@@ -9,13 +9,8 @@ const meta = {
 	component: Easings,
 	parameters: {
 		layout: 'fullscreen',
-		// This story's canvas is itself the dark background (not just an
-		// inner card), so the "recreated for portfolio" badge needs the
-		// inverted (light-on-dark-token) pairing to stay visible — see
-		// .storybook/preview.tsx.
 		motionBadgeStyle: 'onDark',
 	},
-	tags: ['autodocs'],
 	argTypes: {
 		motionTheme: motionThemeArgType,
 	},
@@ -24,12 +19,6 @@ const meta = {
 	} as EasingsStoryArgs,
 	render: ({ motionTheme }: EasingsStoryArgs) => {
 		const palette = resolveMotionTheme(motionTheme)
-		// The dark-mode look fills the entire canvas, not just an inner
-		// card — this wrapper (not <Easings> itself) owns the full-bleed
-		// background, using the palette's own hand-tuned `backgroundDark`
-		// token (deliberately separate from `colors[3]`/`darkestColor()`,
-		// which stays reserved for accent-token-driven demos elsewhere in
-		// the app).
 		const background = palette?.backgroundDark ?? '#5a3028'
 		return (
 			<div
@@ -52,4 +41,3 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
-

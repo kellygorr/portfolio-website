@@ -1,10 +1,11 @@
 import { useRef, useState, useEffect, type JSX } from 'react'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import styled from 'styled-components'
 import { SearchIcon } from '../../assets/svg/SearchIcon'
 import { SkillType, TagType } from '../../data/IProject'
 import { useNavigate } from 'react-router-dom'
 import { Sanitize, Sidebar } from '../shared'
+import { NeutralColors } from '../../styles/theme'
 
 interface ISearchProps {
 	query: string | null
@@ -32,12 +33,22 @@ const idea = {
 	open: { y: 20 },
 }
 
-const ideasList = [SkillType.React, TagType.Tooling, SkillType.Design]
+const ideasList = [TagType.Microsoft, SkillType.UIUX, TagType.Copilot]
 
 export const SearchBar = (props: ISearchProps): JSX.Element => {
 	const ref = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
-	const [triggerContent, setTriggerContent] = useState('closed')
+	// Lazy-initialized from the CURRENT isSearching value (not always
+	// 'closed') — Sidebar's own sidebar-expand animation has
+	// `initial={false}`, so if search is already open on first mount
+	// (e.g. loading a URL with ?q= already set), no actual animation
+	// runs and its onAnimationComplete callback (the only other place
+	// that sets this to 'open' — see the Sidebar usage below) never
+	// fires. Without this lazy init, triggerContent would stay stuck at
+	// 'closed' forever in that case, leaving the idea pills invisible
+	// (opacity: 0 per the `closed` variant) for the entire time search
+	// stays open.
+	const [triggerContent, setTriggerContent] = useState(props.isSearching ? 'open' : 'closed')
 
 	useEffect(() => {
 		if (props.isSearching && ref.current) {
@@ -54,7 +65,13 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	}
 
 	const handleIdeaClick = (item: string) => {
-		const query = Sanitize(item)
+		// Sanitize the DISPLAYED label ("UI/UX"), not the raw stored tag
+		// value ("UI-UX") — so the resulting query/URL/heading preserves
+		// the slash the user actually sees on the pill, instead of
+		// silently becoming "ui-ux". SearchResults.tsx treats '/' and '-'
+		// as equivalent when matching, so this doesn't break matching.
+		const label = item === SkillType.UIUX ? 'UI/UX' : item
+		const query = Sanitize(label)
 		navigate({ pathname: props.pathname, search: '?q=' + query })
 		props.setQuery(query)
 		if (!ref.current) {
@@ -97,15 +114,20 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 
 				{props.isSearching && <SearchButton>X</SearchButton>}
 			</Sidebar>
-			{props.isSearching && !props.isSmallScreen && (
-				<AnimateIdeas variants={ideas} animate={triggerContent}>
-					{ideasList.map((item) => (
-						<AnimateIdea key={item} variants={idea} onClick={() => handleIdeaClick(item)}>
-							{item}
-						</AnimateIdea>
-					))}
-				</AnimateIdeas>
-			)}
+			<AnimatePresence>
+				{props.isSearching && !props.isSmallScreen && (
+					<AnimateIdeas variants={ideas} initial="closed" animate={triggerContent} exit="closed">
+						{ideasList.map((item) => (
+							<AnimateIdea key={item} variants={idea} onClick={() => handleIdeaClick(item)}>
+								{/* Search on the ORIGINAL tag value ("UI-UX"), only the
+								    displayed label is renamed to "UI/UX" — see the
+								    matching comment in Tag.tsx. */}
+								<span>{item === SkillType.UIUX ? 'UI/UX' : item}</span>
+							</AnimateIdea>
+						))}
+					</AnimateIdeas>
+				)}
+			</AnimatePresence>
 		</Container>
 	)
 }
@@ -123,23 +145,19 @@ const Container = styled.div`
 		overflow: hidden;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
-		/* Gradient sits on its own layer, fixed in place, and simply fades
-		   in/out on hover — it no longer sweeps left-to-right via an
-		   animated background-position (the ::before element's own
-		   position never changes; only its opacity transitions). Spans
-		   edge-to-edge (gradient1 -> gradient2, no trailing fade back to
-		   the plain background color) so the highlight visibly covers
-		   the whole tab instead of blending back into the background
-		   partway across — that trailing fade-to-background stop only
-		   made sense for the old sweep animation, which relied on it to
-		   look like the highlight was wiping in from one side. */
+		/* Neutral grey wash, fixed in place, that simply fades in/out on
+		   hover (the ::before element's own position never changes;
+		   only its opacity transitions) — replaces an earlier accent
+		   gradient here, which read as too colorful/attention-grabbing
+		   for a plain hover state. Matches the neutral grey hover tone
+		   used by the footer's own link/settings hover treatment. */
 		&::before {
 			content: '';
 			position: absolute;
 			inset: 0;
-			background-image: linear-gradient(to right, ${({ theme }) => theme.gradient1}, ${({ theme }) => theme.gradient2});
+			background-color: ${NeutralColors.neutral40};
 			opacity: 0;
-			transition: opacity 300ms ease-in-out;
+			transition: opacity 150ms ease-in-out;
 			pointer-events: none;
 		}
 
@@ -188,6 +206,8 @@ const AnimateIdeas = styled(motion.div)`
 	overflow: hidden;
 `
 const AnimateIdea = styled(motion.div)`
+	position: relative;
+	overflow: hidden;
 	cursor: pointer;
 	display: flex;
 	align-items: center;
@@ -200,4 +220,27 @@ const AnimateIdea = styled(motion.div)`
 
 	color: ${({ theme }) => theme.sidebarText};
 	background-color: ${({ theme }) => theme.sidebarBackground};
+
+	/* Same neutral grey wash hover as the search/settings tabs (see
+	   Container's own ::before above and Footer.tsx's settings button)
+	   — a fixed-position overlay that only fades its opacity on hover,
+	   instead of animating position/size, for a consistent hover
+	   language across all three of these tab-like controls. */
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background-color: ${NeutralColors.neutral40};
+		opacity: 0;
+		transition: opacity 150ms ease-in-out;
+		pointer-events: none;
+	}
+
+	&:hover::before {
+		opacity: 1;
+	}
+
+	> * {
+		position: relative;
+	}
 `

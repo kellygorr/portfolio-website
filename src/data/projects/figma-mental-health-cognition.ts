@@ -22,7 +22,7 @@ const video1 = new URL('../../assets/videos/figma-mental-health-cognition/figma-
 
 export const mhcPlugin: IProject = {
 	details: {
-		header: 'Mental Health & Cognition Plugin',
+		header: 'Mental Health & Cognition plugin',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

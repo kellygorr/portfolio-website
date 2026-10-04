@@ -19,7 +19,7 @@ const img5 = new URL('../../assets/images/star-wars/star-wars-05.png', import.me
 
 export const starWars: IProject = {
 	details: {
-		header: 'Star Wars Xbox Promotion',
+		header: 'Star Wars Xbox promotion',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

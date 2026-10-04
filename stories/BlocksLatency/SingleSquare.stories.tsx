@@ -10,20 +10,16 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  tags: ['autodocs'],
   argTypes: {
     size: {
       control: { type: 'range', min: 2, max: 200, step: 1 },
-      description: 'Size of the square in pixels',
     },
     delay: {
       control: { type: 'range', min: 0, max: 3000, step: 50 },
-      description: 'Start-hold delay in ms before the rotation plays',
       table: { defaultValue: { summary: '1000' } },
     },
     duration: {
       control: { type: 'range', min: 200, max: 3000, step: 50 },
-      description: 'Animation duration in ms',
       table: { defaultValue: { summary: '1166' } },
     },
     motionTheme: motionThemeArgType,

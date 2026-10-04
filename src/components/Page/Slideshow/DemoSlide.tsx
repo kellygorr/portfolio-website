@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { motionPalette } from '../../../styles/motionPalettes'
 import { DemoHeader } from '../DemoHeader'
 import { DemoMotionContext } from '../DemoMotionContext'
 import { useReplayControl } from '../useReplayControl'
+import { useMediaQuery } from '../../shared'
+import { ScaleToFit } from './ScaleToFit'
 import type { MotionDemoProps } from '../MotionDemoProps'
 import type { ReactNode } from 'react'
 
@@ -20,17 +23,50 @@ import type { ReactNode } from 'react'
  * Content is NEVER remounted across replays (no `key` bump) — it stays
  * mounted continuously and watches `replayToken` changing via its own
  * useEffect to drive its own state setters (see Demo.tsx's docstring
- * for the full reasoning). Non-interactive slides never render a
- * restart control (DemoSlide has no autoplay stop/start toggle — every
- * slide in this codebase using DemoSlide is currently `interactive`).
+ * for the full reasoning).
+ *
+ * Non-interactive slides get the same autoplay stop/start toggle as
+ * `Demo` instead (a StopButton rendered via DemoHeader's
+ * `showPausePlay`) — content remounts on Start (a mount-key bump) so
+ * restarting always replays from frame one. Useful for an ongoing/
+ * looping CSS or JS animation (e.g. the Copilot logo prototype) that
+ * has no natural "replay" concept of its own and would otherwise run
+ * forever with no way to pause it inside a slideshow.
  */
 export const DemoSlide = ({
 	theme,
 	interactive,
 	hasHeader,
+	darkBackground,
+	scaleToFit,
+	allowRestartWhileRunning,
 	children,
-}: MotionDemoProps & { interactive?: boolean; hasHeader?: boolean; children: ReactNode }) => {
+}: MotionDemoProps & {
+	interactive?: boolean
+	hasHeader?: boolean
+	darkBackground?: boolean
+	/** When true, wraps `children` in `ScaleToFit` so content that has
+	 *  its own fixed/natural size (e.g. Motion Tokens/Easings' compact
+	 *  grid) is uniformly scaled down to always fit this slide's box,
+	 *  instead of overflowing or being clipped on narrow/short
+	 *  viewports. Opt-in (defaults to off) since most existing
+	 *  DemoSlide content (Input Position, DAB) is already built to be
+	 *  fluid/responsive on its own and doesn't need it. */
+	scaleToFit?: boolean
+	allowRestartWhileRunning?: boolean
+	children: ReactNode
+}) => {
 	const palette = motionPalette(theme)
+	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+
+	// --- Non-interactive (autoplay) path: stop/start toggle ---
+	// Same pattern as Demo.tsx — `stopped` is exposed via
+	// DemoMotionContext (not used to unmount children); the demo's own
+	// component reads it and decides how to pause/stop itself. Start
+	// resumes the existing mounted content instead of remounting it.
+	const [stopped, setStopped] = useState(prefersReducedMotion)
+
+	// --- Interactive path: restart via full remount, not stop/start ---
 	const { containerRef, restartKey, running, setRunning, runReplay } = useReplayControl(interactive)
 	return (
 		<div
@@ -41,7 +77,7 @@ export const DemoSlide = ({
 				flexDirection: 'column',
 				width: '100%',
 				height: '100%',
-				background: palette.background,
+				background: darkBackground ? palette.backgroundDark : palette.background,
 			}}
 			// Slideshow's own click-to-navigate (Slideshow.tsx's
 			// handleSlideShowClick, bound on the scroll container this
@@ -77,6 +113,12 @@ export const DemoSlide = ({
 				showClickToInteract={interactive}
 				running={running}
 				onRestart={runReplay}
+				allowRestartWhileRunning={allowRestartWhileRunning}
+				showPausePlay={!interactive}
+				stopped={stopped}
+				onToggleStop={() => {
+					setStopped((prev) => !prev)
+				}}
 			/>
 			<div
 				style={{
@@ -99,10 +141,14 @@ export const DemoSlide = ({
 			>
 				{interactive ? (
 					<DemoMotionContext.Provider value={{ stopped: false, replayToken: restartKey, onReplayStateChange: setRunning }}>
-						{children}
+						{scaleToFit ? <ScaleToFit>{children}</ScaleToFit> : children}
 					</DemoMotionContext.Provider>
 				) : (
-					children
+					<DemoMotionContext.Provider value={{ stopped, replayToken: 0 }}>
+						<div style={{ display: 'contents' }}>
+							{scaleToFit ? <ScaleToFit>{children}</ScaleToFit> : children}
+						</div>
+					</DemoMotionContext.Provider>
 				)}
 			</div>
 		</div>

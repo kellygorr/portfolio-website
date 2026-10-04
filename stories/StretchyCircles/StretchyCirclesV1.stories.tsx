@@ -1,16 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { StretchyCircles, type StretchyCirclesProps } from './StretchyCirclesV1'
-import { motionThemeArgType, resolveMotionTheme } from '../../shared/motionTheme'
+import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
 
 type StoryArgs = StretchyCirclesProps & { motionTheme: string }
 
 const meta = {
-	title: 'Stretchy Circles/SVG',
+	title: 'Circle Latency/Stretchy Circles',
 	component: StretchyCircles,
 	parameters: {
-		layout: 'centered',
+		layout: 'fullscreen',
 	},
-	tags: ['autodocs'],
 	argTypes: {
 		size: {
 			name: 'Size (px)',
@@ -78,8 +77,8 @@ const meta = {
 			<div
 				style={{
 					background: palette?.background,
-					width: 300,
-					height: 300,
+					width: '100%',
+					height: '100vh',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -94,4 +93,4 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const SVG: Story = {}

@@ -25,17 +25,8 @@ interface StretchyCirclesProps {
   intensity?: number
   /** Crispness of the stretchy effect (higher = crisper edges) */
   crispness?: number
-  /** Render the settled resting frame (two separate circles, no bridge
-   *  connection, matching the animation's 0%/100% keyframe) with no
-   *  animation running — used by Demo's Stop control (see
-   *  DemoMotionContext) so a "stopped" demo shows a static snapshot
-   *  instead of an arbitrary mid-cycle frame. Each piece's own default
-   *  (non-animating) CSS already matches this resting pose (container's
-   *  base `transform: rotate(0)`, left/right/bridge's implicit identity
-   *  transform), so this only needs to disable the animation itself —
-   *  no extra inline transform override needed, unlike the CSS (V2)
-   *  version, whose obj1/obj2 lack an equivalent resting base. */
-  isStatic?: boolean
+  /** Pause the CSS animations in their current frame. */
+  paused?: boolean
 }
 
 export const StretchyCircles = ({
@@ -50,12 +41,13 @@ export const StretchyCircles = ({
   blur = 6,
   intensity = 24,
   crispness = 15,
-  isStatic = false,
+  paused = false,
 }: StretchyCirclesProps = {}) => {
   const styles = useStretchyCirclesStyles()
   const id = useId()
   const circleRadius = circleDiameter / 2
   const bridgeY = 50 - bridgeHeight / 2
+  const pausedStyle = paused ? { animationPlayState: 'paused' } : undefined
 
   // Parse gradient if provided
   let fillColor = color
@@ -113,7 +105,7 @@ export const StretchyCircles = ({
         </filter>
         <mask id={`stretchyMask-${id}`}>
           <g filter={`url(#stretchy-${id})`}>
-            <g className={styles.container} style={isStatic ? { animation: 'none' } : undefined}>
+            <g className={styles.container} style={pausedStyle}>
               <rect
                 className={styles.bridge}
                 x="38"
@@ -122,7 +114,7 @@ export const StretchyCircles = ({
                 height={bridgeHeight}
                 rx="9"
                 fill="white"
-                style={isStatic ? { animation: 'none' } : undefined}
+                style={pausedStyle}
               />
               <circle
                 className={mergeClasses(styles.ball, styles.left)}
@@ -130,7 +122,7 @@ export const StretchyCircles = ({
                 cy="50"
                 r={circleRadius}
                 fill="white"
-                style={isStatic ? { animation: 'none' } : undefined}
+                style={pausedStyle}
               />
               <circle
                 className={mergeClasses(styles.ball, styles.right)}
@@ -138,7 +130,7 @@ export const StretchyCircles = ({
                 cy="50"
                 r={circleRadius}
                 fill="white"
-                style={isStatic ? { animation: 'none' } : undefined}
+                style={pausedStyle}
               />
             </g>
           </g>

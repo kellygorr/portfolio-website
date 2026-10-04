@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { LogoFauxCutout } from './LogoFauxCutout'
 import { motionThemeArgType, resolveMotionTheme } from '../shared/motionTheme'
 
-// (for storybook only)
 interface StoryArgs {
   scale: number
   duration: number
@@ -14,16 +13,13 @@ const meta: Meta<StoryArgs> = {
   parameters: {
     layout: 'fullscreen',
   },
-  // (for storybook only)
   argTypes: {
     scale: {
       control: { type: 'range', min: 0.1, max: 2, step: 0.1 },
-      description: 'Scale of the animation',
       table: { defaultValue: { summary: '0.2' } },
     },
     duration: {
       control: { type: 'range', min: 500, max: 8000, step: 100 },
-      description: 'Duration of one full animation cycle in ms',
       table: { defaultValue: { summary: '1000' } },
     },
     motionTheme: motionThemeArgType,
@@ -39,7 +35,6 @@ export default meta
 type Story = StoryObj<StoryArgs>
 
 export const Default: Story = {
-  // (for storybook only)
   render: ({ scale, duration, motionTheme }) => {
     const palette = resolveMotionTheme(motionTheme)
     // The scene's own background doubles as the punch/cutout color (the

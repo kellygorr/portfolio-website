@@ -25,7 +25,7 @@ const video1 = new URL('../../assets/videos/the-witcher-3/the-witcher-3-15.mp4',
 
 export const theWitcher3: IProject = {
 	details: {
-		header: 'The Witcher 3 Xbox Launch',
+		header: 'The Witcher 3 Xbox launch',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,

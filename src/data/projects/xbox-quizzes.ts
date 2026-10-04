@@ -24,7 +24,7 @@ const video2 = new URL('../../assets/videos/xbox-quizzes/xbox-quizzes-13.mp4', i
 
 export const xboxQuizzes: IProject = {
 	details: {
-		header: 'Xbox Quizzes',
+		header: 'Xbox quizzes',
 		thumbnail: {
 			x1: thumbnailx1,
 			x15: thumbnailx15,
@@ -109,7 +109,7 @@ export const xboxQuizzes: IProject = {
 				},
 			],
 		},
-		{ title: 'Game of Thrones Quiz' },
+		{ title: 'Game of Thrones quiz' },
 		{
 			slideshow: {
 				width: 1250,

@@ -3,7 +3,8 @@ import styled from 'styled-components'
 import { ChevronLeft16Filled, ChevronRight16Filled } from '@fluentui/react-icons'
 import { ISlide } from '../../../data/IProject'
 import { Slide } from './Slide'
-import { MIN_WIDTH, MAX_WIDTH } from '../../../styles/GlobalStyles'
+import { MIN_WIDTH, MAX_WIDTH, SIDE_GAP, SMALL_SCREEN } from '../../../styles/GlobalStyles'
+import { NeutralColors } from '../../../styles/theme'
 
 interface IPageProps {
 	data: ISlide[]
@@ -135,6 +136,17 @@ const Slides = styled.div`
 	-ms-overflow-style: none;
 	&::-webkit-scrollbar {
 		width: 0 !important;
+		/* This container scrolls HORIZONTALLY (overflow-x: auto below),
+		   so the scrollbar that actually renders is the horizontal one,
+		   governed by this height property, not width above (width only
+		   affects a VERTICAL scrollbar, which this container never
+		   shows). Without this, Chromium/WebKit still reserves ~16px of
+		   space for the (invisible but still laid-out) horizontal
+		   scrollbar track at the bottom of this row — which pushes
+		   every slide's cross-axis centering off by that same 16px,
+		   making each slide look top-aligned instead of vertically
+		   centered in the row. */
+		height: 0 !important;
 	}
 	/* Horizontal scrolling only */
 	overflow-x: auto;
@@ -149,7 +161,26 @@ const Slides = styled.div`
 	&:after {
 		content: ' ';
 		height: 10px;
-		min-width: 50vw;
+		/* Same MIN_WIDTH floor reasoning as Slide.tsx's image/demo
+		   max-width — raw vw has no knowledge of this app's own
+		   MIN_WIDTH floor, so below that floor this would keep
+		   shrinking past it instead of stopping like everything else on
+		   the page. */
+		min-width: max(50vw, ${MIN_WIDTH / 2}px);
+	}
+
+	/* Slides can differ in rendered height (e.g. a tall interactive demo
+	   next to a shorter/wider screenshot) — since this row's own height
+	   always matches its TALLEST slide, a shorter active slide ends up
+	   vertically centered with visible empty space above/below it. At
+	   small screens, that empty space can look like a layout bug rather
+	   than a deliberate letterboxed slide — so a light neutral
+	   background gives that empty space a visible "container" the slide
+	   sits inside, instead of looking like stray whitespace. Full-size
+	   screens have enough visual context (padding, surrounding content)
+	   that this clarification isn't needed. */
+	@media (max-width: ${SMALL_SCREEN}px) {
+		background: ${NeutralColors.neutral10};
 	}
 `
 
@@ -161,6 +192,8 @@ const Caption = styled.div`
 	text-align: center;
 	width: 100%;
 	max-width: ${MAX_WIDTH};
+	padding: 0 ${SIDE_GAP};
+	box-sizing: border-box;
 	opacity: 1;
 	transition: opacity linear;
 	margin: 0 auto;
