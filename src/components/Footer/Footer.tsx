@@ -6,6 +6,7 @@ import { NeutralColors } from '../../styles/theme'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Sidebar } from '../shared'
 import { SettingsButton } from './SettingsButton'
+import { getLinkHref } from '../../utils/links'
 
 const list: IHighlight[] = [
 	{
@@ -52,7 +53,7 @@ export const Footer = ({ isDarkMode, isSmallScreen, toggleDarkMode }: IFooterPro
 			<List>
 				{list.map((item: IHighlight) => (
 					<ListItem key={item.header}>
-						<StyledLink href={(item.link as ILink).link} rel="noopener noreferrer" target="_blank">
+						<StyledLink href={getLinkHref(item.link as ILink)} rel="noopener noreferrer" target="_blank">
 							<Header>{item.header}</Header>
 							<URL>{(item.link as ILink).title}</URL>
 						</StyledLink>

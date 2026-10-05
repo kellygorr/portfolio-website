@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { createRef } from 'react'
 import type { ReactNode } from 'react'
-import { ISlideshow, SectionType, IHighlight, IThumbnail, TagType, SkillType, ToolType } from '../../data/IProject'
+import { ISlideshow, SectionType, IHighlight, IThumbnail, TagType, SkillType, ToolType, ILink } from '../../data/IProject'
 import { Body } from './Body'
 import { Slideshow } from './Slideshow/Slideshow'
 import { Tags, Thumbnail } from '../shared'
@@ -9,6 +9,7 @@ import { Heading, Title } from '.'
 import { SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { sortHighlights } from '../../utils/sortHighlights'
 import { pluralizeHighlightHeader } from '../../utils/pluralizeHighlightHeader'
+import { getLinkHref, getLinkTitle } from '../../utils/links'
 
 interface ISectionProps {
 	type: SectionType
@@ -41,7 +42,11 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				))}
 			</Gallery>
 		)}
-		{props.type === SectionType.Link && <Link>{props.data as string}</Link>}
+		{props.type === SectionType.Link && (
+			<Link href={getLinkHref(props.data as string | ILink)} target="_blank" rel="noopener noreferrer">
+				{getLinkTitle(props.data as string | ILink)}
+			</Link>
+		)}
 		{props.type === SectionType.Tags && (
 			<Tags tags={props.data as (TagType | SkillType | ToolType | string)[]} setQuery={props.setQuery} />
 		)}

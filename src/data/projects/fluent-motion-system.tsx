@@ -92,12 +92,6 @@ const EasingsDemo = ({ theme }: { theme: MotionPaletteName }) => {
 	return <Easings ref={ref} palette={palette} compact />
 }
 
-// PLACEHOLDER ASSET — this is a showreel-style stand-in, not a real product
-// screenshot. Swap the file at this same path (keep the same
-// fluent-motion-system-01 naming) once a real screenshot/diagram is ready;
-// no code changes needed.
-const img1 = new URL('../../assets/images/fluent-motion-system/fluent-motion-system-01.png', import.meta.url).href
-
 export const fluentMotionSystem: IProject = {
 	details: {
 		header: 'Fluent design system motion',
@@ -117,10 +111,6 @@ export const fluentMotionSystem: IProject = {
 			slideshow: {
 				width: 1735,
 				slides: [
-					{
-						img: img1,
-						caption: 'Motion system overview — communication, orientation, feedback, delight',
-					},
 					{
 						demo: (
 							<DemoSlide theme={easingsTheme} interactive hasHeader darkBackground scaleToFit allowRestartWhileRunning>
