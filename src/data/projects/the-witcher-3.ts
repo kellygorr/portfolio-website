@@ -128,7 +128,7 @@ export const theWitcher3: IProject = {
 				},
 				{
 					header: HighlightName.Localization,
-					tags: ['United States', 'Canada (EN-CA & FR-CA)', 'United Kingdom', 'Mexico', 'Brazil', 'France', 'Spain', 'Germany'],
+					body: 'United States, Canada (EN-CA & FR-CA), United Kingdom, Mexico, Brazil, France, Spain, Germany',
 				},
 				{
 					header: HighlightName.Dates,

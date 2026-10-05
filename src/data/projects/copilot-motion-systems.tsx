@@ -371,7 +371,7 @@ const TeachingHandraiseDemo = ({ theme }: { theme: MotionPaletteName }) => {
  */
 export const copilotMotionSystems: IProject = {
 	details: {
-		header: 'Copilot interaction systems',
+		header: 'Copilot product craft & components',
 		thumbnail: null,
 		demo: (
 			<DemoThumbnail theme={thumbnailTheme}>
@@ -382,7 +382,7 @@ export const copilotMotionSystems: IProject = {
 	},
 	content: [
 		{
-			title: 'Copilot interaction systems',
+			title: 'Copilot product craft & components',
 		},
 		{
 			demo: (
@@ -393,41 +393,27 @@ export const copilotMotionSystems: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `Interaction engineering across Microsoft Copilot: chat input transitions, grounding and overlay menu patterns, teaching cues, and AI response moments. Motion was often the visible layer, but the work also included component structure, information architecture, focus behavior, accessibility, and production-ready implementation decisions for major Copilot craft pushes.`,
+			body: `As Microsoft 365 Copilot moved toward a more unified product experience, my team was brought in to improve polish and quality, close interaction gaps, and support the work needed to land Ignite and Build deadlines.`,
 		},
 		{
 			header: SectionName.Role,
 			highlight: [
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping, SkillType.UIUX],
+					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.UIUX, TagType.Motion],
 				},
 			],
-			body: `UX engineer for Copilot interaction systems that combined product craft, component work, and performant motion. I partnered with design, Copilot engineering, and Fluent AI to turn interaction patterns into reusable implementations, including menu behavior, input transitions, teaching cues, accessibility considerations, and reduced-motion support.`,
+			body: `UX engineer contributing to Copilot craft work across component behavior, interaction polish, accessibility, and performant motion.`,
 		},
-		{
-			header: SectionName.Details,
-			highlight: [
-				{
-					header: HighlightName.Platform,
-					tags: [TagType.Copilot, TagType.Website],
-				},
-				{
-					header: HighlightName.Dates,
-					body: formatYearRange(2025),
-				},
-				{
-					header: HighlightName.Engineer,
-					body: 'Kelly Gorr',
-				},
-				{
-					header: HighlightName.Motion_Designer,
-					body: 'Chris Lorence, Andrew Falk',
-				},
-			],
-		},
+
 		{
 			header: 'Overlay and capabilities menus',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Chris Lorence',
+				},
+			],
 		},
 		{
 			slideshow: {
@@ -447,7 +433,7 @@ export const copilotMotionSystems: IProject = {
 			},
 		},
 		{
-			body: `I built Copilot's overlay menu component, including its submenu structure, background isolation, and entrance motion, on top of Fluent's existing overlay primitive. Getting the interaction model right took real debugging: clicks were passing through to content behind the overlay, submenus could get stuck open or lose keyboard focus when navigating quickly, and the entrance animation sometimes played from the wrong direction on first open because Fluent's underlying positioning logic resolved asynchronously, after the animation had already locked in its direction. None of these showed up in a quick look at the component; they only surfaced under real interaction patterns like fast navigation or reopening the menu. I tracked down and resolved each one, so the overlay now holds up under exactly the conditions that used to break it.`,
+			body: `I built Copilot's overlay menu component into Fluent AI, reconfiguring Fluent's existing overlay menu. This work included the component structure, submenu behavior, and motion. One tricky part was that the base menu resolved its direction and placement asynchronously, while the motion wrapper needed the direction earlier in order to animate correctly. Because that process was built into the original Fluent component, I had to work around it and wait for the position to resolve before animating. This also exposed an issue where submenus could get stuck open when users moved between them quickly. I tracked down and resolved each issue so the overlay held up under the conditions that used to break it.`,
 		},
 		{
 			header: 'Input position animation',
@@ -469,28 +455,28 @@ export const copilotMotionSystems: IProject = {
 								<InputPositionDemo theme={inputPositionTheme} />
 							</DemoSlide>
 						),
-						caption: 'Interactive recreation — click Send to try it',
+						caption: 'Input motion',
 					},
 					{
 						img: inputPositionCentered,
 						img2x: inputPositionCentered2x,
-						caption: 'Product screenshot — centered, empty-conversation state',
+						caption: 'New chat home screen',
 					},
 					{
 						img: inputPositionAnchored,
 						img2x: inputPositionAnchored2x,
-						caption: 'Product screenshot — anchored to footer, conversation started',
+						caption: 'Anchored chat, conversation started',
 					},
 					{
 						img: inputPositionSearchExpanded,
 						img2x: inputPositionSearchExpanded2x,
-						caption: 'Product screenshot — search expanded',
+						caption: 'Anchored chat (shows diffused background)',
 					},
 				],
 			},
 		},
 		{
-			body: `The chat input moves between two anchor points: centered in an empty conversation, or docked to the footer once a conversation starts. Both the footer's divider line and its background fill are carried by the exact same FLIP-animated container as the input itself, so they arrive already in sync with zero extra timing logic. Recreated from Copilot's design system for this portfolio; click Send in the demo above to see it in both directions.`,
+			body: `The chat input moves between two anchor points: centered when starting a new chat, and docked to the footer once a conversation starts. I used the FLIP technique (First, Last, Invert, Play) to anchor the footer in its final position, then animate it from the center to that docked state. This kept the motion performant and ensured the input ended in the correct position even if the browser resized during the animation.`,
 		},
 		{
 			header: 'Grounding menu',
@@ -509,7 +495,7 @@ export const copilotMotionSystems: IProject = {
 			),
 		},
 		{
-			body: `Copilot surfaces grounding sources such as files, people, meetings, and emails through a tabbed menu pattern. This was one of the clearer examples where my work was not only adding motion to an existing surface. I built the menu pattern as a component-level interaction, including the tab model, list structure, directional transitions, selected-state behavior, and simplified wireframe treatment so the motion and information architecture could be evaluated apart from final visual styling.`,
+			body: `For the grounding menu, I explored a directional motion strategy that was later simplified into staggered entrance motion. That approach better matched other list motion across Copilot and kept the pattern cohesive. I focused on craft cleanup, including removing the skeleton UI. I also fixed menu state issues where the correct default tab was being cleared, leaving the control in an incorrect starting state. This was part of the broader push to make Copilot interactions feel more polished, stable, and visually consistent.`,
 		},
 		{
 			header: 'Teaching handraise',
@@ -529,7 +515,7 @@ export const copilotMotionSystems: IProject = {
 			demoWidth: 'half',
 		},
 		{
-			body: `This border-tracing indicator is a "teaching handraise," a motion cue used to draw the user's attention to something. It went through many implementation passes chasing a specific performance/fidelity tradeoff. The CSS-only version uses a conic-gradient trick to draw the traveling line — cheap and GPU-friendly, but it has a real visual compromise: on long, narrow rectangles like the one below, the gradient's start angle causes visible seams/cracks in the line at certain points in the sweep; on a more square aspect ratio, the same technique holds up fine. The only implementation that fully eliminated the artifact on every shape was rendering the line to an OffscreenCanvas on a Web Worker, keeping the drawing work off the main thread entirely. I built and compared both versions myself to understand exactly where the CSS approach breaks down and when the added complexity of a worker-driven canvas is actually justified.`,
+			body: `I built the Copilot teaching popover motion and created reusable motion patterns for different sized teaching surfaces. I built both JavaScript and CSS implementation prototypes and compared their performance, fidelity, and implementation complexity before the motion moved into product code. I documented the timing, easing, directional behavior, and implementation tradeoffs, then worked directly with engineering as they adapted the motion for production.`,
 		},
 		{
 			header: 'Greeting motion',
@@ -548,7 +534,28 @@ export const copilotMotionSystems: IProject = {
 			),
 		},
 		{
-			body: `A character-by-character reveal used for Copilot's welcome/greeting message. Each character animates in on its own easing curve, staggered across the sequence with a second, distinct curve — tuned specifically so the animation doesn't produce a "late straggler" effect where the last character visibly lags behind the rest.`,
+			body: `A character-by-character reveal used for Copilot's welcome/greeting message on chat and agent pages. Here, polish mattered because it shaped the first impression of the experience.`,
+		},
+		{
+			header: SectionName.Details,
+			highlight: [
+				{
+					header: HighlightName.Platform,
+					tags: [TagType.Copilot, TagType.Website],
+				},
+				{
+					header: HighlightName.Dates,
+					body: formatYearRange(2025),
+				},
+				{
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Chris Lorence, Andrew Falk',
+				},
+			],
 		},
 	],
 }

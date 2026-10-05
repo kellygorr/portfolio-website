@@ -34,7 +34,7 @@ export const earthquakeMap: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'A website that mapped worldwide seismic activity that occurred in the past hour, day, week, and month. It also included a rotating list of recent seismic activity, and a comment section for discussion.  The website recorded a lot of interesting information including the underground nuclear tests done in North Korea.',
+			body: "A website that mapped worldwide seismic activity from the past hour, day, week, and month. It also included a rotating list of recent events and a comment section for discussion. Because the site used live seismic feeds, it surfaced major global events as they happened, including North Korea's first underground nuclear test.",
 		},
 		{
 			header: SectionName.Role,

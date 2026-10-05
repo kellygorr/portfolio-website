@@ -50,7 +50,7 @@ export const previewAppLinkGenerator: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'This tool creates a link that is used on the Xbox One to launch and play videos with the Xbox’s video player (the Preview App).  The tool can string together multiple videos to play in a row and add video titles, CTA buttons, and redirect links.',
+			body: 'I designed and built an internal tool that generated Xbox One Preview App links for video launches. The tool could be used for a single video, but it was most useful for helping teammates assemble multi-video collections that could play together. The app helped them connect videos with titles, CTA buttons, and redirect behavior more accurately, reducing the chance of malformed links.',
 		},
 		{
 			header: SectionName.Role,
@@ -60,7 +60,8 @@ export const previewAppLinkGenerator: IProject = {
 					tags: [SkillType.Design, SkillType.AngularJS, SkillType.JQuery, SkillType.JSON, SkillType.HTML, SkillType.CSS],
 				},
 			],
-			body: "I was in charge of designing and creating the tool.  In the original version I used AngularJS's two-way data binding so the user could live-edit and create the link (This version is available to test below). In the final version I removed the live-edit functionality and instead used a ‘generate link’ button, because I didn't want users to have access to an unfinished link.  Details from the original app have been altered or removed.",
+			body: 'I designed and built the tool, including validation states and error messaging for required information. In an early version, users could live-edit the generated link as they worked. I removed that behavior in the final version and replaced it with a generate action, so users would not copy or use an unfinished link before all required fields were valid.',
+			imagesRecreated: true,
 		},
 		{
 			header: SectionName.Details,

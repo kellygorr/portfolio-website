@@ -331,10 +331,10 @@ function DelayedSuggestions({ expanded }: { expanded: boolean }) {
 	)
 }
 
-export function PillButton({ entry }: { entry: DemoEntry }) {
+export function PillButton({ entry, tabIndex }: { entry: DemoEntry; tabIndex?: number }) {
 	const styles = useSeeMorePillStyles()
 	return (
-		<button type="button" className={styles.pill}>
+		<button type="button" className={styles.pill} tabIndex={tabIndex}>
 			<span className={styles.icon} aria-hidden="true">
 				{entry.icon}
 			</span>

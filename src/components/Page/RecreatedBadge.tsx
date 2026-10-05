@@ -14,7 +14,7 @@ import styled from 'styled-components'
  * badges share one definition instead of duplicating the same CSS.
  */
 export const Badge = styled.div<{ $bg: string; $color: string }>`
-	display: block;
+	display: inline-flex;
 	max-width: 100%;
 	padding: 6px 12px;
 	border-radius: 6px;

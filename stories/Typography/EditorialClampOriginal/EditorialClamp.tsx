@@ -82,7 +82,7 @@ export const EditorialClamp = () => {
 	return (
 		<div className={styles.container}>
 			{showBreakpoints && <BreakpointLine breakpoints={EDITORIAL_BREAKPOINTS} />}
-			<SettingsPanel hoverIconColor={accentColor}>
+			<SettingsPanel transparentButton hoverIconColor={accentColor}>
 				<SettingsCheckbox label="Show font sizes" checked={showFontSize} onChange={setShowFontSize} accentColor={accentColor} />
 				<SettingsCheckbox label="Show breakpoint marker" checked={showBreakpoints} onChange={setShowBreakpoints} accentColor={accentColor} />
 				<SettingsSwitch label="rem/px" checked={usePxUnits} onChange={setUsePxUnits} accentColor={accentColor} />
@@ -102,7 +102,7 @@ export const EditorialClamp = () => {
 				</p>
 				<div className={styles.twoColumnGrid}>
 					<h6 ref={heading6Ref} className={`${styles.leftColumn} ${bebopStyles2.heading6} ${styles.heading6Override}`}>
-						Design that learns with you—flexible, fluid, and always one step ahead{getFontSizeDisplay('heading6')}
+						Design that is flexible, fluid, and one step ahead{getFontSizeDisplay('heading6')}
 					</h6>
 					<p
 						ref={(el) => (paragraph1Refs.current[1] = el)}

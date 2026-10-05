@@ -48,7 +48,7 @@ const AptosTypeRamp = () => (
 			.aptos-specimen {
 				min-height: 100vh;
 				box-sizing: border-box;
-				padding: 44px;
+				padding: 0;
 				background: #fbf3dc;
 				color: #24190f;
 				font-family: 'Aptos Specimen', 'Segoe UI', Arial, sans-serif;
@@ -61,11 +61,11 @@ const AptosTypeRamp = () => (
 			.sheet {
 				display: grid;
 				grid-template-columns: 0.92fr 1.08fr;
-				gap: 28px;
-				max-width: 1420px;
-				min-height: calc(100vh - 88px);
-				margin: 0 auto;
-				border: 1px solid #4c2d1d;
+				gap: 0;
+				max-width: none;
+				min-height: 100vh;
+				margin: 0;
+				border: 0;
 				background:
 					linear-gradient(90deg, rgba(76, 45, 29, 0.08) 1px, transparent 1px),
 					linear-gradient(0deg, rgba(76, 45, 29, 0.08) 1px, transparent 1px),
@@ -75,19 +75,21 @@ const AptosTypeRamp = () => (
 
 			.left,
 			.right {
-				padding: 34px;
+				padding: 16px 20px;
 			}
 
 			.left {
 				border-right: 1px solid #4c2d1d;
 				display: flex;
 				flex-direction: column;
+				align-items: flex-end;
 				justify-content: flex-start;
-				gap: 32px;
+				gap: 12px;
+				text-align: right;
 			}
 
 			.kicker {
-				margin: 0;
+				margin: 0 0 6px;
 				font-size: 12px;
 				line-height: 1;
 				font-weight: 700;
@@ -97,9 +99,9 @@ const AptosTypeRamp = () => (
 			}
 
 			.family-name {
-				margin: 16px 0 0;
-				font-size: clamp(88px, 14vw, 190px);
-				line-height: 0.82;
+				margin: 0;
+				font-size: clamp(110px, 18vw, 240px);
+				line-height: 0.8;
 				letter-spacing: -0.085em;
 				font-weight: 400;
 				color: #4c2d1d;
@@ -109,7 +111,7 @@ const AptosTypeRamp = () => (
 				display: block;
 				font-family: 'Aptos Serif Specimen', Georgia, serif;
 				font-size: 0.72em;
-				line-height: 0.92;
+				line-height: 0.88;
 				letter-spacing: -0.055em;
 				color: #c8843d;
 			}
@@ -124,10 +126,10 @@ const AptosTypeRamp = () => (
 			}
 
 			.poem-title {
-				margin: 10px 0 28px;
+				margin: 0;
 				font-family: 'Aptos Serif Specimen', Georgia, serif;
-				font-size: clamp(78px, 9vw, 150px);
-				line-height: 0.86;
+				font-size: clamp(100px, 11vw, 180px);
+				line-height: 0.82;
 				font-weight: 400;
 				letter-spacing: -0.07em;
 				color: rgba(76, 45, 29, 0.22);
@@ -145,29 +147,51 @@ const AptosTypeRamp = () => (
 
 			.poem-line:nth-child(1) {
 				font-size: clamp(50px, 6vw, 104px);
-				line-height: 0.94;
+				line-height: 0.98;
 				letter-spacing: -0.06em;
 				color: #24190f;
 			}
 
-			.poem-line:nth-child(2) {
+			.poem-line-inline-italic-stack {
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: center;
+				vertical-align: middle;
+			}
+
+			.poem-line-inline-italic-stack span {
+				white-space: nowrap;
 				font-style: italic;
-				font-size: clamp(24px, 3.2vw, 48px);
-				line-height: 1;
-				letter-spacing: -0.045em;
+				font-size: clamp(14px, 1.8vw, 26px);
+				line-height: 1.15;
+				letter-spacing: -0.03em;
 				color: #a85d2f;
 			}
 
-			.poem-line:nth-child(3) {
+			.poem-line-inline-serif {
 				font-family: 'Aptos Serif Specimen', Georgia, serif;
 				font-size: clamp(42px, 5.4vw, 92px);
-				line-height: 0.98;
 				letter-spacing: -0.045em;
 				color: #4c2d1d;
 			}
 
-			.poem-line:nth-child(4) {
-				margin-top: 18px;
+			.poem-line-inline-bold {
+				font-size: clamp(24px, 3vw, 48px);
+				letter-spacing: -0.035em;
+				font-weight: 700;
+				color: #342318;
+			}
+
+			.poem-line-inline-bold-stack {
+				display: inline-flex;
+				flex-direction: column;
+				justify-content: center;
+				vertical-align: middle;
+				margin-top: -30px;
+			}
+
+			.poem-line-inline-bold-stack span {
+				white-space: nowrap;
 				font-size: clamp(24px, 3vw, 48px);
 				line-height: 1.05;
 				letter-spacing: -0.035em;
@@ -175,16 +199,9 @@ const AptosTypeRamp = () => (
 				color: #342318;
 			}
 
-			.poem-line:nth-child(5) {
-				font-family: 'Aptos Serif Specimen', Georgia, serif;
-				font-size: clamp(22px, 2.6vw, 42px);
-				line-height: 1.12;
-				color: #a85d2f;
-			}
-
-			.poem-line:nth-child(6) {
+			.poem-line-flow {
 				font-size: clamp(16px, 1.6vw, 24px);
-				line-height: 1.35;
+				line-height: 1;
 				letter-spacing: 0.01em;
 				color: #5f5147;
 				max-width: 620px;
@@ -322,14 +339,22 @@ const AptosTypeRamp = () => (
 				<p className="kicker">Public domain text sample</p>
 				<h2 className="poem-title">The Raven</h2>
 				<div className="poem">
-					<p className="poem-line">Once upon a midnight dreary,</p>
-					<p className="poem-line">while I pondered, weak and weary,</p>
-					<p className="poem-line">Over many a quaint and curious volume</p>
-					<p className="poem-line">of forgotten lore,</p>
-					<p className="poem-line">while I nodded, nearly napping,</p>
-					<p className="poem-line">suddenly there came a tapping, as of some one gently rapping, rapping at my chamber door.</p>
+					<p className="poem-line">
+						Once upon a midnight dreary,{' '}
+						<span className="poem-line-inline-italic-stack">
+							<span>while I pondered, weak and weary, Over</span>
+							<span>many a quaint and curious volume of</span>
+						</span>
+					</p>
+					<p className="poem-line poem-line-flow">
+						<span className="poem-line-inline-serif">forgotten lore, while I nodded,</span>{' '}
+						<span className="poem-line-inline-bold-stack">
+							<span>nearly napping, suddenly</span>
+							<span>there came a tapping, as</span>
+						</span>
+					</p>
+					<p className="poem-line poem-line-flow">of some one gently rapping, rapping at my chamber door.</p>
 				</div>
-
 			</section>
 		</main>
 	</div>

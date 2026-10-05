@@ -75,7 +75,7 @@ export const ControlPanel = ({
 						flexDirection: 'column',
 						gap: '8px',
 						minWidth: '220px',
-						zIndex: 1001,
+						zIndex: 10001,
 					}}
 				>
 					<SettingsCheckbox
@@ -180,11 +180,6 @@ export const ControlPanel = ({
 				</div>
 			</div>
 
-			<div className={styles.breakpointInfo}>
-				<span>Breakpoints:</span>
-				<div className={styles.breakpoint}>320px</div>
-				<div className={styles.breakpoint}>1440px</div>
-			</div>
 		</>
 	)
 }

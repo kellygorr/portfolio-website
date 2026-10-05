@@ -109,7 +109,7 @@ export const owaCalendar: IProject = {
 				},
 				{
 					header: HighlightName.Localization,
-					tags: ['Worldwide'],
+					body: 'Worldwide',
 				},
 				{
 					header: HighlightName.Dates,

@@ -37,7 +37,7 @@ export const useStyles = makeStyles({
 		position: 'fixed',
 		top: '16px',
 		right: '16px',
-		zIndex: 1000,
+		zIndex: 10000,
 	},
 
 	colorControls: {
@@ -128,32 +128,6 @@ export const useStyles = makeStyles({
 			width: '100%',
 			flex: 'none',
 		},
-	},
-
-	breakpoint: {
-		backgroundColor: tokens.colorNeutralForeground1,
-		color: 'white',
-		padding: '4px 8px',
-		borderRadius: '4px',
-		fontSize: '12px',
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-		display: 'inline-block',
-	},
-	breakpointInfo: {
-		position: 'absolute',
-		left: '16px',
-		bottom: '16px',
-		display: 'flex',
-		alignItems: 'center',
-		gap: '8px',
-		backgroundColor: 'rgba(255, 250, 239, 0.92)',
-		border: '1px solid #d8c7a8',
-		borderRadius: '8px',
-		padding: '8px 10px',
-		fontSize: '12px',
-		fontFamily: 'monospace',
-		zIndex: 20,
 	},
 
 	// Font family overrides

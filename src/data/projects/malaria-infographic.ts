@@ -34,7 +34,7 @@ export const malariaInfographic: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'I designed a malaria infographic.',
+			body: 'I designed a research-based malaria infographic that translated public health information into a visual narrative.',
 		},
 		{
 			header: SectionName.Details,

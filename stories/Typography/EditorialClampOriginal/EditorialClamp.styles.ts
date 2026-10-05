@@ -97,6 +97,7 @@ export const useStyles = makeStyles({
 		lineHeight: `clamp(${convertToRemBase16(21)}, ${convertToRemBase16(21)} + (${convertToRemBase16(32)} - ${convertToRemBase16(21)}) * (100vw - 320px) / (1440px - 320px), ${convertToRemBase16(32)}) !important`,
 	},
 	heading6Override: {
+		fontFamily: 'Aptos Serif, serif',
 		fontSize: `clamp(${convertToRemBase16(16)}, ${convertToRemBase16(16)} + (${convertToRemBase16(20)} - ${convertToRemBase16(16)}) * (100vw - 320px) / (1440px - 320px), ${convertToRemBase16(20)}) !important`,
 		lineHeight: `clamp(${convertToRemBase16(19)}, ${convertToRemBase16(19)} + (${convertToRemBase16(28)} - ${convertToRemBase16(19)}) * (100vw - 320px) / (1440px - 320px), ${convertToRemBase16(28)}) !important`,
 	},

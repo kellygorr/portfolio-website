@@ -89,8 +89,6 @@ const saveUISettings = (settings: UISettings): void => {
 	}
 }
 
-// Constants
-const EDITORIAL_BREAKPOINTS = [320, 1440]
 const STYLE_MAPPING = {
 	heading2: 'Heading2',
 	heading5: 'Heading3', // Map heading5 to Heading3 since there's no Heading5
@@ -315,7 +313,7 @@ export const FontFaceDemo = () => {
 
 	return (
 		<div className={styles.container}>
-			<BreakpointIndicator show={showBreakpoints} breakpoints={EDITORIAL_BREAKPOINTS} />
+			<BreakpointIndicator show={showBreakpoints} />
 			<article className={`${styles.article}`}>
 				{/* Settings and Controls */}
 				<div className={styles.settingsGear}>

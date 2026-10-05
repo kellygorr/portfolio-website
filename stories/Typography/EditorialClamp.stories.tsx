@@ -3,6 +3,8 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components'
 import { EditorialClamp } from './EditorialClampOriginal/EditorialClamp'
 import aptosWoff2Url from '../../src/assets/fonts/aptos/Aptos.woff2?url'
 import aptosWoffUrl from '../../src/assets/fonts/aptos/Aptos.woff?url'
+import aptosSerifWoff2Url from '../../src/assets/fonts/aptos/AptosSerif.woff2?url'
+import aptosSerifWoffUrl from '../../src/assets/fonts/aptos/AptosSerif.woff?url'
 
 const EditorialClampStory = () => (
 	<div>
@@ -12,6 +14,15 @@ const EditorialClampStory = () => (
 				src:
 					url('${aptosWoff2Url}') format('woff2'),
 					url('${aptosWoffUrl}') format('woff');
+				font-weight: 400;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: 'Aptos Serif';
+				src:
+					url('${aptosSerifWoff2Url}') format('woff2'),
+					url('${aptosSerifWoffUrl}') format('woff');
 				font-weight: 400;
 				font-style: normal;
 			}

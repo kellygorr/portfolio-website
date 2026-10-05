@@ -1,15 +1,46 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import styled from 'styled-components'
 import { fluentMotionEasings } from '../../src/styles/fluentMotionTokens'
 import { motionPalette } from '../../src/styles/motionPalettes'
 import type { MotionPaletteName } from '../../src/styles/motionPalettes'
 import { useDemoMotion } from '../../src/components/Page/DemoMotionContext'
 import { cubicBezierSvgPath } from '../shared/cubicBezier'
+import { SMALL_SCREEN } from '../../src/styles/GlobalStyles'
 
 const GRAPH_W = 280
 const GRAPH_H = 192
 const GRAPH_PADDING = 18
 const ANIMATION_MS = 800
 const REST_MS = 1000
+
+/**
+ * Capped graph box (see GraphBox below) keeps this label's full content
+ * comfortably inside DemoSlot's fixed 200px/`overflow: hidden` height
+ * cap (see Thumbnail.tsx) at every breakpoint, so no responsive
+ * hide-at-small-screens behavior is needed here anymore.
+ */
+const Label = styled.div``
+
+/**
+ * Each graph panel grows taller at/below SMALL_SCREEN (the card itself
+ * gets wider there, and `aspect-ratio` scales height to match), which is
+ * what was pushing total content height past DemoSlot's 200px cap in
+ * the first place (see Label's docstring above). Capping height at that
+ * breakpoint keeps the graphs comfortably inside the 200px box so the
+ * container's own vertical padding (below) stays visible instead of
+ * being squeezed out by overflow clipping.
+ */
+const GraphBox = styled.div`
+	position: relative;
+	aspect-ratio: 16 / 11;
+	border-radius: 8px;
+	overflow: hidden;
+
+	@media (max-width: ${SMALL_SCREEN}px) {
+		aspect-ratio: auto;
+		height: 110px;
+	}
+`
 
 export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 	const palette = motionPalette(theme)
@@ -118,8 +149,8 @@ export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 				const dotAtEnd = isActive && atEnd
 				const frozenFrame = stopped ? frozen?.[index] : undefined
 				return (
-					<div key={easing.token} style={{ flex: 1, minWidth: 0 }}>
-						<div
+					<div key={easing.token} style={{ flex: '0 1 200px', maxWidth: 200, minWidth: 0 }}>
+						<Label
 							style={{
 								fontFamily: 'monospace',
 								fontSize: 10,
@@ -132,14 +163,10 @@ export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 							}}
 						>
 							{easing.label}
-						</div>
-						<div
+						</Label>
+						<GraphBox
 							style={{
-								position: 'relative',
-								aspectRatio: '16 / 11',
 								border: '1px solid rgba(255,255,255,0.3)',
-								borderRadius: 8,
-								overflow: 'hidden',
 								background: isActive ? 'rgba(255,255,255,0.06)' : 'transparent',
 							}}
 						>
@@ -170,7 +197,7 @@ export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 									transitionTimingFunction: `linear, ${easing.curve}`,
 								}}
 							/>
-						</div>
+						</GraphBox>
 						<div style={{ height: 4, marginTop: 8, borderRadius: 2, background: 'rgba(255,255,255,0.3)', overflow: 'hidden' }}>
 							<div
 								ref={(element) => {

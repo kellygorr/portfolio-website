@@ -13,17 +13,18 @@ interface IPageProps {
 	 *  total gap between two adjacent slides) if not provided. */
 	gap?: number
 	data: ISlide
+	canNavigate?: boolean
 }
 
 export const Slide = (props: IPageProps): JSX.Element => {
 	const ref = useRef<HTMLDivElement>(null)
-	const { data, isActive, isScrolling, neutralBorder, defaultwidth, gap } = props
+	const { data, isActive, isScrolling, neutralBorder, defaultwidth, gap, canNavigate } = props
 	useEffect(() => {
 		window.scrollTo(0, 0)
 	}, [])
 
 	const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		if (!isActive) {
+		if (canNavigate && !isActive) {
 			e.stopPropagation()
 			e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
 		}
@@ -33,7 +34,7 @@ export const Slide = (props: IPageProps): JSX.Element => {
 		<Container
 			ref={ref}
 			style={{
-				cursor: isActive ? 'default' : 'pointer',
+				cursor: canNavigate && !isActive ? 'pointer' : 'default',
 				borderColor: isActive ? (isScrolling ? 'transparent' : neutralBorder ? NeutralColors.gray11 : '') : 'transparent',
 				transitionDuration: isScrolling ? '0s' : '300ms',
 			}}

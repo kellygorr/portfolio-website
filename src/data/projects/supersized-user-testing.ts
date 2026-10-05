@@ -20,7 +20,7 @@ export const supersizedUserTesting: IProject = {
 			x15: thumbnailx15,
 			x2: thumbnailx2,
 		},
-		tags: [TagType.Design],
+		tags: [TagType.Design, SkillType.UIUX],
 	},
 	content: [
 		{
@@ -49,7 +49,7 @@ export const supersizedUserTesting: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: 'I designed a CMS for the Supersized! slideshow plugin and conducted small-scale user testing to test the interface. The full document with methods and conclusions is available below.  In part 1, volunteers experience the interface through a paper prototype, and the results are used to create an updated digital prototype that is used for testing in part 2.<br/>View the PDF below to see the full methods and conclusions.',
+			body: 'I designed a CMS interface for the Supersized! slideshow plugin and ran a two-phase usability study to refine it. The first round used a paper prototype to identify navigation and comprehension issues, and the second round tested an updated digital prototype. The study helped clarify where users needed stronger labels and feedback in the interface.',
 		},
 		{
 			header: SectionName.Details,
