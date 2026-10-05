@@ -79,7 +79,16 @@ export const textAdventure: IProject = {
 				},
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.Node, SkillType.AI],
+					tags: [
+						SkillType.Design,
+						SkillType.UIUX,
+						SkillType.TypeScript,
+						SkillType.React,
+						SkillType.HTML,
+						SkillType.CSS,
+						SkillType.AI,
+						TagType.Motion,
+					],
 				},
 				{
 					header: HighlightName.Date,

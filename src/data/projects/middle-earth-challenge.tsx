@@ -69,7 +69,7 @@ export const middleEarthChallenge: IProject = {
 				},
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.UIUX],
+					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.UIUX, SkillType.CSS, TagType.Motion],
 				},
 				{
 					header: HighlightName.Date,
@@ -85,7 +85,7 @@ export const middleEarthChallenge: IProject = {
 				},
 				{
 					header: HighlightName.Assets,
-					link: 'github.com/k1tesurfen/mapome',
+					link: 'https://github.com/k1tesurfen/mapome',
 				},
 			],
 		},

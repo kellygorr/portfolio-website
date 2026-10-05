@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import { ArrowClockwise16Filled } from '@fluentui/react-icons'
 
 /**
- * Merged "Click below to interact" label + restart control, shown as
+ * Merged interaction status label + restart control, shown as
  * ONE pill (label and icon separated by a vertical divider) instead of
  * two separate boxes — reads as a single unit rather than a label
  * sitting next to an unrelated button. Rendered in DemoHeader's `end`
@@ -97,8 +97,8 @@ interface Props {
 	color: string
 	running: boolean
 	onToggle: () => void
-	/** Hides the divider + restart icon, leaving just the "Click below to
-	 *  interact" label — for demos that already have their own ongoing/
+	/*	* Hides the divider + restart icon, leaving just the interaction status
+	 *  label — for demos that already have their own ongoing/
 	 *  restartable interaction (e.g. DAB's Intro/Thinking toggle buttons
 	 *  drive its own animation directly) and don't need Demo's separate
 	 *  auto-play-once/restart mechanism layered on top. */
@@ -108,7 +108,7 @@ interface Props {
 
 export const InteractiveBadge = ({ bg, color, running, onToggle, hideRestart, allowRestartWhileRunning }: Props) => (
 	<Pill $bg={bg} $color={color}>
-		<Label>Click below to interact</Label>
+		<Label>{running ? 'Animation playing' : 'Click below to interact'}</Label>
 		{!hideRestart && (
 			<>
 				<Divider $color={color} />

@@ -1,5 +1,6 @@
 import type { JSX } from 'react'
 import { Link } from 'react-router-dom'
+import { normalizeHref } from '../../../utils/links'
 
 interface ILinkWrapperProps {
 	isExternal: boolean
@@ -10,7 +11,7 @@ interface ILinkWrapperProps {
 
 export const LinkWrapper = (props: ILinkWrapperProps): JSX.Element => {
 	return props.isExternal ? (
-		<a href={props.link} target="_blank" rel="noopener noreferrer">
+		<a href={normalizeHref(props.link)} target="_blank" rel="noopener noreferrer">
 			{props.children}
 		</a>
 	) : (

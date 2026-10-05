@@ -257,7 +257,7 @@ export const copilotLatencyMotion: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping],
+					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping, TagType.Motion],
 				},
 			],
 			body: `Motion engineering leader for latency and loading states across Microsoft 365 and Copilot. I collaborated with UXE, motion, design, Copilot engineering, and Fluent AI on latency systems. I built motion components, evaluated performance tradeoffs, and shared motion optimization guidance with Fluent design and engineering partners.`,

@@ -54,7 +54,7 @@ export const welcomeEmails: IProject = {
 				},
 				{
 					header: HighlightName.Assets,
-					link: 'istockphoto.com',
+					link: 'https://www.istockphoto.com',
 				},
 				{
 					header: HighlightName.Designer,
