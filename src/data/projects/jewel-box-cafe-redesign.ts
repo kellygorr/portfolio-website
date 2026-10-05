@@ -1,4 +1,4 @@
-import { IProject, FileType, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
+import { IProject, TagType, SkillType, ToolType, SectionName, HighlightName } from '../IProject'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/jewel-box-cafe-redesign-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/jewel-box-cafe-redesign-thumbnail.jpg', import.meta.url).href
@@ -23,17 +23,13 @@ export const jewelBoxCafe: IProject = {
 				slides: [
 					{
 						img: img1,
-						file: {
-							type: FileType.Link,
-							source: 'sites/type_website/',
-						},
 					},
 				],
 			},
 		},
 		{
 			header: SectionName.Overview,
-			body: 'Website re-imagined and smooth scroll navigation demo',
+			body: 'Website re-imagined with smooth scroll navigation',
 		},
 		{
 			header: SectionName.Details,

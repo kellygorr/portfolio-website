@@ -24,6 +24,7 @@ const dabExcelWeb = new URL('../../assets/images/copilot-latency/copilot-latency
 const dabExcelWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-05-2x.png', import.meta.url).href
 const copilotLogoScreenshot = new URL('../../assets/images/copilot-latency/copilot-latency-06.jpg', import.meta.url).href
 const copilotLogoScreenshot2x = new URL('../../assets/images/copilot-latency/copilot-latency-06-2x.jpg', import.meta.url).href
+const thinProgressBarContext = new URL('../../assets/images/copilot-latency/copilot-latency-thin-progress-bar-context.jpg', import.meta.url).href
 
 // Randomized once per page load: each of the 6 in-page demos below gets a
 // different, non-repeating motion palette, reshuffled every time this
@@ -249,7 +250,7 @@ export const copilotLatencyMotion: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `Latency and loading-state interaction work for Microsoft Copilot. This work deserves its own case study because latency is a large part of how AI products feel: when loading states pop in abruptly, flash too quickly, or do too much work on the main thread, the experience feels slower and less polished even when the underlying service time has not changed.`,
+			body: `Latency and loading-state interaction work for Microsoft Copilot. Latency is a large part of how AI products feel: when loading states pop in abruptly, flash too quickly, or have poor performance, the experience feels slower and less polished even when the underlying service time has not changed. This work focused on improving perceived performance through lightweight motion patterns that make the data latency feel responsive without adding unnecessary implementation cost.`,
 		},
 		{
 			header: SectionName.Role,
@@ -259,29 +260,9 @@ export const copilotLatencyMotion: IProject = {
 					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping],
 				},
 			],
-			body: `Motion engineering leader for latency and loading states across Microsoft 365 and Copilot. I built and evaluated lightweight indicators that improved perceived performance, reduced visual popping, respected reduced-motion needs, and avoided expensive implementation approaches in always-running or repeated UI states.`,
+			body: `Motion engineering leader for latency and loading states across Microsoft 365 and Copilot. I collaborated with UXE, motion, design, Copilot engineering, and Fluent AI on latency systems. I built motion components, evaluated performance tradeoffs, and shared motion optimization guidance with Fluent design and engineering partners.`,
 		},
-		{
-			header: SectionName.Details,
-			highlight: [
-				{
-					header: HighlightName.Platform,
-					tags: [TagType.Copilot, TagType.Website],
-				},
-				{
-					header: HighlightName.Dates,
-					body: formatYearRange(2025),
-				},
-				{
-					header: HighlightName.Engineer,
-					body: 'Kelly Gorr',
-				},
-				{
-					header: HighlightName.Motion_Designer,
-					body: 'Andrew Falk, Ryan Gagnier',
-				},
-			],
-		},
+
 		{
 			header: 'Dynamic action bar (DAB)',
 			highlight: [
@@ -301,6 +282,14 @@ export const copilotLatencyMotion: IProject = {
 						caption: 'The DAB (bottom right) in PowerPoint',
 					},
 					{
+						demo: (
+							<DemoSlide theme={dabTheme} interactive hasHeader>
+								<DABInteractive theme={dabTheme} />
+							</DemoSlide>
+						),
+						caption: 'Demo',
+					},
+					{
 						img: dabWordWeb,
 						img2x: dabWordWeb2x,
 						caption: 'The DAB (expanded bottom right) in Word',
@@ -314,21 +303,10 @@ export const copilotLatencyMotion: IProject = {
 			},
 		},
 		{
-			body: `The DAB implementation started as a performance problem, not just a visual one. The earlier approach relied on SVG masks, multiple animated SVG layers, and Web Animations orchestration, which created avoidable rendering work for a latency state that needed to feel lightweight. I rebuilt the animation around GPU-composited CSS using transform and opacity, reducing the number of animated layers and replacing timeout-style orchestration with animation lifecycle events where possible.`,
+			body: `The DAB implementation became a performance investigation into how motion should be built for product UI. I evaluated multiple implementation approaches, compared their rendering cost in browser tooling, and rebuilt the animation around lighter-weight CSS motion. The work helped clarify which animated properties were safe to use, which approaches caused unnecessary layout or paint work, and how to keep a polished latency state performant enough for repeated product use. I also shared the guidance so other teams could apply the same performance lens to their own motion work.`,
 		},
 		{
-			demo: (
-				<Demo theme={dabTheme} minHeight={280} variant="half" interactive hideRestartIcon>
-					<DABInteractive theme={dabTheme} />
-				</Demo>
-			),
-			demoWidth: 'half',
-		},
-		{
-			body: `The Dynamic Action Bar's animated border communicates state, idle, thinking, and an intro moment when it first appears. The trickiest part was the crossfade between the "thinking" state's partial gradient arc and a fuller gradient ring: two independently rotating gradient layers, each with their own transparent gaps, composited into a visible seam at certain rotation offsets. The fix was architectural: the full-ring layer needed to be a complete, gap-free 360 degree gradient with its appearance driven by whole-layer opacity keyframes, never per-degree transparency. I also migrated animation state to data attributes, added prop-based control for scale behavior, and added reduced-motion behavior so the thinking state could communicate activity without continuous spinning.`,
-		},
-		{
-			header: 'Latency & loading blocks',
+			header: 'Blocks latency',
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
@@ -344,10 +322,16 @@ export const copilotLatencyMotion: IProject = {
 			),
 		},
 		{
-			body: `Three lightweight loading and latency indicators built for low-attention contexts: Blocks, Mini Loader, and Single Square. I created these as implementation-ready prototypes so product engineers could copy the approach into product code. The value was not just the visuals, but making the motion decisions concrete enough for engineers to implement without having to reverse-engineer the interaction intent.`,
+			body: `I built lightweight, reusable motion components for Copilot loading and latency indicators. The goal was to give engineers components they could move directly into Fluent AI. Blocks latency added a consistent latency identity that was neutral enough to work across many products and surfaces.`,
 		},
 		{
 			header: 'Circle latency',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Leitin Pedro',
+				},
+			],
 		},
 		{
 			demo: (
@@ -372,18 +356,35 @@ export const copilotLatencyMotion: IProject = {
 			],
 		},
 		{
-			demo: (
-				<Demo theme={progressBarTheme} minHeight={80} variant="half">
-					<ProgressBarDemo theme={progressBarTheme} />
-				</Demo>
-			),
-			demoWidth: 'half',
+			slideshow: {
+				width: 1920,
+				slides: [
+					{
+						img: thinProgressBarContext,
+						caption: 'Thin progress bar in context',
+					},
+					{
+						demo: (
+							<DemoSlide theme={progressBarTheme} hasHeader>
+								<ProgressBarDemo theme={progressBarTheme} />
+							</DemoSlide>
+						),
+						caption: 'Demo',
+					},
+				],
+			},
 		},
 		{
-			body: `A thin, ambient progress indicator that replaced stale skeleton UI in conversation loading states. This was part of a broader effort to reduce loading surfaces that flashed briefly, popped in at the wrong moment, or made Copilot feel less polished. I built the replacement on top of Fluent's ProgressBar for consistency and accessibility, then adjusted the visual treatment so the bar felt softer and less bounded: longer travel, feathered edges, and responsive overshoot on larger screens. The animation speed scales to the width of its container so perceived motion speed reads consistently across layouts.`,
+			body: `I worked on several progress bars throughout Copilot's lifetime. The first was a thin, ambient progress indicator that replaced stale skeleton UI in conversation loading states. This was part of a broader effort to reduce loading surfaces that flashed briefly, popped in at the wrong moment, or made Copilot feel less polished. I built the replacement on top of Fluent's ProgressBar for consistency and accessibility, then adjusted the visual treatment so the bar had softer edges.<br /><br />A second bouncy loader was added to a Copilot splash screen. The animation speed scales to the width of its container so perceived motion speed reads consistently across layouts.`,
 		},
 		{
-			header: 'Copilot logo consultation and solutions',
+			header: 'Copilot logo solutions',
+			highlight: [
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'David Park',
+				},
+			],
 		},
 		{
 			slideshow: {
@@ -392,7 +393,7 @@ export const copilotLatencyMotion: IProject = {
 					{
 						img: copilotLogoScreenshot,
 						img2x: copilotLogoScreenshot2x,
-						caption: 'Product screenshot — the animated Copilot logo at real display size',
+						caption: 'Latency logo in product',
 					},
 					{
 						demo: (
@@ -400,13 +401,34 @@ export const copilotLatencyMotion: IProject = {
 								<CopilotLogoDemo theme={logoTheme} />
 							</DemoSlide>
 						),
-						caption: 'CSS prototype — a simpler implementation route at the logo\'s real display scale',
+						caption: 'Simplified CSS solution',
 					},
 				],
 			},
 		},
 		{
-			body: `The MAI motion design team brought me in to evaluate whether their new Copilot logo and thinking-state animation could actually ship, and if so, how. I built and compared both CSS-based and JavaScript-based implementations; the center-cutout effect and separate animated corners were the parts causing the most friction for performance. My CSS version explored a simpler alternative optimized for the logo's actual display size: at small scale, the path detail and corner-radius differences were much less perceptible, so a CSS-based approach could deliver a similar user-facing effect with a simpler implementation. This became a useful tradeoff study in fidelity and feature preservation versus implementation simplicity, runtime cost, and perceptual equivalence at real product size.`,
+			body: `The MAI motion design team brought me in to evaluate whether the new Copilot logo thinking-state animation could ship, and what implementation approach would make sense. I built and compared CSS and JavaScript versions, focusing on the center cutout, animated corners, runtime cost, and fidelity at the logo's real display size. I also consulted with the engineer that built the motion into the product. The CSS version explored a simpler solution: at small scale, some path detail and corner-radius differences were much less perceptible, so a lighter implementation could deliver a similar user-facing effect with lower complexity. This became a useful tradeoff study in fidelity, performance, and implementation simplicity.`,
+		},
+		{
+			header: SectionName.Details,
+			highlight: [
+				{
+					header: HighlightName.Platform,
+					tags: [TagType.Copilot, TagType.Website],
+				},
+				{
+					header: HighlightName.Dates,
+					body: formatYearRange(2025),
+				},
+				{
+					header: HighlightName.Engineer,
+					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Andrew Falk, Ryan Gagnier, Leitin Pedro, David Park',
+				},
+			],
 		},
 	],
 }

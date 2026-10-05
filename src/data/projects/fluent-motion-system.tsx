@@ -8,7 +8,7 @@ import { Easings, type EasingsHandle } from '../../../stories/MotionTokens/Easin
 import { EasingThumbnail } from '../../../stories/MotionTokens/EasingThumbnail'
 import { randomMotionPaletteNames, motionPalette } from '../../styles/motionPalettes'
 import type { MotionPaletteName } from '../../styles/motionPalettes'
-import { formatYearRange } from '../../utils/dateFormat'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 // Randomized once per page load, same convention as copilot-motion-systems
 // and copilot-latency-motion — each of the 2 in-page token demos below
@@ -152,7 +152,7 @@ export const fluentMotionSystem: IProject = {
 					tags: [SkillType.UIUX, SkillType.AI, TagType.Motion],
 				},
 			],
-			body: `This is an ongoing, collaborative effort to building a comprehensive motion knowledge for the Fluent design system. My focus has been reviewing the skill documentation and testing the plugin against many scenarios (like writing real component motion), then feeding fixes back into the guidance. The goal is for agents to reason through motion the way a designer would: identify what kind of spatial relationship is changing, choose how much attention the moment deserves, and sequence multiple elements into one coordinated rhythm instead of each animating independently.<br /><br />One of my main contributions has been the performance and accessibility sections, along with unifying choreography across similar components. Menus, dropdowns, comboboxes, and popovers now share one consistent motion pattern instead of each getting bespoke treatment.`,
+			body: `This is an ongoing, collaborative effort to build a comprehensive motion knowledge for the Fluent design system. My focus has been reviewing the skill documentation and testing the plugin against many scenarios (like writing real component motion), then feeding fixes back into the guidance. The goal is for agents to reason through motion the way a designer would: identify what kind of spatial relationship is changing, choose how much attention the moment deserves, and sequence multiple elements into one coordinated rhythm instead of animating each element independently.<br /><br />One of my main contributions has been the performance and accessibility guidance, along with unifying choreography across similar components. Menus, dropdowns, comboboxes, and popovers now share one consistent motion pattern instead of each getting bespoke treatment.`,
 		},
 		{
 			header: SectionName.Details,
@@ -163,7 +163,7 @@ export const fluentMotionSystem: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: formatYearRange(2026),
+					body: formatMonthYear('Aug', 2026, 'Present'),
 				},
 				{
 					header: 'Contributors',

@@ -5,7 +5,7 @@ import { SeeMorePillButtonMotion } from '../../../stories/SeeMorePillMotion/SeeM
 import { SeeMorePillStagger } from '../../../stories/SeeMorePillMotion/SeeMorePillStagger'
 import { randomMotionPaletteNames, motionPalette } from '../../styles/motionPalettes'
 import type { MotionPaletteName } from '../../styles/motionPalettes'
-import { formatYear } from '../../utils/dateFormat'
+import { formatMonthYear } from '../../utils/dateFormat'
 
 // Randomized once per page load, same convention as other project pages with in-page motion demos.
 const [pillMotionTheme, thumbnailTheme] = randomMotionPaletteNames(2)
@@ -57,7 +57,7 @@ export const copilotNotebooks: IProject = {
 				slides: [
 					{
 						img: videoPoster,
-						caption: 'Product video: Notebooks collapse and expand motion',
+						caption: 'New chat list (center) with content panel motion (left)',
 						file: {
 							type: FileType.Video,
 							source: videoChatList,
@@ -68,24 +68,20 @@ export const copilotNotebooks: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `Product UI and interaction work for Notebooks in Microsoft 365 Copilot. This page is a placeholder for two related pieces of work: the Notebooks chat list update and the collapse/expand motion prototype for the Notebooks creation surface.`,
+			body: `Product UI and interaction work for Notebooks in Microsoft 365 Copilot. I was brought in for a focused two-week craft push to improve product quality across the Notebooks experience, build new components, update UI, and refine the content panel with motion.`,
 		},
 		{
-			header: SectionName.Role,
+			header: 'Chat list',
+			body: `I added the new Notebooks chat list design to product, replacing the previous chat history list. The work included staggered list motion with pagination-aware behavior, preview text, and preview-text fallback logic for in-progress chat response states that do not contain usable display text.`,
+		},
+		{
+			header: 'Notebook content panel motion',
 			highlight: [
 				{
-					header: HighlightName.Skills,
-					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, SkillType.Prototyping],
+					header: HighlightName.Motion_Designer,
+					body: 'Andrew Falk, Kelly Gorr',
 				},
 			],
-			body: `The chat list work was mostly a focused UI update, but it also required product integration details such as preview-text fallback behavior, localized date formatting, pagination considerations, and Storybook coverage. The collapse/expand motion work belongs in the Storybook portion of this portfolio because it is easier to evaluate as an interactive motion/component demo than as static screenshots.`,
-		},
-		{
-			header: 'Chat list UI',
-			body: `Placeholder for the updated Notebooks chat list design. Add before/after screenshots from PR 5721756 and keep the description focused: simple UI update, Storybook coverage, preview-text fallback logic, date formatting, and pagination-aware list motion.`,
-		},
-		{
-			header: 'Collapse and expand motion',
 		},
 		{
 			demo: (
@@ -95,7 +91,7 @@ export const copilotNotebooks: IProject = {
 			),
 		},
 		{
-			body: `This motion recreates the Maker Space "See more" pill button expand/collapse behavior: additional creation options fade in with a stagger, fade out together, and the lower content (recent files list) uses a FLIP translateY transition so it slides into place instead of jumping when the grid expands or collapses. Click "See more" below to try it.`,
+			body: `I built the motion for the Notebooks content panel, where the "See more" interaction expands the tile grid and moves the content list below it. The work included the button animation and the content panel transition. As I worked through the interaction, I added the safeguards needed to keep the motion stable in real product conditions: reserved space for suggested content that lazy-loads into the panel, and layout-aware motion so the content list could animate to the correct position even as new content appeared. When the target position changed during the animation, the motion retargeted and adjusted its easing so the transition stayed smooth instead of snapping.`,
 		},
 		{
 			header: SectionName.Details,
@@ -105,12 +101,20 @@ export const copilotNotebooks: IProject = {
 					tags: [TagType.Copilot, TagType.Website],
 				},
 				{
-					header: HighlightName.Dates,
-					body: formatYear(2026),
+					header: HighlightName.Date,
+					body: formatMonthYear('Sep', 2026),
+				},
+				{
+					header: HighlightName.Skills,
+					tags: [SkillType.TypeScript, SkillType.React, SkillType.CSS, TagType.Motion],
 				},
 				{
 					header: HighlightName.Engineer,
 					body: 'Kelly Gorr',
+				},
+				{
+					header: HighlightName.Motion_Designer,
+					body: 'Andrew Falk, Kelly Gorr',
 				},
 			],
 		},

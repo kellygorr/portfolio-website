@@ -150,7 +150,7 @@ export const xboxQuizzes: IProject = {
 				},
 				{
 					header: HighlightName.Localization,
-					tags: ['United States', 'Canada (EN-CA)'],
+					body: 'United States, Canada (EN-CA)',
 				},
 				{
 					header: HighlightName.Dates,

@@ -56,7 +56,7 @@ export const starWars: IProject = {
 		},
 		{
 			header: SectionName.Role,
-			body: 'I built a promotion for Star Wars that included a home page, slideshow, and promotional offer billboard. I also added all the assets and localized text.',
+			body: 'I built a high-visibility Star Wars promotion that launched across multiple Xbox One surfaces and markets. The work combined a home experience, slideshow, and promotional offer billboard, with localized assets and text prepared for each supported region.',
 		},
 		{
 			header: SectionName.Details,
@@ -75,7 +75,7 @@ export const starWars: IProject = {
 				},
 				{
 					header: HighlightName.Localization,
-					tags: ['United States', 'Canada (EN-CA & FR-CA)', 'United Kingdom', 'Mexico', 'Brazil', 'France', 'Spain', 'Germany'],
+					body: 'United States, Canada (EN-CA & FR-CA), United Kingdom, Mexico, Brazil, France, Spain, Germany',
 				},
 				{
 					header: HighlightName.Dates,

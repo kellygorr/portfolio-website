@@ -1,4 +1,5 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType } from '../IProject'
+import { formatYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
@@ -38,10 +39,6 @@ export const middleEarthChallenge: IProject = {
 			title: 'Middle Earth Challenge',
 		},
 		{
-			header: SectionName.Overview,
-			body: `A personal React Native app that turns real-world walking or running distance into progress along Frodo's 1,235-mile journey from Hobbiton to Mount Doom. An interactive, gesture-driven map tracks the user's position on the route, unlocking illustrated checkpoints and trivia as real mileage accumulates. Built solo, end to end: map rendering, health-data integration, and offline-first storage.`,
-		},
-		{
 			slideshow: {
 				width: 1250,
 				gap: 20,
@@ -60,12 +57,8 @@ export const middleEarthChallenge: IProject = {
 			},
 		},
 		{
-			header: 'Gesture-driven map',
-			body: `The map is rendered with React Native Skia and driven by a custom gesture hook layering pinch-to-zoom and pan (react-native-gesture-handler + react-native-reanimated, scale clamped 0.5x–3x). Two independent visual themes — a minimal black-and-white ink style and a fuller color "Classic" style — plus an optional color toggle, let the same route data render in very different moods without touching the underlying map logic.`,
-		},
-		{
-			header: 'Offline-first & health integration',
-			body: `Progress is tracked locally first: OP-SQLite for persistence and Zustand for state, so the app works fully without a network connection. On Android, react-native-health-connect syncs real step/distance data; a separate reconciliation service merges health-data updates with manually-logged distance so both sources stay consistent without double-counting.`,
+			header: SectionName.Overview,
+			body: `A personal React Native app that turns real-world walking or running distance into progress along Frodo's 1,235-mile journey from Hobbiton to Mount Doom. It tracks the user's position on the route, unlocks illustrated checkpoints and trivia as real mileage accumulates, and lets friends see each other's progress along the journey for extra motivation.<br /><br />The user's miles can be tracked across multiple sources: manual entries, phone health data (including smart watch), and live pedometer data. This allows users to track miles in the way that works best for them.`,
 		},
 		{
 			header: SectionName.Details,
@@ -76,7 +69,11 @@ export const middleEarthChallenge: IProject = {
 				},
 				{
 					header: HighlightName.Skills,
-					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.UIUX, SkillType.Prototyping],
+					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.UIUX],
+				},
+				{
+					header: HighlightName.Date,
+					body: formatYear(2026),
 				},
 				{
 					header: HighlightName.Designer,

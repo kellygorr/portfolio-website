@@ -1,5 +1,5 @@
 import { IProject, TagType, SkillType, SectionName, HighlightName } from '../IProject'
-import { formatMonthYear } from '../../utils/dateFormat'
+import { formatMonthYearRange } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/microsoft-design-website-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/microsoft-design-website-thumbnail.jpg', import.meta.url).href
@@ -75,7 +75,7 @@ export const microsoftDesignWebsite: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `A brand new website for Microsoft Design`,
+			body: `I led engineering for the public Microsoft Design website and its CMS, helping launch microsoft.design in July 2023. The site became a public hub for Microsoft Design stories, with a publishing workflow that let the storytelling team create and update articles through the CMS.`,
 		},
 		{
 			header: SectionName.Role,
@@ -94,7 +94,7 @@ export const microsoftDesignWebsite: IProject = {
 					],
 				},
 			],
-			body: `I built the website along with a CMS (Strapi) to allow the storytelling team to add new articles and make updates.  I also created a documentation site (storybook), preview site (for testing new articles), and I was the accessibility, privacy, and security driver for project.`,
+			body: `I built and maintained the public Microsoft Design website and CMS, creating a secure and reviewable publishing workflow for the storytelling team. My work covered the production site, editorial staging preview site, component documentation, telemetry, CMS training, custom article support, and the accessibility, privacy, and security requirements needed to launch and maintain the site.`,
 		},
 		{
 			header: SectionName.Details,
@@ -105,7 +105,7 @@ export const microsoftDesignWebsite: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: formatMonthYear('Jul', 2023, 'Present'),
+					body: formatMonthYearRange('Jul', 2023, 'Oct', 2024),
 				},
 				{
 					header: HighlightName.Designer,

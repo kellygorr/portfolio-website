@@ -1,4 +1,5 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType } from '../IProject'
+import { formatYear } from '../../utils/dateFormat'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/text-adventure-new-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/text-adventure-new-thumbnail.jpg', import.meta.url).href
@@ -50,14 +51,9 @@ export const textAdventure: IProject = {
 				width: 1250,
 				slides: [
 					{ img: imgLanding, caption: 'Theme select — dungeon, forest, or castle' },
-					{ img: imgPrologue, caption: 'Prologue' },
 					{ img: imgRoom1Autofill, caption: 'Room 1 — investigating the chair' },
-					{ img: imgRoom1KeyFound, caption: 'A key is spotted underneath the chair' },
-					{ img: imgRoom1Inventory, caption: 'Key picked up and tracked in inventory' },
 					{ img: imgRoom2, caption: 'Room 2 — a larger chamber with three exits' },
-					{ img: imgRoom2Sword, caption: 'A sword is spotted on the table' },
 					{ img: imgRoom3DeadEnd, caption: 'A dead-end detour — collapsed rubble blocks the way' },
-					{ img: imgRoom2Inventory, caption: 'Back in Room 2 — sword picked up' },
 					{ img: imgRoom4, caption: 'Room 4 — the guard room, final obstacle ahead' },
 					{ img: imgEscaped, caption: 'Escaped!' },
 				],
@@ -73,11 +69,11 @@ export const textAdventure: IProject = {
 		},
 		{
 			header: 'Turning AI output into reliable game state',
-			body: `The hardest problem wasn't generating content, it was trusting it. The model would routinely hallucinate: inventing items in an empty inventory, adding obstacles to doors it had just said were unlocked, or re-blocking a room the player had already passed through. Rather than trust the model's narration, the app kept track of the game state (player inventory, room state, and progression), so that the model couldn't make things up randomly.`,
+			body: `The hardest problem wasn't generating content, it was trusting it. I designed guardrails so unreliable model output could still support a playable app. Rather than treating the model's narration as the source of truth, the app kept track of the game state (player inventory, room state, and progression). That meant the model could enrich the experience without being allowed to rewrite history, or add brand new obstacles (for example, saying an avalanche blocked a door that the user had already opened). Models are better at maintaining conversational history and context now, but at the time this needed to be guardrailed by the app.`,
 		},
 		{
-			header: 'Prompt engineering for structured actions',
-			body: `When returning the text description, the model also labels the action type (like picked up vs. looked at), so the app can update the game state correctly instead of guessing from the model's response alone. If a pick-up is labeled successful but the model does not respond with the required item data (so the game knows what was picked up), a fallback re-prompts as if the player had dropped the item, so the game degrades gracefully instead of losing an item permanently. The player can try and pick up the item again.`,
+			header: 'Off the rails (fallback recovery)',
+			body: `I tried to rely on the model to label the appropriate action type the user was performing, but when the model failed to understand an interaction, the app could not always use the normal guardrails without confusing the model further. Instead, it used a fallback prompt that reframed the moment. For example, if a character was trying to pick up an item and the model returned data that showed it did not understand what was happening, the game would tell the player they had dropped the item so they could try picking it up again. This gave the model another chance to infer the interaction instead of leaving the player stuck.`,
 		},
 		{
 			header: SectionName.Details,
@@ -89,6 +85,10 @@ export const textAdventure: IProject = {
 				{
 					header: HighlightName.Skills,
 					tags: [SkillType.Design, SkillType.TypeScript, SkillType.React, SkillType.Node, SkillType.AI],
+				},
+				{
+					header: HighlightName.Date,
+					body: formatYear(2025),
 				},
 				{
 					header: HighlightName.Designer,

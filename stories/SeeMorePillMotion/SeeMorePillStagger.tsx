@@ -178,7 +178,7 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 			<section className={compact ? styles.compactStaggerRail : styles.staggerRail} aria-label="Maker space rail (stagger only)">
 				<div ref={makerSpaceRef}>
 					<div className={styles.grid}>
-						<PillButton entry={{ key: 'new', label: 'New', icon: <Add20Regular /> }} />
+						<PillButton entry={{ key: 'new', label: 'New', icon: <Add20Regular /> }} tabIndex={autoPlay ? -1 : undefined} />
 						<button
 							type="button"
 							className={mergeClasses(styles.pill, styles.borderlessPill)}
@@ -193,7 +193,7 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 							<span className={styles.label}>{expanded ? 'See less' : 'See more'}</span>
 						</button>
 						{visiblePrimaryEntries.map((entry) => (
-							<PillButton key={entry.key} entry={entry} />
+							<PillButton key={entry.key} entry={entry} tabIndex={autoPlay ? -1 : undefined} />
 						))}
 						{visible &&
 							visibleAdditionalEntries.map((entry, index) => (
@@ -203,7 +203,7 @@ export const SeeMorePillStagger = ({ palette, autoPlay, compact }: SeeMorePillSt
 									className={expanded ? styles.additionalTile : styles.additionalTileExit}
 									style={expanded ? { ...pausedStyle, animationDelay: `${index * STAGGER_DELAY_MS}ms` } : pausedStyle}
 								>
-									<PillButton entry={entry} />
+									<PillButton entry={entry} tabIndex={autoPlay ? -1 : undefined} />
 								</div>
 							))}
 					</div>

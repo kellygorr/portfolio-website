@@ -84,6 +84,7 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 						defaultwidth={props.defaultwidth}
 						gap={props.gap}
 						data={slide}
+						canNavigate={props.data.length > 1}
 					/>
 				))}
 			</Slides>

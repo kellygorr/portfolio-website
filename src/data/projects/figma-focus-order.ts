@@ -133,7 +133,7 @@ export const focusOrder: IProject = {
 		},
 		{
 			header: SectionName.Accessibility,
-			body: `Microsoft's Focus Order is a plugin for Figma that allows designers to build accessibility for assitive technology into their designs.  It is publicly available to the figma community.`,
+			body: `Microsoft's Focus Order plugin helps designers plan accessibility for assistive technology directly inside Figma. It makes focus order and annotation work visible in design files, so accessibility decisions can be discussed earlier instead of waiting until implementation review.`,
 		},
 		{
 			header: SectionName.Role,
@@ -143,11 +143,11 @@ export const focusOrder: IProject = {
 					tags: [SkillType.TypeScript, SkillType.React, SkillType.HTML, SkillType.CSS, SkillType.UIUX],
 				},
 			],
-			body: `I partnered with the a11y team to redesign the Focus Order plugin and expand its capabilities.  I rebuilt the plugin in React and added new features including: 
-			1) Edit screen to add roles, properties, and comments on each annotation 2) First Run Experience tutorial for new plugin users 3) Auto load user annotations when plugin launches 4) A readout of the annotation details so users can see them without having to download the plugin`,
+			body: `I partnered with the accessibility team to redesign and rebuild the Focus Order plugin in React, expanding it from a narrow annotation tool into a more teachable accessibility workflow. The updated plugin added guided onboarding, richer annotation data, automatic annotation loading, and readout visibility outside the plugin as a table in Figma so designers could review accessibility details without having to have downloaded the plugin.`,
 		},
 		{
-			body: `For many years I continued to work with a designer to add more features to the plugin, even though it was no longer a core project.`,
+			header: 'Sustained support',
+			body: `For many years I continued to work with a designer to add more features to the plugin, even though it was no longer a core project I was assigned to.`,
 		},
 		{
 			header: SectionName.Details,

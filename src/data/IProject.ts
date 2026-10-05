@@ -97,6 +97,7 @@ export enum HighlightName {
 	Designer = 'Designer(s)',
 	Design_Lead = 'Design Lead',
 	Content_Designer = 'Content Designer(s)',
+	Date = 'Date',
 	Dates = 'Dates',
 	Engineer = 'Engineer(s)',
 	Featured_On = 'Featured On',
@@ -127,6 +128,7 @@ export enum HighlightName {
 export const HIGHLIGHT_ORDER: (HighlightName | string)[] = [
 	HighlightName.Platform,
 	HighlightName.Platform_Accessories,
+	HighlightName.Date,
 	HighlightName.Dates,
 	HighlightName.Skills,
 	HighlightName.Tools,

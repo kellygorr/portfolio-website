@@ -6,7 +6,7 @@ import { formatMonthYearRange } from '../../utils/dateFormat'
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
 const thumbnailx2 = new URL('../../assets/thumbnails/x2/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
-const [clampBreakpointTheme, editorialClampTheme] = randomMotionPaletteNames(2)
+const [editorialClampTheme] = randomMotionPaletteNames(1)
 // Pinned (NOT randomized) — the Font Face Demo's Segoe/Aptos colors are
 // driven by this palette's backgroundDark/colors[2], and the "Lime"
 // palette family (Warm/Golden/Dusty + Lime) uses blue/green accent
@@ -70,7 +70,7 @@ export const copilotDesignSystemTypography: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `Typography foundation work for a major Copilot design-system update. This collaborative effort explored how a fluid type system could scale across viewports, devices, fonts, languages, and future product needs while still fitting into reusable design-token and theme infrastructure.`,
+			body: `Typography foundation work for a major Copilot design-system update. This collaborative effort explored how fluid type, spacing, font behavior, and token structures could scale across viewports, devices, and future product needs. My role was to turn exploratory typography directions into feasible, scalable web implementation decisions the team could evaluate in real browser conditions.<br /><br />The demo above uses Aptos and Aptos Serif together in an editorial layout to show design leadership early on how clamped type could behave in a real product-like composition.`,
 		},
 		{
 			header: SectionName.Role,
@@ -84,36 +84,10 @@ export const copilotDesignSystemTypography: IProject = {
 		},
 		{
 			header: 'Fluid type ramps',
-			body: `I investigated responsive type ramps using min, max, and CSS clamp techniques instead of fixed-only scales. The prototypes let the team compare multiple type-ramp approaches, validate breakpoint behavior, and test whether fluid typography could remain stable, readable, and predictable across product surfaces.`,
+			body: `Fluid type is a modern approach to type scaling that lets typography respond smoothly across screen sizes instead of jumping between fixed breakpoint values. I investigated how responsive type ramps could help Copilot typography adapt across surfaces while staying readable and predictable. The prototypes gave design and engineering a way to evaluate type behavior and make design system decisions.`,
 		},
 		{
-			demo: (
-				<Demo
-					theme={clampBreakpointTheme}
-					minHeight={1080}
-					interactive
-					hideRestartIcon
-					simpleBadge
-					iframeSrc={storybookIframe(
-						'typography-clamp-breakpoint--default',
-						motionPalette(clampBreakpointTheme).backgroundDark,
-						{
-							pageBackground: motionPalette(clampBreakpointTheme).background,
-							accentColor: darkestColor(motionPalette(clampBreakpointTheme)),
-						}
-					)}
-					iframeTitle="Typography clamp breakpoint demo"
-				>
-					<span />
-				</Demo>
-			),
-		},
-		{
-			header: 'Font and language resilience',
-			body: `The work also tested how typography behaved when fonts changed, especially when a fallback font renders before the preferred font has loaded. Different fonts can occupy vertical space differently, causing text to sit higher or lower in the same layout, and reflow differently.`,
-		},
-		{
-			body: `The demo below compares Segoe and Aptos in the same layout. The controls adjust @font-face descriptors such as size-adjust, ascent, and descent so the temporary fallback text can better match the spacing and baseline of the final font, reducing visible layout shifts when the intended font swaps in.`,
+			header: 'Font fallback and layout stability',
 		},
 		{
 			demo: (
@@ -135,12 +109,14 @@ export const copilotDesignSystemTypography: IProject = {
 			),
 		},
 		{
-			header: 'Spacing tied to typography',
-			body: `I also prototyped em-based spacing for Copilot content surfaces so spacing could respond proportionally to text hierarchy instead of relying only on fixed padding values. This gave the team a concrete way to evaluate whether typography, spacing, and layout rules could work together as a system.`,
+			body: `The work tested how typography behaves when fonts change, especially during loading when a fallback font renders before the preferred font has loaded.`,
 		},
 		{
-			header: 'Tokenization and design-system handoff',
-			body: `The exploration helped translate typography concepts into reusable design-language foundations. Rather than shipping as a standalone typography product, the work fed into broader Copilot design-language efforts, where typography specs, type ramps, font variables, and token structures could be carried forward through theming, Fluent integration, and product migration work.`,
+			body: `The demo above compares Segoe and Aptos in the same layout. The controls adjust @font-face descriptors so the temporary fallback text can better match the spacing and baseline of the final font. This can reduce the visible layout shift when the intended font swaps in.`,
+		},
+		{
+			header: 'Spacing tied to typography',
+			body: `Fixed spacing can break the relationship between text and surrounding content when type sizes change across breakpoints or hierarchy levels. I prototyped em-based spacing for Copilot content surfaces so spacing could scale with the text itself, keeping layout relationships proportional as the type system changed.`,
 		},
 		{
 			header: SectionName.Details,
@@ -151,7 +127,7 @@ export const copilotDesignSystemTypography: IProject = {
 				},
 				{
 					header: HighlightName.Dates,
-					body: formatMonthYearRange('May', 2025, 'Apr', 2026),
+					body: formatMonthYearRange('May', 2025, 'Dec', 2025),
 				},
 				{
 					header: HighlightName.Engineer,
