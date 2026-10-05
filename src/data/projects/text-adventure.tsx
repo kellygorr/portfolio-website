@@ -12,14 +12,9 @@ const thumbnailx2 = new URL('../../assets/thumbnails/x2/text-adventure-new-thumb
 // showed isolated AI-generated background/character art with no actual
 // app UI.
 const imgLanding = new URL('../../assets/images/text-adventure-new/text-adventure-landing.png', import.meta.url).href
-const imgPrologue = new URL('../../assets/images/text-adventure-new/text-adventure-prologue.png', import.meta.url).href
 const imgRoom1Autofill = new URL('../../assets/images/text-adventure-new/text-adventure-room1-autofill.png', import.meta.url).href
-const imgRoom1KeyFound = new URL('../../assets/images/text-adventure-new/text-adventure-room1-key-found.png', import.meta.url).href
-const imgRoom1Inventory = new URL('../../assets/images/text-adventure-new/text-adventure-room1-inventory.png', import.meta.url).href
 const imgRoom2 = new URL('../../assets/images/text-adventure-new/text-adventure-room2.png', import.meta.url).href
-const imgRoom2Sword = new URL('../../assets/images/text-adventure-new/text-adventure-room2-sword.png', import.meta.url).href
 const imgRoom3DeadEnd = new URL('../../assets/images/text-adventure-new/text-adventure-room3-deadend.png', import.meta.url).href
-const imgRoom2Inventory = new URL('../../assets/images/text-adventure-new/text-adventure-room2-inventory.png', import.meta.url).href
 const imgRoom4 = new URL('../../assets/images/text-adventure-new/text-adventure-room4.png', import.meta.url).href
 const imgEscaped = new URL('../../assets/images/text-adventure-new/text-adventure-escaped.png', import.meta.url).href
 
