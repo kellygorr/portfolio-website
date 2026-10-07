@@ -32,7 +32,7 @@ export const xboxBillboards: IProject = {
 				slides: [
 					{
 						img: img7,
-						caption: 'Iggy Azalea Billboard',
+						caption: 'Iggy Azalea billboard',
 						file: {
 							type: FileType.Video,
 							source: video1,
@@ -77,7 +77,7 @@ export const xboxBillboards: IProject = {
 			header: SectionName.Details,
 			highlight: [
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{

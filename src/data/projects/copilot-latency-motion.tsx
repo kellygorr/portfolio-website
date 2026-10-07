@@ -17,9 +17,9 @@ import { randomMotionPaletteNames, darkestColor, motionPalette } from '../../sty
 import { formatYearRange } from '../../utils/dateFormat'
 
 const dabPowerPointWeb = new URL('../../assets/images/copilot-latency/copilot-latency-03.png', import.meta.url).href
-const dabPowerPointWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-03-2x.png', import.meta.url).href
+const dabPowerPointWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-03-2x.webp', import.meta.url).href
 const dabWordWeb = new URL('../../assets/images/copilot-latency/copilot-latency-04.png', import.meta.url).href
-const dabWordWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-04-2x.png', import.meta.url).href
+const dabWordWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-04-2x.webp', import.meta.url).href
 const dabExcelWeb = new URL('../../assets/images/copilot-latency/copilot-latency-05.png', import.meta.url).href
 const dabExcelWeb2x = new URL('../../assets/images/copilot-latency/copilot-latency-05-2x.png', import.meta.url).href
 const copilotLogoScreenshot = new URL('../../assets/images/copilot-latency/copilot-latency-06.jpg', import.meta.url).href

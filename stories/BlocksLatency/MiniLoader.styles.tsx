@@ -45,8 +45,12 @@ import { curves } from '../../src/styles/motionTokens'
   through a brief, visible blended flash.
 */
 
-const CELL = 80
-const GAP = 25 // space between blocks = translation during roll
+const CELL = 'var(--mini-loader-cell-size, 80px)'
+const GAP = 'var(--mini-loader-gap-size, 25px)' // space between blocks = translation during roll
+const NEGATIVE_GAP = 'calc(var(--mini-loader-gap-size, 25px) * -1)'
+const SLOT_1 = 'calc(var(--mini-loader-cell-size, 80px) + var(--mini-loader-gap-size, 25px))'
+const SLOT_2 = 'calc((var(--mini-loader-cell-size, 80px) + var(--mini-loader-gap-size, 25px)) * 2)'
+const SLOT_3 = 'calc((var(--mini-loader-cell-size, 80px) + var(--mini-loader-gap-size, 25px)) * 3)'
 const DURATION = 'var(--mini-loader-duration, 5117ms)'
 const EASE = curves.accelerateMin
 const STEP = 'steps(1, jump-end)'
@@ -56,13 +60,14 @@ const TRACK1 = 'var(--track-color-1, currentColor)'
 const TRACK2 = 'var(--track-color-2, currentColor)'
 const TRACK3 = 'var(--track-color-3, currentColor)'
 
-export const MINI_LOADER_CELL = CELL
+export const MINI_LOADER_CELL = 80
+export const MINI_LOADER_GAP = 25
 
 export const useMiniLoaderStyles = makeStyles({
   container: {
     position: 'relative',
-    width: `${CELL * 4 + GAP * 3}px`,
-    height: `${CELL}px`,
+    width: 'calc(var(--mini-loader-cell-size, 80px) * 4 + var(--mini-loader-gap-size, 25px) * 3)',
+    height: CELL,
   },
 
   /* The single rolling block. Always the roller color — it's the one
@@ -70,8 +75,8 @@ export const useMiniLoaderStyles = makeStyles({
   block: {
     position: 'absolute',
     top: '0',
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    width: CELL,
+    height: CELL,
     backgroundColor: ROLLER,
     zIndex: 2,
     willChange: 'left, transform',
@@ -97,47 +102,47 @@ export const useMiniLoaderStyles = makeStyles({
       },
       // roll1: 10% -> 19.9% (kickoff at 10%, rest at 19.9%)
       '10%': {
-        left: `${CELL + GAP}px`,
-        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        left: SLOT_1,
+        transform: `translateX(${NEGATIVE_GAP}) rotate(-90deg)`,
         transformOrigin: 'left bottom',
         animationTimingFunction: EASE,
       },
       '19.9%': {
-        left: `${CELL + GAP}px`,
+        left: SLOT_1,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'left bottom',
         animationTimingFunction: STEP,
       },
       // roll2: 20% -> 29.9% (back-to-back, no hold between rolls)
       '20%': {
-        left: `${(CELL + GAP) * 2}px`,
-        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        left: SLOT_2,
+        transform: `translateX(${NEGATIVE_GAP}) rotate(-90deg)`,
         transformOrigin: 'left bottom',
         animationTimingFunction: EASE,
       },
       '29.9%': {
-        left: `${(CELL + GAP) * 2}px`,
+        left: SLOT_2,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'left bottom',
         animationTimingFunction: STEP,
       },
       // roll3: 30% -> 39.9% (back-to-back, no hold between rolls)
       '30%': {
-        left: `${(CELL + GAP) * 3}px`,
-        transform: `translateX(${-GAP}px) rotate(-90deg)`,
+        left: SLOT_3,
+        transform: `translateX(${NEGATIVE_GAP}) rotate(-90deg)`,
         transformOrigin: 'left bottom',
         animationTimingFunction: EASE,
       },
       // long hold: 40% -> 50.9% (settle before arrival wobble at 51%)
       '40%, 50.9%': {
-        left: `${(CELL + GAP) * 3}px`,
+        left: SLOT_3,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'left bottom',
       },
       // wobble: 51% -> 57% (arrival kick, mirrors initial kick, pivots
       // on the corner the reverse roll will use next)
       '51%': {
-        left: `${(CELL + GAP) * 3}px`,
+        left: SLOT_3,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'right bottom',
         animationTimingFunction: 'linear',
@@ -151,33 +156,33 @@ export const useMiniLoaderStyles = makeStyles({
       '56.25%': { transform: 'translateX(0) rotate(17.6deg)', transformOrigin: 'right bottom' },
       // short hold: 57% -> 59.9% (settle after wobble, before rollback starts)
       '57%, 59.9%': {
-        left: `${(CELL + GAP) * 3}px`,
+        left: SLOT_3,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'right bottom',
         animationTimingFunction: STEP,
       },
       // rollback3: 60% -> 69.9%
       '60%': {
-        left: `${(CELL + GAP) * 2}px`,
-        transform: `translateX(${GAP}px) rotate(90deg)`,
+        left: SLOT_2,
+        transform: `translateX(${GAP}) rotate(90deg)`,
         transformOrigin: 'right bottom',
         animationTimingFunction: EASE,
       },
       '69.9%': {
-        left: `${(CELL + GAP) * 2}px`,
+        left: SLOT_2,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'right bottom',
         animationTimingFunction: STEP,
       },
       // rollback2: 70% -> 79.9% (back-to-back)
       '70%': {
-        left: `${CELL + GAP}px`,
-        transform: `translateX(${GAP}px) rotate(90deg)`,
+        left: SLOT_1,
+        transform: `translateX(${GAP}) rotate(90deg)`,
         transformOrigin: 'right bottom',
         animationTimingFunction: EASE,
       },
       '79.9%': {
-        left: `${CELL + GAP}px`,
+        left: SLOT_1,
         transform: 'translateX(0) rotate(0deg)',
         transformOrigin: 'right bottom',
         animationTimingFunction: STEP,
@@ -185,7 +190,7 @@ export const useMiniLoaderStyles = makeStyles({
       // rollback1: 80% -> 90% (back-to-back)
       '80%': {
         left: '0',
-        transform: `translateX(${GAP}px) rotate(90deg)`,
+        transform: `translateX(${GAP}) rotate(90deg)`,
         transformOrigin: 'right bottom',
         animationTimingFunction: EASE,
       },
@@ -203,8 +208,8 @@ export const useMiniLoaderStyles = makeStyles({
     position: 'absolute',
     top: '0',
     left: '0',
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    width: CELL,
+    height: CELL,
     backgroundColor: TRACK1,
     zIndex: 1,
     animationDuration: DURATION,
@@ -226,9 +231,9 @@ export const useMiniLoaderStyles = makeStyles({
   dropped1: {
     position: 'absolute',
     top: '0',
-    left: `${CELL + GAP}px`,
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    left: SLOT_1,
+    width: CELL,
+    height: CELL,
     backgroundColor: TRACK2,
     zIndex: 1,
     animationDuration: DURATION,
@@ -248,9 +253,9 @@ export const useMiniLoaderStyles = makeStyles({
   dropped2: {
     position: 'absolute',
     top: '0',
-    left: `${(CELL + GAP) * 2}px`,
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    left: SLOT_2,
+    width: CELL,
+    height: CELL,
     backgroundColor: TRACK3,
     zIndex: 1,
     animationDuration: DURATION,

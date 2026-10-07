@@ -6,14 +6,14 @@ const thumbnailx1 = new URL('../../assets/thumbnails/x1/xbox-quizzes-thumbnail.j
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/xbox-quizzes-thumbnail.jpg', import.meta.url).href
 const thumbnailx2 = new URL('../../assets/thumbnails/x2/xbox-quizzes-thumbnail.jpg', import.meta.url).href
 
-const img1 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-01.png', import.meta.url).href
+const img1 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-01.webp', import.meta.url).href
 const img2 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-02.jpg', import.meta.url).href
 const img3 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-03.jpg', import.meta.url).href
 const img4 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-04.jpg', import.meta.url).href
 const img5 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-05.jpg', import.meta.url).href
-const img6 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-06.png', import.meta.url).href
+const img6 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-06.webp', import.meta.url).href
 const img7 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-07.png', import.meta.url).href
-const img8 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-08.png', import.meta.url).href
+const img8 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-08.webp', import.meta.url).href
 
 const img9 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-09.jpg', import.meta.url).href
 const img10 = new URL('../../assets/images/xbox-quizzes/xbox-quizzes-10.jpg', import.meta.url).href
@@ -47,31 +47,31 @@ export const xboxQuizzes: IProject = {
 					},
 					{
 						img: img2,
-						caption: 'Witcher 3: Four choice quiz',
+						caption: 'Witcher 3: four choice quiz',
 					},
 					{
 						img: img3,
-						caption: 'World Cup Quiz: Five choice quiz',
+						caption: 'World Cup quiz: five choice quiz',
 					},
 					{
 						img: img4,
-						caption: 'South Park Quiz: Five choice quiz with multiple sounds for right/wrong answers',
+						caption: 'South Park quiz: five choice quiz with multiple sounds for right/wrong answers',
 					},
 					{
 						img: img5,
-						caption: 'Witcher 3 Quiz: User got the question incorrect',
+						caption: 'Witcher 3 quiz: user got the question incorrect',
 					},
 					{
 						img: img6,
-						caption: 'Daredevil Quiz: User got the question correct',
+						caption: 'Daredevil quiz: user got the question correct',
 					},
 					{
 						img: img7,
-						caption: 'World Cup Quiz: Results page',
+						caption: 'World Cup quiz: results page',
 					},
 					{
 						img: img8,
-						caption: 'Tomb Raider Quiz: Results page with community performance',
+						caption: 'Tomb Raider quiz: results page with community performance',
 					},
 				],
 			},
@@ -141,7 +141,7 @@ export const xboxQuizzes: IProject = {
 			header: SectionName.Details,
 			highlight: [
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{

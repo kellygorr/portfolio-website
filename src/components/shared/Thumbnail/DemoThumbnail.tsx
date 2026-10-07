@@ -4,38 +4,24 @@ import { StopButton } from '../../Page/StopButton'
 import { DemoMotionContext } from '../../Page/DemoMotionContext'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 import type { MotionDemoProps } from '../../Page/MotionDemoProps'
+import { getStoredStopped, setStoredStopped } from './demoThumbnailStoppedStore'
 
 /**
  * Shared container for a motion demo embedded as a homepage grid card
- * thumbnail (via IThumbnail.demo — see Thumbnail.tsx's DemoSlot). No
- * "recreated for portfolio" badge here — the badge is for full
- * case-study content, not a small homepage preview card. Just fills its
- * slot at 100% width / 100% height, background matched to the theme.
+ * thumbnail. Gets the same Stop/Start control as Demo's autoplay demos,
+ * positioned absolute in the corner since thumbnails have no header row.
  *
- * Gets the same Stop/Start control as Demo's autoplay demos (same
- * StopButton, same DemoMotionContext `stopped`/mount-key remount
- * mechanism — see Demo.tsx's docstring for why remount instead of
- * pause/resume-in-place) — just positioned absolute in the corner
- * instead of living in an in-flow DemoHeader, since these small
- * thumbnail cards don't have a header row at all. The whole card is
- * wrapped in a link (Thumbnail.tsx navigates to the project page on
- * click), so the button stops propagation/prevents default — otherwise
- * clicking Stop would also navigate away.
- *
- * StopButton's bg/color use `darkestColor(palette)` + `palette.text`,
- * the same theming DemoHeader.tsx uses for its own StopButton — so each
- * thumbnail's pause chip is colored with that card's own randomly
- * assigned motion palette (Warm Sand, Golden Hour, Dusty Rose, etc.)
- * instead of one generic translucent black/white shared by every card
- * regardless of theme.
+ * `id` (project's unique header, from Thumbnail.tsx) persists the
+ * stop/start toggle to localStorage via demoThumbnailStoppedStore.
  */
 export const DemoThumbnail = ({
 	theme,
+	id,
 	children,
-}: MotionDemoProps & { children: ReactNode }) => {
+}: MotionDemoProps & { id?: string; children: ReactNode }) => {
 	const palette = motionPalette(theme)
 	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
-	const [stopped, setStopped] = useState(prefersReducedMotion)
+	const [stopped, setStopped] = useState(() => (id ? (getStoredStopped(id) ?? prefersReducedMotion) : prefersReducedMotion))
 
 	return (
 		<div
@@ -52,9 +38,7 @@ export const DemoThumbnail = ({
 			<div
 				style={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
 				onClick={(e) => {
-					// Keep the click local to the button — this card is wrapped
-					// in a link (Thumbnail.tsx), and without this, toggling
-					// Stop/Start would also navigate to the project page.
+					// Keep click local — card is wrapped in a link.
 					e.stopPropagation()
 					e.preventDefault()
 				}}
@@ -64,7 +48,13 @@ export const DemoThumbnail = ({
 					color={palette.text}
 					stopped={stopped}
 					onToggle={() => {
-						setStopped((prev) => !prev)
+						setStopped((prev) => {
+							const next = !prev
+							if (id) {
+								setStoredStopped(id, next)
+							}
+							return next
+						})
 					}}
 				/>
 			</div>

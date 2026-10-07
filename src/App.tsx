@@ -189,7 +189,7 @@ const HomeWrapper = styled.div`
 	padding: 70px ${SIDE_GAP_SMALL_SCREEN} 8% ${SIDE_GAP_SMALL_SCREEN};
 	transition: padding 0.5s ease-out;
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		padding: 70px ${SIDE_GAP} 8% ${SIDE_GAP};
 	}
 
@@ -213,7 +213,11 @@ const ResultsWrapper = styled.div`
 	flex-direction: column;
 	flex: 1;
 	width: 100%;
-	padding: 150px ${SIDE_GAP} ${BOTTOM_GAP} ${SIDE_GAP};
+	padding: 70px ${SIDE_GAP_SMALL_SCREEN} ${BOTTOM_GAP} ${SIDE_GAP_SMALL_SCREEN};
+
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
+		padding: 150px ${SIDE_GAP} ${BOTTOM_GAP} ${SIDE_GAP};
+	}
 `
 const AnimateContent = styled(motion.div)`
 	display: flex;

@@ -9,14 +9,13 @@ import './shared/styles/typography-base.css'
 // Constants for this page
 const EDITORIAL_BREAKPOINTS = [320, 1440]
 
-export const EditorialClamp = () => {
+export const EditorialClamp = ({ accentColor, fillViewport = true }: { accentColor?: string; fillViewport?: boolean }) => {
 	const [showFontSize, setShowFontSize] = useState<boolean>(true)
 	const [usePxUnits, setUsePxUnits] = useState<boolean>(true)
 	const [showBreakpoints, setShowBreakpoints] = useState<boolean>(true)
 	const windowWidth = useWindowWidth() // Triggers re-renders on resize
 	const styles = useStyles()
 	const bebopStyles2 = useBebopStyles2()
-	const accentColor = new URLSearchParams(window.location.search).get('accentColor') || undefined
 
 	// Add/remove class to html element for font-size override
 	useEffect(() => {
@@ -80,7 +79,7 @@ export const EditorialClamp = () => {
 		[showFontSize, getCurrentFontSize, usePxUnits],
 	)
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} style={fillViewport ? undefined : { minHeight: 'auto' }}>
 			{showBreakpoints && <BreakpointLine breakpoints={EDITORIAL_BREAKPOINTS} />}
 			<SettingsPanel transparentButton hoverIconColor={accentColor}>
 				<SettingsCheckbox label="Show font sizes" checked={showFontSize} onChange={setShowFontSize} accentColor={accentColor} />
@@ -94,30 +93,37 @@ export const EditorialClamp = () => {
 				<h5 ref={heading5Ref} className={`${bebopStyles2.heading5} ${styles.heading5Override}`}>
 					Ensuring products feel intuitive, accessible, and beautifully consistent{getFontSizeDisplay('heading5')}
 				</h5>
-				<p ref={(el) => (paragraph1Refs.current[0] = el)} className={`${bebopStyles2.paragraph1} ${styles.paragraph1Override}`}>
+				<p
+					ref={(el) => {
+						paragraph1Refs.current[0] = el
+					}}
+					className={`${bebopStyles2.paragraph1} ${styles.paragraph1Override}`}
+				>
 					A new design system that adapts to the way AI shapes interactions. Every component is responsive, context-aware, and
 					designed to evolve with the user's needs. Instead of rigid templates, we provide living patterns that grow smarter as
 					experiences change. With scalable typography, dynamic color, and adaptive layouts, we ensure products feel intuitive,
-					accessible, and beautifully consistent—no matter where AI takes them next.{getFontSizeDisplay('paragraph1', 0)}
+					accessible, and beautifully consistent, no matter where AI takes them next.{getFontSizeDisplay('paragraph1', 0)}
 				</p>
 				<div className={styles.twoColumnGrid}>
 					<h6 ref={heading6Ref} className={`${styles.leftColumn} ${bebopStyles2.heading6} ${styles.heading6Override}`}>
 						Design that is flexible, fluid, and one step ahead{getFontSizeDisplay('heading6')}
 					</h6>
 					<p
-						ref={(el) => (paragraph1Refs.current[1] = el)}
+						ref={(el) => {
+							paragraph1Refs.current[1] = el
+						}}
 						className={`${styles.rightColumn} ${bebopStyles2.paragraph1} ${styles.paragraph1Override}`}
 					>
 						By blending intelligence with accessibility, Flex helps teams create experiences that feel natural, scalable, and
 						ready for whatever comes next.{getFontSizeDisplay('paragraph1', 1)}
 					</p>
 				</div>
+				<div className={styles.breakpointInfo}>
+					<span>Breakpoints:</span>
+					<div className={styles.breakpoint}>320px</div>
+					<div className={styles.breakpoint}>1440px</div>
+				</div>
 			</article>
-			<div className={styles.breakpointInfo}>
-				<span>Breakpoints:</span>
-				<div className={styles.breakpoint}>320px</div>
-				<div className={styles.breakpoint}>1440px</div>
-			</div>
 		</div>
 	)
 }

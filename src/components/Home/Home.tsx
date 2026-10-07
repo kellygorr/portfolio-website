@@ -84,7 +84,7 @@ const Gallery = styled.ul`
 	grid-gap: 15px;
 	/* DO NOT ADD PADDING OR MARGIN or GAP, THIS WILL MESS UP THE CALC.  Padding must be added to thumbnail */
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		grid-template-columns: repeat(2, minmax(200px, 450px));
 	}
 

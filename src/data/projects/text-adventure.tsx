@@ -11,12 +11,12 @@ const thumbnailx2 = new URL('../../assets/thumbnails/x2/text-adventure-new-thumb
 // visitors to). Replaces the earlier placeholder slideshow, which only
 // showed isolated AI-generated background/character art with no actual
 // app UI.
-const imgLanding = new URL('../../assets/images/text-adventure-new/text-adventure-landing.png', import.meta.url).href
+const imgLanding = new URL('../../assets/images/text-adventure-new/text-adventure-landing.webp', import.meta.url).href
 const imgRoom1Autofill = new URL('../../assets/images/text-adventure-new/text-adventure-room1-autofill.png', import.meta.url).href
 const imgRoom2 = new URL('../../assets/images/text-adventure-new/text-adventure-room2.png', import.meta.url).href
 const imgRoom3DeadEnd = new URL('../../assets/images/text-adventure-new/text-adventure-room3-deadend.png', import.meta.url).href
 const imgRoom4 = new URL('../../assets/images/text-adventure-new/text-adventure-room4.png', import.meta.url).href
-const imgEscaped = new URL('../../assets/images/text-adventure-new/text-adventure-escaped.png', import.meta.url).href
+const imgEscaped = new URL('../../assets/images/text-adventure-new/text-adventure-escaped.webp', import.meta.url).href
 
 /**
  * Text Adventure — a personal learning project exploring generative AI as
@@ -45,11 +45,11 @@ export const textAdventure: IProject = {
 			slideshow: {
 				width: 1250,
 				slides: [
-					{ img: imgLanding, caption: 'Theme select — dungeon, forest, or castle' },
-					{ img: imgRoom1Autofill, caption: 'Room 1 — investigating the chair' },
-					{ img: imgRoom2, caption: 'Room 2 — a larger chamber with three exits' },
-					{ img: imgRoom3DeadEnd, caption: 'A dead-end detour — collapsed rubble blocks the way' },
-					{ img: imgRoom4, caption: 'Room 4 — the guard room, final obstacle ahead' },
+					{ img: imgLanding, caption: 'Select theme' },
+					{ img: imgRoom1Autofill, caption: 'Room 1' },
+					{ img: imgRoom2, caption: 'Room 2' },
+					{ img: imgRoom3DeadEnd, caption: 'Dead end' },
+					{ img: imgRoom4, caption: 'Room 4' },
 					{ img: imgEscaped, caption: 'Escaped!' },
 				],
 			},

@@ -1,10 +1,11 @@
-import type { JSX } from 'react'
-import styled from 'styled-components'
+import { cloneElement, isValidElement, useEffect, type JSX } from 'react'
+import styled, { css } from 'styled-components'
 import { IThumbnail } from '../../../data/IProject'
 import { AnimateIn, SMALL_SCREEN } from '../../../styles/GlobalStyles'
 import { GetPageName, Tags } from '..'
 import { useInView } from 'react-intersection-observer'
 import { LinkWrapper } from './LinkWrapper'
+import { hasRevealed, markRevealed } from './thumbnailRevealStore'
 
 interface IThumbnailProps {
 	data: IThumbnail
@@ -13,6 +14,7 @@ interface IThumbnailProps {
 	setQuery: (query: string) => void
 	thumbnailClick?: () => void
 	showFull?: boolean
+	animateVisual?: boolean
 }
 
 export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
@@ -23,11 +25,27 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 		? { pointerEvents: 'none' }
 		: { alignItems: props.showFull ? 'flex-start' : 'center' }
 
+	// `data.header` is unique per project — used as DemoThumbnail's
+	// persistence id. `data.demo` has no knowledge of it, so clone it in.
+	const demo = isValidElement(data.demo) ? cloneElement(data.demo as React.ReactElement<{ id?: string }>, { id: data.header }) : data.demo
+
+	// Skip the scroll observer once a card's already been revealed —
+	// render it on immediately instead of re-animating.
+	const alreadyRevealed = hasRevealed(data.header)
 	const [ref, inView] = useInView({
-		/* Optional options */
 		threshold: 0.1,
 		triggerOnce: true,
+		skip: alreadyRevealed,
+		initialInView: alreadyRevealed,
 	})
+
+	const animateVisual = (props.animateVisual ?? true) && !alreadyRevealed
+
+	useEffect(() => {
+		if (inView && hasVisual) {
+			markRevealed(data.header)
+		}
+	}, [inView, hasVisual, data.header])
 
 	return (
 		<Container ref={ref} style={{ ...thumbnailStyle, ...style }} aria-hidden={!hasVisual}>
@@ -35,15 +53,20 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 				<LinkWrapper link={link} isExternal={Boolean(data.file)} tabIndex={!hasVisual ? -1 : undefined}>
 					<ImageWrapper $neutralBorder={Boolean(data.neutralBorder)}>
 						{data.demoBadge && <DemoBadge>Demo</DemoBadge>}
-						{inView && data.demo ? (
+						{inView && demo ? (
 							<>
 								<BackgroundCard />
-								<DemoSlot>{data.demo}</DemoSlot>
+								<DemoSlot data-thumbnail-visual data-animate={animateVisual} $animate={animateVisual}>
+									{demo}
+								</DemoSlot>
 							</>
 						) : inView && data.thumbnail ? (
 							<>
 								<BackgroundCard />
 								<Image
+									data-thumbnail-visual
+									data-animate={animateVisual}
+									$animate={animateVisual}
 									srcSet={`
 						${data.thumbnail.x1} 1x,
 						${data.thumbnail.x15} 1.5x,
@@ -120,22 +143,27 @@ const ImageWrapper = styled.div<IStyle>`
 		transition: background 400ms ease-in;
 	}
 `
-const Image = styled.img`
+const Image = styled.img<{ $animate: boolean }>`
 	height: 200px;
 	min-height: 200px;
-	opacity: 0;
-	animation: 1s ease-out 0.5s ${AnimateIn};
+	opacity: ${({ $animate }) => ($animate ? 0 : 1)};
+	animation: ${({ $animate }) =>
+		$animate
+			? css`
+					1s ease-out 0.5s ${AnimateIn}
+				`
+			: 'none'};
 	animation-fill-mode: forwards;
 	width: 100%;
 	object-fit: cover;
 	border: 2px solid ${({ theme }) => theme.background};
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		height: 100%;
 	}
 `
 
-const DemoSlot = styled.div`
+const DemoSlot = styled.div<{ $animate: boolean }>`
 	height: 200px;
 	min-height: 200px;
 	max-height: 200px;
@@ -144,8 +172,13 @@ const DemoSlot = styled.div`
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-	opacity: 0;
-	animation: 1s ease-out 0.5s ${AnimateIn};
+	opacity: ${({ $animate }) => ($animate ? 0 : 1)};
+	animation: ${({ $animate }) =>
+		$animate
+			? css`
+					1s ease-out 0.5s ${AnimateIn}
+				`
+			: 'none'};
 	animation-fill-mode: forwards;
 	border: 2px solid ${({ theme }) => theme.background};
 

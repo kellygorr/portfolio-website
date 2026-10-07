@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { Button } from '@fluentui/react-components'
 import { useStyles } from './FontFaceDemo.styles'
-import { ControlPanel } from './ControlPanel'
+import { ControlPanel, FontControlsPanel } from './ControlPanel'
 import { SettingsGearButton } from '../SettingsPanel'
 import { useContentStyles } from './shared/styles/ramp.styles'
 import { useFullDemoStyles } from './FullDemo/FullDemo.styles'
@@ -17,7 +17,6 @@ import aptosWoffUrl from '../../../src/assets/fonts/aptos/Aptos.woff?url'
 // never actually changed what was displayed. Bumping the key forces
 // everyone back onto the current defaults.
 const UI_SETTINGS_STORAGE_KEY = 'fontFaceDemo-ui-settings-v2'
-
 const debounce = (fn: (value: string) => void, delay: number) => {
 	let timeoutId: number | undefined
 	const debounced = (value: string) => {
@@ -96,19 +95,32 @@ const STYLE_MAPPING = {
 	base: 'Base',
 } as const
 
-export const FontFaceDemo = () => {
-	const initialUISettings = loadUISettings()
+export const FontFaceDemo = ({
+	segoeColor: segoeColorOverride,
+	aptosColor: aptosColorOverride,
+	accentColor: accentColorOverride,
+}: {
+	segoeColor?: string
+	aptosColor?: string
+	accentColor?: string
+}) => {
+	const initialUISettings = {
+		...loadUISettings(),
+		...(segoeColorOverride ? { segoeColor: segoeColorOverride } : {}),
+		...(aptosColorOverride ? { aptosColor: aptosColorOverride } : {}),
+	}
 	// Darkest theme color for this demo's own page (passed in as a
 	// query param, same mechanism as segoeColor/aptosColor above) — used
 	// for the settings gear's hover color, the "Show/Hide Aptos" button
 	// background, and every slider's accentColor in ControlPanel.
 	// Doesn't need localStorage persistence since it's not a
 	// user-adjustable setting, only ever set by the embedding page.
-	const accentColor = useMemo(() => new URLSearchParams(window.location.search).get('accentColor') || '#a85d2f', [])
+	const accentColor = useMemo(() => accentColorOverride || new URLSearchParams(window.location.search).get('accentColor') || '#a85d2f', [accentColorOverride])
 
 	// Session-only state (not persisted)
-	const [showFontSize, setShowFontSize] = useState(true)
 	const [showControlPanel, setShowControlPanel] = useState(false) // Always start closed
+	const [showFontTable, setShowFontTable] = useState(true)
+	const [showFontControls, setShowFontControls] = useState(true)
 	const [usePxUnits, setUsePxUnits] = useState(true)
 	const [showBreakpoints, setShowBreakpoints] = useState(true)
 
@@ -258,15 +270,13 @@ export const FontFaceDemo = () => {
 		[windowWidth, usePxUnits],
 	)
 
-	// Helper function for font size display
-	const getFontSizeDisplay = useCallback(
-		(element: 'heading2' | 'heading5' | 'heading6' | 'base', index: number = 0, prefix: string = '') => {
-			if (!showFontSize) return ''
+	const getFontSizeValue = useCallback(
+		(element: 'heading2' | 'heading5' | 'heading6' | 'base', index: number = 0) => {
 			const size = getCurrentFontSize(element, index)
 			const unit = usePxUnits ? 'px' : 'rem'
-			return prefix ? ` ${prefix}: ${size}${unit}` : ` - ${size}${unit}`
+			return `${size}${unit}`
 		},
-		[showFontSize, getCurrentFontSize, usePxUnits],
+		[getCurrentFontSize, usePxUnits],
 	)
 
 	// State for tracking which sections are swapped to Aptos
@@ -311,99 +321,71 @@ export const FontFaceDemo = () => {
 		[contentStyles, fullDemoStyles, styles, getSectionFontType],
 	)
 
+	const renderSectionControlButton = useCallback(
+		(sectionId: string) => (
+			<div>
+				<Button
+					appearance="primary"
+					size="small"
+					onClick={() => toggleSectionSwap(sectionId)}
+					className={styles.sectionSwapButton}
+					style={{
+						backgroundColor: getSectionFontType(sectionId) === 'segoe' ? aptosColor : segoeColor,
+						borderColor: getSectionFontType(sectionId) === 'segoe' ? aptosColor : segoeColor,
+					}}
+				>
+					Add {getSectionFontType(sectionId) === 'segoe' ? 'Aptos' : 'Segoe'}
+				</Button>
+			</div>
+		),
+		[aptosColor, getSectionFontType, segoeColor, styles.sectionSwapButton, toggleSectionSwap],
+	)
+
 	return (
 		<div className={styles.container}>
 			<BreakpointIndicator show={showBreakpoints} />
-			<article className={`${styles.article}`}>
-				{/* Settings and Controls */}
-				<div className={styles.settingsGear}>
+			<div className={styles.settingsGear}>
 					<SettingsGearButton
 						onClick={() => setShowControlPanel(!showControlPanel)}
 						hoverIconColor={accentColor}
 						transparentBackground
 					/>
-				</div>
-				{/* Segoe */}
-				<div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-					<div style={{ position: 'relative' }}>
-						{/** segoe section 0 **/}
-						<h2
-							ref={heading2Ref}
-							className={getSectionStyle('heading2', 'section0')}
-							style={{
-								color: hexToRgba(segoeColor, segoeOpacity),
-							}}
-						>
-							Introducing A Design System Built for AI-First Experiences{getFontSizeDisplay('heading2')}
-						</h2>
-						<Button
-							appearance="primary"
-							size="small"
-							onClick={() => toggleSectionSwap('section0')}
-							className={styles.sectionSwapButton}
-							style={{
-								backgroundColor: getSectionFontType('section0') === 'segoe' ? aptosColor : segoeColor,
-								borderColor: getSectionFontType('section0') === 'segoe' ? aptosColor : segoeColor,
-							}}
-						>
-							Add {getSectionFontType('section0') === 'segoe' ? 'Aptos' : 'Segoe'}
-						</Button>
-					</div>
-					<div style={{ position: 'relative' }}>
-						<h5
-							ref={heading5Ref}
-							className={getSectionStyle('heading5', 'section1')}
-							style={{
-								color: hexToRgba(segoeColor, segoeOpacity),
-							}}
-						>
-							Ensuring products feel intuitive, accessible, and beautifully consistent{getFontSizeDisplay('heading5')}
-						</h5>
-						<Button
-							appearance="primary"
-							size="small"
-							onClick={() => toggleSectionSwap('section1')}
-							className={styles.sectionSwapButton}
-							style={{
-								backgroundColor: getSectionFontType('section1') === 'segoe' ? aptosColor : segoeColor,
-								borderColor: getSectionFontType('section1') === 'segoe' ? aptosColor : segoeColor,
-							}}
-						>
-							Add {getSectionFontType('section1') === 'segoe' ? 'Aptos' : 'Segoe'}
-						</Button>
-					</div>
-					<div style={{ position: 'relative' }}>
-						{/** segoe section 2 **/}
-						<p
-							ref={(el) => {
-								baseRefs.current[0] = el
-							}}
-							className={getSectionStyle('base', 'section2')}
-							style={{
-								color: hexToRgba(segoeColor, segoeOpacity),
-							}}
-						>
-							A new design system that adapts to the way AI shapes interactions. Every component is responsive, context-aware,
-							and designed to evolve with the user's needs. Instead of rigid templates, we provide living patterns that grow
-							smarter as experiences change. With scalable typography, dynamic color, and adaptive layouts, we ensure products
-							feel intuitive, accessible, and beautifully consistent—no matter where AI takes them next.
-							{getFontSizeDisplay('base', 0)}
-						</p>
-						<Button
-							appearance="primary"
-							size="small"
-							onClick={() => toggleSectionSwap('section2')}
-							className={styles.sectionSwapButton}
-							style={{
-								backgroundColor: getSectionFontType('section2') === 'segoe' ? aptosColor : segoeColor,
-								borderColor: getSectionFontType('section2') === 'segoe' ? aptosColor : segoeColor,
-							}}
-						>
-							Add {getSectionFontType('section2') === 'segoe' ? 'Aptos' : 'Segoe'}
-						</Button>
-					</div>
+			</div>
+			<article className={`${styles.article}`}>
+					{/* Segoe */}
+					<h2
+						ref={heading2Ref}
+						className={getSectionStyle('heading2', 'section0')}
+						style={{
+							color: hexToRgba(segoeColor, segoeOpacity),
+						}}
+					>
+						Introducing A Design System Built for AI-First Experiences
+					</h2>
+					<h5
+						ref={heading5Ref}
+						className={getSectionStyle('heading5', 'section1')}
+						style={{
+							color: hexToRgba(segoeColor, segoeOpacity),
+						}}
+					>
+						Ensuring products feel intuitive, accessible, and beautifully consistent
+					</h5>
+					<p
+						ref={(el) => {
+							baseRefs.current[0] = el
+						}}
+						className={getSectionStyle('base', 'section2')}
+						style={{
+							color: hexToRgba(segoeColor, segoeOpacity),
+						}}
+					>
+						A new design system that adapts to the way AI shapes interactions. Every component is responsive, context-aware, and
+						designed to evolve with the user's needs. Instead of rigid templates, we provide living patterns that grow smarter as
+						experiences change. With scalable typography, dynamic color, and adaptive layouts, we ensure products feel intuitive,
+						accessible, and beautifully consistent, no matter where AI takes them next.
+					</p>
 					<div className={styles.twoColumnGrid}>
-						{/** segoe section 3 **/}
 						<h6
 							ref={heading6Ref}
 							className={`${styles.leftColumn} ${getSectionStyle('heading6', 'section3')}`}
@@ -411,37 +393,91 @@ export const FontFaceDemo = () => {
 								color: hexToRgba(segoeColor, segoeOpacity),
 							}}
 						>
-							Design that learns with you—flexible, fluid, and always one step ahead{getFontSizeDisplay('heading6')}
+							Design that learns with you, flexible, fluid, and always one step ahead
 						</h6>
-						<div style={{ position: 'relative' }}>
-							{/** segoe section 4 **/}
-							<p
-								ref={(el) => {
-									baseRefs.current[1] = el
-								}}
-								className={`${styles.rightColumn} ${getSectionStyle('base', 'section4')}`}
-								style={{
-									color: hexToRgba(segoeColor, segoeOpacity),
-								}}
-							>
-								By blending intelligence with accessibility, Flex helps teams create experiences that feel natural,
-								scalable, and ready for whatever comes next.{getFontSizeDisplay('base', 1)}
-							</p>
-							<Button
-								appearance="primary"
-								size="small"
-								onClick={() => toggleSectionSwap('section4')}
-								className={styles.sectionSwapButton}
-								style={{
-									backgroundColor: getSectionFontType('section4') === 'segoe' ? aptosColor : segoeColor,
-									borderColor: getSectionFontType('section4') === 'segoe' ? aptosColor : segoeColor,
-								}}
-							>
-								Add {getSectionFontType('section4') === 'segoe' ? 'Aptos' : 'Segoe'}
-							</Button>
-						</div>
+						<p
+							ref={(el) => {
+								baseRefs.current[1] = el
+							}}
+							className={`${styles.rightColumn} ${getSectionStyle('base', 'section4')}`}
+							style={{
+								color: hexToRgba(segoeColor, segoeOpacity),
+							}}
+						>
+							By blending intelligence with accessibility, Flex helps teams create experiences that feel natural, scalable, and ready
+							for whatever comes next.
+						</p>
 					</div>
-				</div>
+					{(showFontTable || showFontControls) && (
+						<div className={styles.controlsRow}>
+							{showFontTable && (
+								<table className={styles.sectionControlsTable}>
+									<thead>
+										<tr>
+											<th>Text style</th>
+											<th className={styles.sectionControlsActionCell}>Swap font</th>
+											<th className={styles.sectionControlsSizeCell}>Size</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Heading 2</td>
+											<td>{renderSectionControlButton('section0')}</td>
+											<td className={styles.sectionControlsSizeCell} style={{ color: accentColor }}>
+												{getFontSizeValue('heading2')}
+											</td>
+										</tr>
+										<tr>
+											<td>Heading 5</td>
+											<td>{renderSectionControlButton('section1')}</td>
+											<td className={styles.sectionControlsSizeCell} style={{ color: accentColor }}>
+												{getFontSizeValue('heading5')}
+											</td>
+										</tr>
+										<tr>
+											<td>Paragraph</td>
+											<td>{renderSectionControlButton('section2')}</td>
+											<td className={styles.sectionControlsSizeCell} style={{ color: accentColor }}>
+												{getFontSizeValue('base', 0)}
+											</td>
+										</tr>
+										<tr>
+											<td>Left column</td>
+											<td>{renderSectionControlButton('section4')}</td>
+											<td className={styles.sectionControlsSizeCell} style={{ color: accentColor }}>
+												{getFontSizeValue('heading6')}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							)}
+						{showFontControls && (
+							<div className={styles.controlsPanelSlot}>
+								<FontControlsPanel
+									inline
+									segoeColor={segoeColor}
+									aptosColor={aptosColor}
+									segoeOpacity={segoeOpacity}
+									aptosOpacity={aptosOpacity}
+									showAptos={showAptos}
+									onSegoeColorChange={setSegoeColor}
+									onAptosColorChange={setAptosColor}
+									onSegoeOpacityChange={setSegoeOpacity}
+									onAptosOpacityChange={setAptosOpacity}
+									onShowAptosChange={setShowAptos}
+									accentColor={accentColor}
+									sizeAdjust={sizeAdjust}
+									ascentOverride={ascentOverride}
+									descentOverride={descentOverride}
+									onSizeAdjustChange={setSizeAdjust}
+									onAscentOverrideChange={setAscentOverride}
+									onDescentOverrideChange={setDescentOverride}
+									onFontAdjustmentsReset={resetFontAdjustments}
+								/>
+							</div>
+						)}
+						</div>
+					)}
 			</article>
 
 			{/* Aptos Overlay */}
@@ -455,7 +491,7 @@ export const FontFaceDemo = () => {
 								color: hexToRgba(aptosColor, aptosOpacity),
 							}}
 						>
-							Introducing A Design System Built for AI-First Experiences{getFontSizeDisplay('heading2')}
+							Introducing A Design System Built for AI-First Experiences
 						</h2>
 						<h5
 							className={getSectionStyle('heading5', 'overlay-section1')}
@@ -463,7 +499,7 @@ export const FontFaceDemo = () => {
 								color: hexToRgba(aptosColor, aptosOpacity),
 							}}
 						>
-							Ensuring products feel intuitive, accessible, and beautifully consistent{getFontSizeDisplay('heading5')}
+							Ensuring products feel intuitive, accessible, and beautifully consistent
 						</h5>
 						<p
 							className={getSectionStyle('base', 'overlay-section2')}
@@ -474,8 +510,7 @@ export const FontFaceDemo = () => {
 							A new design system that adapts to the way AI shapes interactions. Every component is responsive, context-aware,
 							and designed to evolve with the user's needs. Instead of rigid templates, we provide living patterns that grow
 							smarter as experiences change. With scalable typography, dynamic color, and adaptive layouts, we ensure products
-							feel intuitive, accessible, and beautifully consistent—no matter where AI takes them next.
-							{getFontSizeDisplay('base', 0)}
+							feel intuitive, accessible, and beautifully consistent, no matter where AI takes them next.
 						</p>
 						<div className={styles.twoColumnGrid}>
 							<h6
@@ -484,7 +519,7 @@ export const FontFaceDemo = () => {
 									color: hexToRgba(aptosColor, aptosOpacity),
 								}}
 							>
-								Design that learns with you—flexible, fluid, and always one step ahead{getFontSizeDisplay('heading6')}
+								Design that learns with you, flexible, fluid, and always one step ahead
 							</h6>
 							<p
 								className={`${styles.rightColumn} ${getSectionStyle('base', 'overlay-section4')}`}
@@ -492,8 +527,8 @@ export const FontFaceDemo = () => {
 									color: hexToRgba(aptosColor, aptosOpacity),
 								}}
 							>
-								By blending intelligence with accessibility, Flex helps teams create experiences that feel natural,
-								scalable, and ready for whatever comes next.{getFontSizeDisplay('base', 1)}
+								By blending intelligence with accessibility, Flex helps teams create experiences that feel natural, scalable, and
+								ready for whatever comes next.
 							</p>
 						</div>
 					</div>
@@ -503,13 +538,15 @@ export const FontFaceDemo = () => {
 			{/* Control Panel */}
 			<ControlPanel
 				showControlPanel={showControlPanel}
-				showFontSize={showFontSize}
+				showFontTable={showFontTable}
+				showFontControls={showFontControls}
+				showFloatingFontControls={false}
 				usePxUnits={usePxUnits}
 				showBreakpoints={showBreakpoints}
-				onShowFontSizeChange={setShowFontSize}
+				onShowFontTableChange={setShowFontTable}
+				onShowFontControlsChange={setShowFontControls}
 				onUsePxUnitsChange={setUsePxUnits}
 				onShowBreakpointsChange={setShowBreakpoints}
-				styles={styles}
 				segoeColor={segoeColor}
 				aptosColor={aptosColor}
 				segoeOpacity={segoeOpacity}

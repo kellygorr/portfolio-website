@@ -23,27 +23,44 @@ export const SettingsGearButton = ({
 	const [hovered, setHovered] = useState(false)
 
 	return (
-		<button
-			type="button"
-			aria-label={ariaLabel}
-			onClick={onClick}
-			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
-			style={{
-				width: 36,
-				height: 36,
-				border: '1px solid #d1c7b8',
-				borderRadius: 8,
-				background: transparentBackground ? 'transparent' : '#fff',
-				color: hovered && hoverIconColor ? hoverIconColor : '#242424',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				cursor: 'pointer',
-			}}
-		>
-			<Settings24Regular />
-		</button>
+		<>
+			<style>{`
+				.typography-settings-gear,
+				.typography-settings-gear:hover,
+				.typography-settings-gear:focus,
+				.typography-settings-gear:active,
+				.typography-settings-gear:focus:not(:focus-visible) {
+					border-color: #d1c7b8 !important;
+				}
+			`}</style>
+			<button
+				type="button"
+				className="typography-settings-gear"
+				aria-label={ariaLabel}
+				onClick={onClick}
+				onMouseEnter={() => setHovered(true)}
+				onMouseLeave={() => setHovered(false)}
+				style={{
+					width: 36,
+					height: 36,
+					appearance: 'none',
+					WebkitAppearance: 'none',
+					boxSizing: 'border-box',
+					border: '1px solid #d1c7b8',
+					borderRadius: 8,
+					background: transparentBackground ? 'transparent' : '#fff',
+					color: hovered && hoverIconColor ? hoverIconColor : '#242424',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					cursor: 'pointer',
+					outline: '1px solid #d1c7b8',
+					outlineOffset: '-1px',
+				}}
+			>
+				<Settings24Regular />
+			</button>
+		</>
 	)
 }
 

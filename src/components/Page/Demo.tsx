@@ -110,6 +110,14 @@ interface DemoProps extends MotionDemoProps {
 	iframeTitle?: string
 	simpleBadge?: boolean
 	allowRestartWhileRunning?: boolean
+	/** When true, removes the content area's bottom padding — for demos
+	 *  that already fill their own box edge-to-edge with their own
+	 *  background (e.g. the Typography embeds), where that extra gap
+	 *  just leaves an awkward strip of page background between the
+	 *  demo's own colored box and whatever comes after it. Defaults to
+	 *  false so existing demos (which rely on this padding to avoid
+	 *  looking cramped against the page background) are unaffected. */
+	flushBottom?: boolean
 	children: ReactNode
 }
 
@@ -124,6 +132,7 @@ export const Demo = ({
 	iframeTitle,
 	simpleBadge,
 	allowRestartWhileRunning,
+	flushBottom,
 	children,
 }: DemoProps) => {
 	const palette = motionPalette(theme)
@@ -185,10 +194,13 @@ export const Demo = ({
 						width: '100%',
 						minHeight,
 						// Skipped for iframe-embedded demos (Typography's
-						// Storybook stories) — the iframe is full-bleed and
-						// already owns its own internal spacing, so this
-						// extra gap just adds unwanted space below it.
-						paddingBottom: iframeSrc ? 0 : 24,
+						// Storybook stories) and any demo explicitly opting
+						// out via `flushBottom` (e.g. the Typography
+						// EditorialClamp embed, which fills its own box
+						// edge-to-edge with its own background) — in both
+						// cases this extra gap just adds unwanted space
+						// below content that doesn't need it.
+						paddingBottom: iframeSrc || flushBottom ? 0 : 24,
 						boxSizing: 'border-box',
 						// While the scripted replay is actively playing
 						// (interactive demos only — autoplay demos have no

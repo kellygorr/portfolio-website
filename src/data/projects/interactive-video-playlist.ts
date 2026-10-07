@@ -9,16 +9,16 @@ const thumbnailx2 = new URL('../../assets/thumbnails/x2/interactive-video-playli
 // const video1 = import.meta.env.VITE_IMAGE_URL_SRC + 'assets/videos/summerME.mp4'
 const video2 = new URL('../../assets/videos/interactive-video-playlist/interactive-video-playlist-01.mp4', import.meta.url).href
 
-const img1 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-02.png', import.meta.url).href
-const img2 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-03.png', import.meta.url).href
-const img3 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-04.png', import.meta.url).href
-const img4 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-05.png', import.meta.url).href
-const img5 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-06.png', import.meta.url).href
-const img6 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-07.png', import.meta.url).href
-const img7 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-08.png', import.meta.url).href
-const img8 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-09.png', import.meta.url).href
-const img9 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-10.png', import.meta.url).href
-const img10 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-11.png', import.meta.url).href
+const img1 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-02.webp', import.meta.url).href
+const img2 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-03.webp', import.meta.url).href
+const img3 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-04.webp', import.meta.url).href
+const img4 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-05.webp', import.meta.url).href
+const img5 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-06.webp', import.meta.url).href
+const img6 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-07.webp', import.meta.url).href
+const img7 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-08.webp', import.meta.url).href
+const img8 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-09.webp', import.meta.url).href
+const img9 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-10.webp', import.meta.url).href
+const img10 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-11.webp', import.meta.url).href
 const img11 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-12.png', import.meta.url).href
 
 const img12 = new URL('../../assets/images/interactive-video-playlist/interactive-video-playlist-13.jpg', import.meta.url).href
@@ -64,7 +64,7 @@ export const interactiveVideoPlaylist: IProject = {
 					},
 					{
 						img: img7,
-						caption: 'Joke xbox achievement image',
+						caption: 'Joke Xbox achievement image',
 					},
 					{
 						img: img8,
@@ -94,7 +94,7 @@ export const interactiveVideoPlaylist: IProject = {
 			header: SectionName.Details,
 			highlight: [
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{
@@ -142,7 +142,7 @@ export const interactiveVideoPlaylist: IProject = {
 			header: SectionName.Details,
 			highlight: [
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{

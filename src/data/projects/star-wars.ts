@@ -12,10 +12,10 @@ const thumbnail2x2 = new URL('../../assets/thumbnails/x2/star-wars-thumbnail-2.j
 
 const video1 = new URL('../../assets/videos/star-wars/star-wars-01.mp4', import.meta.url).href
 
-const img1 = new URL('../../assets/images/star-wars/star-wars-02.png', import.meta.url).href
-const img2 = new URL('../../assets/images/star-wars/star-wars-03.png', import.meta.url).href
-const img3 = new URL('../../assets/images/star-wars/star-wars-04.png', import.meta.url).href
-const img5 = new URL('../../assets/images/star-wars/star-wars-05.png', import.meta.url).href
+const img1 = new URL('../../assets/images/star-wars/star-wars-02.webp', import.meta.url).href
+const img2 = new URL('../../assets/images/star-wars/star-wars-03.webp', import.meta.url).href
+const img3 = new URL('../../assets/images/star-wars/star-wars-04.webp', import.meta.url).href
+const img5 = new URL('../../assets/images/star-wars/star-wars-05.webp', import.meta.url).href
 
 export const starWars: IProject = {
 	details: {
@@ -66,7 +66,7 @@ export const starWars: IProject = {
 					tags: [SkillType.JavaScript, SkillType.JQuery, SkillType.HTML, SkillType.CSS],
 				},
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{

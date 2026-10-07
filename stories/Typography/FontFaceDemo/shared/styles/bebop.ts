@@ -3,8 +3,10 @@ import { TypographyStylesExtended } from './ebay'
 // Utility function to convert pixels to rem (base font size: 16px for Typography section)
 export const convertToRemBase16 = (pixels: number): string => `${pixels / 16}rem`
 
-// Utility function to convert pixels to rem (base font size: 10px)
-export const convertToRemBase10 = (pixels: number): string => `${pixels / 10}rem`
+// Historical name kept for existing imports. These values originally
+// relied on Storybook setting html { font-size: 62.5% }; pixels preserve
+// the same visual size when embedded directly in the portfolio page.
+export const convertToRemBase10 = (pixels: number): string => `${pixels}px`
 
 // Utility function to round to nearest 4
 export const roundToNearest4 = (x: number): number => 4 * Math.round(x / 4)
@@ -12,6 +14,9 @@ export const roundToNearest4 = (x: number): number => 4 * Math.round(x / 4)
 // Utility function to convert rem values to px for display
 export const convertToPx = (remValue: string | number): string => {
 	// Handle both string ("2.75rem") and number (2.75) inputs
+	if (typeof remValue === 'string' && remValue.endsWith('px')) {
+		return `(${parseFloat(remValue)}px)`
+	}
 	const numericValue = typeof remValue === 'string' ? parseFloat(remValue.replace('rem', '')) : remValue
 
 	if (isNaN(numericValue)) return ''

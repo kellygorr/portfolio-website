@@ -54,23 +54,30 @@ const StyledLink = styled(Link)`
 	color: ${({ theme }) => theme.text};
 	text-decoration: none;
 
-	&:hover {
-		text-decoration: none;
-	}
-
-	&:hover ${NameChar} {
-		color: ${({ theme }) => theme.text};
-	}
-
-	${Array.from({ length: nameHoverColors.length })
-		.map(
-			(_, colorIndex) => `
-		&:hover ${NameChar}:nth-child(${nameHoverColors.length}n + ${colorIndex + 1}) {
-			color: ${nameHoverColors[colorIndex]};
+	/* Scoped to real hover-capable pointers (mouse/trackpad) only — on
+	   touch devices, :hover has no "pointer left the element" event to
+	   clear it after a tap, so without this guard the color-cycle hover
+	   effect below would visibly stick on indefinitely after tapping the
+	   name on mobile, instead of being a transient hover affordance. */
+	@media (hover: hover) {
+		&:hover {
+			text-decoration: none;
 		}
-	`
-		)
-		.join('\n')}
+
+		&:hover ${NameChar} {
+			color: ${({ theme }) => theme.text};
+		}
+
+		${Array.from({ length: nameHoverColors.length })
+			.map(
+				(_, colorIndex) => `
+			&:hover ${NameChar}:nth-child(${nameHoverColors.length}n + ${colorIndex + 1}) {
+				color: ${nameHoverColors[colorIndex]};
+			}
+		`
+			)
+			.join('\n')}
+	}
 `
 const H2 = styled.h2`
 	font-size: 1.25rem;

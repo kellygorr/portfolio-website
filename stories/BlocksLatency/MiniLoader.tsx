@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useMiniLoaderStyles, MINI_LOADER_CELL } from './MiniLoader.styles'
+import { useMiniLoaderStyles, MINI_LOADER_CELL, MINI_LOADER_GAP } from './MiniLoader.styles'
 
 export interface MiniLoaderProps {
   /** Size of each block in pixels. Default: 80 */
@@ -20,20 +20,17 @@ export interface MiniLoaderProps {
 
 export const MiniLoader: React.FC<MiniLoaderProps> = ({ size = 80, duration = 5117, rollerColor, trackColors, paused = false }) => {
   const styles = useMiniLoaderStyles()
-  // scale animation (for storybook only).  Remove
-  const scale = size / MINI_LOADER_CELL
-  const naturalWidth = MINI_LOADER_CELL * 4 + 25 * 3 // 4 cells + 3 gaps
-  const naturalHeight = MINI_LOADER_CELL
+  const gap = (size / MINI_LOADER_CELL) * MINI_LOADER_GAP
+  const width = size * 4 + gap * 3
 
   return (
-    <div style={{ width: naturalWidth * scale, height: naturalHeight * scale }}>
+    <div style={{ width, height: size }}>
     <div
       className={styles.container}
       style={
         {
-          transform: `scale(${scale})`,
-          transformOrigin: '0 0',
-          // duration animation (for storybook only).  Remove
+          '--mini-loader-cell-size': `${size}px`,
+          '--mini-loader-gap-size': `${gap}px`,
           '--mini-loader-duration': `${duration}ms`,
           '--roller-color': rollerColor,
           '--track-color-1': trackColors?.[0],

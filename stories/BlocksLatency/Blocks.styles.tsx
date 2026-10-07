@@ -26,13 +26,16 @@ import { curves } from '../../src/styles/motionTokens'
   wall-clock window.
 */
 
-const CELL = 4
+const CELL = 'var(--blocks-cell-size, 4px)'
+const DOUBLE_CELL = 'calc(var(--blocks-cell-size, 4px) * 2)'
+const NEGATIVE_CELL = 'calc(var(--blocks-cell-size, 4px) * -1)'
+const NEGATIVE_DOUBLE_CELL = 'calc(var(--blocks-cell-size, 4px) * -2)'
 const EASE = curves.easyEaseMax
 
 const block = {
   position: 'absolute' as const,
-  width: `${CELL}px`,
-  height: `${CELL}px`,
+  width: CELL,
+  height: CELL,
   backgroundColor: 'currentColor',
   willChange: 'transform',
   animationDuration: 'var(--blocks-duration, 3567ms)', // total duration timing from motionspec.io
@@ -51,8 +54,8 @@ const extendedBlock = {
 export const useBlocksStyles = makeStyles({
   container: {
     position: 'relative',
-    width: `${CELL * 3}px`,
-    height: `${CELL * 3}px`,
+    width: 'calc(var(--blocks-cell-size, 4px) * 3)',
+    height: 'calc(var(--blocks-cell-size, 4px) * 3)',
   },
 
   /* Box 1 — starts at col 0, row 0. Extended (3x) keyframe: plays its own
@@ -64,16 +67,16 @@ export const useBlocksStyles = makeStyles({
     left: '0',
     animationName: {
       '0%': { transform: 'translate(0, 0)' },
-      '2.333%': { transform: `translate(0, ${CELL}px)` },
-      '16.833%': { transform: `translate(0, ${CELL}px)` },
-      '19.167%': { transform: `translate(0, ${CELL * 2}px)` },
-      '43.133%': { transform: `translate(0, ${CELL * 2}px)` },
-      '45.467%': { transform: `translate(${CELL}px, ${CELL * 2}px)` },
-      '59.967%': { transform: `translate(${CELL}px, ${CELL * 2}px)` },
-      '62.3%': { transform: `translate(${CELL}px, ${CELL}px)` },
-      '73.2%': { transform: `translate(${CELL}px, ${CELL}px)` },
-      '75.533%': { transform: `translate(${CELL}px, 0)` },
-      '86.767%': { transform: `translate(${CELL}px, 0)` },
+      '2.333%': { transform: `translate(0, ${CELL})` },
+      '16.833%': { transform: `translate(0, ${CELL})` },
+      '19.167%': { transform: `translate(0, ${DOUBLE_CELL})` },
+      '43.133%': { transform: `translate(0, ${DOUBLE_CELL})` },
+      '45.467%': { transform: `translate(${CELL}, ${DOUBLE_CELL})` },
+      '59.967%': { transform: `translate(${CELL}, ${DOUBLE_CELL})` },
+      '62.3%': { transform: `translate(${CELL}, ${CELL})` },
+      '73.2%': { transform: `translate(${CELL}, ${CELL})` },
+      '75.533%': { transform: `translate(${CELL}, 0)` },
+      '86.767%': { transform: `translate(${CELL}, 0)` },
       '89.1%': { transform: 'translate(0, 0)' },
       '100%': { transform: 'translate(0, 0)' },
     },
@@ -84,11 +87,11 @@ export const useBlocksStyles = makeStyles({
   block2: {
     ...block,
     top: '0',
-    left: `${CELL}px`,
+    left: CELL,
     animationName: {
       '0%, 9.8%': { transform: 'translate(0, 0)' },
-      '16.8%': { transform: `translate(${CELL}px, 0)` },
-      '70.1%': { transform: `translate(${CELL}px, 0)` },
+      '16.8%': { transform: `translate(${CELL}, 0)` },
+      '70.1%': { transform: `translate(${CELL}, 0)` },
       '77.1%': { transform: 'translate(0, 0)' },
       '100%': { transform: 'translate(0, 0)' },
     },
@@ -99,20 +102,20 @@ export const useBlocksStyles = makeStyles({
      returning home — seamless loop, no color pop at restart. */
   block3: {
     ...extendedBlock,
-    top: `${CELL}px`,
-    left: `${CELL}px`,
+    top: CELL,
+    left: CELL,
     animationName: {
       '0%, 6.533%': { transform: 'translate(0, 0)' },
-      '8.867%': { transform: `translate(0, ${-CELL}px)` },
-      '20.1%': { transform: `translate(0, ${-CELL}px)` },
-      '22.433%': { transform: `translate(${-CELL}px, ${-CELL}px)` },
-      '33.333%': { transform: `translate(${-CELL}px, ${-CELL}px)` },
-      '35.667%': { transform: `translate(${-CELL}px, 0)` },
-      '50.167%': { transform: `translate(${-CELL}px, 0)` },
-      '52.5%': { transform: `translate(${-CELL}px, ${CELL}px)` },
-      '76.467%': { transform: `translate(${-CELL}px, ${CELL}px)` },
-      '78.8%': { transform: `translate(0, ${CELL}px)` },
-      '93.3%': { transform: `translate(0, ${CELL}px)` },
+      '8.867%': { transform: `translate(0, ${NEGATIVE_CELL})` },
+      '20.1%': { transform: `translate(0, ${NEGATIVE_CELL})` },
+      '22.433%': { transform: `translate(${NEGATIVE_CELL}, ${NEGATIVE_CELL})` },
+      '33.333%': { transform: `translate(${NEGATIVE_CELL}, ${NEGATIVE_CELL})` },
+      '35.667%': { transform: `translate(${NEGATIVE_CELL}, 0)` },
+      '50.167%': { transform: `translate(${NEGATIVE_CELL}, 0)` },
+      '52.5%': { transform: `translate(${NEGATIVE_CELL}, ${CELL})` },
+      '76.467%': { transform: `translate(${NEGATIVE_CELL}, ${CELL})` },
+      '78.8%': { transform: `translate(0, ${CELL})` },
+      '93.3%': { transform: `translate(0, ${CELL})` },
       '95.633%': { transform: 'translate(0, 0)' },
       '100%': { transform: 'translate(0, 0)' },
     },
@@ -123,20 +126,20 @@ export const useBlocksStyles = makeStyles({
      returning home — seamless loop, no color pop at restart. */
   block4: {
     ...extendedBlock,
-    top: `${CELL * 2}px`,
+    top: DOUBLE_CELL,
     left: '0',
     animationName: {
       '0%, 9.8%': { transform: 'translate(0, 0)' },
-      '12.133%': { transform: `translate(${CELL}px, 0)` },
-      '26.633%': { transform: `translate(${CELL}px, 0)` },
-      '28.967%': { transform: `translate(${CELL}px, ${-CELL}px)` },
-      '39.867%': { transform: `translate(${CELL}px, ${-CELL}px)` },
-      '42.2%': { transform: `translate(${CELL}px, ${-CELL * 2}px)` },
-      '53.433%': { transform: `translate(${CELL}px, ${-CELL * 2}px)` },
-      '55.767%': { transform: `translate(0, ${-CELL * 2}px)` },
-      '66.667%': { transform: `translate(0, ${-CELL * 2}px)` },
-      '69%': { transform: `translate(0, ${-CELL}px)` },
-      '83.5%': { transform: `translate(0, ${-CELL}px)` },
+      '12.133%': { transform: `translate(${CELL}, 0)` },
+      '26.633%': { transform: `translate(${CELL}, 0)` },
+      '28.967%': { transform: `translate(${CELL}, ${NEGATIVE_CELL})` },
+      '39.867%': { transform: `translate(${CELL}, ${NEGATIVE_CELL})` },
+      '42.2%': { transform: `translate(${CELL}, ${NEGATIVE_DOUBLE_CELL})` },
+      '53.433%': { transform: `translate(${CELL}, ${NEGATIVE_DOUBLE_CELL})` },
+      '55.767%': { transform: `translate(0, ${NEGATIVE_DOUBLE_CELL})` },
+      '66.667%': { transform: `translate(0, ${NEGATIVE_DOUBLE_CELL})` },
+      '69%': { transform: `translate(0, ${NEGATIVE_CELL})` },
+      '83.5%': { transform: `translate(0, ${NEGATIVE_CELL})` },
       '85.833%': { transform: 'translate(0, 0)' },
       '100%': { transform: 'translate(0, 0)' },
     },
@@ -146,12 +149,12 @@ export const useBlocksStyles = makeStyles({
      Already returns to its own start within one base cycle — unchanged. */
   block5: {
     ...block,
-    top: `${CELL * 2}px`,
-    left: `${CELL * 2}px`,
+    top: DOUBLE_CELL,
+    left: DOUBLE_CELL,
     animationName: {
       '0%, 39.3%': { transform: 'translate(0, 0)' },
-      '47.7%': { transform: `translate(0, ${-CELL}px)` },
-      '89.7%': { transform: `translate(0, ${-CELL}px)` },
+      '47.7%': { transform: `translate(0, ${NEGATIVE_CELL})` },
+      '89.7%': { transform: `translate(0, ${NEGATIVE_CELL})` },
       '96.7%': { transform: 'translate(0, 0)' },
       '100%': { transform: 'translate(0, 0)' },
     },

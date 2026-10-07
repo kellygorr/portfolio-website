@@ -123,7 +123,7 @@ const List = styled.ul`
 	padding: 0 ${SIDE_GAP_SMALL_SCREEN};
 	padding-top: 30px;
 	transition: padding 0.5s ease-out;
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		padding: 0px ${SIDE_GAP};
 	}
 `

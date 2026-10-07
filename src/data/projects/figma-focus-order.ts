@@ -90,7 +90,7 @@ export const focusOrder: IProject = {
 					},
 					{
 						img: img8,
-						caption: 'Annotations and Readout',
+						caption: 'Annotations and readout',
 					},
 					{
 						img: img11,
