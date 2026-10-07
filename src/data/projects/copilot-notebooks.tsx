@@ -57,7 +57,7 @@ export const copilotNotebooks: IProject = {
 				slides: [
 					{
 						img: videoPoster,
-						caption: 'New chat list (center) with content panel motion (left)',
+						caption: 'New chat list (center) with content panel motion (right)',
 						file: {
 							type: FileType.Video,
 							source: videoChatList,

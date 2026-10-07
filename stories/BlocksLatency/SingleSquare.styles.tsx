@@ -5,7 +5,7 @@ import { makeStyles } from '@fluentui/react-components'
   https://motion-specs.azurewebsites.net/dev/f618562b-072c-454f-a283-96434e42094c
 */
 
-const CELL = 8
+const CELL = 'var(--single-square-cell-size, 8px)'
 
 export const DURATION_MS = 1166
 
@@ -19,7 +19,7 @@ const EASINGS = [
   'linear',
 ]
 
-export const SINGLE_SQUARE_CELL = CELL
+export const SINGLE_SQUARE_CELL = 8
 
 /**
  * Build the @keyframes CSS string for the active rotation.
@@ -56,15 +56,15 @@ export function totalDuration(delay: number, duration: number = DURATION_MS): nu
 export const useSingleSquareStyles = makeStyles({
   container: {
     position: 'relative',
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    width: CELL,
+    height: CELL,
     contain: 'layout style',
   },
 
   square: {
     position: 'absolute',
-    width: `${CELL}px`,
-    height: `${CELL}px`,
+    width: CELL,
+    height: CELL,
     backgroundColor: 'currentColor',
     willChange: 'transform',
     animationIterationCount: 'infinite',

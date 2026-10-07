@@ -4,7 +4,7 @@ import { RecreatedBadge } from './RecreatedBadge'
 import { InteractiveBadge } from './InteractiveBadge'
 import { StopButton } from './StopButton'
 import type { MotionDemoProps } from './MotionDemoProps'
-import { MAX_WIDTH } from '../../styles/GlobalStyles'
+import { MAX_WIDTH, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
 
 /**
  * Shared in-flow header row for Demo and DemoSlide — the single place
@@ -31,7 +31,12 @@ import { MAX_WIDTH } from '../../styles/GlobalStyles'
  *
  * `hideBadge` — hides RecreatedBadge (the "recreated for portfolio"
  * label). Rarely used; exists for demos that already show that
- * disclosure some other way.
+ * disclosure some other way. When shown, RecreatedBadge also
+ * automatically gets `shortenAtSmallScreen` whenever
+ * `showClickToInteract` is true — that pairing crowds the header row
+ * enough at narrow widths that the full badge text needs to shrink to
+ * its short preset (see RecreatedBadge.tsx for the 3 badge texts that
+ * exist across the codebase and how this swap works).
  *
  * `showPausePlay` — shows StopButton (stop/start toggle for autoplay
  * demos). Requires `stopped` + `onToggleStop`.
@@ -80,6 +85,17 @@ const HeaderContent = styled.div<{ $hasHeader?: boolean }>`
 	margin: 0 auto;
 	padding: 0 16px;
 	box-sizing: border-box;
+
+	/* Below SMALL_SCREEN, match the page's own body-copy side padding
+	   (Page.tsx's sectionStyle, SIDE_GAP) instead of this flat 16px —
+	   the two only happened to be close at some widths, but SIDE_GAP is
+	   viewport-relative (3vw) while this was a fixed pixel value, so
+	   they visibly diverged at narrow widths (e.g. 360px: 16px vs
+	   ~10.8px), making the demo header's left/right edges misaligned
+	   with the body text column directly above/below it. */
+	@media (max-width: ${SMALL_SCREEN}px) {
+		padding: 0 ${SIDE_GAP};
+	}
 `
 
 const HeaderStart = styled.div`
@@ -117,7 +133,11 @@ export const DemoHeader = ({
 	return (
 		<Header $hasHeader={hasHeader} $bg={bg}>
 			<HeaderContent $hasHeader={hasHeader}>
-				<HeaderStart>{!hideBadge && <RecreatedBadge bg={bg} color={color} simple={simpleBadge} />}</HeaderStart>
+				<HeaderStart>
+					{!hideBadge && (
+						<RecreatedBadge bg={bg} color={color} simple={simpleBadge} shortenAtSmallScreen={showClickToInteract} />
+					)}
+				</HeaderStart>
 				<HeaderEnd>
 					{showClickToInteract && onRestart && (
 						<InteractiveBadge

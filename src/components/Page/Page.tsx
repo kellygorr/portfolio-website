@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled, { useTheme } from 'styled-components'
 import { IProject, ISection, SectionType } from '../../data/IProject'
 import { MAX_WIDTH, MEDIUM_SMALL_SCREEN, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Section } from './Section'
-import { ImagesRecreatedBadge } from './ImagesRecreatedBadge'
+import { RecreatedBadge } from './RecreatedBadge'
 import { Navigate, useParams } from 'react-router-dom'
 import { GetPageName, SanitizePath } from '../shared'
 interface IPageProps {
@@ -28,6 +28,7 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 	const { title } = useParams()
 	const projectName = title && SanitizePath(title)
 	const project = props.projects.find((project) => projectName === GetPageName(project.details.header))
+	const theme = useTheme()
 
 	if (!project?.content) {
 		return <Navigate to="/" />
@@ -59,7 +60,9 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 									/>
 								)
 							})}
-							{data.imagesRecreated && <ImagesRecreatedBadge />}
+							{data.imagesRecreated && (
+							<RecreatedBadge bg={theme.accent} color={theme.textNegative} text="Images — recreated for portfolio" wrapped />
+						)}
 						</SectionWidth>
 					</SectionPadding>
 				)

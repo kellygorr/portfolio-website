@@ -31,7 +31,7 @@ const img13 = new URL('../../assets/images/xbox-live-events/xbox-live-events-13.
 const img14 = new URL('../../assets/images/xbox-live-events/xbox-live-events-14.jpg', import.meta.url).href
 const img15 = new URL('../../assets/images/xbox-live-events/xbox-live-events-15.jpg', import.meta.url).href
 const img16 = new URL('../../assets/images/xbox-live-events/xbox-live-events-16.jpg', import.meta.url).href
-const img17 = new URL('../../assets/images/xbox-live-events/xbox-live-events-17.png', import.meta.url).href
+const img17 = new URL('../../assets/images/xbox-live-events/xbox-live-events-17.webp', import.meta.url).href
 const img24 = new URL('../../assets/images/xbox-live-events/xbox-live-events-18.jpg', import.meta.url).href
 const img25 = new URL('../../assets/images/xbox-live-events/xbox-live-events-19.jpg', import.meta.url).href
 
@@ -41,7 +41,7 @@ const img19 = new URL('../../assets/images/xbox-live-events/xbox-live-events-02.
 const img20 = new URL('../../assets/images/xbox-live-events/xbox-live-events-21.png', import.meta.url).href
 const img21 = new URL('../../assets/images/xbox-live-events/xbox-live-events-22.jpg', import.meta.url).href
 const img22 = new URL('../../assets/images/xbox-live-events/xbox-live-events-23.jpg', import.meta.url).href
-const img23 = new URL('../../assets/images/xbox-live-events/xbox-live-events-24.png', import.meta.url).href
+const img23 = new URL('../../assets/images/xbox-live-events/xbox-live-events-24.webp', import.meta.url).href
 
 const video1 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-25.mp4', import.meta.url).href
 const video2 = new URL('../../assets/videos/xbox-live-events/xbox-live-events-26.mp4', import.meta.url).href
@@ -132,7 +132,7 @@ export const xboxLiveEvents: IProject = {
 					},
 					{
 						img: img10,
-						caption: 'The Game Awards Video Capture',
+						caption: 'The Game Awards video capture',
 						file: {
 							type: FileType.Video,
 							source: video2,
@@ -158,7 +158,7 @@ export const xboxLiveEvents: IProject = {
 					},
 					{
 						img: img8,
-						caption: 'Taco bell promo',
+						caption: 'Taco Bell promo',
 					},
 				],
 			},
@@ -236,7 +236,7 @@ export const xboxLiveEvents: IProject = {
 				slides: [
 					{
 						img: img24,
-						caption: 'Daily Show and Interactive Promo',
+						caption: 'Daily Show and interactive promo',
 						file: {
 							type: FileType.Video,
 							source: video3,
@@ -244,7 +244,7 @@ export const xboxLiveEvents: IProject = {
 					},
 					{
 						img: img25,
-						caption: 'Tomb Raider Quiz',
+						caption: 'Tomb Raider quiz',
 						file: {
 							type: FileType.Video,
 							source: video4,
@@ -383,7 +383,7 @@ export const xboxLiveEvents: IProject = {
 					},
 					{
 						img: img23,
-						caption: 'Xbox Promotion',
+						caption: 'Xbox promotion',
 					},
 				],
 			},

@@ -73,7 +73,7 @@ const Gallery = styled.div`
 		grid-template-columns: repeat(auto-fit, minmax(auto, 400px));
 	}
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		grid-template-columns: repeat(2, 50%);
 	}
 `

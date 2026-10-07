@@ -16,19 +16,14 @@ export interface BlocksProps {
 
 export const Blocks: React.FC<BlocksProps> = ({ size = 4, duration = 3567, colors, paused = false }) => {
   const styles = useBlocksStyles()
-  // scale animation (for storybook only).  Remove
-  const scale = size / 4
-
-  const naturalSize = 4 * 3 // 3×3 grid
   const motionStyle: React.CSSProperties | undefined = paused ? { animationPlayState: 'paused' } : undefined
 
   return (
-    <div style={{ width: naturalSize * scale, height: naturalSize * scale }}>
+    <div style={{ width: size * 3, height: size * 3 }}>
       <div
         className={styles.container}
         style={{
-          transform: `scale(${scale})`,
-          transformOrigin: '0 0',
+          '--blocks-cell-size': `${size}px`,
           '--blocks-duration': `${duration}ms`,
         } as React.CSSProperties}
       >

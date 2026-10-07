@@ -206,7 +206,7 @@ export const Durations = forwardRef<DurationsHandle, DurationsProps>(({ palette,
 	return (
 		<div className={mergeClasses(styles.root, compact && styles.rootCompact)} style={{ '--motion-text': textColor } as React.CSSProperties}>
 			<div className={styles.heading}>
-				<h2 className={styles.title}>Fluent Motion — Durations</h2>
+				<h2 className={styles.title}>Fluent Motion: Durations</h2>
 				<button className={styles.replayAllButton} onClick={replayAll} aria-label="Replay all durations">
 					<ArrowClockwise16Filled />
 				</button>

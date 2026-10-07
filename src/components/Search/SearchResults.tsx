@@ -140,11 +140,11 @@ const Message = styled.div`
 const Gallery = styled.ul`
 	width: 100%;
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 450px));
+	grid-template-columns: 100%;
 	justify-content: center;
 	grid-gap: 25px 15px;
 
-	@media (min-width: ${SMALL_SCREEN}px) {
+	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		grid-template-columns: repeat(2, minmax(200px, 450px));
 	}
 

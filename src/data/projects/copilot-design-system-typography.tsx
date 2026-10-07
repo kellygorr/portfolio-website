@@ -1,41 +1,13 @@
 import { HighlightName, IProject, SectionName, SkillType, TagType } from '../IProject'
 import { Demo } from '../../components/Page/Demo'
-import { darkestColor, motionPalette, MotionPaletteNames, randomMotionPaletteNames } from '../../styles/motionPalettes'
+import { darkestColor, motionPalette, randomMotionPaletteNames } from '../../styles/motionPalettes'
 import { formatMonthYearRange } from '../../utils/dateFormat'
+import { EditorialClampEmbed, FontFaceDemoEmbed } from '../../components/Page/TypographyDemoEmbed'
 
 const thumbnailx1 = new URL('../../assets/thumbnails/x1/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
 const thumbnailx2 = new URL('../../assets/thumbnails/x2/copilot-design-system-typography-thumbnail.jpg', import.meta.url).href
-const [editorialClampTheme] = randomMotionPaletteNames(1)
-// Pinned (NOT randomized) — the Font Face Demo's Segoe/Aptos colors are
-// driven by this palette's backgroundDark/colors[2], and the "Lime"
-// palette family (Warm/Golden/Dusty + Lime) uses blue/green accent
-// colors that look broken on a demo whose whole point is comparing warm
-// font colors. Pinning to a Beige-family palette guarantees warm
-// orange/brown tones every time, regardless of what the other two
-// demos' random draw picks.
-const fontFaceTheme = MotionPaletteNames.GoldenHourBeige
-
-// Forwards the SAME randomized palette's colors into the embedded
-// Storybook iframe (via query params the story reads itself), so each
-// story's own color usage (hero backgrounds, Segoe/Aptos swatches,
-// buttons, slider accents) matches the Demo wrapper's badges — all
-// driven by one shared palette — instead of unrelated hardcoded colors
-// baked into the story's own CSS/state defaults.
-const storybookIframe = (id: string, heroColor?: string, extraParams?: Record<string, string>) => {
-	const params = new URLSearchParams({ id, viewMode: 'story' })
-	if (heroColor) {
-		params.set('heroColor', heroColor)
-	}
-	if (extraParams) {
-		Object.entries(extraParams).forEach(([key, value]) => params.set(key, value))
-	}
-	const path = `/iframe.html?${params.toString()}`
-	if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-		return `http://localhost:6006${path}`
-	}
-	return `/storybook${path}`
-}
+const [editorialClampTheme, fontFaceTheme] = randomMotionPaletteNames(2)
 
 export const copilotDesignSystemTypography: IProject = {
 	details: {
@@ -55,16 +27,16 @@ export const copilotDesignSystemTypography: IProject = {
 			demo: (
 				<Demo
 					theme={editorialClampTheme}
-					minHeight={620}
+					minHeight={0}
 					interactive
 					hideRestartIcon
 					simpleBadge
-					iframeSrc={storybookIframe('typography-editorial-clamp--default', undefined, {
-						accentColor: darkestColor(motionPalette(editorialClampTheme)),
-					})}
-					iframeTitle="Typography editorial clamp demo"
+					flushBottom
 				>
-					<span />
+					<EditorialClampEmbed
+						accentColor={darkestColor(motionPalette(editorialClampTheme))}
+						background={motionPalette(editorialClampTheme).background}
+					/>
 				</Demo>
 			),
 		},
@@ -97,14 +69,13 @@ export const copilotDesignSystemTypography: IProject = {
 					interactive
 					hideRestartIcon
 					simpleBadge
-					iframeSrc={storybookIframe('typography-font-face-demo--default', undefined, {
-						segoeColor: motionPalette(fontFaceTheme).backgroundDark,
-						aptosColor: motionPalette(fontFaceTheme).colors[2],
-						accentColor: darkestColor(motionPalette(fontFaceTheme)),
-					})}
-					iframeTitle="Typography font face demo"
 				>
-					<span />
+					<FontFaceDemoEmbed
+						segoeColor={motionPalette(fontFaceTheme).backgroundDark}
+						aptosColor={motionPalette(fontFaceTheme).colors[2]}
+						accentColor={darkestColor(motionPalette(fontFaceTheme))}
+						background={motionPalette(fontFaceTheme).background}
+					/>
 				</Demo>
 			),
 		},

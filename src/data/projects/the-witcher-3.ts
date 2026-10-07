@@ -119,7 +119,7 @@ export const theWitcher3: IProject = {
 			header: SectionName.Details,
 			highlight: [
 				{
-					header: HighlightName.Platform_Accessories,
+					header: HighlightName.Platform,
 					tags: [TagType.Xbox, TagType.Kinect],
 				},
 				{

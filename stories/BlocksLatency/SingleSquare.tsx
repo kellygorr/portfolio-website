@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   useSingleSquareStyles,
-  SINGLE_SQUARE_CELL,
   DURATION_MS,
   buildKeyframes,
   totalDuration,
@@ -28,7 +27,6 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({
   paused = false,
 }) => {
   const styles = useSingleSquareStyles()
-  const scale = size / SINGLE_SQUARE_CELL
   const animationName = `singleSquare-${delay}-${duration}`
   const totalMs = totalDuration(delay, duration)
   const keyframesCSS = React.useMemo(() => buildKeyframes(animationName, delay, duration), [animationName, delay, duration])
@@ -36,13 +34,12 @@ export const SingleSquare: React.FC<SingleSquareProps> = ({
   return (
     <>
       <style>{keyframesCSS}</style>
-      <div style={{ width: SINGLE_SQUARE_CELL * scale, height: SINGLE_SQUARE_CELL * scale, color }}>
+      <div style={{ width: size, height: size, color }}>
         <div
           className={styles.container}
           style={{
-            transform: `scale(${scale})`,
-            transformOrigin: '0 0',
-          }}
+            '--single-square-cell-size': `${size}px`,
+          } as React.CSSProperties}
         >
           <div
             className={styles.square}

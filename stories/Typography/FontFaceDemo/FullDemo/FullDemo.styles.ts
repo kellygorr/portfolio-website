@@ -1,11 +1,12 @@
 import { makeStyles, tokens } from '@fluentui/react-components'
 import { convertToRemBase10, roundToNearest4 } from '../shared/styles/bebop'
+import { MIN_WIDTH } from '../../../../src/styles/GlobalStyles'
 
 export const useFullDemoStyles = makeStyles({
 	container: {
 		width: '100%',
 		height: '100%',
-		minWidth: '320px', // Minimum width for the entire FullDemo component
+		minWidth: `${MIN_WIDTH}px`, // Minimum width for the entire FullDemo component
 		display: 'flex',
 		backgroundColor: tokens.colorNeutralBackground1,
 		fontFamily: 'Aptos',

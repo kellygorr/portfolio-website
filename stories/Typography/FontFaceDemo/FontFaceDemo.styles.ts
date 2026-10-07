@@ -1,4 +1,5 @@
-import { makeStyles, tokens } from '@fluentui/react-components'
+import { makeStyles } from '@fluentui/react-components'
+import { MIN_WIDTH } from '../../../src/styles/GlobalStyles'
 
 // Shared article styles
 const articleBaseStyles = {
@@ -9,6 +10,11 @@ const articleBaseStyles = {
 	display: 'flex' as const,
 	flexDirection: 'column' as const,
 	gap: '24px',
+	alignItems: 'start',
+	'@media (max-width: 760px)': {
+		maxWidth: '650px',
+		gap: '24px',
+	},
 }
 
 export const useStyles = makeStyles({
@@ -16,9 +22,8 @@ export const useStyles = makeStyles({
 		position: 'relative',
 		display: 'flex',
 		width: '100%',
-		minWidth: '320px',
+		minWidth: `${MIN_WIDTH}px`,
 		minHeight: '100vh',
-		backgroundColor: '#fbf3dc',
 		justifyContent: 'center',
 		fontFamily: 'Aptos',
 	},
@@ -83,7 +88,7 @@ export const useStyles = makeStyles({
 		borderTop: `1px solid #d8c7a8`,
 		padding: '16px',
 		display: 'flex',
-		minWidth: '320px',
+		minWidth: `${MIN_WIDTH}px`,
 		flexWrap: 'wrap',
 		gap: '16px',
 		alignItems: 'center',
@@ -140,12 +145,66 @@ export const useStyles = makeStyles({
 	},
 
 	sectionSwapButton: {
-		position: 'absolute',
-		right: '-60px',
-		top: '0',
 		fontSize: '10px',
 		padding: '2px 8px',
 		height: '20px',
 		minWidth: 'auto',
+		whiteSpace: 'nowrap',
+	},
+	sectionFontSizeReadout: {
+		width: '100%',
+		textAlign: 'center',
+		fontSize: '10px',
+		fontWeight: 600,
+		lineHeight: '14px',
+		pointerEvents: 'none',
+	},
+	sectionControlsTable: {
+		width: '100%',
+		borderCollapse: 'separate',
+		borderSpacing: 0,
+		border: '1px solid #d8c7a8',
+		borderRadius: '8px',
+		overflow: 'hidden',
+		fontFamily: 'Segoe UI, Arial, sans-serif',
+		fontSize: '12px',
+		backgroundColor: 'rgba(255, 255, 255, 0.22)',
+		'& th, & td': {
+			padding: '8px 10px',
+			borderBottom: '1px solid #d8c7a8',
+			textAlign: 'left',
+			verticalAlign: 'middle',
+		},
+		'& th': {
+			fontWeight: 600,
+			backgroundColor: 'rgba(255, 255, 255, 0.24)',
+		},
+		'& tr:last-child td': {
+			borderBottom: 'none',
+		},
+	},
+	sectionControlsActionCell: {
+		width: '96px',
+	},
+	sectionControlsSizeCell: {
+		width: '72px',
+		fontWeight: 600,
+		whiteSpace: 'nowrap',
+	},
+	controlsRow: {
+		display: 'grid',
+		gridTemplateColumns: 'minmax(0, 1fr) auto',
+		gap: '16px',
+		alignItems: 'start',
+		width: '100%',
+		'@media (max-width: 860px)': {
+			gridTemplateColumns: '1fr',
+		},
+	},
+	controlsPanelSlot: {
+		width: 'min(100%, 320px)',
+		'@media (max-width: 860px)': {
+			width: '100%',
+		},
 	},
 })

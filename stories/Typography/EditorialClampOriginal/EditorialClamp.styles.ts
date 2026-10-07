@@ -1,14 +1,14 @@
 import { makeStyles, tokens } from '@fluentui/react-components'
 import { convertToRemBase16 } from './shared/styles/bebop'
+import { MIN_WIDTH } from '../../../src/styles/GlobalStyles'
 
 export const useStyles = makeStyles({
 	container: {
 		position: 'relative',
 		display: 'flex',
 		width: '100%',
-		minWidth: '320px',
+		minWidth: `${MIN_WIDTH}px`,
 		minHeight: '100vh',
-		backgroundColor: '#fbf3dc',
 		justifyContent: 'center',
 		fontFamily: 'Aptos',
 	},
@@ -117,18 +117,14 @@ export const useStyles = makeStyles({
 		display: 'inline-block',
 	},
 	breakpointInfo: {
-		position: 'absolute',
-		left: '16px',
-		bottom: '16px',
 		display: 'flex',
 		alignItems: 'center',
 		gap: '8px',
-		backgroundColor: 'rgba(255, 250, 239, 0.92)',
+		alignSelf: 'flex-start',
 		border: '1px solid #d8c7a8',
 		borderRadius: '8px',
 		padding: '8px 10px',
 		fontSize: '12px',
 		fontFamily: 'monospace',
-		zIndex: 20,
 	},
 })

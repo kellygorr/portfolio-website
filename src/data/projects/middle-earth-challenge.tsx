@@ -5,12 +5,12 @@ const thumbnailx1 = new URL('../../assets/thumbnails/x1/middle-earth-challenge-t
 const thumbnailx15 = new URL('../../assets/thumbnails/x15/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
 const thumbnailx2 = new URL('../../assets/thumbnails/x2/middle-earth-challenge-thumbnail.jpg', import.meta.url).href
 
-const imgMap = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-01.png', import.meta.url).href
-const imgMapClassic = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-02.png', import.meta.url).href
-const imgMapZoomed = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-03.png', import.meta.url).href
+const imgMap = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-01.webp', import.meta.url).href
+const imgMapClassic = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-02.webp', import.meta.url).href
+const imgMapZoomed = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-03.webp', import.meta.url).href
 const imgSettings = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-04.png', import.meta.url).href
 const imgStats = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-05.png', import.meta.url).href
-const imgCheckpoint = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-06.png', import.meta.url).href
+const imgCheckpoint = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-06.webp', import.meta.url).href
 const imgSync = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-07.png', import.meta.url).href
 const imgFriends = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-08.png', import.meta.url).href
 const imgMapZoomedMinimal = new URL('../../assets/images/middle-earth-challenge/middle-earth-challenge-09.png', import.meta.url).href

@@ -309,7 +309,7 @@ export const Easings = forwardRef<EasingsHandle, EasingsProps>(({ palette, compa
 	return (
 		<div className={mergeClasses(styles.root, compact && styles.rootCompact)} style={{ '--motion-text': textColor } as React.CSSProperties}>
 			<div className={mergeClasses(styles.heading, compact && styles.headingCompact)}>
-				<h2 className={mergeClasses(styles.title, compact && styles.titleCompact)}>Fluent Motion — Easings</h2>
+				<h2 className={mergeClasses(styles.title, compact && styles.titleCompact)}>Fluent Motion: Easings</h2>
 				{/* Duration ticker: adjusts the shared duration used by every
 				    card's dot + progress bar (independent of each card's own
 				    replay state), in +/-100ms steps — lets a viewer see how
