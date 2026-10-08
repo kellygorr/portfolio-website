@@ -411,7 +411,7 @@ export const copilotMotionSystems: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
-					body: 'Chris Lorence',
+					body: 'Chris Lorance',
 				},
 			],
 		},
@@ -483,7 +483,7 @@ export const copilotMotionSystems: IProject = {
 			highlight: [
 				{
 					header: HighlightName.Motion_Designer,
-					body: 'Chris Lorence',
+					body: 'Chris Lorance',
 				},
 			],
 		},
@@ -553,7 +553,7 @@ export const copilotMotionSystems: IProject = {
 				},
 				{
 					header: HighlightName.Motion_Designer,
-					body: 'Chris Lorence, Andrew Falk',
+					body: 'Chris Lorance, Andrew Falk',
 				},
 			],
 		},

@@ -132,7 +132,7 @@ export const fluentMotionSystem: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `An agent-facing motion guidance system for Fluent design system. The goal wasn't just to document motion principles for humans; it was to make motion guidance actionable for AI agents that create, review, and implement component behavior: choosing motion patterns, applying motion tokens, avoiding performance issues, respecting reduced motion, and producing output that can be reviewed and trusted.`,
+			body: `A motion plugin for the Fluent Design System that packages motion guidance into agent-loadable skills. The plugin helps agents and teams create, review, and implement Fluent motion in AI-assisted design and engineering workflows. It gives agents a repeatable way to identify motion intent, choose patterns, apply approved duration and easing tokens, and produce motion that meets strict performance standards.`,
 		},
 		{
 			header: SectionName.Role,
@@ -142,7 +142,7 @@ export const fluentMotionSystem: IProject = {
 					tags: [SkillType.UIUX, SkillType.AI, TagType.Motion],
 				},
 			],
-			body: `This is an ongoing, collaborative effort to build a comprehensive motion knowledge for the Fluent design system. My focus has been reviewing the skill documentation and testing the plugin against many scenarios (like writing real component motion), then feeding fixes back into the guidance. The goal is for agents to reason through motion the way a designer would: identify what kind of spatial relationship is changing, choose how much attention the moment deserves, and sequence multiple elements into one coordinated rhythm instead of animating each element independently.<br /><br />One of my main contributions has been the performance and accessibility guidance, along with unifying choreography across similar components. Menus, dropdowns, comboboxes, and popovers now share one consistent motion pattern instead of each getting bespoke treatment.`,
+			body: `I led testing and refinement for the motion plugin. My work focused on reviewing the guidance and testing the plugin against real component scenarios. When agents produced non-performant motion or used the wrong motion tokens, I used those findings to refine the guidance.<br /><br />I helped shape guidance for performance, accessibility, and reduced motion, all areas that are vital for shipping motion. I also refined choreography guidance so the plugin could make more consistent choices across related components.<br /><br />I refined how the plugin reports motion decisions, tradeoffs, and low-confidence areas during creation or review. This helps teams understand where more clarity is needed, what decisions should be reviewed, and where the agent may need additional guidance.<br /><br />Overall, the work created a feedback loop: test the plugin on real scenarios, identify where the agent fails, refine the guidance, and retest. The result was a stronger motion system for generating performant, accessible, token-aligned, and consistent component motion.`,
 		},
 		{
 			header: SectionName.Details,
@@ -157,7 +157,7 @@ export const fluentMotionSystem: IProject = {
 				},
 				{
 					header: 'Contributors',
-					body: 'Andrew Falk, Kelly Gorr',
+					body: 'Andrew Falk, Kelly Gorr, Chris Lorance',
 				},
 			],
 		},
