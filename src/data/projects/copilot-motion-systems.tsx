@@ -164,11 +164,17 @@ const GroundingMenuDemo = ({ theme }: { theme: MotionPaletteName }) => {
  * straight through to Greeting as `paused` so the animation freezes in
  * place instead of swapping to a separate static frame.
  */
-const GreetingMotionDemo = ({ theme }: { theme: MotionPaletteName }) => {
+const greetingPrompts = [
+	'Hi, try asking me what needs your attention today',
+	'Hi, try asking me to find updates from your team',
+	'Hi, try asking me what changed in this document',
+]
+
+const GreetingMotionDemo = ({ theme, text }: { theme: MotionPaletteName; text: string }) => {
 	const { stopped } = useDemoMotion()
 	return (
 		<Greeting
-			text="Hi, try asking me what's next on your calendar"
+			text={text}
 			color={darkestColor(motionPalette(theme))}
 			paused={stopped}
 		/>
@@ -375,7 +381,7 @@ export const copilotMotionSystems: IProject = {
 		thumbnail: null,
 		demo: (
 			<DemoThumbnail theme={thumbnailTheme}>
-				<GreetingMotionDemo theme={thumbnailTheme} />
+				<GreetingMotionDemo theme={thumbnailTheme} text={greetingPrompts[0]} />
 			</DemoThumbnail>
 		),
 		tags: [TagType.Microsoft, TagType.Copilot, TagType.Motion, TagType.Website],
@@ -387,7 +393,7 @@ export const copilotMotionSystems: IProject = {
 		{
 			demo: (
 				<Demo theme={topGreetingTheme} minHeight={140}>
-					<GreetingMotionDemo theme={topGreetingTheme} />
+					<GreetingMotionDemo theme={topGreetingTheme} text={greetingPrompts[1]} />
 				</Demo>
 			),
 		},
@@ -529,7 +535,7 @@ export const copilotMotionSystems: IProject = {
 		{
 			demo: (
 				<Demo theme={greetingTheme} minHeight={140}>
-					<GreetingMotionDemo theme={greetingTheme} />
+					<GreetingMotionDemo theme={greetingTheme} text={greetingPrompts[2]} />
 				</Demo>
 			),
 		},

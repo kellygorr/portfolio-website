@@ -197,6 +197,7 @@ export interface ISlide {
 	 *  all 3 densities; add it only when a 2x asset actually exists. */
 	img2x?: string
 	caption?: string
+	alt?: string
 	file?: IFile
 	width?: number
 	/** A live, interactive React element rendered in place of img/video

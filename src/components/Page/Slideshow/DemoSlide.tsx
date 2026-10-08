@@ -40,6 +40,7 @@ export const DemoSlide = ({
 	darkBackground,
 	scaleToFit,
 	allowRestartWhileRunning,
+	hideRestartIcon,
 	children,
 }: MotionDemoProps & {
 	interactive?: boolean
@@ -54,6 +55,7 @@ export const DemoSlide = ({
 	 *  fluid/responsive on its own and doesn't need it. */
 	scaleToFit?: boolean
 	allowRestartWhileRunning?: boolean
+	hideRestartIcon?: boolean
 	children: ReactNode
 }) => {
 	const palette = motionPalette(theme)
@@ -67,7 +69,7 @@ export const DemoSlide = ({
 	const [stopped, setStopped] = useState(prefersReducedMotion)
 
 	// --- Interactive path: restart via full remount, not stop/start ---
-	const { containerRef, restartKey, running, setRunning, runReplay } = useReplayControl(interactive)
+	const { containerRef, restartKey, running, setRunning, runReplay } = useReplayControl(interactive, hideRestartIcon)
 	return (
 		<div
 			ref={containerRef}
@@ -111,6 +113,7 @@ export const DemoSlide = ({
 				theme={theme}
 				hasHeader={hasHeader}
 				showClickToInteract={interactive}
+				hideRestartIcon={hideRestartIcon}
 				running={running}
 				onRestart={runReplay}
 				allowRestartWhileRunning={allowRestartWhileRunning}

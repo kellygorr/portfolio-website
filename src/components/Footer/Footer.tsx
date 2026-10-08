@@ -76,7 +76,6 @@ const Container = styled.footer`
 
 	> div > button {
 		position: relative;
-		overflow: hidden;
 		background-color: ${({ theme }) => theme.footerBackgroundSecondary};
 
 		/* Neutral grey wash, fixed in place, that simply fades in/out on
@@ -88,6 +87,7 @@ const Container = styled.footer`
 			content: '';
 			position: absolute;
 			inset: 0;
+			border-radius: inherit;
 			background-color: ${NeutralColors.neutral40};
 			opacity: 0;
 			transition: opacity 150ms ease-in-out;

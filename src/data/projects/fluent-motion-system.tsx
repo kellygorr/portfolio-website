@@ -97,7 +97,7 @@ export const fluentMotionSystem: IProject = {
 		header: 'Fluent design system motion',
 		thumbnail: null,
 		demo: (
-			<DemoThumbnail theme={thumbnailTheme}>
+			<DemoThumbnail theme={thumbnailTheme} darkBackground>
 				<EasingThumbnail theme={thumbnailTheme} />
 			</DemoThumbnail>
 		),

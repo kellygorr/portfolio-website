@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement, useEffect, type JSX } from 'react'
+import { cloneElement, isValidElement, useEffect, useState, type JSX } from 'react'
 import styled, { css } from 'styled-components'
 import { IThumbnail } from '../../../data/IProject'
 import { AnimateIn, SMALL_SCREEN } from '../../../styles/GlobalStyles'
@@ -6,6 +6,10 @@ import { GetPageName, Tags } from '..'
 import { useInView } from 'react-intersection-observer'
 import { LinkWrapper } from './LinkWrapper'
 import { hasRevealed, markRevealed } from './thumbnailRevealStore'
+import { StopButton } from '../../Page/StopButton'
+import { darkestColor, motionPalette, type MotionPaletteName } from '../../../styles/motionPalettes'
+import { getStoredStopped, setStoredStopped } from './demoThumbnailStoppedStore'
+import { useMediaQuery } from '../hooks/useMediaQuery'
 
 interface IThumbnailProps {
 	data: IThumbnail
@@ -25,9 +29,13 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 		? { pointerEvents: 'none' }
 		: { alignItems: props.showFull ? 'flex-start' : 'center' }
 
-	// `data.header` is unique per project — used as DemoThumbnail's
-	// persistence id. `data.demo` has no knowledge of it, so clone it in.
-	const demo = isValidElement(data.demo) ? cloneElement(data.demo as React.ReactElement<{ id?: string }>, { id: data.header }) : data.demo
+	const demoElement = isValidElement(data.demo)
+		? (data.demo as React.ReactElement<{ id?: string; stopped?: boolean; theme?: MotionPaletteName }>)
+		: null
+	const demoTheme = demoElement?.props.theme
+	const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+	const [stopped, setStopped] = useState(() => (demoTheme ? (getStoredStopped(data.header) ?? prefersReducedMotion) : prefersReducedMotion))
+	const demo = demoElement ? cloneElement(demoElement, { id: data.header, stopped }) : data.demo
 
 	// Skip the scroll observer once a card's already been revealed —
 	// render it on immediately instead of re-animating.
@@ -67,6 +75,7 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 									data-thumbnail-visual
 									data-animate={animateVisual}
 									$animate={animateVisual}
+									alt=""
 									srcSet={`
 						${data.thumbnail.x1} 1x,
 						${data.thumbnail.x15} 1.5x,
@@ -89,6 +98,27 @@ export const Thumbnail = (props: IThumbnailProps): JSX.Element => {
 					</Header>
 				</LinkWrapper>
 			</LinkStyle>
+			{inView && demoTheme && (
+				<ThumbnailStopButton
+					onClick={(e) => {
+						e.stopPropagation()
+						e.preventDefault()
+					}}
+				>
+					<StopButton
+						bg={darkestColor(motionPalette(demoTheme))}
+						color={motionPalette(demoTheme).text}
+						stopped={stopped}
+						onToggle={() => {
+							setStopped((prev) => {
+								const next = !prev
+								setStoredStopped(data.header, next)
+								return next
+							})
+						}}
+					/>
+				</ThumbnailStopButton>
+			)}
 			{data.tags && !hideTags && (
 				<Details>
 					<span>{props.showFull && 'Tags: '}</span>
@@ -112,10 +142,18 @@ interface IStyle {
 }
 
 const Container = styled.li`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	line-height: 1.5rem;
+`
+
+const ThumbnailStopButton = styled.div`
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 2;
 `
 
 const ImageWrapper = styled.div<IStyle>`
@@ -158,6 +196,11 @@ const Image = styled.img<{ $animate: boolean }>`
 	object-fit: cover;
 	border: 2px solid ${({ theme }) => theme.background};
 
+	@media (prefers-reduced-motion: reduce) {
+		opacity: 1;
+		animation: none;
+	}
+
 	@media (min-width: ${SMALL_SCREEN + 1}px) {
 		height: 100%;
 	}
@@ -181,6 +224,11 @@ const DemoSlot = styled.div<{ $animate: boolean }>`
 			: 'none'};
 	animation-fill-mode: forwards;
 	border: 2px solid ${({ theme }) => theme.background};
+
+	@media (prefers-reduced-motion: reduce) {
+		opacity: 1;
+		animation: none;
+	}
 
 	/* Unlike Image above, this intentionally does NOT grow to height:
 	100% at wider screens. Image's content is a single <img> with
@@ -236,6 +284,13 @@ const LinkStyle = styled.div`
 		display: flex;
 		flex-direction: column;
 		height: 100%;
+
+		&:focus::after {
+			top: -2px;
+			left: -3px;
+			right: -3px;
+			bottom: 4px;
+		}
 
 		&:hover {
 			text-decoration: none;

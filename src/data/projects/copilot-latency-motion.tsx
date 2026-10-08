@@ -283,7 +283,7 @@ export const copilotLatencyMotion: IProject = {
 					},
 					{
 						demo: (
-							<DemoSlide theme={dabTheme} interactive hasHeader>
+							<DemoSlide theme={dabTheme} interactive hasHeader hideRestartIcon>
 								<DABInteractive theme={dabTheme} />
 							</DemoSlide>
 						),
