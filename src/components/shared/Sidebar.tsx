@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
-import { motion } from 'motion/react'
-import styled from 'styled-components'
+import { motion, useReducedMotion } from 'motion/react'
+import styled, { css } from 'styled-components'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN } from '../../styles/GlobalStyles'
 
 interface ISidebarProps {
@@ -10,10 +10,12 @@ interface ISidebarProps {
 	onClick: () => void
 	setIsOpen: (isOpen: boolean) => void
 	onAnimationComplete?: (x: string) => void
+	asElement?: 'button' | 'div'
 	children?: React.ReactNode
 }
 
 export const Sidebar = (props: ISidebarProps): JSX.Element => {
+	const prefersReducedMotion = useReducedMotion()
 	const isCentered = props.isSmallScreen || props.isOpen
 	const sidebarStyles: React.CSSProperties = {
 		borderRadius: isCentered ? '5px' : '5px 0 0 5px',
@@ -24,29 +26,44 @@ export const Sidebar = (props: ISidebarProps): JSX.Element => {
 		open: {
 			width: '100%',
 			marginRight: props.isSmallScreen ? SIDE_GAP_SMALL_SCREEN : SIDE_GAP,
+			transition: prefersReducedMotion ? { duration: 0 } : undefined,
 		},
 		closed: {
 			marginRight: 0,
 			width: 'auto',
-			transition: {
-				delay: 0.1,
-			},
+			transition: prefersReducedMotion
+				? { duration: 0 }
+				: {
+						delay: 0.1,
+					},
 		},
+	}
+
+	const sharedProps = {
+		variants: sidebar,
+		initial: false,
+		animate: props.isOpen || props.isSmallScreen ? 'open' : 'closed',
+		onAnimationComplete: (x: string) => props.onAnimationComplete && props.onAnimationComplete(x.toString()),
+		style: sidebarStyles,
+		children: props.children,
+	}
+
+	if (props.asElement === 'div') {
+		return (
+			<Container>
+				<AnimateSidebarContainer role="search" {...sharedProps} />
+			</Container>
+		)
 	}
 
 	return (
 		<Container>
 			<AnimateSidebar
+				type="button"
 				onClick={props.onClick}
-				variants={sidebar}
-				initial={false}
-				animate={props.isOpen || props.isSmallScreen ? 'open' : 'closed'}
-				onAnimationComplete={(x) => props.onAnimationComplete && props.onAnimationComplete(x.toString())}
-				style={sidebarStyles}
 				aria-label={props.ariaLabel}
-			>
-				{props.children}
-			</AnimateSidebar>
+				{...sharedProps}
+			/>
 		</Container>
 	)
 }
@@ -55,7 +72,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: flex-end;
 `
-const AnimateSidebar = styled(motion.button)`
+const sidebarStyles = css`
 	display: flex;
 	justify-content: space-between;
 	height: 40px;
@@ -72,4 +89,16 @@ const AnimateSidebar = styled(motion.button)`
 		color: ${({ theme }) => theme.sidebarText};
 	}
 	transition: border-radius 200ms ease-out;
+
+	@media (prefers-reduced-motion: reduce) {
+		transition: none;
+	}
+`
+
+const AnimateSidebar = styled(motion.button)`
+	${sidebarStyles}
+`
+
+const AnimateSidebarContainer = styled(motion.div)`
+	${sidebarStyles}
 `

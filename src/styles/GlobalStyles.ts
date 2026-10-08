@@ -5,7 +5,7 @@ import { AccentColors, Theme } from './theme'
 export const GRID_WIDTH = 350
 export const GRID_GAP = 20
 export const SIDE_GAP = '3vw'
-export const SIDE_GAP_SMALL_SCREEN = '5vw'
+export const SIDE_GAP_SMALL_SCREEN = '3vw'
 export const BOTTOM_GAP = '40px'
 
 /** SCREEN SIZE */

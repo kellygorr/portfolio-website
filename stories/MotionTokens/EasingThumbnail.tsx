@@ -32,13 +32,12 @@ const Label = styled.div``
  */
 const GraphBox = styled.div`
 	position: relative;
-	aspect-ratio: 16 / 11;
+	height: 96px;
 	border-radius: 8px;
 	overflow: hidden;
 
 	@media (max-width: ${SMALL_SCREEN}px) {
-		aspect-ratio: auto;
-		height: 110px;
+		height: 96px;
 	}
 `
 
@@ -137,10 +136,10 @@ export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				gap: 16,
-				padding: '20px 18px',
 				boxSizing: 'border-box',
 				background: palette.backgroundDark,
 				color: palette.text,
+				padding: 10,
 			}}
 		>
 			{easings.map((easing, index) => {

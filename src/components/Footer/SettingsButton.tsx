@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { CogFilledIcon } from '../../assets/svg/CogFilledIcon'
 import { CogIcon } from '../../assets/svg/CogIcon'
 
@@ -18,13 +18,16 @@ const cog2 = {
 }
 
 export const SettingsButton = (props: ISettingsButtonProps) => {
+	const prefersReducedMotion = useReducedMotion()
+	const transition = prefersReducedMotion ? { duration: 0 } : { duration: 1 }
+
 	return (
-		<Container>
+		<Container aria-hidden="true">
 			<AnimateCog
 				variants={cog1}
 				initial={false}
 				animate={props.isDarkMode ? 'darkMode' : 'lightMode'}
-				transition={{ duration: 1 }}
+				transition={transition}
 				style={{ scale: 0.7, top: '1px' }}
 			>
 				<CogIcon />
@@ -34,7 +37,7 @@ export const SettingsButton = (props: ISettingsButtonProps) => {
 				variants={cog2}
 				initial={false}
 				animate={props.isDarkMode ? 'darkMode' : 'lightMode'}
-				transition={{ duration: 1 }}
+				transition={transition}
 				style={{ scale: 0.35, left: '-15px', top: '4px' }}
 			>
 				<CogFilledIcon />

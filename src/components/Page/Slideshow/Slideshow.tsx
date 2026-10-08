@@ -1,4 +1,4 @@
-import { useState, useEffect, type JSX } from 'react'
+import { useState, useEffect, useRef, type JSX } from 'react'
 import styled from 'styled-components'
 import { ChevronLeft16Filled, ChevronRight16Filled } from '@fluentui/react-icons'
 import { ISlide } from '../../../data/IProject'
@@ -16,75 +16,80 @@ interface IPageProps {
 	slideshowRef: React.RefObject<HTMLDivElement | null>
 }
 
-let ScrollTimer: number
-
 export const Slideshow = (props: IPageProps): JSX.Element => {
 	const { slideshowRef } = props
 	const [active, setActive] = useState(0)
-	const [isScrolling, setIsScrolling] = useState(false)
+	const [isUserScrolling, setIsUserScrolling] = useState(false)
+	const scrollTimerRef = useRef<number | undefined>(undefined)
+	const userScrollStartedRef = useRef(false)
 
 	useEffect(() => {
-		if (!isScrolling) {
+		if (!isUserScrolling) {
 			findActiveSlide(setActive, slideshowRef)
 		}
-	}, [isScrolling])
+	}, [isUserScrolling, slideshowRef])
 
-	/** Scrolls a specific slide into view — shared by clicking the
-	 *  left/right 25%/75% zones of the slideshow itself (see
-	 *  `handleSlideShowClick`) and the explicit prev/next buttons next to
-	 *  the "X of Y" counter below. */
+	useEffect(() => {
+		const animationFrame = window.requestAnimationFrame(() => findActiveSlide(setActive, slideshowRef))
+		return () => window.cancelAnimationFrame(animationFrame)
+	}, [props.data, slideshowRef])
+
+	useEffect(
+		() => () => {
+			if (scrollTimerRef.current !== undefined) {
+				window.clearTimeout(scrollTimerRef.current)
+			}
+		},
+		[]
+	)
+
+	/** Scrolls a specific slide into view from the explicit prev/next
+	 *  buttons next to the "X of Y" counter below. */
 	const goToSlide = (index: number) => {
 		if (!slideshowRef || !slideshowRef.current) return
+		userScrollStartedRef.current = true
+		setIsUserScrolling(true)
 		const nextSlide = slideshowRef.current.children[index] as HTMLElement | undefined
 		nextSlide?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-	}
-
-	const handleSlideShowClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		if (slideshowRef && slideshowRef.current) {
-			const slideWidth = slideshowRef.current.clientWidth
-			const clickPosition = e.clientX - slideshowRef.current.getBoundingClientRect().left
-			let nextIndex = null
-			if (clickPosition < slideWidth * 0.25 && active > 0) {
-				/** Left side click */
-				nextIndex = active - 1
-			} else if (clickPosition > slideWidth * 0.75 && active < props.data.length - 1) {
-				/** Right side click */
-				nextIndex = active + 1
-			}
-
-			if (!(nextIndex === null)) {
-				e.preventDefault()
-				goToSlide(nextIndex)
-			}
-		}
 	}
 
 	return (
 		<>
 			<Slides
 				ref={slideshowRef}
+				tabIndex={-1}
 				onScroll={() => {
-					if (props.data.length > 1) {
-						setIsScrolling(true)
-						clearTimeout(ScrollTimer)
+					if (props.data.length > 1 && userScrollStartedRef.current) {
+						setIsUserScrolling(true)
+						if (scrollTimerRef.current !== undefined) {
+							window.clearTimeout(scrollTimerRef.current)
+						}
 
-						ScrollTimer = window.setTimeout(() => {
-							setIsScrolling(false)
+						scrollTimerRef.current = window.setTimeout(() => {
+							userScrollStartedRef.current = false
+							setIsUserScrolling(false)
 						}, 150)
 					}
 				}}
-				onClick={handleSlideShowClick}
+				onPointerDown={() => {
+					userScrollStartedRef.current = true
+				}}
+				onWheel={(event) => {
+					if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+						userScrollStartedRef.current = true
+					}
+				}}
 			>
 				{props.data.map((slide: ISlide, index) => (
 					<Slide
 						key={slide.img ?? `demo-${index}`}
-						isActive={index === active && props.data.length > 1}
-						isScrolling={isScrolling}
+						isActive={index === active}
+						showActiveBorder={index === active && props.data.length > 1}
+						isScrolling={isUserScrolling}
 						neutralBorder={props.neutralBorder}
 						defaultwidth={props.defaultwidth}
 						gap={props.gap}
 						data={slide}
-						canNavigate={props.data.length > 1}
 					/>
 				))}
 			</Slides>
@@ -92,11 +97,19 @@ export const Slideshow = (props: IPageProps): JSX.Element => {
 				{props.data[active].caption}
 				{props.data.length > 1 && (
 					<Counter>
-						<NavButton onClick={() => goToSlide(active - 1)} disabled={active === 0} aria-label="Previous slide">
+						<NavButton
+							onClick={() => goToSlide(active - 1)}
+							disabled={active === 0}
+							aria-label="Previous slide"
+						>
 							<ChevronLeft16Filled />
 						</NavButton>
 						<Key>{`${active + 1} of ${props.data.length}`}</Key>
-						<NavButton onClick={() => goToSlide(active + 1)} disabled={active === props.data.length - 1} aria-label="Next slide">
+						<NavButton
+							onClick={() => goToSlide(active + 1)}
+							disabled={active === props.data.length - 1}
+							aria-label="Next slide"
+						>
 							<ChevronRight16Filled />
 						</NavButton>
 					</Counter>

@@ -45,12 +45,36 @@ export const textAdventure: IProject = {
 			slideshow: {
 				width: 1250,
 				slides: [
-					{ img: imgLanding, caption: 'Select theme' },
-					{ img: imgRoom1Autofill, caption: 'Room 1' },
-					{ img: imgRoom2, caption: 'Room 2' },
-					{ img: imgRoom3DeadEnd, caption: 'Dead end' },
-					{ img: imgRoom4, caption: 'Room 4' },
-					{ img: imgEscaped, caption: 'Escaped!' },
+					{
+						img: imgLanding,
+						caption: 'Select theme',
+						alt: 'Text adventure theme selection screen with options for dungeon, forest, and castle.',
+					},
+					{
+						img: imgRoom1Autofill,
+						caption: 'Room 1',
+						alt: 'Text adventure game screen showing room 1 with illustrated dungeon artwork, room text, and an autofilled action to investigate the chair.',
+					},
+					{
+						img: imgRoom2,
+						caption: 'Room 2',
+						alt: 'Text adventure game screen showing room 2, with dungeon artwork on the left and room description, exits, response text, and inventory controls on the right.',
+					},
+					{
+						img: imgRoom3DeadEnd,
+						caption: 'Dead end',
+						alt: 'Text adventure game screen showing a dead-end room where collapsed rubble blocks the way forward.',
+					},
+					{
+						img: imgRoom4,
+						caption: 'Room 4',
+						alt: 'Text adventure game screen showing room 4 with guard room artwork, final obstacle text, and inventory controls.',
+					},
+					{
+						img: imgEscaped,
+						caption: 'Escaped!',
+						alt: 'Text adventure end screen confirming the player escaped the dungeon.',
+					},
 				],
 			},
 		},

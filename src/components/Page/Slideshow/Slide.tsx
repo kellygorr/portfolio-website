@@ -6,6 +6,7 @@ import { MIN_WIDTH } from '../../../styles/GlobalStyles'
 
 interface IPageProps {
 	isActive: boolean
+	showActiveBorder: boolean
 	isScrolling: boolean
 	neutralBorder?: boolean
 	defaultwidth: number
@@ -13,34 +14,44 @@ interface IPageProps {
 	 *  total gap between two adjacent slides) if not provided. */
 	gap?: number
 	data: ISlide
-	canNavigate?: boolean
 }
 
 export const Slide = (props: IPageProps): JSX.Element => {
 	const ref = useRef<HTMLDivElement>(null)
-	const { data, isActive, isScrolling, neutralBorder, defaultwidth, gap, canNavigate } = props
+	const { data, isActive, showActiveBorder, isScrolling, neutralBorder, defaultwidth, gap } = props
 	useEffect(() => {
 		window.scrollTo(0, 0)
 	}, [])
 
-	const handleSlideClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		if (canNavigate && !isActive) {
-			e.stopPropagation()
-			e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+	useEffect(() => {
+		const element = ref.current
+		if (!element) return
+
+		if (isActive) {
+			element.removeAttribute('inert')
+			element.removeAttribute('aria-hidden')
+		} else {
+			element.setAttribute('inert', '')
+			element.setAttribute('aria-hidden', 'true')
 		}
+	}, [isActive])
+
+	const openImage = () => {
+		if (!data.img || data.demo || data.file) return
+		window.open(data.img, '_blank', 'noopener,noreferrer')
 	}
 
 	return (
 		<Container
 			ref={ref}
 			style={{
-				cursor: canNavigate && !isActive ? 'pointer' : 'default',
-				borderColor: isActive ? (isScrolling ? 'transparent' : neutralBorder ? NeutralColors.gray11 : '') : 'transparent',
-				transitionDuration: isScrolling ? '0s' : '300ms',
+				cursor: 'default',
 			}}
+			$showActiveBorder={showActiveBorder}
+			$isScrolling={isScrolling}
+			$neutralBorder={Boolean(neutralBorder)}
 			$defaultwidth={defaultwidth}
 			$gap={gap}
-			onClick={handleSlideClick}
 		>
 			{data.demo ? (
 				<DemoSlideContent>{data.demo}</DemoSlideContent>
@@ -56,15 +67,18 @@ export const Slide = (props: IPageProps): JSX.Element => {
 					<source src={data.file.source} type="video/mp4" />
 				</video>
 			) : (
-				<img src={data.img} srcSet={data.img2x ? `${data.img} 1x, ${data.img2x} 2x` : undefined} alt={data.img} />
+				<ImageButton onClick={openImage} $defaultwidth={defaultwidth}>
+					<img src={data.img} srcSet={data.img2x ? `${data.img} 1x, ${data.img2x} 2x` : undefined} alt={data.alt ?? data.caption ?? ''} />
+				</ImageButton>
 			)}
 		</Container>
 	)
 }
 
 interface IStyle {
-	isActive?: boolean
-	isScrolling?: boolean
+	$showActiveBorder?: boolean
+	$isScrolling?: boolean
+	$neutralBorder?: boolean
 	$defaultwidth?: number
 	$gap?: number
 }
@@ -79,8 +93,10 @@ const Container = styled.div<IStyle>`
 	margin: 0 ${({ $gap }) => $gap ?? DEFAULT_GAP}px;
 	height: 100%;
 
-	border-color: ${({ theme }) => theme.accent};
+	border-color: ${({ $showActiveBorder, $neutralBorder, theme }) =>
+		!$showActiveBorder ? 'transparent' : $neutralBorder ? NeutralColors.gray11 : theme.accent};
 	background-clip: padding-box;
+	transition-duration: ${({ $isScrolling }) => ($isScrolling ? '0s' : '300ms')};
 
 	/* snap align center  */
 	scroll-snap-align: center;
@@ -98,6 +114,7 @@ const Container = styled.div<IStyle>`
 
 	img,
 	video,
+	.image-slide-content,
 	.demo-slide-content {
 		border: ${BorderSize}px solid transparent;
 		border-color: inherit;
@@ -131,6 +148,7 @@ const Container = styled.div<IStyle>`
 	@media (max-width: ${({ $defaultwidth }) => $defaultwidth}px) {
 		img,
 		video,
+		.image-slide-content,
 		.demo-slide-content {
 			/* Same MIN_WIDTH floor reasoning as the default max-width
 			   above — 100vw should never resolve smaller than MIN_WIDTH
@@ -141,3 +159,27 @@ const Container = styled.div<IStyle>`
 `
 
 const DemoSlideContent = styled.div.attrs({ className: 'demo-slide-content' })``
+
+const ImageButton = styled.div.attrs({ className: 'image-slide-content' })<{ $defaultwidth: number }>`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: max-content;
+	height: max-content;
+	padding: 0;
+	cursor: zoom-in;
+	background: transparent;
+
+	img {
+		display: block;
+		border: 0;
+		max-height: calc(60vh - ${BorderSize * 2}px);
+		max-width: max(75vw - ${BorderSize * 2}px, ${MIN_WIDTH * 0.75 - BorderSize * 2}px);
+	}
+
+	@media (max-width: ${({ $defaultwidth }) => $defaultwidth}px) {
+		img {
+			max-width: max(100vw - ${BorderSize * 2}px, ${MIN_WIDTH - BorderSize * 2}px);
+		}
+	}
+`

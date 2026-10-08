@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, type JSX } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import styled from 'styled-components'
 import { SearchIcon } from '../../assets/svg/SearchIcon'
 import { SkillType, TagType } from '../../data/IProject'
@@ -38,6 +38,7 @@ const ideasList = [TagType.Microsoft, SkillType.UIUX, TagType.Copilot]
 export const SearchBar = (props: ISearchProps): JSX.Element => {
 	const ref = useRef<HTMLInputElement>(null)
 	const navigate = useNavigate()
+	const prefersReducedMotion = useReducedMotion()
 	// Lazy-initialized from the CURRENT isSearching value (not always
 	// 'closed') — Sidebar's own sidebar-expand animation has
 	// `initial={false}`, so if search is already open on first mount
@@ -94,9 +95,10 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
 				isSmallScreen={props.isSmallScreen}
-				onClick={handleSearchClick}
+				onClick={props.isSearching ? () => {} : handleSearchClick}
 				onAnimationComplete={(x) => setTriggerContent(x)}
 				ariaLabel={props.isSearching ? 'Close search' : 'Open search'}
+				asElement={props.isSearching ? 'div' : 'button'}
 			>
 				<SearchButton style={{ marginRight: !(props.isSearching || props.isSmallScreen) ? '40px' : 0 }}>
 					<SearchIcon />
@@ -112,13 +114,27 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 					/>
 				)}
 
-				{props.isSearching && <SearchButton>X</SearchButton>}
+				{props.isSearching && (
+					<CloseButton type="button" onClick={handleSearchClick} aria-label="Close search">
+						X
+					</CloseButton>
+				)}
 			</Sidebar>
 			<AnimatePresence>
 				{props.isSearching && !props.isSmallScreen && (
-					<AnimateIdeas variants={ideas} initial="closed" animate={triggerContent} exit="closed">
+					<AnimateIdeas
+						variants={prefersReducedMotion ? undefined : ideas}
+						initial={prefersReducedMotion ? false : 'closed'}
+						animate={prefersReducedMotion ? undefined : triggerContent}
+						exit={prefersReducedMotion ? undefined : 'closed'}
+					>
 						{ideasList.map((item) => (
-							<AnimateIdea key={item} variants={idea} onClick={() => handleIdeaClick(item)}>
+							<AnimateIdea
+								key={item}
+								type="button"
+								variants={prefersReducedMotion ? undefined : idea}
+								onClick={() => handleIdeaClick(item)}
+							>
 								{/* Search on the ORIGINAL tag value ("UI-UX"), only the
 								    displayed label is renamed to "UI/UX" — see the
 								    matching comment in Tag.tsx. */}
@@ -142,7 +158,6 @@ const Container = styled.div`
 
 	> div > button {
 		position: relative;
-		overflow: hidden;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
 		/* Neutral grey wash, fixed in place, that simply fades in/out on
@@ -155,6 +170,7 @@ const Container = styled.div`
 			content: '';
 			position: absolute;
 			inset: 0;
+			border-radius: inherit;
 			background-color: ${NeutralColors.neutral40};
 			opacity: 0;
 			transition: opacity 150ms ease-in-out;
@@ -187,6 +203,15 @@ const SearchButton = styled.div`
 	}
 `
 
+const CloseButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	min-width: 40px;
+	height: 100%;
+`
+
 const Input = styled.input`
 	height: 100%;
 	width: 100%;
@@ -205,7 +230,7 @@ const AnimateIdeas = styled(motion.div)`
 	opacity: 0;
 	overflow: hidden;
 `
-const AnimateIdea = styled(motion.div)`
+const AnimateIdea = styled(motion.button)`
 	position: relative;
 	overflow: hidden;
 	cursor: pointer;
