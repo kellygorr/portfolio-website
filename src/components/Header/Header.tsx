@@ -1,15 +1,30 @@
-import type { JSX } from 'react'
+import { useState, type JSX } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { motionPalette } from '../../styles/motionPalettes'
+import { motionPalette, motionPalettes, motionThemeTokens, type MotionPaletteName } from '../../styles/motionPalettes'
 
-// Amber, Clay, Rose — the three darker Warm Sand accent swatches, cycled
-// per-letter on name hover (independent of the site's light/dark theme,
-// same as the single-color gradient hover it replaces).
-const warmSand = motionPalette('Warm Sand')
-const nameHoverColors = warmSand.colors.slice(1, 4)
+const nameHoverTokenNames = ['--name-motion-token-3', '--name-motion-token-4', '--name-motion-token-5'] as const
+const excludedNameHoverThemes = new Set<MotionPaletteName>(['Golden Hour (Lime)', 'Golden Hour (Beige)'])
+const motionPaletteNames = motionPalettes.map((palette) => palette.name).filter((name) => !excludedNameHoverThemes.has(name))
+
+const getRandomMotionTheme = (currentTheme?: MotionPaletteName): MotionPaletteName => {
+	const availableThemes = motionPaletteNames.filter((theme) => theme !== currentTheme)
+	return availableThemes[Math.floor(Math.random() * availableThemes.length)] ?? motionPaletteNames[0]
+}
+
+const getNameMotionThemeStyle = (theme: MotionPaletteName): React.CSSProperties => {
+	const tokens = motionThemeTokens(motionPalette(theme))
+
+	return {
+		'--name-motion-token-3': tokens.token3,
+		'--name-motion-token-4': tokens.token4,
+		'--name-motion-token-5': tokens.token5,
+	} as React.CSSProperties
+}
 
 export const Header = (): JSX.Element => {
+	const [nameMotionTheme, setNameMotionTheme] = useState<MotionPaletteName>(() => getRandomMotionTheme())
+
 	// No click handler needed to close search here — the logo's own <Link>
 	// already navigates to "/" (no `?q=`), which is enough on its own for
 	// App.tsx's derived `isSearching` to resolve to false. Explicitly
@@ -19,7 +34,11 @@ export const Header = (): JSX.Element => {
 	return (
 		<Container>
 			<Logo>
-				<StyledLink to="/">
+				<StyledLink
+					to="/"
+					style={getNameMotionThemeStyle(nameMotionTheme)}
+					onMouseLeave={() => setNameMotionTheme((currentTheme) => getRandomMotionTheme(currentTheme))}
+				>
 					{'Kelly Gorr'.split('').map((char, i) => (
 						<NameChar key={i} $index={i}>
 							{char === ' ' ? '\u00A0' : char}
@@ -68,11 +87,11 @@ const StyledLink = styled(Link)`
 			color: ${({ theme }) => theme.text};
 		}
 
-		${Array.from({ length: nameHoverColors.length })
+		${Array.from({ length: nameHoverTokenNames.length })
 			.map(
 				(_, colorIndex) => `
-			&:hover ${NameChar}:nth-child(${nameHoverColors.length}n + ${colorIndex + 1}) {
-				color: ${nameHoverColors[colorIndex]};
+			&:hover ${NameChar}:nth-child(${nameHoverTokenNames.length}n + ${colorIndex + 1}) {
+				color: var(${nameHoverTokenNames[colorIndex]});
 			}
 		`
 			)
