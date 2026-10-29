@@ -70,24 +70,38 @@ export const ClampBreakpoint = ({ showReadouts, showTable, showBreakpoint }: Cla
 		[currentShowReadouts, windowWidth, mounted, usePxUnits]
 	)
 
-
 	return (
 		<FluentProvider theme={webLightTheme}>
 			<div
-			style={{
-				minHeight: '100vh',
-				background: pageBackground,
-				color: '#242424',
-				fontFamily: 'Segoe UI, Arial, sans-serif',
-				position: 'relative',
-				overflow: 'hidden',
-			}}
+				style={{
+					minHeight: '100vh',
+					background: pageBackground,
+					color: '#242424',
+					fontFamily: 'Segoe UI, Arial, sans-serif',
+					position: 'relative',
+					overflow: 'hidden',
+				}}
 			>
 				<style>{styles}</style>
 				<SettingsPanel hoverIconColor={accentColor}>
-					<SettingsCheckbox label="Show font sizes" checked={currentShowReadouts} onChange={setCurrentShowReadouts} accentColor={accentColor} />
-					<SettingsCheckbox label="Show table" checked={currentShowTable} onChange={setCurrentShowTable} accentColor={accentColor} />
-					<SettingsCheckbox label="Show breakpoint" checked={currentShowBreakpoint} onChange={setCurrentShowBreakpoint} accentColor={accentColor} />
+					<SettingsCheckbox
+						label="Show font sizes"
+						checked={currentShowReadouts}
+						onChange={setCurrentShowReadouts}
+						accentColor={accentColor}
+					/>
+					<SettingsCheckbox
+						label="Show table"
+						checked={currentShowTable}
+						onChange={setCurrentShowTable}
+						accentColor={accentColor}
+					/>
+					<SettingsCheckbox
+						label="Show breakpoint"
+						checked={currentShowBreakpoint}
+						onChange={setCurrentShowBreakpoint}
+						accentColor={accentColor}
+					/>
 					<SettingsSwitch label="rem/px" checked={usePxUnits} onChange={setUsePxUnits} accentColor={accentColor} />
 				</SettingsPanel>
 				{currentShowBreakpoint && <BreakpointLine breakpoints={breakpoints} />}
@@ -97,67 +111,69 @@ export const ClampBreakpoint = ({ showReadouts, showTable, showBreakpoint }: Cla
 					</h1>
 				</header>
 				<main className="content">
-				<h2 ref={h2Ref} className="h2">
-					Heading 2{readout(h2Ref)}
-				</h2>
-				<div className="controls-row">
-					<div className="breakpoints">
-						<strong>Breakpoints:</strong>
-						{breakpoints.map((breakpoint) => (
-							<span key={breakpoint}>{breakpoint}px</span>
-						))}
+					<h2 ref={h2Ref} className="h2">
+						Heading 2{readout(h2Ref)}
+					</h2>
+					<div className="controls-row">
+						<div className="breakpoints">
+							<strong>Breakpoints:</strong>
+							{breakpoints.map((breakpoint) => (
+								<span key={breakpoint}>{breakpoint}px</span>
+							))}
+						</div>
 					</div>
-				</div>
-				{currentShowTable && (
-					<div>
-						<table className="type-table">
-							<thead>
-								<tr>
-									<th>Element</th>
-									{breakpoints.map((breakpoint) => (
-										<th key={breakpoint}>{breakpoint}px</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{typeRows.map((row) => (
-									<tr key={row.label}>
-										<td>{row.label}</td>
-										{row.values.map((value) => (
-											<td key={value}>{value}</td>
+					{currentShowTable && (
+						<div>
+							<table className="type-table">
+								<thead>
+									<tr>
+										<th>Element</th>
+										{breakpoints.map((breakpoint) => (
+											<th key={breakpoint}>{breakpoint}px</th>
 										))}
 									</tr>
-								))}
-							</tbody>
-						</table>
-						<p className="table-note">* These values are not meant to reflect Bebop typography and are for testing clamp() functions only.</p>
-					</div>
-				)}
-				<section className="single-column">
-					<p ref={bodyRef} className="body">
-						Body text{readout(bodyRef)}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
-						venenatis dapibus posuere velit aliquet.
-					</p>
-				</section>
-				<section className="two-column">
-					<div>
-						<h3 ref={h3Ref} className="h3">
-							Heading 3{readout(h3Ref)}
-						</h3>
-						<p className="body">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.
+								</thead>
+								<tbody>
+									{typeRows.map((row) => (
+										<tr key={row.label}>
+											<td>{row.label}</td>
+											{row.values.map((value) => (
+												<td key={value}>{value}</td>
+											))}
+										</tr>
+									))}
+								</tbody>
+							</table>
+							<p className="table-note">
+								* These values are not meant to reflect Bebop typography and are for testing clamp() functions only.
+							</p>
+						</div>
+					)}
+					<section className="single-column">
+						<p ref={bodyRef} className="body">
+							Body text{readout(bodyRef)}. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+							ante venenatis dapibus posuere velit aliquet.
 						</p>
-					</div>
-					<div>
-						<h3 className="h3">Heading 3</h3>
-						<p className="body">
-							Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-						</p>
-						<p className="body">
-							Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod.
-						</p>
-					</div>
-				</section>
+					</section>
+					<section className="two-column">
+						<div>
+							<h3 ref={h3Ref} className="h3">
+								Heading 3{readout(h3Ref)}
+							</h3>
+							<p className="body">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla.
+							</p>
+						</div>
+						<div>
+							<h3 className="h3">Heading 3</h3>
+							<p className="body">
+								Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
+							</p>
+							<p className="body">
+								Cras mattis consectetur purus sit amet fermentum. Etiam porta sem malesuada magna mollis euismod.
+							</p>
+						</div>
+					</section>
 				</main>
 			</div>
 		</FluentProvider>

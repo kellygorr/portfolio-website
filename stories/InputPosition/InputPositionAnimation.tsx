@@ -150,13 +150,10 @@ export const InputPositionAnimation: React.FC<InputPositionAnimationProps> = ({
 		rafRef.current = requestAnimationFrame(() => {
 			rafRef.current = null
 			el.style.transform = ''
-			const animation = el.animate(
-				[{ transform: `translateY(${fromTranslateY}px)` }, { transform: 'translateY(0)' }],
-				{
-					duration,
-					easing: EASING,
-				},
-			)
+			const animation = el.animate([{ transform: `translateY(${fromTranslateY}px)` }, { transform: 'translateY(0)' }], {
+				duration,
+				easing: EASING,
+			})
 
 			animation.onfinish = () => {
 				onAnimationComplete?.()

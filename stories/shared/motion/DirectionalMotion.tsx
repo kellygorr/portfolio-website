@@ -27,141 +27,139 @@ import { createPresenceComponent } from '@fluentui/react-motion'
 import { durationsMs, curves } from '../../../src/styles/motionTokens'
 
 const FadeSlidePresence = createPresenceComponent({
-  exit: [
-    {
-      keyframes: [{ transform: 'translateX(0px)' }, { transform: 'translateX(var(--exit-to))' }],
-      duration: durationsMs.normal,
-      easing: curves.decelerateMin,
-    },
-    {
-      keyframes: [{ opacity: 1 }, { opacity: 0 }],
-      delay: 100,
-      duration: durationsMs.ultraFast,
-      easing: curves.linear,
-    },
-  ],
-  enter: [
-    {
-      keyframes: [{ transform: 'translateX(var(--enter-from))' }, { transform: 'translateX(0px)' }],
-      duration: durationsMs.normal,
-      easing: curves.decelerateMin,
-    },
-    {
-      keyframes: [{ opacity: 0 }, { opacity: 1 }],
-      duration: durationsMs.faster,
-      delay: 0, // delay = 0, starts at 150ms (end of exit animation)
-      easing: curves.linear,
-    },
-  ],
+	exit: [
+		{
+			keyframes: [{ transform: 'translateX(0px)' }, { transform: 'translateX(var(--exit-to))' }],
+			duration: durationsMs.normal,
+			easing: curves.decelerateMin,
+		},
+		{
+			keyframes: [{ opacity: 1 }, { opacity: 0 }],
+			delay: 100,
+			duration: durationsMs.ultraFast,
+			easing: curves.linear,
+		},
+	],
+	enter: [
+		{
+			keyframes: [{ transform: 'translateX(var(--enter-from))' }, { transform: 'translateX(0px)' }],
+			duration: durationsMs.normal,
+			easing: curves.decelerateMin,
+		},
+		{
+			keyframes: [{ opacity: 0 }, { opacity: 1 }],
+			duration: durationsMs.faster,
+			delay: 0, // delay = 0, starts at 150ms (end of exit animation)
+			easing: curves.linear,
+		},
+	],
 })
 
 export interface DirectionalMotionProps {
-  children: ReactNode
-  contentKey: string | number
-  direction?: 'left' | 'right'
-  onDirectionChange?: (currentKey: string | number, newKey: string | number) => 'left' | 'right'
-  animationDistance?: number
+	children: ReactNode
+	contentKey: string | number
+	direction?: 'left' | 'right'
+	onDirectionChange?: (currentKey: string | number, newKey: string | number) => 'left' | 'right'
+	animationDistance?: number
 }
 
 interface MotionState {
-  currentKey: string | number
-  currentChildren: ReactNode
-  direction: 'left' | 'right'
-  isVisible: boolean
-  pendingKey: string | number | null
-  pendingChildren: ReactNode | null
-  isExiting: boolean
+	currentKey: string | number
+	currentChildren: ReactNode
+	direction: 'left' | 'right'
+	isVisible: boolean
+	pendingKey: string | number | null
+	pendingChildren: ReactNode | null
+	isExiting: boolean
 }
 
 type MotionAction =
-  | {
-      type: 'EXIT_START'
-      key: string | number
-      children: ReactNode
-      direction: 'left' | 'right'
-    }
-  | { type: 'EXIT_COMPLETE' }
+	| {
+			type: 'EXIT_START'
+			key: string | number
+			children: ReactNode
+			direction: 'left' | 'right'
+	  }
+	| { type: 'EXIT_COMPLETE' }
 
 function motionReducer(state: MotionState, action: MotionAction): MotionState {
-  switch (action.type) {
-    case 'EXIT_START':
-      return {
-        ...state,
-        pendingKey: action.key,
-        pendingChildren: action.children,
-        direction: action.direction,
-        isVisible: false,
-        isExiting: true,
-      }
-    case 'EXIT_COMPLETE':
-      return {
-        ...state,
-        currentKey: state.pendingKey!,
-        currentChildren: state.pendingChildren!,
-        pendingKey: null,
-        pendingChildren: null,
-        isVisible: true,
-        isExiting: false,
-      }
-    default:
-      return state
-  }
+	switch (action.type) {
+		case 'EXIT_START':
+			return {
+				...state,
+				pendingKey: action.key,
+				pendingChildren: action.children,
+				direction: action.direction,
+				isVisible: false,
+				isExiting: true,
+			}
+		case 'EXIT_COMPLETE':
+			return {
+				...state,
+				currentKey: state.pendingKey!,
+				currentChildren: state.pendingChildren!,
+				pendingKey: null,
+				pendingChildren: null,
+				isVisible: true,
+				isExiting: false,
+			}
+		default:
+			return state
+	}
 }
 
 export const DirectionalMotion = ({
-  children,
-  contentKey,
-  direction = 'right',
-  onDirectionChange,
-  animationDistance = 30,
+	children,
+	contentKey,
+	direction = 'right',
+	onDirectionChange,
+	animationDistance = 30,
 }: DirectionalMotionProps) => {
-  const [state, dispatch] = useReducer(motionReducer, {
-    currentKey: contentKey,
-    currentChildren: children,
-    direction,
-    isVisible: true,
-    isExiting: false,
-    pendingKey: null,
-    pendingChildren: null,
-  })
+	const [state, dispatch] = useReducer(motionReducer, {
+		currentKey: contentKey,
+		currentChildren: children,
+		direction,
+		isVisible: true,
+		isExiting: false,
+		pendingKey: null,
+		pendingChildren: null,
+	})
 
-  useEffect(() => {
-    if (contentKey !== state.currentKey) {
-      const newDirection = onDirectionChange
-        ? onDirectionChange(state.currentKey, contentKey)
-        : direction
+	useEffect(() => {
+		if (contentKey !== state.currentKey) {
+			const newDirection = onDirectionChange ? onDirectionChange(state.currentKey, contentKey) : direction
 
-      dispatch({
-        type: 'EXIT_START',
-        key: contentKey,
-        children,
-        direction: newDirection,
-      })
-    }
-  }, [contentKey, children, state.currentKey, onDirectionChange, direction])
+			dispatch({
+				type: 'EXIT_START',
+				key: contentKey,
+				children,
+				direction: newDirection,
+			})
+		}
+	}, [contentKey, children, state.currentKey, onDirectionChange, direction])
 
-  const handleMotionFinish = (_: unknown, data: { direction: 'enter' | 'exit' }) => {
-    if (data.direction === 'exit' && state.pendingKey !== null) {
-      dispatch({ type: 'EXIT_COMPLETE' })
-    }
-  }
+	const handleMotionFinish = (_: unknown, data: { direction: 'enter' | 'exit' }) => {
+		if (data.direction === 'exit' && state.pendingKey !== null) {
+			dispatch({ type: 'EXIT_COMPLETE' })
+		}
+	}
 
-  const enterOffset = state.direction === 'left' ? -animationDistance : animationDistance
-  const exitOffset = state.direction === 'left' ? animationDistance : -animationDistance
+	const enterOffset = state.direction === 'left' ? -animationDistance : animationDistance
+	const exitOffset = state.direction === 'left' ? animationDistance : -animationDistance
 
-  return (
-    <div
-      style={
-        {
-          width: 'inherit',
-          '--enter-from': `${enterOffset}px`,
-          '--exit-to': `${exitOffset}px`,
-        } as React.CSSProperties
-      }
-    >
-      <FadeSlidePresence visible={state.isVisible} onMotionFinish={handleMotionFinish}>
-        <div style={{ opacity: state.isExiting ? undefined : 0 }}>{state.currentChildren}</div>
-      </FadeSlidePresence>
-    </div>
-  )
+	return (
+		<div
+			style={
+				{
+					width: 'inherit',
+					'--enter-from': `${enterOffset}px`,
+					'--exit-to': `${exitOffset}px`,
+				} as React.CSSProperties
+			}
+		>
+			<FadeSlidePresence visible={state.isVisible} onMotionFinish={handleMotionFinish}>
+				<div style={{ opacity: state.isExiting ? undefined : 0 }}>{state.currentChildren}</div>
+			</FadeSlidePresence>
+		</div>
+	)
 }

@@ -168,8 +168,7 @@ const Footer = styled.footer<{ $bg: string; $text: string }>`
 		left: 0px;
 		width: 100%;
 		height: 14px;
-		background: ${({ $bg }) =>
-			`linear-gradient(-45deg, ${$bg} 7px, transparent 0), linear-gradient(45deg, ${$bg} 7px, transparent 0)`};
+		background: ${({ $bg }) => `linear-gradient(-45deg, ${$bg} 7px, transparent 0), linear-gradient(45deg, ${$bg} 7px, transparent 0)`};
 		background-repeat: repeat-x;
 		background-size: 14px 14px;
 	}

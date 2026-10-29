@@ -148,7 +148,6 @@ export const ControlPanel = ({
 					onFontAdjustmentsReset={onFontAdjustmentsReset}
 				/>
 			)}
-
 		</>
 	)
 }

@@ -111,7 +111,9 @@ const SearchButton = styled.button<{ $text: string; $accent: string; $bg: string
 	align-items: center;
 	justify-content: center;
 	color: ${({ $text }) => $text};
-	transition: border-color 250ms ease-in-out, color 250ms ease-in-out;
+	transition:
+		border-color 250ms ease-in-out,
+		color 250ms ease-in-out;
 
 	&:hover {
 		border-color: ${({ $accent }) => $accent};
@@ -127,7 +129,9 @@ const Name = styled.h1<{ $text: string; $accent: string }>`
 	padding-bottom: 4px;
 	border-bottom: 2px solid transparent;
 	color: ${({ $text }) => $text};
-	transition: color 250ms ease-in-out, border-color 250ms ease-in-out;
+	transition:
+		color 250ms ease-in-out,
+		border-color 250ms ease-in-out;
 
 	&:hover {
 		color: ${({ $accent }) => $accent};
@@ -241,8 +245,7 @@ const Footer = styled.footer<{ $bg: string; $text: string; $footerStyle: Neutral
 		left: 0px;
 		width: 100%;
 		height: 14px;
-		background: ${({ $bg }) =>
-			`linear-gradient(-45deg, ${$bg} 7px, transparent 0), linear-gradient(45deg, ${$bg} 7px, transparent 0)`};
+		background: ${({ $bg }) => `linear-gradient(-45deg, ${$bg} 7px, transparent 0), linear-gradient(45deg, ${$bg} 7px, transparent 0)`};
 		background-repeat: repeat-x;
 		background-size: 14px 14px;
 	}
@@ -327,4 +330,3 @@ export const SoftStoneLight: Story = { render: () => <ThemedHomepage theme={them
 
 export const BoneAndCharcoalDark: Story = { render: () => <ThemedHomepage theme={themes.boneAndCharcoalDark} /> }
 export const BoneAndCharcoalLight: Story = { render: () => <ThemedHomepage theme={themes.boneAndCharcoalLight} /> }
-

@@ -8,10 +8,7 @@ interface BreakpointIndicatorProps {
 	initialY?: number
 }
 
-export const BreakpointIndicator: FunctionComponent<BreakpointIndicatorProps> = ({
-	show,
-	initialY = 18,
-}) => {
+export const BreakpointIndicator: FunctionComponent<BreakpointIndicatorProps> = ({ show, initialY = 18 }) => {
 	const screenWidth = useWindowWidth()
 	const [indicatorY, setIndicatorY] = useState<number>(initialY)
 	const [isDragging, setIsDragging] = useState<boolean>(false)

@@ -332,9 +332,9 @@ export const InputPositionDemo = ({ theme, baseDistance = 400, baseDurationMs = 
 						setInputValue(SAMPLE_MESSAGE)
 						setIsAnchored(false)
 						onReplayStateChange?.(false)
-					}, BG_FADE_OUT_MS),
+					}, BG_FADE_OUT_MS)
 				)
-			}, SEQUENCE_STEP_MS),
+			}, SEQUENCE_STEP_MS)
 		)
 
 		return () => {

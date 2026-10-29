@@ -9,24 +9,24 @@ import { makeStyles } from '@fluentui/react-components'
 */
 
 export const useGroundingMenuStyles = makeStyles({
-  root: {
-    display: 'flex',
-    width: '500px',
-    maxWidth: '812px',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start',
-    borderRadius: '24px',
-    backgroundColor: 'var(--gm-card-bg, #fff)',
-    overflow: 'hidden',
-  },
-  listContainer: {
-    height: '200px',
-    maxHeight: '200px',
-    width: '100%',
-    boxSizing: 'border-box',
-    overflowY: 'auto',
-    overflowX: 'hidden',
-    padding: '8px',
-  },
+	root: {
+		display: 'flex',
+		width: '500px',
+		maxWidth: '812px',
+		flexDirection: 'column',
+		justifyContent: 'flex-end',
+		alignItems: 'flex-start',
+		borderRadius: '24px',
+		backgroundColor: 'var(--gm-card-bg, #fff)',
+		overflow: 'hidden',
+	},
+	listContainer: {
+		height: '200px',
+		maxHeight: '200px',
+		width: '100%',
+		boxSizing: 'border-box',
+		overflowY: 'auto',
+		overflowX: 'hidden',
+		padding: '8px',
+	},
 })

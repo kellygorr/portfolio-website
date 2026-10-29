@@ -26,20 +26,20 @@ import './LinePathMotionV2.css'
  */
 
 interface LinePathMotionV2Props {
-  /** Size of the container (px). The shape is square. */
-  size?: number
-  /**
-   * Sweep duration in ms — time from snake start to tail finish.
-   * A fixed `PAUSE_MS` is added after each sweep before the next
-   * cycle begins.
-   */
-  duration?: number
-  /** Border (stroke) thickness in px. */
-  strokeWidth?: number
-  /** Line color (any CSS color value). */
-  color?: string
-  /** Softness of the snake's trailing edge, in px. */
-  feather?: number
+	/** Size of the container (px). The shape is square. */
+	size?: number
+	/**
+	 * Sweep duration in ms — time from snake start to tail finish.
+	 * A fixed `PAUSE_MS` is added after each sweep before the next
+	 * cycle begins.
+	 */
+	duration?: number
+	/** Border (stroke) thickness in px. */
+	strokeWidth?: number
+	/** Line color (any CSS color value). */
+	color?: string
+	/** Softness of the snake's trailing edge, in px. */
+	feather?: number
 }
 
 // Defaults derived from the designer's Lottie spec
@@ -98,42 +98,42 @@ const SAMPLE_COUNT = 32
 
 /** CSS cubic-bezier evaluator. Returns y at the given x in [0, 1]. */
 const makeBezier = (x1: number, y1: number, x2: number, y2: number) => {
-  const ax = 3 * x1 - 3 * x2 + 1
-  const bx = -6 * x1 + 3 * x2
-  const cx = 3 * x1
-  const ay = 3 * y1 - 3 * y2 + 1
-  const by = -6 * y1 + 3 * y2
-  const cy = 3 * y1
-  return (t: number): number => {
-    if (t <= 0) return 0
-    if (t >= 1) return 1
-    let s = t
-    for (let i = 0; i < 8; i++) {
-      const x = ((ax * s + bx) * s + cx) * s - t
-      if (Math.abs(x) < 1e-6) break
-      const dx = (3 * ax * s + 2 * bx) * s + cx
-      if (Math.abs(dx) < 1e-6) break
-      s -= x / dx
-    }
-    return ((ay * s + by) * s + cy) * s
-  }
+	const ax = 3 * x1 - 3 * x2 + 1
+	const bx = -6 * x1 + 3 * x2
+	const cx = 3 * x1
+	const ay = 3 * y1 - 3 * y2 + 1
+	const by = -6 * y1 + 3 * y2
+	const cy = 3 * y1
+	return (t: number): number => {
+		if (t <= 0) return 0
+		if (t >= 1) return 1
+		let s = t
+		for (let i = 0; i < 8; i++) {
+			const x = ((ax * s + bx) * s + cx) * s - t
+			if (Math.abs(x) < 1e-6) break
+			const dx = (3 * ax * s + 2 * bx) * s + cx
+			if (Math.abs(dx) < 1e-6) break
+			s -= x / dx
+		}
+		return ((ay * s + by) * s + cy) * s
+	}
 }
 
 const headCurve = makeBezier(...HEAD_TIMING)
 const tailCurve = makeBezier(...TAIL_TIMING)
 
 const headAngleAt = (sweepT: number): number => {
-  if (sweepT <= 0) return START_ANGLE_DEG
-  if (sweepT >= HEAD_END_FRACTION) return HEAD_MAX_DEG
-  const p = sweepT / HEAD_END_FRACTION
-  return START_ANGLE_DEG + (HEAD_MAX_DEG - START_ANGLE_DEG) * headCurve(p)
+	if (sweepT <= 0) return START_ANGLE_DEG
+	if (sweepT >= HEAD_END_FRACTION) return HEAD_MAX_DEG
+	const p = sweepT / HEAD_END_FRACTION
+	return START_ANGLE_DEG + (HEAD_MAX_DEG - START_ANGLE_DEG) * headCurve(p)
 }
 
 const tailAngleAt = (sweepT: number): number => {
-  if (sweepT <= TAIL_START_FRACTION) return START_ANGLE_DEG
-  if (sweepT >= TAIL_END_FRACTION) return HEAD_MAX_DEG
-  const p = (sweepT - TAIL_START_FRACTION) / (TAIL_END_FRACTION - TAIL_START_FRACTION)
-  return START_ANGLE_DEG + (HEAD_MAX_DEG - START_ANGLE_DEG) * tailCurve(p)
+	if (sweepT <= TAIL_START_FRACTION) return START_ANGLE_DEG
+	if (sweepT >= TAIL_END_FRACTION) return HEAD_MAX_DEG
+	const p = (sweepT - TAIL_START_FRACTION) / (TAIL_END_FRACTION - TAIL_START_FRACTION)
+	return START_ANGLE_DEG + (HEAD_MAX_DEG - START_ANGLE_DEG) * tailCurve(p)
 }
 
 // [STORYBOOK] Dynamic keyframe generator. Emits CSS keyframe strings
@@ -142,50 +142,50 @@ const tailAngleAt = (sweepT: number): number => {
 // run this once and paste the output into LinePathMotionV2.css —
 // then delete this function and the useMemo/style-tag pair below.
 const buildKeyframes = (
-  outerName: string,
-  innerName: string,
-  fillName: string,
-  featherName: string,
-  sweepFraction: number,
-  featherPx: number
+	outerName: string,
+	innerName: string,
+	fillName: string,
+	featherName: string,
+	sweepFraction: number,
+	featherPx: number
 ): string => {
-  const outerStops: string[] = []
-  const innerStops: string[] = []
+	const outerStops: string[] = []
+	const innerStops: string[] = []
 
-  for (let i = 0; i <= SAMPLE_COUNT; i++) {
-    const sweepT = i / SAMPLE_COUNT
-    const totalT = sweepT * sweepFraction
-    const h = headAngleAt(sweepT)
-    const t = tailAngleAt(sweepT)
-    const innerDeg = Math.max(0, Math.min(MAX_SNAKE_DEG, h - t))
-    const pct = (totalT * 100).toFixed(4)
-    outerStops.push(`${pct}% { transform: rotate(${t.toFixed(4)}deg); }`)
-    innerStops.push(`${pct}% { transform: rotate(${innerDeg.toFixed(4)}deg); }`)
-  }
+	for (let i = 0; i <= SAMPLE_COUNT; i++) {
+		const sweepT = i / SAMPLE_COUNT
+		const totalT = sweepT * sweepFraction
+		const h = headAngleAt(sweepT)
+		const t = tailAngleAt(sweepT)
+		const innerDeg = Math.max(0, Math.min(MAX_SNAKE_DEG, h - t))
+		const pct = (totalT * 100).toFixed(4)
+		outerStops.push(`${pct}% { transform: rotate(${t.toFixed(4)}deg); }`)
+		innerStops.push(`${pct}% { transform: rotate(${innerDeg.toFixed(4)}deg); }`)
+	}
 
-  outerStops.push(`100% { transform: rotate(${HEAD_MAX_DEG}deg); }`)
-  innerStops.push(`100% { transform: rotate(0deg); }`)
+	outerStops.push(`100% { transform: rotate(${HEAD_MAX_DEG}deg); }`)
+	innerStops.push(`100% { transform: rotate(0deg); }`)
 
-  // Opacity fades out during the tail-catch-up phase so the snake
-  // disappears before fully collapsing (no antipodal flash residue).
-  const sweepEndPct = (sweepFraction * 100).toFixed(4)
-  const fadeStartT = HEAD_END_FRACTION + (TAIL_END_FRACTION - HEAD_END_FRACTION) * 0.3
-  const fadeEndT = HEAD_END_FRACTION + (TAIL_END_FRACTION - HEAD_END_FRACTION) * 0.85
-  const fadeStartPct = (sweepFraction * fadeStartT * 100).toFixed(4)
-  const fadeEndPct = (sweepFraction * fadeEndT * 100).toFixed(4)
-  const fill = `
+	// Opacity fades out during the tail-catch-up phase so the snake
+	// disappears before fully collapsing (no antipodal flash residue).
+	const sweepEndPct = (sweepFraction * 100).toFixed(4)
+	const fadeStartT = HEAD_END_FRACTION + (TAIL_END_FRACTION - HEAD_END_FRACTION) * 0.3
+	const fadeEndT = HEAD_END_FRACTION + (TAIL_END_FRACTION - HEAD_END_FRACTION) * 0.85
+	const fadeStartPct = (sweepFraction * fadeStartT * 100).toFixed(4)
+	const fadeEndPct = (sweepFraction * fadeEndT * 100).toFixed(4)
+	const fill = `
     @keyframes ${fillName} {
       0%, ${fadeStartPct}% { opacity: 1; }
       ${fadeEndPct}%, ${sweepEndPct}%, 100% { opacity: 0; }
     }
   `
 
-  // Tail feather only on during the snake's active life; snaps off
-  // before the opacity fade so the fade operates on a hard-edged
-  // snake (step-end timing on the container animation).
-  const featherOnStartPct = (sweepFraction * 0.04 * 100).toFixed(4)
-  const featherOffPct = fadeStartPct
-  const featherKf = `
+	// Tail feather only on during the snake's active life; snaps off
+	// before the opacity fade so the fade operates on a hard-edged
+	// snake (step-end timing on the container animation).
+	const featherOnStartPct = (sweepFraction * 0.04 * 100).toFixed(4)
+	const featherOffPct = fadeStartPct
+	const featherKf = `
     @keyframes ${featherName} {
       0% { --lpm2-feather: 0px; }
       ${featherOnStartPct}% { --lpm2-feather: ${featherPx}px; }
@@ -194,7 +194,7 @@ const buildKeyframes = (
     }
   `
 
-  return `
+	return `
     @keyframes ${outerName} {
       ${outerStops.join('\n      ')}
     }
@@ -207,67 +207,57 @@ const buildKeyframes = (
 }
 
 export const LinePathMotionV2 = ({
-  size = 70,
-  duration = 1500,
-  strokeWidth = 2,
-  color = DEFAULT_COLOR,
-  feather = 2,
+	size = 70,
+	duration = 1500,
+	strokeWidth = 2,
+	color = DEFAULT_COLOR,
+	feather = 2,
 }: LinePathMotionV2Props = {}) => {
-  const rawId = useId()
-  const idSuffix = rawId.replace(/[^a-zA-Z0-9_-]/g, '')
-  const outerKfName = `lpm2-outer-${idSuffix}`
-  const innerKfName = `lpm2-inner-${idSuffix}`
-  const fillKfName = `lpm2-fill-${idSuffix}`
-  const featherKfName = `lpm2-feather-${idSuffix}`
+	const rawId = useId()
+	const idSuffix = rawId.replace(/[^a-zA-Z0-9_-]/g, '')
+	const outerKfName = `lpm2-outer-${idSuffix}`
+	const innerKfName = `lpm2-inner-${idSuffix}`
+	const fillKfName = `lpm2-fill-${idSuffix}`
+	const featherKfName = `lpm2-feather-${idSuffix}`
 
-  const totalMs = duration + PAUSE_MS
-  const sweepFraction = duration / totalMs
-  // [STORYBOOK] Recompute keyframes when controls change. With fixed
-  // visual params, drop this useMemo and the <style>{keyframes}</style>
-  // tag below — the keyframes would live statically in the .css file.
-  const keyframes = useMemo(
-    () =>
-      buildKeyframes(outerKfName, innerKfName, fillKfName, featherKfName, sweepFraction, feather),
-    [outerKfName, innerKfName, fillKfName, featherKfName, sweepFraction, feather]
-  )
-  const cornerRadius = size * CORNER_RADIUS_RATIO
+	const totalMs = duration + PAUSE_MS
+	const sweepFraction = duration / totalMs
+	// [STORYBOOK] Recompute keyframes when controls change. With fixed
+	// visual params, drop this useMemo and the <style>{keyframes}</style>
+	// tag below — the keyframes would live statically in the .css file.
+	const keyframes = useMemo(
+		() => buildKeyframes(outerKfName, innerKfName, fillKfName, featherKfName, sweepFraction, feather),
+		[outerKfName, innerKfName, fillKfName, featherKfName, sweepFraction, feather]
+	)
+	const cornerRadius = size * CORNER_RADIUS_RATIO
 
-  return (
-    <div
-      className="lpm2-container"
-      style={
-        {
-          width: size,
-          height: size,
-          borderRadius: cornerRadius,
-          '--lpm2-color': color,
-          animation: `${featherKfName} ${totalMs}ms step-end infinite`,
-        } as React.CSSProperties
-      }
-      aria-hidden="true"
-    >
-      {/* [STORYBOOK] Per-instance keyframes injected here so each
+	return (
+		<div
+			className="lpm2-container"
+			style={
+				{
+					width: size,
+					height: size,
+					borderRadius: cornerRadius,
+					'--lpm2-color': color,
+					animation: `${featherKfName} ${totalMs}ms step-end infinite`,
+				} as React.CSSProperties
+			}
+			aria-hidden="true"
+		>
+			{/* [STORYBOOK] Per-instance keyframes injected here so each
           Storybook control change yields a fresh animation. In
           production these would be in LinePathMotionV2.css. */}
-      <style>{keyframes}</style>
-      <div className="lpm2-ring" style={{ padding: strokeWidth, borderRadius: cornerRadius }}>
-        <div
-          className="lpm2-rot-outer"
-          style={{ animation: `${outerKfName} ${totalMs}ms linear infinite` }}
-        >
-          <div
-            className="lpm2-rot-inner"
-            style={{ animation: `${innerKfName} ${totalMs}ms linear infinite` }}
-          >
-            <div
-              className="lpm2-fill"
-              style={{ animation: `${fillKfName} ${totalMs}ms linear infinite` }}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+			<style>{keyframes}</style>
+			<div className="lpm2-ring" style={{ padding: strokeWidth, borderRadius: cornerRadius }}>
+				<div className="lpm2-rot-outer" style={{ animation: `${outerKfName} ${totalMs}ms linear infinite` }}>
+					<div className="lpm2-rot-inner" style={{ animation: `${innerKfName} ${totalMs}ms linear infinite` }}>
+						<div className="lpm2-fill" style={{ animation: `${fillKfName} ${totalMs}ms linear infinite` }} />
+					</div>
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export type { LinePathMotionV2Props }

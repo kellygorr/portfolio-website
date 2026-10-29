@@ -35,11 +35,7 @@ const meta = {
 		// palette order) so they don't read left-to-right as a gradient:
 		// slot0=token2, slot1=token4, slot2=token3. Never uses `background` —
 		// that's the same color as the story canvas, so it'd be invisible.
-		const trackColors: [string, string, string] | undefined = palette && [
-			palette.colors[0],
-			palette.colors[2],
-			palette.colors[1],
-		]
+		const trackColors: [string, string, string] | undefined = palette && [palette.colors[0], palette.colors[2], palette.colors[1]]
 		return (
 			<div
 				style={{

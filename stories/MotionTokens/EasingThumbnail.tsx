@@ -188,8 +188,12 @@ export const EasingThumbnail = ({ theme }: { theme: MotionPaletteName }) => {
 									height: 10,
 									borderRadius: '50%',
 									background: accentColor,
-									left: frozenFrame?.left ?? (dotAtEnd ? `${100 - (GRAPH_PADDING / GRAPH_W) * 100}%` : `${(GRAPH_PADDING / GRAPH_W) * 100}%`),
-									top: frozenFrame?.top ?? (dotAtEnd ? `${(GRAPH_PADDING / GRAPH_H) * 100}%` : `${100 - (GRAPH_PADDING / GRAPH_H) * 100}%`),
+									left:
+										frozenFrame?.left ??
+										(dotAtEnd ? `${100 - (GRAPH_PADDING / GRAPH_W) * 100}%` : `${(GRAPH_PADDING / GRAPH_W) * 100}%`),
+									top:
+										frozenFrame?.top ??
+										(dotAtEnd ? `${(GRAPH_PADDING / GRAPH_H) * 100}%` : `${100 - (GRAPH_PADDING / GRAPH_H) * 100}%`),
 									transform: 'translate(-50%, -50%)',
 									transitionProperty: 'left, top',
 									transitionDuration: stopped || resetting ? '0ms, 0ms' : `${ANIMATION_MS}ms, ${ANIMATION_MS}ms`,

@@ -2,13 +2,7 @@ import { mergeClasses, useIsomorphicLayoutEffect } from '@fluentui/react-compone
 import { useEffect, useRef, useState } from 'react'
 import { Add20Regular, ChevronDown20Regular, ChevronUp20Regular, Document20Regular } from '@fluentui/react-icons'
 import { useSeeMorePillStyles } from './SeeMorePillButtonMotion.styles'
-import {
-	PillButton,
-	primaryEntries,
-	additionalEntries,
-	STAGGER_DELAY_MS,
-	useLowerContentTransition,
-} from './SeeMorePillButtonMotion'
+import { PillButton, primaryEntries, additionalEntries, STAGGER_DELAY_MS, useLowerContentTransition } from './SeeMorePillButtonMotion'
 import { darkestColor, type MotionPalette } from '../../src/styles/motionPalettes'
 import { hexToRgba, lightenHex } from '../shared/motionTheme'
 import { useDemoMotion } from '../../src/components/Page/DemoMotionContext'

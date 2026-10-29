@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -34,24 +34,24 @@ export default defineConfig({
           // If you don't need hash, you can use the [name] placeholder like this:
           // 'assets/images/[name][extname]'
           if (/\.(gif|jpe?g|png|svg|pdf)$/.test(name ?? '')) {
-            return 'assets/images/[name]-[hash][extname]';
+            return 'assets/images/[name]-[hash][extname]'
           }
 
           // Move files which end with css to assets/css
           if (/\.mp4$/.test(name ?? '')) {
-            return 'assets/videos/[name]-[hash][extname]';
+            return 'assets/videos/[name]-[hash][extname]'
           }
 
           // Move files which end with css to assets/css
           if (/\.(woff|woff2|eot|otf|ttf)$/.test(name ?? '')) {
-            return 'assets/fonts/[name]-[hash][extname]';
+            return 'assets/fonts/[name]-[hash][extname]'
           }
 
           // Default value
           // ref: https://rollupjs.org/guide/en/#outputassetfilenames
-          return 'assets/[name]-[hash][extname]';
+          return 'assets/[name]-[hash][extname]'
         }
       }
     }
   }
-});
+})

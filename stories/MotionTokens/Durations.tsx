@@ -100,12 +100,7 @@ const DurationRow = forwardRef<DurationRowHandle, DurationRowProps>(({ token, ms
 					<span className={styles.tokenName}>{token}</span>
 					<span className={styles.msLabel}>{ms}ms</span>
 				</div>
-				<button
-					className={styles.track}
-					onClick={replay}
-					aria-label={`Replay ${token} duration`}
-					key={run}
-				>
+				<button className={styles.track} onClick={replay} aria-label={`Replay ${token} duration`} key={run}>
 					<div className={styles.fillLineTrack}>
 						<div
 							className={styles.fillLine}
@@ -204,7 +199,10 @@ export const Durations = forwardRef<DurationsHandle, DurationsProps>(({ palette,
 	))
 
 	return (
-		<div className={mergeClasses(styles.root, compact && styles.rootCompact)} style={{ '--motion-text': textColor } as React.CSSProperties}>
+		<div
+			className={mergeClasses(styles.root, compact && styles.rootCompact)}
+			style={{ '--motion-text': textColor } as React.CSSProperties}
+		>
 			<div className={styles.heading}>
 				<h2 className={styles.title}>Fluent Motion: Durations</h2>
 				<button className={styles.replayAllButton} onClick={replayAll} aria-label="Replay all durations">

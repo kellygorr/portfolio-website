@@ -65,7 +65,7 @@ export const EditorialClamp = ({ accentColor, fillViewport = true }: { accentCol
 			}
 			return ''
 		},
-		[windowWidth, usePxUnits],
+		[windowWidth, usePxUnits]
 	)
 
 	// Helper function for font size display
@@ -76,14 +76,19 @@ export const EditorialClamp = ({ accentColor, fillViewport = true }: { accentCol
 			const unit = usePxUnits ? 'px' : 'rem'
 			return prefix ? ` ${prefix}: ${size}${unit}` : ` - ${size}${unit}`
 		},
-		[showFontSize, getCurrentFontSize, usePxUnits],
+		[showFontSize, getCurrentFontSize, usePxUnits]
 	)
 	return (
 		<div className={styles.container} style={fillViewport ? undefined : { minHeight: 'auto' }}>
 			{showBreakpoints && <BreakpointLine breakpoints={EDITORIAL_BREAKPOINTS} />}
 			<SettingsPanel transparentButton hoverIconColor={accentColor}>
 				<SettingsCheckbox label="Show font sizes" checked={showFontSize} onChange={setShowFontSize} accentColor={accentColor} />
-				<SettingsCheckbox label="Show breakpoint marker" checked={showBreakpoints} onChange={setShowBreakpoints} accentColor={accentColor} />
+				<SettingsCheckbox
+					label="Show breakpoint marker"
+					checked={showBreakpoints}
+					onChange={setShowBreakpoints}
+					accentColor={accentColor}
+				/>
 				<SettingsSwitch label="rem/px" checked={usePxUnits} onChange={setUsePxUnits} accentColor={accentColor} />
 			</SettingsPanel>
 			<article className={`${styles.article}`}>

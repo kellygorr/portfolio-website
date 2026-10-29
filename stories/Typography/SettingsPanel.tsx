@@ -149,7 +149,7 @@ export const SettingsSwitch = ({
 				height: 20,
 				border: 0,
 				borderRadius: 999,
-				background: checked ? (accentColor ?? '#242424') : '#d1c7b8',
+				background: checked ? accentColor ?? '#242424' : '#d1c7b8',
 				cursor: 'pointer',
 				padding: 0,
 				transition: 'background 150ms ease',
