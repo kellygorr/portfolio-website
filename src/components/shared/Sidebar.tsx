@@ -1,7 +1,8 @@
 import type { JSX, KeyboardEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN } from '../../styles/GlobalStyles'
+import { NeutralColors } from '../../styles/theme'
 
 interface ISidebarProps {
 	ariaLabel: string
@@ -72,6 +73,7 @@ export const Sidebar = (props: ISidebarProps): JSX.Element => {
 				onClick={props.hasOwnInteractiveChildren ? undefined : props.onClick}
 				onKeyDown={props.hasOwnInteractiveChildren ? undefined : handleKeyDown}
 				aria-label={props.hasOwnInteractiveChildren ? undefined : props.ariaLabel}
+				$showBackground={!props.hasOwnInteractiveChildren}
 				variants={sidebar}
 				initial={false}
 				animate={props.isOpen || props.isSmallScreen ? 'open' : 'closed'}
@@ -88,12 +90,22 @@ const Container = styled.div`
 	display: flex;
 	justify-content: flex-end;
 `
-const AnimateSidebar = styled(motion.div)`
+const AnimateSidebar = styled(motion.div)<{ $showBackground?: boolean }>`
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	height: 40px;
 	border-radius: 5px;
 	color: ${({ theme }) => theme.sidebarText};
+	/* A visible resting background (not just on hover) so this reads as
+	   an actual button at rest -- every usage (Footer's settings toggle,
+	   SearchBar's closed search button) is meant to look clickable
+	   without requiring a hover first. Only applied for the plain-button
+	   state: SearchBar's open/role="search" state supplies its own
+	   background on the same element (see SearchBar.tsx's Container
+	   CSS), since that state hosts several of its own child buttons with
+	   their own hover treatments rather than acting as one button. */
+	background-color: ${({ theme, $showBackground }) => ($showBackground ? theme.sidebarBackground : 'transparent')};
 
 	svg {
 		path {
@@ -109,4 +121,33 @@ const AnimateSidebar = styled(motion.div)`
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
 	}
+
+	/* Neutral grey wash, fixed in place, that simply fades in/out on hover
+	   (the ::before element's own position never changes; only its
+	   opacity transitions) — matches the neutral grey hover tone used by
+	   the suggestion pills / search Submit+Clear buttons elsewhere in
+	   SearchBar.tsx. Only for the plain-button state, same reasoning as
+	   $showBackground above. */
+	${({ $showBackground }) =>
+		$showBackground &&
+		css`
+			&::before {
+				content: '';
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+				background-color: ${NeutralColors.neutral40};
+				opacity: 0;
+				transition: opacity 150ms ease-in-out;
+				pointer-events: none;
+			}
+
+			&:hover::before {
+				opacity: 1;
+			}
+
+			> * {
+				position: relative;
+			}
+		`}
 `

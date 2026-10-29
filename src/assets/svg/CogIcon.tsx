@@ -17,7 +17,7 @@ export const CogIcon = () => {
 const Wrapper = styled.div`
 	svg {
 		path {
-			fill: ${({ theme }) => theme.sidebarText};
+			fill: ${({ theme }) => theme.footerText};
 		}
 	}
 `

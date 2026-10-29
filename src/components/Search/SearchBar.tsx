@@ -179,13 +179,13 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 
 				{props.isSearching && (
 					<SubmitButton type="button" onClick={() => ref.current && handleSearchSubmit(ref.current.value)}>
-						Search
+						<span>Search</span>
 					</SubmitButton>
 				)}
 
 				{props.isSearching && (
 					<ClearButton type="button" onClick={handleClearClick} aria-label="Clear search">
-						Clear
+						<span>Clear</span>
 					</ClearButton>
 				)}
 			</Sidebar>
@@ -231,46 +231,19 @@ const Container = styled.div`
 	width: 100%;
 	z-index: 1000;
 
-	/* Sidebar always renders one consistent <motion.div> element across
-	   both states now (only its role attribute changes between 'button'
-	   and 'search') -- see the comment on hasOwnInteractiveChildren in
-	   Sidebar.tsx for why that matters. Match on the role attribute
-	   rather than element tag so this styling applies to both states. */
-	> div > [role='button'],
+	/* The plain-button (closed) state's background + hover wash now live
+	   directly in Sidebar.tsx (so the Footer's settings toggle, which
+	   also uses Sidebar, gets the same resting background/hover
+	   treatment this search bar always had). Only the open/
+	   role="search" state's background is set here, since that state
+	   hosts its own input/Search/Clear buttons with their own hover
+	   treatments rather than acting as one clickable surface. */
 	> div > [role='search'] {
 		position: relative;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
 		> * {
 			position: relative;
-		}
-	}
-
-	/* Neutral grey wash, fixed in place, that simply fades in/out on hover
-	   (the ::before element's own position never changes; only its
-	   opacity transitions) — replaces an earlier accent gradient here,
-	   which read as too colorful/attention-grabbing for a plain hover
-	   state. Matches the neutral grey hover tone used by the footer's
-	   own link/settings hover treatment.
-	   Scoped to role="button" (the closed state) only -- once search is
-	   open (role="search"), the whole bar is no longer a single click
-	   target (it now hosts its own input/search/close buttons with
-	   their own hover states), so washing the entire bar on hover no
-	   longer means anything and just looks like a stray flash. */
-	> div > [role='button'] {
-		&::before {
-			content: '';
-			position: absolute;
-			inset: 0;
-			border-radius: inherit;
-			background-color: ${NeutralColors.neutral40};
-			opacity: 0;
-			transition: opacity 150ms ease-in-out;
-			pointer-events: none;
-		}
-
-		&:hover::before {
-			opacity: 1;
 		}
 	}
 `
@@ -292,6 +265,7 @@ const SearchButton = styled.div<{ $clickable?: boolean }>`
 `
 
 const ClearButton = styled.button`
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -300,9 +274,32 @@ const ClearButton = styled.button`
 	height: 100%;
 	white-space: nowrap;
 	font-size: 13px;
+
+	/* Same neutral grey wash hover as the suggestion pills / old sidebar
+	   bar (see AnimateIdea above) -- consistent hover language across
+	   every tab/button-like control in the search bar. */
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: ${NeutralColors.neutral40};
+		opacity: 0;
+		transition: opacity 150ms ease-in-out;
+		pointer-events: none;
+	}
+
+	&:hover::before {
+		opacity: 1;
+	}
+
+	> * {
+		position: relative;
+	}
 `
 
 const SubmitButton = styled.button`
+	position: relative;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -311,6 +308,25 @@ const SubmitButton = styled.button`
 	height: 100%;
 	white-space: nowrap;
 	font-size: 13px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background-color: ${NeutralColors.neutral40};
+		opacity: 0;
+		transition: opacity 150ms ease-in-out;
+		pointer-events: none;
+	}
+
+	&:hover::before {
+		opacity: 1;
+	}
+
+	> * {
+		position: relative;
+	}
 `
 
 const CloseCircleButton = styled.button`
@@ -321,11 +337,13 @@ const CloseCircleButton = styled.button`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 40px;
-	height: 40px;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
 	background-color: ${({ theme }) => theme.sidebarBackground};
 	color: ${({ theme }) => theme.sidebarText};
+	font-size: 14px;
+	font-weight: 700;
 `
 
 const Input = styled.input`
