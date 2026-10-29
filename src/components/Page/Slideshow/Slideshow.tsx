@@ -242,7 +242,10 @@ const NavButton = styled.button`
 	color: ${({ theme }) => theme.text};
 	cursor: pointer;
 	padding: 0;
-	transition: background-color 150ms ease-in-out;
+	transition:
+		background-color 150ms ease-in-out,
+		border-color 0.5s ease-in,
+		color 0.5s ease-in;
 
 	&:hover:not(:disabled) {
 		background-color: ${({ theme }) => theme.accent}22;

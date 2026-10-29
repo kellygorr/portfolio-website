@@ -195,6 +195,7 @@ const Image = styled.img<{ $animate: boolean }>`
 	width: 100%;
 	object-fit: cover;
 	border: 2px solid ${({ theme }) => theme.background};
+	transition: border-color 0.5s ease-in;
 
 	@media (prefers-reduced-motion: reduce) {
 		opacity: 1;
@@ -224,6 +225,7 @@ const DemoSlot = styled.div<{ $animate: boolean }>`
 			: 'none'};
 	animation-fill-mode: forwards;
 	border: 2px solid ${({ theme }) => theme.background};
+	transition: border-color 0.5s ease-in;
 
 	@media (prefers-reduced-motion: reduce) {
 		opacity: 1;
@@ -272,6 +274,9 @@ const DemoBadge = styled.div`
 	border-radius: 6px;
 	background: ${({ theme }) => theme.accent};
 	color: ${({ theme }) => theme.textNegative};
+	transition:
+		background 0.5s ease-in,
+		color 0.5s ease-in;
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.2px;
@@ -317,6 +322,7 @@ const Blank = styled.div`
 	width: 600px;
 	height: 200px;
 	background-color: ${({ theme }) => theme.thumbnail};
+	transition: background-color 0.5s ease-in;
 `
 /* The thumbnail color has opacity, so we need a card under it to stop hover color from showing behind it 
 (when images are still loading) */
@@ -325,6 +331,7 @@ const BackgroundCard = styled.div`
 	width: 100%;
 	height: 100%;
 	background-color: ${({ theme }) => theme.background};
+	transition: background-color 0.5s ease-in;
 
 	&:after {
 		content: '';
@@ -335,5 +342,6 @@ const BackgroundCard = styled.div`
 		left: 0;
 		border-radius: inherit;
 		background-color: ${({ theme }) => theme.thumbnail};
+		transition: background-color 0.5s ease-in;
 	}
 `

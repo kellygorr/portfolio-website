@@ -45,6 +45,25 @@ export const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
 		box-sizing: inherit;
 	}
 
+	/* Suppresses every transition on the very first paint only -- see
+	   index.html (the "preload" class starts on <body> before any JS
+	   runs) and index.tsx (which removes it right after React's first
+	   commit, once the real starting theme is already on screen).
+	   Without this, the very first time any themed background-color/
+	   color property is set still counts as a "change" the browser will
+	   happily transition FROM its unset/initial value, even though the
+	   element never had any other value a moment earlier -- so loading
+	   directly into dark mode (saved preference or system preference)
+	   would otherwise visibly fade in from nothing/white over the same
+	   0.5s as a deliberate light/dark toggle, instead of just appearing
+	   already-correct like a fresh page load should. */
+	.preload,
+	.preload *,
+	.preload *::before,
+	.preload *::after {
+		transition: none !important;
+	}
+
 	html,
 	body, #root {
 		height: 100%;

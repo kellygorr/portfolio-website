@@ -133,13 +133,18 @@ const AnimateSidebar = styled(motion.div)<{
 	svg {
 		path {
 			fill: ${({ theme }) => theme.sidebarText};
+			transition: fill 0.5s ease-in;
 		}
 	}
 
 	input {
 		color: ${({ theme }) => theme.sidebarText};
+		transition: color 0.5s ease-in;
 	}
-	transition: border-radius 200ms ease-out;
+	transition:
+		border-radius 200ms ease-out,
+		color 0.5s ease-in,
+		background-color 0.5s ease-in;
 
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;

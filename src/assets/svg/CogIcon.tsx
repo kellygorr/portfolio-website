@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 	svg {
 		path {
 			fill: ${({ theme }) => theme.footerText};
+			transition: fill 0.5s ease-in;
 		}
 	}
 `

@@ -83,13 +83,16 @@ const Container = styled.footer`
 	color: ${({ theme }) => theme.footerText};
 	line-height: 1.5rem;
 	font-size: 0.9rem;
+	transition:
+		color 0.5s ease-in,
+		background 0.5s ease-in;
 
 	background-color: ${({ theme }) => theme.footerBackground};
-	transition: background 0.5s ease-in;
 
 	> div > button {
 		position: relative;
 		background-color: ${({ theme }) => theme.footerBackgroundSecondary};
+		transition: background-color 0.5s ease-in;
 
 		/* Neutral grey wash, fixed in place, that simply fades in/out on
 		   hover (the ::before element's own position never changes;

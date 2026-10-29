@@ -24,6 +24,7 @@ const Container = styled.h3`
 	}
 
 	border-color: ${({ theme }) => theme.thumbnail};
+	transition: border-color 0.5s ease-in;
 
 	@media (min-width: ${MEDIUM_SMALL_SCREEN}px) {
 		font-size: 1.4rem;

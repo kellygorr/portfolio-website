@@ -18,6 +18,7 @@ const Wrapper = styled.div`
 	svg {
 		path {
 			fill: ${({ theme }) => theme.sidebarText};
+			transition: fill 0.5s ease-in;
 		}
 	}
 `

@@ -63,6 +63,14 @@ export const Badge = styled.div<{ $bg: string; $color: string }>`
 	border-radius: 6px;
 	background: ${({ $bg }) => $bg};
 	color: ${({ $color }) => $color};
+	/* Only matters for the site-theme-colored usage (Page.tsx's
+	   imagesRecreated placement, via theme.accent/theme.textNegative) --
+	   harmless no-op for every motion-palette-colored usage (DemoHeader),
+	   since those colors never change at runtime regardless of site
+	   theme. */
+	transition:
+		background 0.5s ease-in,
+		color 0.5s ease-in;
 	font-size: 11px;
 	font-weight: 600;
 	letter-spacing: 0.2px;

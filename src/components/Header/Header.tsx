@@ -72,6 +72,7 @@ const StyledLink = styled(Link)`
 	border: 3px solid transparent;
 	color: ${({ theme }) => theme.text};
 	text-decoration: none;
+	transition: color 0.5s ease-in;
 
 	/* Scoped to real hover-capable pointers (mouse/trackpad) only — on
 	   touch devices, :hover has no "pointer left the element" event to
@@ -101,4 +102,5 @@ const StyledLink = styled(Link)`
 const H2 = styled.h2`
 	font-size: 1.25rem;
 	color: ${({ theme }) => theme.subtitleText};
+	transition: color 0.5s ease-in;
 `

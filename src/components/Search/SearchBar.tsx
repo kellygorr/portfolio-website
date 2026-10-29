@@ -241,6 +241,7 @@ const Container = styled.div`
 	> div > [role='search'] {
 		position: relative;
 		background-color: ${({ theme }) => theme.sidebarBackground};
+		transition: background-color 0.5s ease-in;
 
 		> * {
 			position: relative;
@@ -259,8 +260,8 @@ const SearchButton = styled.div<{ $clickable?: boolean }>`
 	min-width: 40px;
 
 	svg {
-		width: 23px;
-		height: 23px;
+		width: 20px;
+		height: 20px;
 	}
 `
 
@@ -342,6 +343,9 @@ const CloseCircleButton = styled.button`
 	border-radius: 50%;
 	background-color: ${({ theme }) => theme.sidebarBackground};
 	color: ${({ theme }) => theme.sidebarText};
+	transition:
+		background-color 0.5s ease-in,
+		color 0.5s ease-in;
 	font-size: 14px;
 	font-weight: 700;
 `
@@ -379,6 +383,9 @@ const AnimateIdea = styled(motion.button)`
 
 	color: ${({ theme }) => theme.sidebarText};
 	background-color: ${({ theme }) => theme.sidebarBackground};
+	transition:
+		color 0.5s ease-in,
+		background-color 0.5s ease-in;
 
 	/* Same neutral grey wash hover as the search/settings tabs (see
 	   Container's own ::before above and Footer.tsx's settings button)
