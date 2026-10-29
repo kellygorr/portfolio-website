@@ -1,0 +1,3 @@
+[submodule "websites/text-adventure-on-rails"]
+	path = websites/text-adventure-on-rails
+	url = https://github.com/kellygorr/text-adventure.git
