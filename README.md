@@ -61,7 +61,3 @@ Each case study lives in its own `src/data/projects/*.ts(x)` file as structured 
 - **Interactive motion demos** — many case studies embed live, interactive Storybook stories, rebuilt-for-portfolio recreations of real product motion (design system components, progress indicators, menus, typography systems), rather than static screenshots or video. These are built and shipped as part of the main site (`npm run build:storybook`), not just dev-time documentation.
 - **Multi-site builds** — a few projects (like the Text Adventure demo) are independent apps with their own `package.json`, living under [`websites/`](websites/) and listed in `websites/manifest.json`. `scripts/build-websites.mjs` builds each one and nests its output under the main site's `dist/websites/<slug>/`, so they deploy as static assets within the same hosting bucket with no server-side routing.
 - **Custom tooling** — `scripts/lint-copy.mjs` enforces sentence-case capitalization across every case study's copy (with an allowlist for real proper nouns like Xbox, Copilot, Fluent), so capitalization stays consistent across 29+ project files without manual review. The Storybook a11y addon runs accessibility checks alongside every interactive demo during development.
-
-## Credits
-
-See individual case studies on [kellygorr.com](https://kellygorr.com) for project-specific credits and collaborators.
