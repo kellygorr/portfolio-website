@@ -150,7 +150,7 @@ export const Greeting = ({
 			}
 		}
 		return chars
-	}, [text, totalDuration, stagger, staggerCurve])
+	}, [text, totalDuration, stagger, staggerCurve, useStaggerCurve])
 
 	useEffect(() => {
 		if (!loop || paused) return

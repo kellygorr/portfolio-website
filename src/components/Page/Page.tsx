@@ -10,8 +10,6 @@ interface IPageProps {
 	setQuery: (query: string) => void
 }
 
-export { MAX_WIDTH }
-
 const sectionStyle = {
 	padding: `0 ${SIDE_GAP} 1.5rem ${SIDE_GAP}`,
 }
@@ -61,8 +59,13 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 								)
 							})}
 							{data.imagesRecreated && (
-							<RecreatedBadge bg={theme.accent} color={theme.textNegative} text="Images — recreated for portfolio" wrapped />
-						)}
+								<RecreatedBadge
+									bg={theme.accent}
+									color={theme.textNegative}
+									text="Images — recreated for portfolio"
+									wrapped
+								/>
+							)}
 						</SectionWidth>
 					</SectionPadding>
 				)

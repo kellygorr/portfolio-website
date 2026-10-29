@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useEffect } from 'react'
+import { FunctionComponent, useState, useEffect, useCallback } from 'react'
 import { tokens } from '@fluentui/react-components'
 import { useBreakpointIndicatorStyles } from './BreakpointIndicator.styles'
 import { useWindowWidth } from '../../utils/hooks'
@@ -20,16 +20,19 @@ export const BreakpointIndicator: FunctionComponent<BreakpointIndicatorProps> = 
 		e.preventDefault()
 	}
 
-	const handleMouseMove = (e: MouseEvent) => {
-		if (isDragging) {
-			const newY = (e.clientY / window.innerHeight) * 100
-			setIndicatorY(Math.max(0, Math.min(100, newY)))
-		}
-	}
+	const handleMouseMove = useCallback(
+		(e: MouseEvent) => {
+			if (isDragging) {
+				const newY = (e.clientY / window.innerHeight) * 100
+				setIndicatorY(Math.max(0, Math.min(100, newY)))
+			}
+		},
+		[isDragging]
+	)
 
-	const handleMouseUp = () => {
+	const handleMouseUp = useCallback(() => {
 		setIsDragging(false)
-	}
+	}, [])
 
 	useEffect(() => {
 		if (isDragging) {
@@ -40,7 +43,7 @@ export const BreakpointIndicator: FunctionComponent<BreakpointIndicatorProps> = 
 				document.removeEventListener('mouseup', handleMouseUp)
 			}
 		}
-	}, [isDragging])
+	}, [isDragging, handleMouseMove, handleMouseUp])
 
 	const indicatorColors = {
 		lineColor: tokens.colorNeutralForeground1,

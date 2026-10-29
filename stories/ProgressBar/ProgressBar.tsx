@@ -13,7 +13,7 @@ const MS_PER_100PX = 25
  * Compute animation duration scaled linearly by container width.
  * baseDuration at 2600px, +/- speedFactor ms per 100px difference.
  */
-export function computeDuration(width: number, baseDuration: number = BASE_DURATION_MS, speedFactor: number = MS_PER_100PX): number {
+function computeDuration(width: number, baseDuration: number = BASE_DURATION_MS, speedFactor: number = MS_PER_100PX): number {
 	return baseDuration + ((width - BASE_WIDTH_PX) / 100) * speedFactor
 }
 

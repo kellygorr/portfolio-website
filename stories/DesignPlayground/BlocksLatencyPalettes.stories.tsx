@@ -1,11 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Blocks } from '../BlocksLatency/Blocks'
-import { motionPalettes, type MotionPalette } from '../../src/styles/motionPalettes'
-
-/** @deprecated import from src/styles/motionPalettes instead. Re-exported for backward compatibility. */
-export type PaletteDemo = MotionPalette
-/** @deprecated import from src/styles/motionPalettes instead. Re-exported for backward compatibility. */
-export const palettes = motionPalettes
+import { type MotionPalette } from '../../src/styles/motionPalettes'
 
 const PaletteCard = ({ palette }: { palette: MotionPalette }) => (
 	<div

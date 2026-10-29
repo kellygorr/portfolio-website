@@ -23,8 +23,11 @@ export const ClampBreakpoint = ({ showReadouts, showTable, showBreakpoint }: Cla
 	const [currentShowTable, setCurrentShowTable] = useState(showTable)
 	const [currentShowBreakpoint, setCurrentShowBreakpoint] = useState(showBreakpoint)
 	const [usePxUnits, setUsePxUnits] = useState(true)
-	const [windowWidth, setWindowWidth] = useState(() => window.innerWidth)
-	const [mounted, setMounted] = useState(false)
+	// Neither value is read anywhere — these exist purely to force a
+	// re-render (on resize, and once more right after mount) so that
+	// `readout()` below re-measures the refs with fresh DOM values.
+	const [, setWindowWidth] = useState(() => window.innerWidth)
+	const [, setMounted] = useState(false)
 	const h1Ref = useRef<HTMLHeadingElement>(null)
 	const h2Ref = useRef<HTMLHeadingElement>(null)
 	const h3Ref = useRef<HTMLHeadingElement>(null)
@@ -67,7 +70,7 @@ export const ClampBreakpoint = ({ showReadouts, showTable, showBreakpoint }: Cla
 			const px = parseFloat(window.getComputedStyle(ref.current).fontSize)
 			return usePxUnits ? ` - ${px.toFixed(1)}px` : ` - ${(px / 16).toFixed(2)}rem`
 		},
-		[currentShowReadouts, windowWidth, mounted, usePxUnits]
+		[currentShowReadouts, usePxUnits]
 	)
 
 	return (

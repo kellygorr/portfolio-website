@@ -32,9 +32,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 			/>
 		)}
 		{props.type === SectionType.Body && <Body data={props.data as string} />}
-		{props.type === SectionType.Demo && (
-			<DemoWrapper $rounded={props.isHalfWidthDemo}>{props.data as ReactNode}</DemoWrapper>
-		)}
+		{props.type === SectionType.Demo && <DemoWrapper $rounded={props.isHalfWidthDemo}>{props.data as ReactNode}</DemoWrapper>}
 		{props.type === SectionType.Attachments && (
 			<Gallery>
 				{(props.data as IThumbnail[]).map((data, index) => (
@@ -57,7 +55,13 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				return (
 					<Highlight key={index}>
 						<HighlightHeader>{pluralizeHighlightHeader(data.header, data.body)}</HighlightHeader>
-						{type && <Section type={type as SectionType} data={(data as unknown as Record<string, unknown>)[type] as ISectionProps['data']} setQuery={props.setQuery} />}
+						{type && (
+							<Section
+								type={type as SectionType}
+								data={(data as unknown as Record<string, unknown>)[type] as ISectionProps['data']}
+								setQuery={props.setQuery}
+							/>
+						)}
 					</Highlight>
 				)
 			})}

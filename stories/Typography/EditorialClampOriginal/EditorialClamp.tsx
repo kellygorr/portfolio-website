@@ -13,7 +13,7 @@ export const EditorialClamp = ({ accentColor, fillViewport = true }: { accentCol
 	const [showFontSize, setShowFontSize] = useState<boolean>(true)
 	const [usePxUnits, setUsePxUnits] = useState<boolean>(true)
 	const [showBreakpoints, setShowBreakpoints] = useState<boolean>(true)
-	const windowWidth = useWindowWidth() // Triggers re-renders on resize
+	useWindowWidth() // Triggers re-renders on resize
 	const styles = useStyles()
 	const bebopStyles2 = useBebopStyles2()
 
@@ -65,7 +65,7 @@ export const EditorialClamp = ({ accentColor, fillViewport = true }: { accentCol
 			}
 			return ''
 		},
-		[windowWidth, usePxUnits]
+		[usePxUnits]
 	)
 
 	// Helper function for font size display

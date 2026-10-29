@@ -137,7 +137,7 @@ export const FontFaceDemo = ({
 	const [ascentOverride, setAscentOverride] = useState(initialUISettings.ascentOverride)
 	const [descentOverride, setDescentOverride] = useState(initialUISettings.descentOverride)
 
-	const windowWidth = useWindowWidth()
+	useWindowWidth() // Triggers re-renders on resize
 	const styles = useStyles()
 	const contentStyles = useContentStyles()
 	const fullDemoStyles = useFullDemoStyles()
@@ -189,7 +189,7 @@ export const FontFaceDemo = ({
 
 				requestAnimationFrame(updateFont)
 			}, 20), // 20ms debounce
-		[sizeAdjust, ascentOverride, descentOverride]
+		[]
 	)
 
 	useEffect(() => {
@@ -270,7 +270,7 @@ export const FontFaceDemo = ({
 			}
 			return ''
 		},
-		[windowWidth, usePxUnits]
+		[usePxUnits]
 	)
 
 	const getFontSizeValue = useCallback(
