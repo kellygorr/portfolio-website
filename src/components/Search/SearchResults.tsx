@@ -1,6 +1,6 @@
 import type { JSX } from 'react'
 import styled from 'styled-components'
-import { IProject, relatedTags, TagType, SkillType } from '../../data/IProject'
+import { IProject, relatedTags, TagType, SkillType, ToolType } from '../../data/IProject'
 import { SMALL_SCREEN } from '../../styles/GlobalStyles'
 import { Heading } from '../Page'
 import { Tags, Thumbnail } from '../shared'
@@ -115,15 +115,17 @@ const queryMatches = (projects: IProject[], query: string): IProjectSearch[] => 
 	return matches as IProjectSearch[]
 }
 
-const removeDuplicates = (matches: IProject[]): IProject[] => matches.filter((match, index) => matches.indexOf(match) >= index)
+const removeDuplicates = <T,>(items: T[]): T[] => items.filter((item, index) => items.indexOf(item) >= index)
 
 const removeDuplicateTitles = (matches: IProjectSearch[]) =>
 	matches.filter((item, pos, array) => array.map((mapItem) => mapItem.details['header']).indexOf(item.details['header']) === pos)
 
-const relatedQueryTags = (query: string) => {
-	let tags: any = relatedTags.filter((tags) => tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query)))
-	tags = removeDuplicates([].concat(...tags))
-	return tags.filter((tag: TagType | SkillType) => tag !== query)
+const relatedQueryTags = (query: string): (TagType | SkillType)[] => {
+	const matchingGroups: (TagType | SkillType | ToolType)[][] = relatedTags.filter((tags) =>
+		tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
+	)
+	const tags = removeDuplicates(([] as (TagType | SkillType | ToolType)[]).concat(...matchingGroups))
+	return tags.filter((tag) => tag !== query) as (TagType | SkillType)[]
 }
 
 const relatedQueryMatches = (projects: IProject[], query: string): IProjectSearch[] => {

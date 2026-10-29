@@ -6,15 +6,6 @@ import aptosItalicWoffUrl from '../../src/assets/fonts/aptos/Aptos-Italic.woff?u
 import aptosSerifWoff2Url from '../../src/assets/fonts/aptos/AptosSerif.woff2?url'
 import aptosSerifWoffUrl from '../../src/assets/fonts/aptos/AptosSerif.woff?url'
 
-const typeScale = [
-	{ name: 'Display', size: 72, lineHeight: 80, sample: 'Responsive type for AI experiences' },
-	{ name: 'Title', size: 48, lineHeight: 56, sample: 'Typography systems need rhythm' },
-	{ name: 'Heading', size: 32, lineHeight: 40, sample: 'Clear hierarchy across surfaces' },
-	{ name: 'Subhead', size: 24, lineHeight: 32, sample: 'Readable, scalable, consistent' },
-	{ name: 'Body', size: 16, lineHeight: 24, sample: 'Fallback fonts should preserve spacing while the intended font loads.' },
-	{ name: 'Caption', size: 12, lineHeight: 16, sample: 'Metadata, labels, and compact interface text' },
-]
-
 const AptosTypeRamp = () => (
 	<div className="aptos-specimen">
 		<style>{`

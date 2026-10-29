@@ -30,7 +30,6 @@ export const MotionCarousel = ({ slides }: MotionCarouselProps) => {
 
 	useEffect(() => {
 		if (!isScrolling) findActiveSlide()
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isScrolling])
 
 	const findActiveSlide = () => {

@@ -13,10 +13,12 @@ module.exports = {
 	rules: {
 		'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 	},
-	overrides: {
-		rules: {
+	overrides: [
+		{
 			files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
-			semi: ['error', 'never'],
+			rules: {
+				semi: ['error', 'never'],
+			},
 		},
-	},
+	],
 }

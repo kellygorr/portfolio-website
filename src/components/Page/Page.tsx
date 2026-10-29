@@ -1,7 +1,7 @@
 import styled, { useTheme } from 'styled-components'
 import { IProject, ISection, SectionType } from '../../data/IProject'
 import { MAX_WIDTH, MEDIUM_SMALL_SCREEN, SIDE_GAP, SMALL_SCREEN } from '../../styles/GlobalStyles'
-import { Section } from './Section'
+import { Section, type ISectionProps } from './Section'
 import { RecreatedBadge } from './RecreatedBadge'
 import { Navigate, useParams } from 'react-router-dom'
 import { GetPageName, SanitizePath } from '../shared'
@@ -54,7 +54,7 @@ export const Page: React.FC<IPageProps> = (props: IPageProps) => {
 									<Section
 										key={index}
 										type={item[0] as SectionType}
-										data={item[1] as any}
+										data={item[1] as ISectionProps['data']}
 										setQuery={props.setQuery}
 										isHalfWidthDemo={isHalfWidthDemo}
 									/>

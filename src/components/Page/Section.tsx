@@ -11,7 +11,7 @@ import { sortHighlights } from '../../utils/sortHighlights'
 import { pluralizeHighlightHeader } from '../../utils/pluralizeHighlightHeader'
 import { getLinkHref, getLinkTitle } from '../../utils/links'
 
-interface ISectionProps {
+export interface ISectionProps {
 	type: SectionType
 	data: string | ISlideshow | IThumbnail[] | IHighlight[] | (TagType | SkillType | ToolType | string)[] | ReactNode
 	setQuery: (query: string) => void
@@ -57,7 +57,7 @@ export const Section: React.FC<ISectionProps> = (props: ISectionProps) => (
 				return (
 					<Highlight key={index}>
 						<HighlightHeader>{pluralizeHighlightHeader(data.header, data.body)}</HighlightHeader>
-						{type && <Section type={type as SectionType} data={(data as any)[type]} setQuery={props.setQuery} />}
+						{type && <Section type={type as SectionType} data={(data as unknown as Record<string, unknown>)[type] as ISectionProps['data']} setQuery={props.setQuery} />}
 					</Highlight>
 				)
 			})}
