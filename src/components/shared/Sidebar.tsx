@@ -29,6 +29,22 @@ interface ISidebarProps {
 	// one element across both states preserves Motion's animation state
 	// (and onAnimationComplete) across the whole open/close cycle.
 	hasOwnInteractiveChildren?: boolean
+	// Overrides the default theme.sidebarBackground + grey hover wash for
+	// the resting/hover pill background. Needed for the Footer's settings
+	// toggle: it always sits on the Footer's own permanently-dark
+	// background in BOTH site themes, but theme.sidebarBackground is
+	// designed to flip (dark in light mode, white in dark mode) for the
+	// OTHER Sidebar usage (SearchBar's closed button, which floats over
+	// the main page background and needs that flip for contrast there).
+	// In light mode theme.sidebarBackground happens to exactly equal
+	// theme.footerBackground (both near-black) -- making the Footer pill
+	// invisible until hover. In dark mode theme.sidebarBackground flips
+	// to white, which (combined with the icon's own footerText color,
+	// also white there) produced a literal white-on-white icon. Pass
+	// fixed, theme-independent grey values here instead for any Sidebar
+	// usage that's known to always sit on a dark surface.
+	restBackground?: string
+	hoverBackground?: string
 	children?: React.ReactNode
 }
 
@@ -74,6 +90,8 @@ export const Sidebar = (props: ISidebarProps): JSX.Element => {
 				onKeyDown={props.hasOwnInteractiveChildren ? undefined : handleKeyDown}
 				aria-label={props.hasOwnInteractiveChildren ? undefined : props.ariaLabel}
 				$showBackground={!props.hasOwnInteractiveChildren}
+				$restBackground={props.restBackground}
+				$hoverBackground={props.hoverBackground}
 				variants={sidebar}
 				initial={false}
 				animate={props.isOpen || props.isSmallScreen ? 'open' : 'closed'}
@@ -90,7 +108,11 @@ const Container = styled.div`
 	display: flex;
 	justify-content: flex-end;
 `
-const AnimateSidebar = styled(motion.div)<{ $showBackground?: boolean }>`
+const AnimateSidebar = styled(motion.div)<{
+	$showBackground?: boolean
+	$restBackground?: string
+	$hoverBackground?: string
+}>`
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -105,7 +127,8 @@ const AnimateSidebar = styled(motion.div)<{ $showBackground?: boolean }>`
 	   background on the same element (see SearchBar.tsx's Container
 	   CSS), since that state hosts several of its own child buttons with
 	   their own hover treatments rather than acting as one button. */
-	background-color: ${({ theme, $showBackground }) => ($showBackground ? theme.sidebarBackground : 'transparent')};
+	background-color: ${({ theme, $showBackground, $restBackground }) =>
+		$showBackground ? ($restBackground ?? theme.sidebarBackground) : 'transparent'};
 
 	svg {
 		path {
@@ -127,8 +150,12 @@ const AnimateSidebar = styled(motion.div)<{ $showBackground?: boolean }>`
 	   opacity transitions) — matches the neutral grey hover tone used by
 	   the suggestion pills / search Submit+Clear buttons elsewhere in
 	   SearchBar.tsx. Only for the plain-button state, same reasoning as
-	   $showBackground above. */
-	${({ $showBackground }) =>
+	   $showBackground above. When $hoverBackground is given, it fully
+	   replaces the resting background on hover instead (a plain color
+	   swap) rather than layering a translucent wash on top -- needed
+	   because the default wash color assumes it's lightening/darkening
+	   theme.sidebarBackground specifically, not an arbitrary override. */
+	${({ $showBackground, $hoverBackground }) =>
 		$showBackground &&
 		css`
 			&::before {
@@ -136,7 +163,7 @@ const AnimateSidebar = styled(motion.div)<{ $showBackground?: boolean }>`
 				position: absolute;
 				inset: 0;
 				border-radius: inherit;
-				background-color: ${NeutralColors.neutral40};
+				background-color: ${$hoverBackground ?? NeutralColors.neutral40};
 				opacity: 0;
 				transition: opacity 150ms ease-in-out;
 				pointer-events: none;

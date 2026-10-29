@@ -47,6 +47,19 @@ export const Footer = ({ isDarkMode, isSmallScreen, toggleDarkMode }: IFooterPro
 				setIsOpen={() => {}}
 				onClick={toggleDarkMode}
 				ariaLabel={isDarkMode ? 'Set light mode' : 'Set dark mode'}
+				// Fixed, theme-independent grey values instead of the default
+				// theme.sidebarBackground: this button always sits on the
+				// Footer's own permanently-dark background in BOTH site
+				// themes, but sidebarBackground is designed for Sidebar's
+				// OTHER usage (SearchBar's closed button, which floats over
+				// the main page and needs its background to flip with the
+				// site theme for contrast there). Reusing it here collided
+				// with the Footer's own background in light mode (identical
+				// values -- invisible pill) and with this button's icon color
+				// in dark mode (both white -- invisible icon). See the
+				// restBackground/hoverBackground comment on Sidebar.tsx.
+				restBackground="rgba(255,255,255,0.15)"
+				hoverBackground="rgba(255,255,255,0.28)"
 			>
 				<SettingsButton isDarkMode={isDarkMode} />
 			</Sidebar>
