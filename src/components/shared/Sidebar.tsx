@@ -1,6 +1,6 @@
-import type { JSX } from 'react'
+import type { JSX, KeyboardEvent } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { SIDE_GAP, SIDE_GAP_SMALL_SCREEN } from '../../styles/GlobalStyles'
 
 interface ISidebarProps {
@@ -10,7 +10,24 @@ interface ISidebarProps {
 	onClick: () => void
 	setIsOpen: (isOpen: boolean) => void
 	onAnimationComplete?: (x: string) => void
-	asElement?: 'button' | 'div'
+	// When true, the sidebar is hosting interactive children of its own
+	// (an <input> + close button, for SearchBar's open state) instead of
+	// acting as a single button itself. A <button> can't legally contain
+	// another <button> or an <input>, so this state is rendered with
+	// role="search" and no click/keyboard handling on the container --
+	// the real <button>/<input> children handle their own interaction.
+	//
+	// This is done by changing ONLY the ARIA role on one consistent
+	// <motion.div>, never the underlying element tag. An earlier version
+	// of this component switched between a real <motion.button> and
+	// <motion.div> for these two states; React/Motion treat a changed
+	// element tag as an entirely new component instance, which silently
+	// abandoned the in-flight expand animation on every open and meant
+	// onAnimationComplete never fired -- leaving anything keyed off it
+	// (SearchBar's idea-pills reveal) permanently stuck invisible. Keeping
+	// one element across both states preserves Motion's animation state
+	// (and onAnimationComplete) across the whole open/close cycle.
+	hasOwnInteractiveChildren?: boolean
 	children?: React.ReactNode
 }
 
@@ -20,6 +37,7 @@ export const Sidebar = (props: ISidebarProps): JSX.Element => {
 	const sidebarStyles: React.CSSProperties = {
 		borderRadius: isCentered ? '5px' : '5px 0 0 5px',
 		marginLeft: props.isSmallScreen ? SIDE_GAP_SMALL_SCREEN : SIDE_GAP,
+		cursor: props.hasOwnInteractiveChildren ? 'auto' : 'pointer',
 	}
 
 	const sidebar = {
@@ -39,31 +57,29 @@ export const Sidebar = (props: ISidebarProps): JSX.Element => {
 		},
 	}
 
-	const sharedProps = {
-		variants: sidebar,
-		initial: false,
-		animate: props.isOpen || props.isSmallScreen ? 'open' : 'closed',
-		onAnimationComplete: (x: string) => props.onAnimationComplete && props.onAnimationComplete(x.toString()),
-		style: sidebarStyles,
-		children: props.children,
-	}
-
-	if (props.asElement === 'div') {
-		return (
-			<Container>
-				<AnimateSidebarContainer role="search" {...sharedProps} />
-			</Container>
-		)
+	const handleKeyDown = (e: KeyboardEvent) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault()
+			props.onClick()
+		}
 	}
 
 	return (
 		<Container>
 			<AnimateSidebar
-				type="button"
-				onClick={props.onClick}
-				aria-label={props.ariaLabel}
-				{...sharedProps}
-			/>
+				role={props.hasOwnInteractiveChildren ? 'search' : 'button'}
+				tabIndex={props.hasOwnInteractiveChildren ? undefined : 0}
+				onClick={props.hasOwnInteractiveChildren ? undefined : props.onClick}
+				onKeyDown={props.hasOwnInteractiveChildren ? undefined : handleKeyDown}
+				aria-label={props.hasOwnInteractiveChildren ? undefined : props.ariaLabel}
+				variants={sidebar}
+				initial={false}
+				animate={props.isOpen || props.isSmallScreen ? 'open' : 'closed'}
+				onAnimationComplete={(x) => props.onAnimationComplete && props.onAnimationComplete(x.toString())}
+				style={sidebarStyles}
+			>
+				{props.children}
+			</AnimateSidebar>
 		</Container>
 	)
 }
@@ -72,7 +88,7 @@ const Container = styled.div`
 	display: flex;
 	justify-content: flex-end;
 `
-const sidebarStyles = css`
+const AnimateSidebar = styled(motion.div)`
 	display: flex;
 	justify-content: space-between;
 	height: 40px;
@@ -93,12 +109,4 @@ const sidebarStyles = css`
 	@media (prefers-reduced-motion: reduce) {
 		transition: none;
 	}
-`
-
-const AnimateSidebar = styled(motion.button)`
-	${sidebarStyles}
-`
-
-const AnimateSidebarContainer = styled(motion.div)`
-	${sidebarStyles}
 `

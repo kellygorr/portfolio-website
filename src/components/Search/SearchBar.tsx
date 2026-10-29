@@ -95,10 +95,10 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
 				isSmallScreen={props.isSmallScreen}
-				onClick={props.isSearching ? () => {} : handleSearchClick}
+				onClick={handleSearchClick}
 				onAnimationComplete={(x) => setTriggerContent(x)}
 				ariaLabel={props.isSearching ? 'Close search' : 'Open search'}
-				asElement={props.isSearching ? 'div' : 'button'}
+				hasOwnInteractiveChildren={props.isSearching}
 			>
 				<SearchButton style={{ marginRight: !(props.isSearching || props.isSmallScreen) ? '40px' : 0 }}>
 					<SearchIcon />
@@ -156,7 +156,13 @@ const Container = styled.div`
 	width: 100%;
 	z-index: 1000;
 
-	> div > button {
+	/* Sidebar always renders one consistent <motion.div> element across
+	   both states now (only its role attribute changes between 'button'
+	   and 'search') -- see the comment on hasOwnInteractiveChildren in
+	   Sidebar.tsx for why that matters. Match on the role attribute
+	   rather than element tag so this styling applies to both states. */
+	> div > [role='button'],
+	> div > [role='search'] {
 		position: relative;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
