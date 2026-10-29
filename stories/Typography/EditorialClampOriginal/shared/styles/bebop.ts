@@ -1,4 +1,4 @@
-import { TypographyStylesExtended } from './ebay'
+import { TypographyStylesExtended } from '../../../shared/styles/ebay'
 
 // Utility function to convert pixels to rem (base font size: 16px for Typography section)
 export const convertToRemBase16 = (pixels: number): string => `${pixels / 16}rem`

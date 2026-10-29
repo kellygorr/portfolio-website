@@ -1,6 +1,6 @@
 import { makeStyles, typographyStyles } from '@fluentui/react-components'
-import { typographyEbayStyles } from './ebay'
-import { typographyMaterialStyles } from './material'
+import { typographyEbayStyles } from '../../../shared/styles/ebay'
+import { typographyMaterialStyles } from '../../../shared/styles/material'
 import {
 	typographyBebopStyles,
 	typographyBebopStyles2,

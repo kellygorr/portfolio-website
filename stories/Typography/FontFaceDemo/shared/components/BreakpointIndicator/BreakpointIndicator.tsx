@@ -1,7 +1,7 @@
 import { FunctionComponent, useState, useEffect, useCallback } from 'react'
 import { tokens } from '@fluentui/react-components'
 import { useBreakpointIndicatorStyles } from './BreakpointIndicator.styles'
-import { useWindowWidth } from '../../utils/hooks'
+import { useWindowWidth } from '../../../../shared/utils/hooks'
 
 interface BreakpointIndicatorProps {
 	show: boolean

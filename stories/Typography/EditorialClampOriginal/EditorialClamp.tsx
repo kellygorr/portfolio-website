@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useStyles } from './EditorialClamp.styles'
 import { useBebopStyles2 } from './shared/styles/ramp.styles'
-import { useWindowWidth } from './shared/utils/hooks'
+import { useWindowWidth } from '../shared/utils/hooks'
 import { BreakpointLine } from '../SettingsPanel'
 import { SettingsCheckbox, SettingsPanel, SettingsSwitch } from '../SettingsPanel'
 import './shared/styles/typography-base.css'
