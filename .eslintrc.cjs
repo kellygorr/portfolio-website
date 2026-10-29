@@ -8,7 +8,11 @@ module.exports = {
         "plugin:storybook/recommended",
         "prettier"
     ],
-	ignorePatterns: ['dist', '.eslintrc.cjs'],
+	// websites/* are independent sub-apps (own package.json, own ESLint
+	// config/deps) built separately via build:websites; they aren't part
+	// of this project's own lint pass and aren't guaranteed to have their
+	// own node_modules installed when this root lint runs (e.g. in CI).
+	ignorePatterns: ['dist', '.eslintrc.cjs', 'websites'],
 	parser: '@typescript-eslint/parser',
 	plugins: ['react-refresh'],
 	rules: {
