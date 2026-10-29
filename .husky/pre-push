@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# Sync raw source assets (images/thumbnails/videos) to S3 before every push.
+#
+# src/assets/{images,thumbnails,videos} are intentionally gitignored (never
+# committed to GitHub -- too large / not meant to be public source history).
+# They're built into the site via Vite's `new URL(..., import.meta.url)`
+# pattern, which requires the real files to exist locally at build time.
+#
+# The deploy workflow (.github/workflows/deploy.yml) runs in GitHub's cloud
+# and has no access to this machine's disk, so it pulls these same files
+# from s3://kellygorr.com/source-assets/ before building. This hook is the
+# other half of that pipeline: it keeps that S3 copy in sync automatically,
+# so adding/updating an asset and pushing is the only step required --
+# nothing to run or remember separately.
+if command -v aws >/dev/null 2>&1; then
+	echo "Syncing src/assets/ to S3 (source-assets/) before push..."
+	aws s3 sync src/assets/images s3://kellygorr.com/source-assets/images --region us-west-1 --exclude ".DS_Store" --no-progress
+	aws s3 sync src/assets/thumbnails s3://kellygorr.com/source-assets/thumbnails --region us-west-1 --exclude ".DS_Store" --no-progress
+	aws s3 sync src/assets/videos s3://kellygorr.com/source-assets/videos --region us-west-1 --exclude ".DS_Store" --no-progress
+else
+	echo "⚠️  aws CLI not found -- skipping asset sync to S3."
+	echo "    New/changed images or videos in src/assets/ will NOT reach"
+	echo "    the deployed site until you install the AWS CLI and re-push,"
+	echo "    or run the sync manually: npm run assets:push"
+fi

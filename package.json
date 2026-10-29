@@ -15,7 +15,10 @@
     "lint:copy": "node scripts/lint-copy.mjs",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "assets:push": "aws s3 sync src/assets/images s3://kellygorr.com/source-assets/images --region us-west-1 --exclude .DS_Store && aws s3 sync src/assets/thumbnails s3://kellygorr.com/source-assets/thumbnails --region us-west-1 --exclude .DS_Store && aws s3 sync src/assets/videos s3://kellygorr.com/source-assets/videos --region us-west-1 --exclude .DS_Store",
+    "assets:pull": "aws s3 sync s3://kellygorr.com/source-assets/images src/assets/images --region us-west-1 && aws s3 sync s3://kellygorr.com/source-assets/thumbnails src/assets/thumbnails --region us-west-1 && aws s3 sync s3://kellygorr.com/source-assets/videos src/assets/videos --region us-west-1",
+    "prepare": "husky"
   },
   "dependencies": {
     "@fluentui-copilot/react-copilot": "^0.30.5",
@@ -50,6 +53,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "eslint-plugin-storybook": "^10.6.0",
+    "husky": "^9.1.7",
     "prettier": "3.2.5",
     "storybook": "^10.6.0",
     "typescript": "^5.2.2",

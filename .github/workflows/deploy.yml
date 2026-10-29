@@ -37,23 +37,39 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Build
-        run: npm run build
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::606984489046:role/portfolio-website-github-deploy
           aws-region: us-west-1
 
+      - name: Pull source assets from S3
+        # src/assets/{images,thumbnails,videos} are intentionally gitignored
+        # (never committed -- too large / not meant to live in git history).
+        # The build references them via `new URL(..., import.meta.url)`,
+        # which needs the real files present locally at build time, so pull
+        # the current copy down from S3 before building. Kept in sync by
+        # the local pre-push git hook (.husky/pre-push) / `npm run
+        # assets:push` -- see that file for the other half of this.
+        run: |
+          mkdir -p src/assets/images src/assets/thumbnails src/assets/videos
+          aws s3 sync s3://kellygorr.com/source-assets/images src/assets/images --region us-west-1
+          aws s3 sync s3://kellygorr.com/source-assets/thumbnails src/assets/thumbnails --region us-west-1
+          aws s3 sync s3://kellygorr.com/source-assets/videos src/assets/videos --region us-west-1
+
+      - name: Build
+        run: npm run build
+
       - name: Sync to S3
         run: |
           aws s3 sync dist/ s3://kellygorr.com \
             --delete \
+            --exclude "source-assets/*" \
             --cache-control "public,max-age=31536000,immutable" \
             --exclude "*.html"
           aws s3 sync dist/ s3://kellygorr.com \
             --delete \
+            --exclude "source-assets/*" \
             --cache-control "public,max-age=0,must-revalidate" \
             --exclude "*" \
             --include "*.html"
