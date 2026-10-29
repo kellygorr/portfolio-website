@@ -44,6 +44,36 @@ const App = ({ projects }: Props): JSX.Element => {
 		setQuery(searchQuery)
 	}, [searchQuery])
 
+	// Browsers persist history.state across a reload of the same entry,
+	// so reloading a page where search happened to be open (no query yet)
+	// would otherwise silently restore it on load — surprising, since
+	// nothing about a plain reload signals "keep search open" the way a
+	// visible `?q=` does. This runs exactly ONCE, only on the initial
+	// mount of the whole app (which is what a real page reload causes --
+	// a client-side navigation to "/" instead re-renders the same mounted
+	// App, it doesn't remount it), and only strips the invisible
+	// `searching` flag from the CURRENT entry -- it never touches other
+	// entries, so Back/Forward navigating to a DIFFERENT entry that has
+	// `searching: true` still correctly restores it (that's the whole
+	// point of deriving isSearching from history). Uses React Router's
+	// own navigate(..., { replace: true }) rather than raw
+	// history.replaceState() so its internal location/state tracking
+	// stays in sync with what the browser actually has.
+	//
+	// An earlier version of this checked `performance.getEntriesByType
+	// ('navigation')` on every render instead -- but that API reports the
+	// page's ORIGINAL load type for its entire lifetime in an SPA (a
+	// popstate from Back/Forward doesn't add a new navigation entry), so
+	// after any reload it permanently reported 'reload' even for later
+	// legitimate Back-button navigations, blocking search from ever being
+	// restorable again for the rest of that page's lifetime.
+	useEffect(() => {
+		if ((history.state as { usr?: { searching?: boolean } } | null)?.usr?.searching) {
+			navigate(location.pathname + location.search, { replace: true, state: {} })
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally run-once-on-mount only
+	}, [])
+
 	/** Closes search by asking the browser to go back one entry — since
 	 *  every way of opening/changing search pushed its own entry, going
 	 *  back always lands exactly on the real page that was showing

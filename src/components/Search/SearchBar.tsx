@@ -37,6 +37,7 @@ const ideasList = [TagType.Microsoft, SkillType.UIUX, TagType.Copilot]
 
 export const SearchBar = (props: ISearchProps): JSX.Element => {
 	const ref = useRef<HTMLInputElement>(null)
+	const containerRef = useRef<HTMLDivElement>(null)
 	const navigate = useNavigate()
 	const prefersReducedMotion = useReducedMotion()
 	// Lazy-initialized from the CURRENT isSearching value (not always
@@ -61,6 +62,25 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 		}
 	}, [props])
 
+	// Close search when clicking anywhere outside it (e.g. the header
+	// area above it, or the page content below) -- mousedown (not click)
+	// so this fires before any click-through handler on whatever was
+	// clicked, matching the usual "dismiss on outside interaction"
+	// pattern for dropdowns/popovers.
+	const { isSearching, setIsSearching } = props
+	useEffect(() => {
+		if (!isSearching) {
+			return
+		}
+		const handlePointerDown = (e: MouseEvent) => {
+			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+				setIsSearching(false)
+			}
+		}
+		document.addEventListener('mousedown', handlePointerDown)
+		return () => document.removeEventListener('mousedown', handlePointerDown)
+	}, [isSearching, setIsSearching])
+
 	const handleSearchClick = () => {
 		props.setIsSearching(!props.isSearching)
 	}
@@ -73,7 +93,7 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 		// as equivalent when matching, so this doesn't break matching.
 		const label = item === SkillType.UIUX ? 'UI/UX' : item
 		const query = Sanitize(label)
-		navigate({ pathname: props.pathname, search: '?q=' + query })
+		navigate({ pathname: props.pathname, search: '?q=' + query }, { state: { searching: true } })
 		props.setQuery(query)
 		if (!ref.current) {
 			return
@@ -81,16 +101,47 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 		ref.current.value = query
 	}
 
+	// `state: { searching: true }` on every one of these is required, not
+	// decorative: isSearching (in App.tsx) is `Boolean(query) ||
+	// Boolean(location.state.searching)` -- so as soon as query becomes
+	// empty (Clear, or Search submitted with an empty field), losing that
+	// state flag would make isSearching collapse to false and silently
+	// close the whole search bar as a side effect, even though neither
+	// button's job is to close anything. Closing is handled separately
+	// now (search icon, dedicated X, or clicking outside).
+	const handleSearchSubmit = (query: string) => {
+		navigate({ pathname: props.pathname, search: query ? '?q=' + query : '' }, { state: { searching: true } })
+		props.setQuery(query || null)
+	}
+
+	// Clears the input and any active query/results, but leaves search
+	// OPEN -- closing it is handled separately now (clicking the search
+	// icon again, or clicking outside the search area), so this button's
+	// only job is clearing, matching its label.
+	// Uses replace (not push) -- Clear doesn't represent a new search a
+	// user would want to step back through individually via the browser
+	// Back button, just "undo what's in the box right now". Using push
+	// here would also silently break closing: every OTHER close
+	// affordance (X, icon-click, outside-click) does a single
+	// navigate(-1), so each extra pushed entry from Clear/Submit would
+	// require its own separate close click/Back press before search
+	// actually exits.
+	const handleClearClick = () => {
+		if (ref.current) {
+			ref.current.value = ''
+		}
+		navigate({ pathname: props.pathname, search: '' }, { replace: true, state: { searching: true } })
+		props.setQuery(null)
+	}
+
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Enter') {
-			const query = (e.target as HTMLInputElement).value
-			navigate({ pathname: props.pathname, search: '?q=' + query })
-			props.setQuery(query)
+			handleSearchSubmit((e.target as HTMLInputElement).value)
 		}
 	}
 
 	return (
-		<Container>
+		<Container ref={containerRef}>
 			<Sidebar
 				isOpen={props.isSearching || props.isSmallScreen}
 				setIsOpen={props.setIsSearching}
@@ -100,7 +151,19 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				ariaLabel={props.isSearching ? 'Close search' : 'Open search'}
 				hasOwnInteractiveChildren={props.isSearching}
 			>
-				<SearchButton style={{ marginRight: !(props.isSearching || props.isSmallScreen) ? '40px' : 0 }}>
+				{/* pointer-events is none by default so clicks pass through to
+				    the parent button when closed (it handles the open
+				    click). When open, the parent is role="search" with no
+				    click handler of its own (its real input/button
+				    children handle their own clicks) -- so the icon needs
+				    its own onClick here to let users close search by
+				    clicking the magnifying glass again, not just the
+				    dedicated close button in the corner. */}
+				<SearchButton
+					style={{ marginRight: !(props.isSearching || props.isSmallScreen) ? '40px' : 0 }}
+					onClick={props.isSearching ? handleSearchClick : undefined}
+					$clickable={props.isSearching}
+				>
 					<SearchIcon />
 				</SearchButton>
 
@@ -115,9 +178,15 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				)}
 
 				{props.isSearching && (
-					<CloseButton type="button" onClick={handleSearchClick} aria-label="Close search">
-						X
-					</CloseButton>
+					<SubmitButton type="button" onClick={() => ref.current && handleSearchSubmit(ref.current.value)}>
+						Search
+					</SubmitButton>
+				)}
+
+				{props.isSearching && (
+					<ClearButton type="button" onClick={handleClearClick} aria-label="Clear search">
+						Clear
+					</ClearButton>
 				)}
 			</Sidebar>
 			<AnimatePresence>
@@ -144,6 +213,12 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 					</AnimateIdeas>
 				)}
 			</AnimatePresence>
+
+			{props.isSearching && (
+				<CloseCircleButton type="button" onClick={handleSearchClick} aria-label="Close search">
+					X
+				</CloseCircleButton>
+			)}
 		</Container>
 	)
 }
@@ -166,12 +241,23 @@ const Container = styled.div`
 		position: relative;
 		background-color: ${({ theme }) => theme.sidebarBackground};
 
-		/* Neutral grey wash, fixed in place, that simply fades in/out on
-		   hover (the ::before element's own position never changes;
-		   only its opacity transitions) — replaces an earlier accent
-		   gradient here, which read as too colorful/attention-grabbing
-		   for a plain hover state. Matches the neutral grey hover tone
-		   used by the footer's own link/settings hover treatment. */
+		> * {
+			position: relative;
+		}
+	}
+
+	/* Neutral grey wash, fixed in place, that simply fades in/out on hover
+	   (the ::before element's own position never changes; only its
+	   opacity transitions) — replaces an earlier accent gradient here,
+	   which read as too colorful/attention-grabbing for a plain hover
+	   state. Matches the neutral grey hover tone used by the footer's
+	   own link/settings hover treatment.
+	   Scoped to role="button" (the closed state) only -- once search is
+	   open (role="search"), the whole bar is no longer a single click
+	   target (it now hosts its own input/search/close buttons with
+	   their own hover states), so washing the entire bar on hover no
+	   longer means anything and just looks like a stray flash. */
+	> div > [role='button'] {
 		&::before {
 			content: '';
 			position: absolute;
@@ -186,16 +272,12 @@ const Container = styled.div`
 		&:hover::before {
 			opacity: 1;
 		}
-
-		> * {
-			position: relative;
-		}
 	}
 `
 
-const SearchButton = styled.div`
+const SearchButton = styled.div<{ $clickable?: boolean }>`
 	cursor: pointer;
-	pointer-events: none;
+	pointer-events: ${({ $clickable }) => ($clickable ? 'auto' : 'none')};
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -209,13 +291,41 @@ const SearchButton = styled.div`
 	}
 `
 
-const CloseButton = styled.button`
+const ClearButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 16px;
+	min-width: 40px;
+	height: 100%;
+	white-space: nowrap;
+	font-size: 13px;
+`
+
+const SubmitButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 16px;
+	min-width: 40px;
+	height: 100%;
+	white-space: nowrap;
+	font-size: 13px;
+`
+
+const CloseCircleButton = styled.button`
+	position: fixed;
+	top: 24px;
+	right: 24px;
+	z-index: 1001;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	width: 40px;
-	min-width: 40px;
-	height: 100%;
+	height: 40px;
+	border-radius: 50%;
+	background-color: ${({ theme }) => theme.sidebarBackground};
+	color: ${({ theme }) => theme.sidebarText};
 `
 
 const Input = styled.input`
