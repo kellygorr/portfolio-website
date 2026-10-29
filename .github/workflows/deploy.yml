@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -27,7 +29,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        # react-intersection-observer declares a peer range that predates the
+        # project's React 19 upgrade (pulled in transitively via the Fluent
+        # Copilot packages' own deps); same flag used for local installs.
+        run: npm ci --legacy-peer-deps
 
       - name: Lint
         run: npm run lint
