@@ -19,7 +19,7 @@ const imgRoom4 = new URL('../../assets/images/text-adventure-new/text-adventure-
 const imgEscaped = new URL('../../assets/images/text-adventure-new/text-adventure-escaped.webp', import.meta.url).href
 
 /**
- * Text Adventure — a personal learning project exploring generative AI as
+ * Text Adventure — a personal project exploring generative AI as
  * a live game engine: OpenAI generates rooms, story text, and art on the
  * fly, and the app has to turn that unreliable, occasionally-hallucinated
  * output into a consistent, playable text adventure. Built solo as a
@@ -84,7 +84,7 @@ export const textAdventure: IProject = {
 		},
 		{
 			header: SectionName.Overview,
-			body: `A personal learning project: a text adventure game where OpenAI generates the rooms, story, and art in real time. This was built to learn generative AI application development and prompt engineering hands-on.`,
+			body: `A personal project: a text adventure game where OpenAI generates the rooms, story, and art in real time. This was built to learn generative AI application development and prompt engineering hands-on.`,
 		},
 		{
 			header: 'Turning AI output into reliable game state',
