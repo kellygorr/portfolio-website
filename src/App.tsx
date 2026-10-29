@@ -1,5 +1,5 @@
-import { useState, useEffect, type JSX } from 'react'
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef, type JSX } from 'react'
+import { Routes, Route, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 import styled, { ThemeProvider } from 'styled-components'
 import { BOTTOM_GAP, GlobalStyles, LARGE_SCREEN, MIN_WIDTH, SIDE_GAP, SIDE_GAP_SMALL_SCREEN, SMALL_SCREEN } from './styles/GlobalStyles'
 import { Header as HeaderContent } from './components/Header'
@@ -20,6 +20,7 @@ interface Props {
 const App = ({ projects }: Props): JSX.Element => {
 	const location = useLocation()
 	const navigate = useNavigate()
+	const navigationType = useNavigationType()
 	const searchQuery = new URLSearchParams(location.search).get('q')
 	const [isDarkMode, toggleDarkMode] = useDarkMode()
 	// Let's not use a search page.  Google is indexing search pages, and this is not a place I want people to land for the first time
@@ -74,19 +75,47 @@ const App = ({ projects }: Props): JSX.Element => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally run-once-on-mount only
 	}, [])
 
-	/** Closes search by asking the browser to go back one entry — since
-	 *  every way of opening/changing search pushed its own entry, going
-	 *  back always lands exactly on the real page that was showing
-	 *  underneath, with no extra bookkeeping needed. Falls back to a
-	 *  same-pathname `replace` (dropping the query) only when the current
-	 *  entry is the very first one this tab ever loaded (e.g. someone
-	 *  opened a shared link with `?q=...` directly) — `navigate(-1)` there
-	 *  would leave the site entirely instead of just closing search. */
+	// Tracks how many history entries deep the CURRENT uninterrupted
+	// search session has pushed -- opening search, typing+Enter, clicking
+	// an idea pill, or clicking a tag/skill (from a project page or from
+	// within search results itself) each push their OWN entry while
+	// staying "searching" (see the comment on `isSearching` above), so a
+	// single search session can really be several entries deep by the
+	// time the user wants out. `navigationType` (from React Router) tells
+	// us whether this render's location change was a PUSH (another step
+	// deeper into this search session), a POP (the user used the real
+	// Back/Forward buttons, stepping back out of one of those entries on
+	// their own), or a REPLACE (doesn't change entry count). Resets to 0
+	// the moment isSearching goes false, so the next search session
+	// starts counting fresh.
+	const searchDepthRef = useRef(0)
+	useEffect(() => {
+		if (!isSearching) {
+			searchDepthRef.current = 0
+		} else if (navigationType === 'PUSH') {
+			searchDepthRef.current += 1
+		} else if (navigationType === 'POP') {
+			searchDepthRef.current = Math.max(0, searchDepthRef.current - 1)
+		}
+	}, [location.key, isSearching, navigationType])
+
+	/** Closes search by jumping straight back past EVERY entry the
+	 *  current search session pushed (however many idea/tag/query
+	 *  changes happened along the way) in one go, landing directly back
+	 *  on whatever real page was showing before search was first opened
+	 *  -- not one step at a time through its own intermediate query
+	 *  states. Falls back to a same-pathname `replace` (dropping the
+	 *  query) when there's nothing of ours left to go back through (e.g.
+	 *  someone opened a shared link with `?q=...` directly, so this is
+	 *  the very first entry this tab ever loaded) -- `navigate(-n)`
+	 *  there would leave the site entirely instead of just closing
+	 *  search. */
 	const closeSearch = () => {
-		if (location.key === 'default') {
+		if (location.key === 'default' || searchDepthRef.current === 0) {
 			navigate(location.pathname, { replace: true })
 		} else {
-			navigate(-1)
+			navigate(-searchDepthRef.current)
+			searchDepthRef.current = 0
 		}
 	}
 

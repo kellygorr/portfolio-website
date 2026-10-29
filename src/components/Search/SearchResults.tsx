@@ -89,10 +89,25 @@ export const SearchResults = (props: ISearchProps): JSX.Element | null => {
 // data still uses "UI-UX").
 const normalizeTagValue = (value: string): string => value.toLowerCase().replace(/\//g, '-')
 
+// Token match (not raw substring) so a partial query like "ux" or
+// "ui" matches the stored "UI-UX" tag's individual "ui"/"ux" halves,
+// without a raw substring check also accidentally matching unrelated
+// tags that merely happen to contain those letters in sequence (e.g.
+// "ui" is a literal substring of "Quiz": q-UI-z). Splitting both
+// sides on '-' (after normalizing '/' to '-') and requiring every
+// query token to appear as a whole tag token avoids that false
+// positive while still matching "ui", "ux", "ui-ux", and "ui/ux"
+// against the stored "UI-UX" tag.
+const tagTokens = (value: string): string[] => normalizeTagValue(value).split('-')
+
+const tagContainsQuery = (tag: string, query: string): boolean => {
+	const tokens = tagTokens(tag)
+	return tagTokens(query).every((queryToken) => tokens.includes(queryToken))
+}
+
 const queryMatches = (projects: IProject[], query: string): IProjectSearch[] => {
 	const tagMatches: IProject[] = projects.filter(
-		(project: IProject) =>
-			project.details.tags && project.details.tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
+		(project: IProject) => project.details.tags && project.details.tags.find((tag) => tagContainsQuery(tag, query))
 	)
 	const skillMatches: IProject[] = projects.filter(
 		(project: IProject) =>
@@ -100,9 +115,7 @@ const queryMatches = (projects: IProject[], query: string): IProjectSearch[] => 
 			project.content.find(
 				(section) =>
 					section.highlight &&
-					section.highlight.find(
-						(item) => item.tags && item.tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
-					)
+					section.highlight.find((item) => item.tags && item.tags.find((tag) => tagContainsQuery(tag, query)))
 			)
 	)
 	const titleMatches: IProject[] = projects.filter(
@@ -122,7 +135,7 @@ const removeDuplicateTitles = (matches: IProjectSearch[]) =>
 
 const relatedQueryTags = (query: string): (TagType | SkillType)[] => {
 	const matchingGroups: (TagType | SkillType | ToolType)[][] = relatedTags.filter((tags) =>
-		tags.find((tag) => normalizeTagValue(tag) === normalizeTagValue(query))
+		tags.find((tag) => tagContainsQuery(tag, query))
 	)
 	const tags = removeDuplicates(([] as (TagType | SkillType | ToolType)[]).concat(...matchingGroups))
 	return tags.filter((tag) => tag !== query) as (TagType | SkillType)[]

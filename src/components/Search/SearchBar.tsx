@@ -62,25 +62,6 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 		}
 	}, [props])
 
-	// Close search when clicking anywhere outside it (e.g. the header
-	// area above it, or the page content below) -- mousedown (not click)
-	// so this fires before any click-through handler on whatever was
-	// clicked, matching the usual "dismiss on outside interaction"
-	// pattern for dropdowns/popovers.
-	const { isSearching, setIsSearching } = props
-	useEffect(() => {
-		if (!isSearching) {
-			return
-		}
-		const handlePointerDown = (e: MouseEvent) => {
-			if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
-				setIsSearching(false)
-			}
-		}
-		document.addEventListener('mousedown', handlePointerDown)
-		return () => document.removeEventListener('mousedown', handlePointerDown)
-	}, [isSearching, setIsSearching])
-
 	const handleSearchClick = () => {
 		props.setIsSearching(!props.isSearching)
 	}
@@ -112,26 +93,6 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 	const handleSearchSubmit = (query: string) => {
 		navigate({ pathname: props.pathname, search: query ? '?q=' + query : '' }, { state: { searching: true } })
 		props.setQuery(query || null)
-	}
-
-	// Clears the input and any active query/results, but leaves search
-	// OPEN -- closing it is handled separately now (clicking the search
-	// icon again, or clicking outside the search area), so this button's
-	// only job is clearing, matching its label.
-	// Uses replace (not push) -- Clear doesn't represent a new search a
-	// user would want to step back through individually via the browser
-	// Back button, just "undo what's in the box right now". Using push
-	// here would also silently break closing: every OTHER close
-	// affordance (X, icon-click, outside-click) does a single
-	// navigate(-1), so each extra pushed entry from Clear/Submit would
-	// require its own separate close click/Back press before search
-	// actually exits.
-	const handleClearClick = () => {
-		if (ref.current) {
-			ref.current.value = ''
-		}
-		navigate({ pathname: props.pathname, search: '' }, { replace: true, state: { searching: true } })
-		props.setQuery(null)
 	}
 
 	const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -184,9 +145,9 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				)}
 
 				{props.isSearching && (
-					<ClearButton type="button" onClick={handleClearClick} aria-label="Clear search">
-						<span>Clear</span>
-					</ClearButton>
+					<CloseButton type="button" onClick={handleSearchClick} aria-label="Close search">
+						<span>X</span>
+					</CloseButton>
 				)}
 			</Sidebar>
 			<AnimatePresence>
@@ -214,11 +175,6 @@ export const SearchBar = (props: ISearchProps): JSX.Element => {
 				)}
 			</AnimatePresence>
 
-			{props.isSearching && (
-				<CloseCircleButton type="button" onClick={handleSearchClick} aria-label="Close search">
-					X
-				</CloseCircleButton>
-			)}
 		</Container>
 	)
 }
@@ -265,7 +221,7 @@ const SearchButton = styled.div<{ $clickable?: boolean }>`
 	}
 `
 
-const ClearButton = styled.button`
+const CloseButton = styled.button`
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -274,7 +230,8 @@ const ClearButton = styled.button`
 	min-width: 40px;
 	height: 100%;
 	white-space: nowrap;
-	font-size: 13px;
+	font-size: 11px;
+	font-weight: 700;
 
 	/* Same neutral grey wash hover as the suggestion pills / old sidebar
 	   bar (see AnimateIdea above) -- consistent hover language across
@@ -328,26 +285,6 @@ const SubmitButton = styled.button`
 	> * {
 		position: relative;
 	}
-`
-
-const CloseCircleButton = styled.button`
-	position: fixed;
-	top: 24px;
-	right: 24px;
-	z-index: 1001;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	background-color: ${({ theme }) => theme.sidebarBackground};
-	color: ${({ theme }) => theme.sidebarText};
-	transition:
-		background-color 0.5s ease-in,
-		color 0.5s ease-in;
-	font-size: 14px;
-	font-weight: 700;
 `
 
 const Input = styled.input`
